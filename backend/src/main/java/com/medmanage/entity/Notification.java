@@ -18,7 +18,8 @@ public class Notification {
     private String type; // 1:就诊提醒, 2:用药提醒, 3:检查通知, 4:随访提醒, 5:复诊提醒
     private String title;
     private String content;
-    private Boolean read;
+    @Column(name = "is_read")
+    private Boolean isRead;
     
     @Column(name = "notify_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,6 +32,6 @@ public class Notification {
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
-        read = false;
+        isRead = false;
     }
 }

@@ -21,21 +21,21 @@ public class NotificationService {
     }
     
     public List<Notification> findUnreadByUserId(Long userId) {
-        return notificationRepository.findByUserIdAndReadFalseOrderByCreatedAtDesc(userId);
+        return notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
     }
     
     public void markAsRead(Long id) {
         Notification notification = notificationRepository.findById(id).orElse(null);
         if (notification != null) {
-            notification.setRead(true);
+            notification.setIsRead(true);
             notificationRepository.save(notification);
         }
     }
     
     public void markAllAsRead(Long userId) {
-        List<Notification> notifications = notificationRepository.findByUserIdAndReadFalseOrderByCreatedAtDesc(userId);
+        List<Notification> notifications = notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
         for (Notification notification : notifications) {
-            notification.setRead(true);
+            notification.setIsRead(true);
             notificationRepository.save(notification);
         }
     }
