@@ -1,19 +1,14 @@
-import Vue from 'vue'
-import App from './App.vue'
 import axios from 'axios'
 
-Vue.config.productionTip = false
-
-// 配置axios
 const service = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8080',
   timeout: 10000
 })
 
 // 请求拦截器
 service.interceptors.request.use(
   config => {
-    const token = uni.getStorageSync('token')
+    const token = localStorage.getItem('token')
     if (token) {
       config.headers.Authorization = token
     }
@@ -30,10 +25,7 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== 200) {
-      uni.showToast({
-        title: res.message || '请求失败',
-        icon: 'none'
-      })
+      alert(res.message || '请求失败')
       return Promise.reject(new Error(res.message || '请求失败'))
     } else {
       return res
@@ -41,16 +33,13 @@ service.interceptors.response.use(
   },
   error => {
     console.log('err' + error)
-    uni.showToast({
-      title: '网络错误',
-      icon: 'none'
-    })
+    alert('网络错误')
     return Promise.reject(error)
   }
 )
 
-Vue.prototype.$axios = service
-
-new Vue({
-  render: h => h(App)
-}).$mount('#app')
+export function useAxios() {
+  return {
+    axios: service
+  }
+}
