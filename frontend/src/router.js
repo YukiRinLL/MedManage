@@ -8,6 +8,7 @@ import HealthRecord from './views/HealthRecord.vue'
 import VitalSign from './views/VitalSign.vue'
 import Medication from './views/Medication.vue'
 import Notification from './views/Notification.vue'
+import Profile from './views/Profile.vue'
 
 const routes = [
   {
@@ -48,6 +49,12 @@ const routes = [
     path: '/notification',
     name: 'Notification',
     component: Notification,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     meta: { requiresAuth: true }
   }
 ]

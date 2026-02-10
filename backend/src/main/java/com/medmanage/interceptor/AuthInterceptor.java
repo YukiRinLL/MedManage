@@ -20,6 +20,11 @@ public class AuthInterceptor implements HandlerInterceptor {
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 跳过 OPTIONS 预检请求
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
+        
         String token = request.getHeader("Authorization");
         if (token == null || token.isEmpty()) {
             response.setCharacterEncoding("UTF-8");

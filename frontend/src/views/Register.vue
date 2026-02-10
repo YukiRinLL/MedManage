@@ -42,6 +42,21 @@
         <input class="form-input" type="number" v-model="age" placeholder="请输入年龄" />
       </div>
       
+      <div class="form-item">
+        <label class="form-label">身份证号</label>
+        <input class="form-input" type="text" v-model="idCard" placeholder="请输入身份证号" />
+      </div>
+      
+      <div class="form-item">
+        <label class="form-label">紧急联系人</label>
+        <input class="form-input" type="text" v-model="emergencyContact" placeholder="请输入紧急联系人" />
+      </div>
+      
+      <div class="form-item">
+        <label class="form-label">紧急联系电话</label>
+        <input class="form-input" type="number" v-model="emergencyPhone" placeholder="请输入紧急联系电话" />
+      </div>
+      
       <button class="btn-primary" @click="register">注册</button>
       
       <div class="login-link">
@@ -55,7 +70,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAxios } from '../composables/useAxios'
+import { useAxios } from '../composables/useAxios.js'
 
 const router = useRouter()
 const { axios } = useAxios()
@@ -66,6 +81,9 @@ const confirmPassword = ref('')
 const name = ref('')
 const gender = ref(0)
 const age = ref('')
+const idCard = ref('')
+const emergencyContact = ref('')
+const emergencyPhone = ref('')
 
 const register = async () => {
   if (!phone.value) {
@@ -90,12 +108,15 @@ const register = async () => {
   }
   
   try {
-    const res = await axios.post('/api/user/register', {
+    const res = await axios.post('/user/register', {
       phone: phone.value,
       password: password.value,
       name: name.value,
       gender: gender.value,
-      age: parseInt(age.value)
+      age: parseInt(age.value),
+      idCard: idCard.value,
+      emergencyContact: emergencyContact.value,
+      emergencyPhone: emergencyPhone.value
     })
     alert('注册成功')
     router.push('/')
