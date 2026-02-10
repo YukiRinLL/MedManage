@@ -11,7 +11,21 @@ public class HealthRecordService {
     private HealthRecordRepository healthRecordRepository;
     
     public HealthRecord saveOrUpdate(HealthRecord healthRecord) {
-        return healthRecordRepository.save(healthRecord);
+        // 首先根据用户ID查询是否已有健康档案记录
+        HealthRecord existingRecord = healthRecordRepository.findByUserId(healthRecord.getUserId());
+        
+        if (existingRecord != null) {
+            // 如果有，更新该记录
+            existingRecord.setPastMedicalHistory(healthRecord.getPastMedicalHistory());
+            existingRecord.setAllergicHistory(healthRecord.getAllergicHistory());
+            existingRecord.setFamilyMedicalHistory(healthRecord.getFamilyMedicalHistory());
+            existingRecord.setBloodType(healthRecord.getBloodType());
+            existingRecord.setOtherInfo(healthRecord.getOtherInfo());
+            return healthRecordRepository.save(existingRecord);
+        } else {
+            // 如果没有，创建一个新记录
+            return healthRecordRepository.save(healthRecord);
+        }
     }
     
     public HealthRecord findByUserId(Long userId) {

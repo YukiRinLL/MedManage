@@ -13,28 +13,68 @@
     <div class="health-record-content">
       <div class="record-card">
         <h2 class="card-title">健康基本信息</h2>
-        <div class="record-item">
-          <span class="item-label">过往病史</span>
-          <span class="item-value">{{ healthRecord?.pastMedicalHistory || '无' }}</span>
-        </div>
-        <div class="record-item">
-          <span class="item-label">过敏史</span>
-          <span class="item-value">{{ healthRecord?.allergicHistory || '无' }}</span>
-        </div>
-        <div class="record-item">
-          <span class="item-label">家族病史</span>
-          <span class="item-value">{{ healthRecord?.familyMedicalHistory || '无' }}</span>
-        </div>
-        <div class="record-item">
-          <span class="item-label">血型</span>
-          <span class="item-value">{{ healthRecord?.bloodType || '未填写' }}</span>
-        </div>
-        <div class="record-item">
-          <span class="item-label">其他信息</span>
-          <span class="item-value">{{ healthRecord?.otherInfo || '无' }}</span>
+        
+        <!-- 查看模式 -->
+        <div v-if="!isEditing">
+          <div class="record-item">
+            <span class="item-label">过往病史</span>
+            <span class="item-value">{{ healthRecord?.pastMedicalHistory || '无' }}</span>
+          </div>
+          <div class="record-item">
+            <span class="item-label">过敏史</span>
+            <span class="item-value">{{ healthRecord?.allergicHistory || '无' }}</span>
+          </div>
+          <div class="record-item">
+            <span class="item-label">家族病史</span>
+            <span class="item-value">{{ healthRecord?.familyMedicalHistory || '无' }}</span>
+          </div>
+          <div class="record-item">
+            <span class="item-label">血型</span>
+            <span class="item-value">{{ healthRecord?.bloodType || '未填写' }}</span>
+          </div>
+          <div class="record-item">
+            <span class="item-label">其他信息</span>
+            <span class="item-value">{{ healthRecord?.otherInfo || '无' }}</span>
+          </div>
+          
+          <button class="btn-edit" @click="startEditing">编辑档案</button>
         </div>
         
-        <button class="btn-edit" @click="editHealthRecord">编辑档案</button>
+        <!-- 编辑模式 -->
+        <div v-else>
+          <div class="form-item">
+            <label class="form-label">过往病史</label>
+            <textarea class="form-textarea" v-model="editForm.pastMedicalHistory" placeholder="请输入过往病史，若无请填写'无'" rows="3"></textarea>
+          </div>
+          <div class="form-item">
+            <label class="form-label">过敏史</label>
+            <textarea class="form-textarea" v-model="editForm.allergicHistory" placeholder="请输入过敏史，若无请填写'无'" rows="3"></textarea>
+          </div>
+          <div class="form-item">
+            <label class="form-label">家族病史</label>
+            <textarea class="form-textarea" v-model="editForm.familyMedicalHistory" placeholder="请输入家族病史，若无请填写'无'" rows="3"></textarea>
+          </div>
+          <div class="form-item">
+            <label class="form-label">血型</label>
+            <select class="form-select" v-model="editForm.bloodType">
+              <option value="">请选择血型</option>
+              <option value="A">A型</option>
+              <option value="B">B型</option>
+              <option value="AB">AB型</option>
+              <option value="O">O型</option>
+              <option value="其他">其他</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label class="form-label">其他信息</label>
+            <textarea class="form-textarea" v-model="editForm.otherInfo" placeholder="请输入其他健康相关信息，若无请填写'无'" rows="3"></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn-cancel" @click="cancelEditing">取消</button>
+            <button class="btn-save" @click="saveHealthRecord">保存</button>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -65,13 +105,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAxios } from '../composables/useAxios.js'
 
 const router = useRouter()
 const { axios } = useAxios()
 const healthRecord = ref(null)
+const isEditing = ref(false)
+const editForm = ref({
+  pastMedicalHistory: '',
+  allergicHistory: '',
+  familyMedicalHistory: '',
+  bloodType: '',
+  otherInfo: ''
+})
 
 const goBack = () => {
   router.back()
@@ -98,9 +146,46 @@ const getHealthRecord = async () => {
   }
 }
 
-const editHealthRecord = () => {
-  // 这里可以跳转到编辑页面或显示编辑表单
-  alert('编辑功能开发中')
+const startEditing = () => {
+  // 复制当前健康档案数据到编辑表单
+  editForm.value = {
+    pastMedicalHistory: healthRecord.value?.pastMedicalHistory || '',
+    allergicHistory: healthRecord.value?.allergicHistory || '',
+    familyMedicalHistory: healthRecord.value?.familyMedicalHistory || '',
+    bloodType: healthRecord.value?.bloodType || '',
+    otherInfo: healthRecord.value?.otherInfo || ''
+  }
+  isEditing.value = true
+}
+
+const cancelEditing = () => {
+  isEditing.value = false
+}
+
+const saveHealthRecord = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      router.push('/')
+      return
+    }
+    
+    const res = await axios.put('/health-record/update', editForm.value, {
+      headers: {
+        Authorization: token
+      }
+    })
+    
+    if (res.code === 200) {
+      // 更新本地健康档案数据
+      healthRecord.value = { ...editForm.value }
+      isEditing.value = false
+      alert('保存成功')
+    }
+  } catch (err) {
+    console.log(err)
+    alert('保存失败，请检查网络连接')
+  }
 }
 
 onMounted(() => {
@@ -191,6 +276,7 @@ onMounted(() => {
   border-bottom: 1px solid #f0f0f0;
 }
 
+/* 查看模式样式 */
 .record-item {
   display: flex;
   justify-content: space-between;
@@ -216,6 +302,45 @@ onMounted(() => {
   text-align: right;
 }
 
+/* 编辑模式样式 */
+.form-item {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: none;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #E5E5E5;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 .btn-edit {
   background-color: #007AFF;
   color: #FFFFFF;
@@ -230,6 +355,38 @@ onMounted(() => {
 }
 
 .btn-edit:active {
+  background-color: #0056b3;
+}
+
+.btn-cancel {
+  flex: 1;
+  background-color: #F2F2F7;
+  color: #333;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-cancel:active {
+  background-color: #E5E5EA;
+}
+
+.btn-save {
+  flex: 1;
+  background-color: #007AFF;
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-save:active {
   background-color: #0056b3;
 }
 

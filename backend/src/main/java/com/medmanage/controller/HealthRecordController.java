@@ -49,4 +49,21 @@ public class HealthRecordController {
         }
         return result;
     }
+    
+    @PutMapping("/update")
+    public Map<String, Object> updateHealthRecord(@RequestHeader("Authorization") String token, @RequestBody HealthRecord healthRecord) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Long userId = jwtUtil.getUserIdFromToken(token);
+            healthRecord.setUserId(userId);
+            HealthRecord updatedRecord = healthRecordService.saveOrUpdate(healthRecord);
+            result.put("code", 200);
+            result.put("message", "更新成功");
+            result.put("data", updatedRecord);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
 }
