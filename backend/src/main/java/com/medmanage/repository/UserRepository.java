@@ -8,4 +8,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByPhone(String phone);
     boolean existsByPhone(String phone);
+    
+    // 管理员相关查询
+    java.util.List<User> findByIsAdminTrue();
+    java.util.List<User> findByIsAdminFalse();
+    boolean existsByIsAdminTrueAndPhone(String phone);
 }

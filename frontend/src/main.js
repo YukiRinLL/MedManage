@@ -46,3 +46,7 @@ const app = createApp(App)
 app.config.globalProperties.$axios = service
 app.use(router)
 app.mount('#app')
+
+// 初始化推送通知服务
+import pushNotificationService from './services/pushNotificationService'
+pushNotificationService.initialize()

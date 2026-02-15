@@ -10,6 +10,11 @@ import Medication from './views/Medication.vue'
 import Notification from './views/Notification.vue'
 import Profile from './views/Profile.vue'
 
+// 导入管理员页面
+import AdminLogin from './views/AdminLogin.vue'
+import AdminDashboard from './views/AdminDashboard.vue'
+import AdminUsers from './views/AdminUsers.vue'
+
 const routes = [
   {
     path: '/',
@@ -56,6 +61,24 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: { requiresAuth: true }
+  },
+  // 管理员路由
+  {
+    path: '/admin/login',
+    name: 'AdminLogin',
+    component: AdminLogin
+  },
+  {
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard,
+    meta: { requiresAuth: true, requiresAdmin: true }
+  },
+  {
+    path: '/admin/users',
+    name: 'AdminUsers',
+    component: AdminUsers,
+    meta: { requiresAuth: true, requiresAdmin: true }
   }
 ]
 
@@ -71,10 +94,25 @@ router.beforeEach((to, from, next) => {
     // 检查是否已登录
     const token = localStorage.getItem('token')
     if (token) {
-      next()
+      // 检查是否需要管理员权限
+      if (to.meta.requiresAdmin) {
+        const isAdmin = localStorage.getItem('isAdmin')
+        if (isAdmin === 'true') {
+          next()
+        } else {
+          // 无管理员权限，跳转到首页
+          next({ path: '/home' })
+        }
+      } else {
+        next()
+      }
     } else {
       // 未登录，跳转到登录页
-      next({ path: '/' })
+      if (to.meta.requiresAdmin) {
+        next({ path: '/admin/login' })
+      } else {
+        next({ path: '/' })
+      }
     }
   } else {
     next()

@@ -25,6 +25,9 @@ public class User {
     private String emergencyContact;
     private String emergencyPhone;
     
+    @Column(name = "is_admin", nullable = false, columnDefinition = "boolean default false")
+    private Boolean isAdmin;
+    
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -37,6 +40,7 @@ public class User {
     protected void onCreate() {
         createdAt = new Date();
         updatedAt = new Date();
+        isAdmin = false;
     }
     
     @PreUpdate
