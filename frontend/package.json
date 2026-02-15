@@ -24,6 +24,7 @@
     "@dcloudio/uni-automator": "^3.0.0-alpha-4020420240930001",
     "@dcloudio/uni-cli-shared": "^3.0.0-alpha-4020420240930001",
     "@dcloudio/vite-plugin-uni": "^3.0.0-alpha-4020420240930001",
+    "@vitejs/plugin-vue": "^5.1.4",
     "@vue/tsconfig": "^0.5.1",
     "sass": "^1.77.0",
     "typescript": "^5.4.5",

@@ -5,12 +5,27 @@
       <view class="form">
         <view class="form-item">
           <text class="form-label">手机号</text>
-          <input class="form-input" type="number" v-model="userInfo.phone" disabled />
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="userInfo.phone" 
+            disabled 
+            placeholder-class="form-input-placeholder"
+          />
         </view>
         
         <view class="form-item">
           <text class="form-label">姓名</text>
-          <input class="form-input" type="text" v-model="userInfo.name" />
+          <input 
+            class="form-input" 
+            type="text" 
+            v-model="userInfo.name"
+            placeholder="请输入姓名"
+            placeholder-class="form-input-placeholder"
+            :focus="nameFocus"
+            @focus="nameFocus = true"
+            @blur="nameFocus = false"
+          />
         </view>
         
         <view class="form-item">
@@ -27,22 +42,58 @@
         
         <view class="form-item">
           <text class="form-label">年龄</text>
-          <input class="form-input" type="number" v-model="userInfo.age" />
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="userInfo.age"
+            placeholder="请输入年龄"
+            placeholder-class="form-input-placeholder"
+            :focus="ageFocus"
+            @focus="ageFocus = true"
+            @blur="ageFocus = false"
+          />
         </view>
         
         <view class="form-item">
           <text class="form-label">身份证号</text>
-          <input class="form-input" type="text" v-model="userInfo.idCard" />
+          <input 
+            class="form-input" 
+            type="text" 
+            v-model="userInfo.idCard"
+            placeholder="请输入身份证号"
+            placeholder-class="form-input-placeholder"
+            :focus="idCardFocus"
+            @focus="idCardFocus = true"
+            @blur="idCardFocus = false"
+          />
         </view>
         
         <view class="form-item">
           <text class="form-label">紧急联系人</text>
-          <input class="form-input" type="text" v-model="userInfo.emergencyContact" />
+          <input 
+            class="form-input" 
+            type="text" 
+            v-model="userInfo.emergencyContact"
+            placeholder="请输入紧急联系人"
+            placeholder-class="form-input-placeholder"
+            :focus="emergencyContactFocus"
+            @focus="emergencyContactFocus = true"
+            @blur="emergencyContactFocus = false"
+          />
         </view>
         
         <view class="form-item">
           <text class="form-label">紧急联系电话</text>
-          <input class="form-input" type="number" v-model="userInfo.emergencyPhone" />
+          <input 
+            class="form-input" 
+            type="number" 
+            v-model="userInfo.emergencyPhone"
+            placeholder="请输入紧急联系电话"
+            placeholder-class="form-input-placeholder"
+            :focus="emergencyPhoneFocus"
+            @focus="emergencyPhoneFocus = true"
+            @blur="emergencyPhoneFocus = false"
+          />
         </view>
         
         <button class="btn-primary" @click="updateProfile">保存修改</button>
@@ -62,7 +113,12 @@ import { get, put } from '../../utils/request.js'
 export default {
   data() {
     return {
-      userInfo: null
+      userInfo: null,
+      nameFocus: false,
+      ageFocus: false,
+      idCardFocus: false,
+      emergencyContactFocus: false,
+      emergencyPhoneFocus: false
     }
   },
   onLoad() {
@@ -73,7 +129,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return
@@ -111,7 +167,7 @@ export default {
     logout() {
       uni.removeStorageSync('token')
       uni.removeStorageSync('user')
-      uni.switchTab({
+      uni.navigateTo({
         url: '/pages/login/login'
       })
     }
@@ -151,12 +207,18 @@ export default {
 
 .form-input {
   width: 100%;
-  padding: 12px;
+  height: 48px;
+  padding: 0 14px;
   border: 1px solid #E5E5E5;
   border-radius: 8px;
   font-size: 14px;
   background-color: #FFFFFF;
   box-sizing: border-box;
+  line-height: 48px;
+}
+
+.form-input-placeholder {
+  color: #999999;
 }
 
 .form-input[disabled] {

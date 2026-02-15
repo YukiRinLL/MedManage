@@ -5,22 +5,58 @@
     <view class="form">
       <view class="form-item">
         <text class="form-label">手机号</text>
-        <input class="form-input" type="number" v-model="phone" placeholder="请输入手机号" />
+        <input 
+          class="form-input" 
+          type="number" 
+          v-model="phone" 
+          placeholder="请输入手机号"
+          placeholder-class="form-input-placeholder"
+          :focus="phoneFocus"
+          @focus="phoneFocus = true"
+          @blur="phoneFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">密码</text>
-        <input class="form-input" type="password" v-model="password" placeholder="请输入密码" />
+        <input 
+          class="form-input" 
+          type="password" 
+          v-model="password" 
+          placeholder="请输入密码"
+          placeholder-class="form-input-placeholder"
+          :focus="passwordFocus"
+          @focus="passwordFocus = true"
+          @blur="passwordFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">确认密码</text>
-        <input class="form-input" type="password" v-model="confirmPassword" placeholder="请确认密码" />
+        <input 
+          class="form-input" 
+          type="password" 
+          v-model="confirmPassword" 
+          placeholder="请确认密码"
+          placeholder-class="form-input-placeholder"
+          :focus="confirmPasswordFocus"
+          @focus="confirmPasswordFocus = true"
+          @blur="confirmPasswordFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">姓名</text>
-        <input class="form-input" type="text" v-model="name" placeholder="请输入姓名" />
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="name" 
+          placeholder="请输入姓名"
+          placeholder-class="form-input-placeholder"
+          :focus="nameFocus"
+          @focus="nameFocus = true"
+          @blur="nameFocus = false"
+        />
       </view>
       
       <view class="form-item">
@@ -37,22 +73,58 @@
       
       <view class="form-item">
         <text class="form-label">年龄</text>
-        <input class="form-input" type="number" v-model="age" placeholder="请输入年龄" />
+        <input 
+          class="form-input" 
+          type="number" 
+          v-model="age" 
+          placeholder="请输入年龄"
+          placeholder-class="form-input-placeholder"
+          :focus="ageFocus"
+          @focus="ageFocus = true"
+          @blur="ageFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">身份证号</text>
-        <input class="form-input" type="text" v-model="idCard" placeholder="请输入身份证号" />
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="idCard" 
+          placeholder="请输入身份证号"
+          placeholder-class="form-input-placeholder"
+          :focus="idCardFocus"
+          @focus="idCardFocus = true"
+          @blur="idCardFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">紧急联系人</text>
-        <input class="form-input" type="text" v-model="emergencyContact" placeholder="请输入紧急联系人" />
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="emergencyContact" 
+          placeholder="请输入紧急联系人"
+          placeholder-class="form-input-placeholder"
+          :focus="emergencyContactFocus"
+          @focus="emergencyContactFocus = true"
+          @blur="emergencyContactFocus = false"
+        />
       </view>
       
       <view class="form-item">
         <text class="form-label">紧急联系电话</text>
-        <input class="form-input" type="number" v-model="emergencyPhone" placeholder="请输入紧急联系电话" />
+        <input 
+          class="form-input" 
+          type="number" 
+          v-model="emergencyPhone" 
+          placeholder="请输入紧急联系电话"
+          placeholder-class="form-input-placeholder"
+          :focus="emergencyPhoneFocus"
+          @focus="emergencyPhoneFocus = true"
+          @blur="emergencyPhoneFocus = false"
+        />
       </view>
       
       <button class="btn-primary" @click="register">注册</button>
@@ -79,7 +151,15 @@ export default {
       age: '',
       idCard: '',
       emergencyContact: '',
-      emergencyPhone: ''
+      emergencyPhone: '',
+      phoneFocus: false,
+      passwordFocus: false,
+      confirmPasswordFocus: false,
+      nameFocus: false,
+      ageFocus: false,
+      idCardFocus: false,
+      emergencyContactFocus: false,
+      emergencyPhoneFocus: false
     }
   },
   methods: {
@@ -180,12 +260,18 @@ export default {
 
 .form-input {
   width: 100%;
-  padding: 14px;
+  height: 48px;
+  padding: 0 14px;
   border: 1px solid #E5E5E5;
   border-radius: 8px;
   font-size: 16px;
   background-color: #FFFFFF;
   box-sizing: border-box;
+  line-height: 48px;
+}
+
+.form-input-placeholder {
+  color: #999999;
 }
 
 .gender-selector {

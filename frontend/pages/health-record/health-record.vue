@@ -35,15 +35,39 @@
         <view v-else>
           <view class="form-item">
             <text class="form-label">过往病史</text>
-            <textarea class="form-textarea" v-model="editForm.pastMedicalHistory" placeholder="请输入过往病史，若无请填写'无'" rows="3"></textarea>
+            <textarea 
+              class="form-textarea" 
+              v-model="editForm.pastMedicalHistory" 
+              placeholder="请输入过往病史，若无请填写'无'"
+              placeholder-class="form-textarea-placeholder"
+              :focus="pastMedicalHistoryFocus"
+              @focus="pastMedicalHistoryFocus = true"
+              @blur="pastMedicalHistoryFocus = false"
+            ></textarea>
           </view>
           <view class="form-item">
             <text class="form-label">过敏史</text>
-            <textarea class="form-textarea" v-model="editForm.allergicHistory" placeholder="请输入过敏史，若无请填写'无'" rows="3"></textarea>
+            <textarea 
+              class="form-textarea" 
+              v-model="editForm.allergicHistory" 
+              placeholder="请输入过敏史，若无请填写'无'"
+              placeholder-class="form-textarea-placeholder"
+              :focus="allergicHistoryFocus"
+              @focus="allergicHistoryFocus = true"
+              @blur="allergicHistoryFocus = false"
+            ></textarea>
           </view>
           <view class="form-item">
             <text class="form-label">家族病史</text>
-            <textarea class="form-textarea" v-model="editForm.familyMedicalHistory" placeholder="请输入家族病史，若无请填写'无'" rows="3"></textarea>
+            <textarea 
+              class="form-textarea" 
+              v-model="editForm.familyMedicalHistory" 
+              placeholder="请输入家族病史，若无请填写'无'"
+              placeholder-class="form-textarea-placeholder"
+              :focus="familyMedicalHistoryFocus"
+              @focus="familyMedicalHistoryFocus = true"
+              @blur="familyMedicalHistoryFocus = false"
+            ></textarea>
           </view>
           <view class="form-item">
             <text class="form-label">血型</text>
@@ -53,7 +77,15 @@
           </view>
           <view class="form-item">
             <text class="form-label">其他信息</text>
-            <textarea class="form-textarea" v-model="editForm.otherInfo" placeholder="请输入其他健康相关信息，若无请填写'无'" rows="3"></textarea>
+            <textarea 
+              class="form-textarea" 
+              v-model="editForm.otherInfo" 
+              placeholder="请输入其他健康相关信息，若无请填写'无'"
+              placeholder-class="form-textarea-placeholder"
+              :focus="otherInfoFocus"
+              @focus="otherInfoFocus = true"
+              @blur="otherInfoFocus = false"
+            ></textarea>
           </view>
           
           <view class="form-actions">
@@ -81,7 +113,11 @@ export default {
         bloodType: '',
         otherInfo: ''
       },
-      bloodTypes: ['A', 'B', 'AB', 'O', '其他']
+      bloodTypes: ['A', 'B', 'AB', 'O', '其他'],
+      pastMedicalHistoryFocus: false,
+      allergicHistoryFocus: false,
+      familyMedicalHistoryFocus: false,
+      otherInfoFocus: false
     }
   },
   onLoad() {
@@ -92,7 +128,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return
@@ -129,7 +165,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return
@@ -226,6 +262,7 @@ export default {
 
 .form-textarea {
   width: 100%;
+  min-height: 80px;
   padding: 12px;
   border: 1px solid #E5E5E5;
   border-radius: 8px;
@@ -233,6 +270,11 @@ export default {
   resize: none;
   font-family: inherit;
   box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.form-textarea-placeholder {
+  color: #999999;
 }
 
 .picker {

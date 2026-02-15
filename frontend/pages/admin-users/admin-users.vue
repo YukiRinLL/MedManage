@@ -7,6 +7,10 @@
         type="text" 
         v-model="searchQuery" 
         placeholder="搜索用户手机号或姓名"
+        placeholder-class="search-input-placeholder"
+        :focus="searchFocus"
+        @focus="searchFocus = true"
+        @blur="searchFocus = false"
         @input="handleSearch"
       />
     </view>
@@ -60,7 +64,8 @@ export default {
     return {
       users: [],
       searchQuery: '',
-      adminName: '管理员'
+      adminName: '管理员',
+      searchFocus: false
     }
   },
   computed: {
@@ -196,12 +201,18 @@ export default {
 
 .search-input {
   width: 100%;
-  padding: 12px;
+  height: 48px;
+  padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
   background: white;
   box-sizing: border-box;
+  line-height: 48px;
+}
+
+.search-input-placeholder {
+  color: #999999;
 }
 
 /* 用户列表 */

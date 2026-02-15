@@ -9,6 +9,10 @@
           type="tel" 
           v-model="loginForm.phone" 
           placeholder="请输入管理员手机号"
+          placeholder-class="form-input-placeholder"
+          :focus="phoneFocus"
+          @focus="phoneFocus = true"
+          @blur="phoneFocus = false"
         />
       </view>
       <view class="form-item">
@@ -18,6 +22,10 @@
           type="password" 
           v-model="loginForm.password" 
           placeholder="请输入密码"
+          placeholder-class="form-input-placeholder"
+          :focus="passwordFocus"
+          @focus="passwordFocus = true"
+          @blur="passwordFocus = false"
         />
       </view>
       <button class="login-btn" @click="handleLogin" :disabled="isLoading">
@@ -39,7 +47,9 @@ export default {
         password: ''
       },
       isLoading: false,
-      errorMessage: ''
+      errorMessage: '',
+      phoneFocus: false,
+      passwordFocus: false
     }
   },
   methods: {
@@ -118,11 +128,17 @@ export default {
 
 .form-input {
   width: 100%;
-  padding: 12px;
+  height: 48px;
+  padding: 0 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
   box-sizing: border-box;
+  line-height: 48px;
+}
+
+.form-input-placeholder {
+  color: #999999;
 }
 
 .login-btn {
