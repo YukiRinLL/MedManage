@@ -12,7 +12,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
     
     private String type; // 1:就诊提醒, 2:用药提醒, 3:检查通知, 4:随访提醒, 5:复诊提醒

@@ -63,30 +63,6 @@
         "navigationBarBackgroundColor": "#007AFF",
         "navigationBarTextStyle": "white"
       }
-    },
-    {
-      "path": "pages/admin-login/admin-login",
-      "style": {
-        "navigationBarTitleText": "管理员登录",
-        "navigationBarBackgroundColor": "#007AFF",
-        "navigationBarTextStyle": "white"
-      }
-    },
-    {
-      "path": "pages/admin-dashboard/admin-dashboard",
-      "style": {
-        "navigationBarTitleText": "管理后台",
-        "navigationBarBackgroundColor": "#007AFF",
-        "navigationBarTextStyle": "white"
-      }
-    },
-    {
-      "path": "pages/admin-users/admin-users",
-      "style": {
-        "navigationBarTitleText": "用户管理",
-        "navigationBarBackgroundColor": "#007AFF",
-        "navigationBarTextStyle": "white"
-      }
     }
   ],
   "globalStyle": {

@@ -127,6 +127,22 @@
         />
       </view>
       
+      <view v-if="isSuperAdmin" class="form-item">
+        <text class="form-label">用户角色</text>
+        <view class="role-selector">
+          <view 
+            v-for="role in roles" 
+            :key="role.value" 
+            class="role-option" 
+            :class="{ active: selectedRole === role.value }"
+            @click="selectRole(role.value)"
+          >
+            <text class="role-icon">{{ role.icon }}</text>
+            <text class="role-name">{{ role.label }}</text>
+          </view>
+        </view>
+      </view>
+      
       <button class="btn-primary" @click="register">注册</button>
       
       <view class="login-link">
@@ -159,10 +175,27 @@ export default {
       ageFocus: false,
       idCardFocus: false,
       emergencyContactFocus: false,
-      emergencyPhoneFocus: false
+      emergencyPhoneFocus: false,
+      isSuperAdmin: false,
+      selectedRole: 0,
+      roles: [
+        { value: 0, label: '普通用户', icon: '👤' },
+        { value: 1, label: '管理员', icon: '👨‍💼' },
+        { value: 2, label: '超级管理员', icon: '👑' }
+      ]
     }
   },
+  onLoad() {
+    this.checkSuperAdminPermission()
+  },
   methods: {
+    checkSuperAdminPermission() {
+      const isSuperAdmin = uni.getStorageSync('isSuperAdmin')
+      this.isSuperAdmin = isSuperAdmin === true
+    },
+    selectRole(role) {
+      this.selectedRole = role
+    },
     async register() {
       if (!this.phone) {
         uni.showToast({
@@ -201,7 +234,7 @@ export default {
       }
       
       try {
-        await post('/user/register', {
+        const registerData = {
           phone: this.phone,
           password: this.password,
           name: this.name,
@@ -210,7 +243,13 @@ export default {
           idCard: this.idCard,
           emergencyContact: this.emergencyContact,
           emergencyPhone: this.emergencyPhone
-        })
+        }
+        
+        if (this.isSuperAdmin) {
+          registerData.role = this.selectedRole
+        }
+        
+        await post('/user/register', registerData)
         uni.showToast({
           title: '注册成功',
           icon: 'success'
@@ -292,6 +331,37 @@ export default {
   background-color: #007AFF;
   color: #FFFFFF;
   border-color: #007AFF;
+}
+
+.role-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #E5E5E5;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.role-option.active {
+  border-color: #007AFF;
+  background-color: #e6f2ff;
+}
+
+.role-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.role-name {
+  font-size: 16px;
+  color: #333;
 }
 
 .btn-primary {

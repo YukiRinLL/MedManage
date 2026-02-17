@@ -44,9 +44,7 @@ public class UserController {
             String phone = params.get("phone");
             String password = params.get("password");
             User user = userService.login(phone, password);
-            // 生成token
             String token = jwtUtil.generateToken(user.getId());
-            // 存储登录状态到Redis
             redisUtil.set("user:" + user.getId() + ":token", token, 86400);
             result.put("code", 200);
             result.put("message", "登录成功");

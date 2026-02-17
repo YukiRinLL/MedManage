@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "admins")
+public class Admin {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "phone", unique = true, nullable = false, length = 20)
+    @Column(name = "phone", unique = true, nullable = false, length = 11)
     private String phone;
     
     @Column(name = "password", nullable = false)
@@ -26,14 +26,14 @@ public class User {
     @Column(name = "age")
     private Integer age;
     
-    @Column(name = "id_card", length = 18)
-    private String idCard;
+    @Column(name = "role", nullable = false)
+    private Integer role;
     
-    @Column(name = "emergency_contact", length = 50)
-    private String emergencyContact;
+    @Column(name = "department", length = 100)
+    private String department;
     
-    @Column(name = "emergency_phone", length = 20)
-    private String emergencyPhone;
+    @Column(name = "position", length = 100)
+    private String position;
     
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -89,28 +89,28 @@ public class User {
         this.age = age;
     }
 
-    public String getIdCard() {
-        return idCard;
+    public Integer getRole() {
+        return role;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setRole(Integer role) {
+        this.role = role;
     }
 
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public String getEmergencyPhone() {
-        return emergencyPhone;
+    public String getPosition() {
+        return position;
     }
 
-    public void setEmergencyPhone(String emergencyPhone) {
-        this.emergencyPhone = emergencyPhone;
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public LocalDateTime getCreatedAt() {
