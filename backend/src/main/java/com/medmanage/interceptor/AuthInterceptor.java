@@ -44,28 +44,30 @@ public class AuthInterceptor implements HandlerInterceptor {
         try {
             Long userId = jwtUtil.getUserIdFromToken(token);
             
-            // 根据请求路径判断是用户还是管理员
-            String requestURI = request.getRequestURI();
-            String redisKey;
-            if (requestURI.startsWith("/api/admin")) {
-                redisKey = "admin:" + userId + ":token";
-            } else {
-                redisKey = "user:" + userId + ":token";
+            // 统一的token验证逻辑：
+            // 1. 优先尝试管理员token验证（管理员可以访问所有接口）
+            // 2. 如果管理员token验证失败，尝试用户token验证
+            // 3. 如果两者都失败，返回认证失败
+            
+            String redisToken = (String) redisUtil.get("admin:" + userId + ":token");
+            boolean isAdmin = redisToken != null && redisToken.equals(token);
+            
+            if (!isAdmin) {
+                redisToken = (String) redisUtil.get("user:" + userId + ":token");
+                if (redisToken == null || !redisToken.equals(token)) {
+                    response.setCharacterEncoding("UTF-8");
+                    response.setContentType("application/json; charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.print("{\"code\": 401, \"message\": \"登录已过期，请重新登录\"}");
+                    out.flush();
+                    out.close();
+                    return false;
+                }
             }
             
-            // 验证Redis中的登录状态
-            String redisToken = (String) redisUtil.get(redisKey);
-            if (redisToken == null || !redisToken.equals(token)) {
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json; charset=utf-8");
-                PrintWriter out = response.getWriter();
-                out.print("{\"code\": 401, \"message\": \"登录已过期，请重新登录\"}");
-                out.flush();
-                out.close();
-                return false;
-            }
-            // 将用户ID存储到请求中，方便后续使用
+            // 将用户ID和管理员标识存储到请求中，方便后续使用
             request.setAttribute("userId", userId);
+            request.setAttribute("isAdmin", isAdmin);
             return true;
         } catch (Exception e) {
             response.setCharacterEncoding("UTF-8");

@@ -35,6 +35,9 @@ public class User {
     @Column(name = "emergency_phone", length = 20)
     private String emergencyPhone;
     
+    @Column(name = "address", length = 200)
+    private String address;
+    
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     
@@ -111,6 +114,14 @@ public class User {
 
     public void setEmergencyPhone(String emergencyPhone) {
         this.emergencyPhone = emergencyPhone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getCreatedAt() {

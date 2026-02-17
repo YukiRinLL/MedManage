@@ -103,4 +103,49 @@ public class UserController {
         }
         return result;
     }
+    
+    @GetMapping("/list")
+    public Map<String, Object> listUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Map<String, Object> data = userService.listUsers(page, size);
+            result.put("code", 200);
+            result.put("message", "获取成功");
+            result.put("data", data);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+    
+    @GetMapping("/{id}")
+    public Map<String, Object> getUserById(@PathVariable Long id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            User user = userService.findById(id);
+            result.put("code", 200);
+            result.put("data", user);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+    
+    @DeleteMapping("/{id}")
+    public Map<String, Object> deleteUser(@PathVariable Long id) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            userService.deleteUser(id);
+            result.put("code", 200);
+            result.put("message", "删除成功");
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
 }

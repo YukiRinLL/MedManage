@@ -13,14 +13,26 @@
         text-color="#bfcbd9"
         active-text-color="#409EFF"
       >
-        <el-menu-item
-          v-for="route in menuRoutes"
-          :key="route.path"
-          :index="route.path"
-        >
-          <el-icon><component :is="route.meta.icon" /></el-icon>
-          <template #title>{{ route.meta.title }}</template>
-        </el-menu-item>
+        <template v-for="route in menuRoutes" :key="route.path">
+          <el-sub-menu v-if="route.children && route.children.length > 0" :index="route.path">
+            <template #title>
+              <el-icon><component :is="route.meta.icon" /></el-icon>
+              <span>{{ route.meta.title }}</span>
+            </template>
+            <el-menu-item
+              v-for="child in route.children"
+              :key="child.path"
+              :index="child.path"
+            >
+              <el-icon><component :is="child.meta.icon" /></el-icon>
+              <template #title>{{ child.meta.title }}</template>
+            </el-menu-item>
+          </el-sub-menu>
+          <el-menu-item v-else :index="route.path">
+            <el-icon><component :is="route.meta.icon" /></el-icon>
+            <template #title>{{ route.meta.title }}</template>
+          </el-menu-item>
+        </template>
       </el-menu>
     </el-aside>
 
@@ -84,12 +96,46 @@ const userAvatar = computed(() => {
 
 const menuRoutes = computed(() => {
   const routes = router.getRoutes()
-  return routes
-    .filter(route => route.meta?.title && !route.meta?.hidden)
-    .map(route => ({
-      path: route.path,
-      meta: route.meta
-    }))
+  const userRole = userStore.userInfo?.role
+  
+  const buildMenu = (routeList) => {
+    const menu = []
+    routeList.forEach(route => {
+      if (!route.meta?.title || route.meta?.hidden) return
+      
+      if (route.meta?.roles && !route.meta.roles.includes(userRole)) return
+      
+      if (route.children && route.children.length > 0) {
+        const children = buildMenu(route.children)
+        if (children.length > 0) {
+          menu.push({
+            path: route.path,
+            meta: route.meta,
+            children: children
+          })
+        }
+      } else {
+        menu.push({
+          path: route.path,
+          meta: route.meta
+        })
+      }
+    })
+    return menu
+  }
+  
+  const allRoutes = buildMenu(routes)
+  
+  return allRoutes.filter(route => {
+    if (route.path === '/system') {
+      return true
+    }
+    if (route.path === '/patients' || route.path === '/health' || 
+        route.path === '/medication' || route.path === '/notification') {
+      return true
+    }
+    return false
+  })
 })
 
 const toggleCollapse = () => {

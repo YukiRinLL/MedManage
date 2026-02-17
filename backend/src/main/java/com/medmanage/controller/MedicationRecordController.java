@@ -37,13 +37,19 @@ public class MedicationRecordController {
     }
     
     @GetMapping("/list")
-    public Map<String, Object> getMedicationRecordList(@RequestHeader("Authorization") String token) {
+    public Map<String, Object> getMedicationRecordList(
+            @RequestHeader("Authorization") String token,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String medicationName,
+            @RequestParam(required = false) Boolean taken) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
-            List<MedicationRecord> medicationRecords = medicationRecordService.findByUserId(userId);
+            Map<String, Object> data = medicationRecordService.listMedicationRecords(page, size, name, medicationName, taken);
             result.put("code", 200);
-            result.put("data", medicationRecords);
+            result.put("message", "获取成功");
+            result.put("data", data);
         } catch (Exception e) {
             result.put("code", 400);
             result.put("message", e.getMessage());
@@ -52,9 +58,10 @@ public class MedicationRecordController {
     }
     
     @PutMapping("/update-taken/{id}")
-    public Map<String, Object> updateTakenStatus(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestParam Boolean taken) {
+    public Map<String, Object> updateTakenStatus(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody Map<String, Boolean> params) {
         Map<String, Object> result = new HashMap<>();
         try {
+            Boolean taken = params.get("taken");
             medicationRecordService.updateTakenStatus(id, taken);
             result.put("code", 200);
             result.put("message", "更新成功");

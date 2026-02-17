@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS users (
     id_card VARCHAR(18) COMMENT '身份证号',
     emergency_contact VARCHAR(50) COMMENT '紧急联系人',
     emergency_phone VARCHAR(20) COMMENT '紧急联系电话',
+    address VARCHAR(200) COMMENT '地址',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     INDEX idx_phone (phone),
