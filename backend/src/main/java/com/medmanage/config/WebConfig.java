@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173")
+                .allowedOrigins("http://localhost:5173", "http://localhost:3000", "http://192.168.0.102:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
                 .exposedHeaders("Content-Length")
@@ -27,6 +27,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/register", "/user/login");
+                .excludePathPatterns("/user/register", "/user/login", "/admin/login");
     }
 }

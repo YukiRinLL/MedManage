@@ -36,10 +36,25 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
         
+        // 移除 Bearer 前缀
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        
         try {
             Long userId = jwtUtil.getUserIdFromToken(token);
+            
+            // 根据请求路径判断是用户还是管理员
+            String requestURI = request.getRequestURI();
+            String redisKey;
+            if (requestURI.startsWith("/api/admin")) {
+                redisKey = "admin:" + userId + ":token";
+            } else {
+                redisKey = "user:" + userId + ":token";
+            }
+            
             // 验证Redis中的登录状态
-            String redisToken = (String) redisUtil.get("user:" + userId + ":token");
+            String redisToken = (String) redisUtil.get(redisKey);
             if (redisToken == null || !redisToken.equals(token)) {
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json; charset=utf-8");

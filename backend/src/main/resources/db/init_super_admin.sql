@@ -7,10 +7,10 @@ USE yukirinllmedmanage;
 
 -- 插入超级管理员
 -- 手机号：18888888888
--- 密码：admin
--- MD5值：21232f297a57a5a743894a0e4a801fc
+-- 密码：admin123
+-- MD5值：0192023a7bbd73250516f069df18b500
 INSERT INTO admins (phone, password, name, gender, age, role, department, position, created_at, updated_at)
-VALUES ('18888888888', '21232f297a57a5a743894a0e4a801fc', '超级管理员', 1, 30, 2, 'IT运维部', '系统管理员', NOW(), NOW());
+VALUES ('18888888888', '0192023a7bbd73250516f069df18b500', '超级管理员', 1, 30, 2, 'IT运维部', '系统管理员', NOW(), NOW());
 
 -- 显示创建的超级管理员信息
 SELECT '超级管理员创建成功！' AS message;
@@ -28,6 +28,6 @@ WHERE phone = '18888888888';
 SELECT '====================' AS info;
 SELECT '登录信息' AS info;
 SELECT '手机号：18888888888' AS info;
-SELECT '密码：admin' AS info;
+SELECT '密码：admin123' AS info;
 SELECT '登录地址：http://localhost:8080/api/admin/login' AS info;
 SELECT '====================' AS info;
