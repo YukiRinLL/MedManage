@@ -42,7 +42,7 @@ public class NotificationService {
     public void createNotification(String phone, Integer type, String title, String content, String notifyTime) {
         Notification notification = new Notification();
         notification.setUserId(1L);
-        notification.setType(type);
+        notification.setType(type.toString());
         notification.setTitle(title);
         notification.setContent(content);
         notification.setIsRead(false);
