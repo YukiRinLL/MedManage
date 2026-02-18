@@ -12,4 +12,5 @@ public interface ActivityParticipantRepository extends JpaRepository<ActivityPar
     List<ActivityParticipant> findByUserIdOrderByParticipateTimeDesc(Long userId);
     ActivityParticipant findByActivityIdAndUserId(Long activityId, Long userId);
     boolean existsByActivityIdAndUserId(Long activityId, Long userId);
+    boolean existsByActivityIdAndUserIdAndStatus(Long activityId, Long userId, Integer status);
 }

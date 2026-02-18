@@ -39,6 +39,10 @@ public class ActivityParticipantService {
         return activityParticipantRepository.existsByActivityIdAndUserId(activityId, userId);
     }
     
+    public boolean isJoined(Long activityId, Long userId) {
+        return activityParticipantRepository.existsByActivityIdAndUserIdAndStatus(activityId, userId, 1);
+    }
+    
     public void deleteParticipant(Long id) {
         activityParticipantRepository.deleteById(id);
     }

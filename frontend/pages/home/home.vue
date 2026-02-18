@@ -46,7 +46,7 @@ export default {
   methods: {
     navigateTo(url) {
       uni.switchTab({
-        url: url
+        url: url.replace(/^\//, '')
       })
     }
   }

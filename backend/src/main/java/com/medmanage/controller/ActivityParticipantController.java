@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -30,18 +31,25 @@ public class ActivityParticipantController {
             Long userId = jwtUtil.getUserIdFromToken(token);
             Long activityId = params.get("activityId");
             
-            if (activityParticipantService.existsByActivityIdAndUserId(activityId, userId)) {
+            if (activityParticipantService.isJoined(activityId, userId)) {
                 result.put("code", 400);
                 result.put("message", "您已经参加过此活动");
                 return result;
             }
             
-            ActivityParticipant participant = new ActivityParticipant();
-            participant.setActivityId(activityId);
-            participant.setUserId(userId);
-            participant.setStatus(1);
+            ActivityParticipant existing = activityParticipantService.findByActivityIdAndUserId(activityId, userId);
+            if (existing != null) {
+                existing.setStatus(1);
+                existing.setParticipateTime(LocalDateTime.now());
+                activityParticipantService.save(existing);
+            } else {
+                ActivityParticipant participant = new ActivityParticipant();
+                participant.setActivityId(activityId);
+                participant.setUserId(userId);
+                participant.setStatus(1);
+                activityParticipantService.save(participant);
+            }
             
-            activityParticipantService.save(participant);
             activityService.incrementParticipants(activityId);
             
             result.put("code", 200);

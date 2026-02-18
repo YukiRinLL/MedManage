@@ -30,6 +30,23 @@ function request(url, method = 'GET', data = {}) {
   })
 }
 
+const http = {
+  get: function(url, data) {
+    return request(url, 'GET', data)
+  },
+  post: function(url, data) {
+    return request(url, 'POST', data)
+  },
+  put: function(url, data) {
+    return request(url, 'PUT', data)
+  },
+  delete: function(url, data) {
+    return request(url, 'DELETE', data)
+  }
+}
+
+export default http
+
 export function get(url, data) {
   return request(url, 'GET', data)
 }
