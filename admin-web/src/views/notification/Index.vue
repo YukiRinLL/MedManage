@@ -248,10 +248,14 @@ const handleCreate = async () => {
   await createFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        await request.post('/notification/create', {
-          ...createForm,
-          notifyTime: new Date(createForm.notifyTime).toISOString()
-        })
+        const data = {
+          phone: createForm.phone,
+          type: createForm.type,
+          title: createForm.title,
+          content: createForm.content,
+          notifyTime: createForm.notifyTime ? new Date(createForm.notifyTime).toISOString() : null
+        }
+        await request.post('/notification/create', data)
         ElMessage.success('创建成功')
         createDialogVisible.value = false
         fetchNotifications()

@@ -23,6 +23,11 @@
         <text>用药记录</text>
       </view>
       
+      <view class="menu-item" @click="navigateTo('/pages/activities/list')">
+        <text class="menu-icon">🎉</text>
+        <text>活动中心</text>
+      </view>
+      
       <view class="menu-item" @click="navigateTo('/pages/notification/notification')">
         <text class="menu-icon">🔔</text>
         <text>通知中心</text>
@@ -81,7 +86,7 @@ export default {
 /* 功能菜单 */
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   padding: 0 16px;
   margin-bottom: 20px;

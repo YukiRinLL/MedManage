@@ -299,10 +299,15 @@ const handleCreateUser = async () => {
   await createFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        await request.post('/admin/create-user', {
-          ...createForm,
-          age: parseInt(createForm.age)
-        })
+        const data = {
+          phone: createForm.phone,
+          password: createForm.password,
+          name: createForm.name,
+          gender: createForm.gender,
+          age: parseInt(createForm.age),
+          role: createForm.role
+        }
+        await request.post('/admin/create-user', data)
         ElMessage.success('创建成功')
         createDialogVisible.value = false
         fetchUsers()

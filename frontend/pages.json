@@ -57,6 +57,23 @@
       }
     },
     {
+      "path": "pages/activities/list",
+      "style": {
+        "navigationBarTitleText": "活动中心",
+        "navigationBarBackgroundColor": "#007AFF",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/activities/detail",
+      "style": {
+        "navigationBarTitleText": "活动详情",
+        "navigationBarBackgroundColor": "#007AFF",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/profile/profile",
       "style": {
         "navigationBarTitleText": "个人信息",
@@ -86,12 +103,12 @@
         "text": "健康"
       },
       {
-        "pagePath": "pages/medication/medication",
-        "text": "用药"
+        "pagePath": "pages/activities/list",
+        "text": "活动"
       },
       {
-        "pagePath": "pages/notification/notification",
-        "text": "通知"
+        "pagePath": "pages/medication/medication",
+        "text": "用药"
       },
       {
         "pagePath": "pages/profile/profile",

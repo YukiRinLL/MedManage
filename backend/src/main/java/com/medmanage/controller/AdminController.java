@@ -29,17 +29,28 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody Map<String, String> request) {
         try {
+            System.out.println("收到登录请求");
             String phone = request.get("phone");
             String password = request.get("password");
+            System.out.println("手机号: " + phone);
+            System.out.println("密码: " + password);
 
             if (phone == null || password == null) {
+                System.out.println("手机号或密码为空");
                 return ResponseEntity.badRequest().body("手机号和密码不能为空");
             }
 
+            System.out.println("开始调用adminService.login");
             Admin admin = adminService.login(phone, password);
+            System.out.println("登录成功，管理员ID: " + admin.getId());
 
+            System.out.println("开始生成JWT token");
             String token = jwtUtil.generateToken(admin.getId());
+            System.out.println("JWT token生成成功: " + token.substring(0, Math.min(50, token.length())) + "...");
+            
+            System.out.println("开始存储token到Redis");
             redisUtil.set("admin:" + admin.getId() + ":token", token, 86400);
+            System.out.println("Token已存储到Redis");
 
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
@@ -49,13 +60,18 @@ public class AdminController {
             response.put("isAdmin", admin.getRole() == 1);
             response.put("isSuperAdmin", admin.getRole() == 2);
 
+            System.out.println("准备返回登录响应");
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
+            System.out.println("登录失败(RuntimeException): " + e.getMessage());
+            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 401);
             errorResponse.put("message", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         } catch (Exception e) {
+            System.out.println("登录失败(Exception): " + e.getMessage());
+            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 500);
             errorResponse.put("message", "登录失败: " + e.getMessage());
