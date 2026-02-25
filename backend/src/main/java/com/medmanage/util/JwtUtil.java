@@ -45,6 +45,9 @@ public class JwtUtil {
     }
     
     public Long getUserIdFromToken(String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
         Claims claims = getClaimsFromToken(token);
         return Long.parseLong(claims.getSubject());
     }

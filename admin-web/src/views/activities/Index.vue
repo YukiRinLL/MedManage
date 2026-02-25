@@ -107,7 +107,31 @@
           />
         </el-form-item>
         <el-form-item label="封面图片" prop="coverImage">
-          <el-input v-model="createForm.coverImage" placeholder="请输入封面图片URL" />
+          <div class="cover-upload-wrapper">
+            <div class="cover-upload-area">
+              <el-upload
+                class="cover-uploader"
+                :show-file-list="false"
+                :before-upload="beforeUpload"
+                :on-change="handleFileChange"
+                accept="image/*"
+              >
+                <img v-if="imagePreview" :src="imagePreview" class="cover-preview" />
+                <el-icon v-else class="cover-upload-icon"><Plus /></el-icon>
+              </el-upload>
+              <div class="cover-info">
+                <el-text size="small" type="info">点击上传图片（自动转为Base64）</el-text>
+                <el-divider direction="horizontal" content-position="center">或</el-divider>
+                <el-input 
+                  v-model="createForm.coverImage" 
+                  placeholder="也可以输入图片URL" 
+                  clearable
+                  style="width: 300px"
+                  @input="handleUrlInput"
+                />
+              </div>
+            </div>
+          </div>
         </el-form-item>
         <el-form-item label="活动状态" prop="status">
           <el-select v-model="createForm.status" placeholder="请选择状态">
@@ -161,6 +185,7 @@ const participants = ref([])
 const createFormRef = ref(null)
 const isEdit = ref(false)
 const currentActivityId = ref(null)
+const imagePreview = ref('')
 
 const searchForm = reactive({
   title: '',
@@ -252,6 +277,7 @@ const showCreateDialog = () => {
   createForm.maxParticipants = 100
   createForm.status = 2
   createForm.coverImage = ''
+  imagePreview.value = ''
   createDialogVisible.value = true
 }
 
@@ -267,7 +293,39 @@ const handleEdit = (row) => {
   createForm.maxParticipants = row.maxParticipants
   createForm.status = row.status
   createForm.coverImage = row.coverImage
+  imagePreview.value = row.coverImage || ''
   createDialogVisible.value = true
+}
+
+const beforeUpload = (file) => {
+  const isValidType = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)
+  const isLt5M = file.size / 1024 / 1024 < 5
+  
+  if (!isValidType) {
+    ElMessage.error('只能上传 JPG/PNG/GIF/WebP 格式的图片')
+    return false
+  }
+  if (!isLt5M) {
+    ElMessage.error('图片大小不能超过 5MB')
+    return false
+  }
+  return false
+}
+
+const handleFileChange = (file) => {
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    const base64 = e.target.result
+    imagePreview.value = base64
+    createForm.coverImage = base64
+  }
+  reader.readAsDataURL(file.raw)
+}
+
+const handleUrlInput = () => {
+  if (createForm.coverImage && !createForm.coverImage.startsWith('data:image')) {
+    imagePreview.value = createForm.coverImage
+  }
 }
 
 const handleCreateOrUpdate = async () => {
@@ -397,5 +455,52 @@ onMounted(() => {
 
 .search-form {
   margin-bottom: 20px;
+}
+
+.cover-upload-wrapper {
+  width: 100%;
+}
+
+.cover-upload-area {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.cover-uploader {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  overflow: hidden;
+  width: 160px;
+  height: 120px;
+  transition: border-color 0.3s;
+}
+
+.cover-uploader:hover {
+  border-color: var(--el-color-primary);
+}
+
+.cover-preview {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.cover-upload-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 160px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 </style>

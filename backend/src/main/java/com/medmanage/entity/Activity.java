@@ -39,7 +39,7 @@ public class Activity {
     @Column(name = "status")
     private Integer status = 1;
     
-    @Column(name = "cover_image", length = 500)
+    @Column(name = "cover_image", columnDefinition = "LONGTEXT")
     private String coverImage;
     
     @Column(name = "created_by")
