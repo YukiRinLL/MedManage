@@ -154,7 +154,11 @@ export default {
       try {
         await uni.showModal({
           title: '提示',
-          content: '确定要取消报名吗？'
+          content: '确定要取消报名吗？',
+          confirmText: '确定',
+          confirmColor: '#009D85',
+          cancelText: '再想想',
+          cancelColor: '#909399'
         })
         
         const res = await request.post('/activity-participant/cancel', {
@@ -199,7 +203,7 @@ export default {
 <style scoped>
 .activity-detail-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #F5F7FA;
 }
 
 .loading, .error {
@@ -207,13 +211,13 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  color: #999;
+  color: #909399;
   font-size: 28rpx;
 }
 
 .content {
   height: 100vh;
-  padding-bottom: 120rpx;
+  padding-bottom: 140rpx;
 }
 
 .activity-cover {
@@ -222,37 +226,43 @@ export default {
 }
 
 .activity-header {
-  padding: 30rpx;
+  padding: 32rpx;
   background-color: white;
-  border-bottom: 1rpx solid #f0f0f0;
+  border-bottom: 1rpx solid #EBEEF5;
 }
 
 .activity-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #303133;
   display: block;
   margin-bottom: 16rpx;
 }
 
 .activity-type {
   font-size: 26rpx;
-  color: #666;
-  display: block;
+  color: #009D85;
+  display: inline-block;
+  padding: 6rpx 20rpx;
+  background-color: rgba(0, 157, 133, 0.1);
+  border-radius: 10rpx;
 }
 
 .activity-info {
-  padding: 30rpx;
+  padding: 32rpx;
   background-color: white;
   margin-top: 20rpx;
+  border-radius: 16rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20rpx 0;
-  border-bottom: 1rpx solid #f0f0f0;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F2F6FC;
 }
 
 .info-item:last-child {
@@ -261,56 +271,63 @@ export default {
 
 .info-label {
   font-size: 28rpx;
-  color: #666;
+  color: #606266;
+  font-weight: 500;
 }
 
 .info-value {
   font-size: 28rpx;
-  color: #333;
+  color: #303133;
   text-align: right;
-  flex: 1;
 }
 
-.status-tag {
+.info-value.status-tag {
   display: inline-block;
   padding: 8rpx 24rpx;
   border-radius: 24rpx;
   font-size: 24rpx;
+  font-weight: 500;
+  flex: none;
 }
 
 .status-0 {
-  background-color: #f0f0f0;
-  color: #999;
+  background-color: #F0F0F0;
+  color: #909399;
 }
 
 .status-1 {
-  background-color: #e1f3d8;
-  color: #67c23a;
+  background-color: rgba(0, 157, 133, 0.1);
+  color: #009D85;
 }
 
 .status-2 {
-  background-color: #ecf5ff;
-  color: #409EFF;
+  background-color: rgba(0, 157, 133, 0.1);
+  color: #009D85;
 }
 
 .activity-description {
-  padding: 30rpx;
+  padding: 32rpx;
   background-color: white;
   margin-top: 20rpx;
+  border-radius: 16rpx;
+  margin-left: 20rpx;
+  margin-right: 20rpx;
 }
 
 .section-title {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: #333;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #303133;
   display: block;
   margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #009D85;
 }
 
 .description-text {
   font-size: 28rpx;
-  color: #666;
-  line-height: 1.6;
+  color: #606266;
+  line-height: 1.8;
   display: block;
 }
 
@@ -319,9 +336,9 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20rpx 30rpx;
+  padding: 24rpx 32rpx;
   background-color: white;
-  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
   display: flex;
   gap: 20rpx;
 }
@@ -330,16 +347,21 @@ export default {
   flex: 1;
   height: 88rpx;
   line-height: 88rpx;
-  border-radius: 44rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8rpx;
+  background-color: #009D85;
   color: white;
   font-size: 32rpx;
+  font-weight: 500;
   border: none;
 }
 
+.join-btn:active {
+  background-color: #007D6B;
+}
+
 .join-btn.joined {
-  background-color: #f0f0f0;
-  color: #999;
+  background-color: #F0F0F0;
+  color: #909399;
 }
 
 .join-btn[disabled] {
@@ -350,10 +372,15 @@ export default {
   width: 200rpx;
   height: 88rpx;
   line-height: 88rpx;
-  border-radius: 44rpx;
+  border-radius: 8rpx;
   background-color: white;
-  color: #f56c6c;
+  color: #F56C6C;
   font-size: 28rpx;
-  border: 1rpx solid #f56c6c;
+  border: 2rpx solid #F56C6C;
+  font-weight: 500;
+}
+
+.cancel-btn:active {
+  background-color: #FEF0F0;
 }
 </style>

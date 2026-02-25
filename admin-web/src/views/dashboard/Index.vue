@@ -214,13 +214,11 @@ onMounted(() => {
 }
 
 .stat-card {
-  cursor: pointer;
   transition: all 0.3s;
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .stat-content {
@@ -230,41 +228,49 @@ onMounted(() => {
 }
 
 .stat-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 10px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #009D85;
+  background-color: rgba(0, 157, 133, 0.1);
 }
 
 .stat-icon.users {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #009D85;
+  background-color: rgba(0, 157, 133, 0.1);
 }
 
 .stat-icon.admins {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: #ABCD07;
+  background-color: rgba(171, 205, 7, 0.1);
 }
 
 .stat-icon.records {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: #009D85;
+  background-color: rgba(0, 157, 133, 0.1);
 }
 
 .stat-icon.medications {
-  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: #ABCD07;
+  background-color: rgba(171, 205, 7, 0.1);
 }
 
 .stat-icon.super-admin {
-  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: #F56C6C;
+  background-color: rgba(245, 108, 108, 0.1);
 }
 
 .stat-icon.normal-users {
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  color: #67C23A;
+  background-color: rgba(103, 194, 58, 0.1);
 }
 
 .stat-icon.notifications {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color: #909399;
+  background-color: rgba(144, 147, 153, 0.1);
 }
 
 .stat-info {
@@ -272,15 +278,15 @@ onMounted(() => {
 }
 
 .stat-value {
-  font-size: 32px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
 }
 
 .stat-label {
   font-size: 14px;
-  color: #999;
+  color: #909399;
 }
 
 .card-header {

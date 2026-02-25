@@ -157,12 +157,13 @@ export default {
   font-size: 12px;
   padding: 2px 8px;
   border-radius: 10px;
-  background-color: #ff3b30;
-  color: white;
+  background-color: rgba(245, 108, 108, 0.15);
+  color: #F56C6C;
 }
 
 .vital-status.normal {
-  background-color: #34c759;
+  background-color: rgba(0, 157, 133, 0.15);
+  color: #009D85;
 }
 
 .vital-details {

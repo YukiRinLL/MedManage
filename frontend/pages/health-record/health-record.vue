@@ -295,36 +295,50 @@ export default {
 }
 
 .btn-edit {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
+  font-weight: 500;
   text-align: center;
   margin-top: 20px;
   border: none;
   width: 100%;
 }
 
+.btn-edit:active {
+  background-color: #007D6B;
+}
+
 .btn-cancel {
   flex: 1;
-  background-color: #F2F2F7;
-  color: #333;
+  background-color: #F5F7FA;
+  color: #606266;
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
   text-align: center;
-  border: none;
+  border: 1px solid #DCDFE6;
+}
+
+.btn-cancel:active {
+  background-color: #EBEEF5;
 }
 
 .btn-save {
   flex: 1;
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
   border-radius: 8px;
   padding: 12px;
   font-size: 14px;
+  font-weight: 500;
   text-align: center;
   border: none;
+}
+
+.btn-save:active {
+  background-color: #007D6B;
 }
 </style>

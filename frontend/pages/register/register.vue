@@ -272,20 +272,23 @@ export default {
 .register-container {
   padding: 40px 20px;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #F5F7FA;
 }
 
 .page-logo {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   margin: 0 auto 20px;
   display: block;
   border-radius: 16px;
+  background-color: #FFFFFF;
+  padding: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .page-title {
   text-align: center;
-  color: #333333;
+  color: #303133;
   font-size: 20px;
   font-weight: 600;
 }
@@ -293,9 +296,9 @@ export default {
 .page-subtitle {
   text-align: center;
   display: block;
-  color: #999999;
+  color: #909399;
   font-size: 14px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-top: 8px;
 }
 
@@ -303,74 +306,86 @@ export default {
   max-width: 400px;
   margin: 0 auto;
   width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 30px 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .form-item {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .form-label {
   display: block;
   font-size: 14px;
-  color: #666666;
+  color: #606266;
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
-  height: 48px;
+  height: 46px;
   padding: 0 14px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #DCDFE6;
   border-radius: 8px;
   font-size: 16px;
-  background-color: #FFFFFF;
+  background-color: #F5F7FA;
   box-sizing: border-box;
-  line-height: 48px;
+  line-height: 46px;
+}
+
+.form-input:focus {
+  background-color: #FFFFFF;
+  border-color: #009D85;
 }
 
 .form-input-placeholder {
-  color: #999999;
+  color: #C0C4CC;
 }
 
 .gender-selector {
   display: flex;
-  gap: 20px;
+  gap: 16px;
 }
 
 .gender-option {
   flex: 1;
   padding: 12px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #DCDFE6;
   border-radius: 8px;
   text-align: center;
   font-size: 16px;
+  color: #606266;
+  background-color: #F5F7FA;
 }
 
 .gender-option.active {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
-  border-color: #007AFF;
+  border-color: #009D85;
 }
 
 .role-selector {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .role-option {
   display: flex;
   align-items: center;
   padding: 12px;
-  border: 2px solid #E5E5E5;
+  border: 1px solid #DCDFE6;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s;
+  background-color: #F5F7FA;
 }
 
 .role-option.active {
-  border-color: #007AFF;
-  background-color: #e6f2ff;
+  border-color: #009D85;
+  background-color: rgba(0, 157, 133, 0.1);
 }
 
 .role-icon {
@@ -380,15 +395,17 @@ export default {
 
 .role-name {
   font-size: 16px;
-  color: #333;
+  color: #303133;
+  font-weight: 500;
 }
 
 .btn-primary {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
+  font-weight: 500;
   text-align: center;
   margin-top: 30px;
   margin-bottom: 20px;
@@ -396,14 +413,19 @@ export default {
   width: 100%;
 }
 
+.btn-primary:active {
+  background-color: #007D6B;
+}
+
 .login-link {
   text-align: center;
   font-size: 14px;
-  color: #666666;
+  color: #909399;
 }
 
 .link {
-  color: #007AFF;
+  color: #009D85;
   margin-left: 5px;
+  font-weight: 500;
 }
 </style>

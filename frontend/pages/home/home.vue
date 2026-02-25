@@ -58,70 +58,78 @@ export default {
 .home-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background-color: #F5F7FA;
 }
 
 /* 欢迎信息 */
 .welcome-section {
-  padding: 30px 20px;
+  padding: 50px 20px 35px;
   text-align: center;
-  background-color: white;
-  margin-bottom: 20px;
-  border-radius: 0 0 20px 20px;
+  background-color: #FFFFFF;
+  margin-bottom: 16px;
 }
 
 .welcome-logo {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 15px;
-  border-radius: 10px;
+  width: 160px;
+  height: 160px;
+  margin-bottom: 20px;
+  border-radius: 36px;
+  background-color: #FFFFFF;
+  padding: 24px;
+  border: 2px solid #EBEEF5;
 }
 
 .welcome-title {
   display: block;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: #303133;
   margin-bottom: 10px;
 }
 
 .welcome-subtitle {
   display: block;
-  font-size: 14px;
-  color: #666;
+  font-size: 15px;
+  color: #009D85;
+  font-weight: 500;
 }
 
 /* 功能菜单 */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 12px;
   padding: 0 16px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .menu-item {
   background-color: #FFFFFF;
-  padding: 24px 16px;
+  padding: 20px 12px;
   border-radius: 12px;
   text-align: center;
-  color: #333333;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-height: 120px;
+  color: #303133;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.menu-item:active {
+  background-color: #F5F7FA;
+}
+
 .menu-icon {
-  font-size: 36px;
-  margin-bottom: 12px;
+  font-size: 32px;
+  margin-bottom: 8px;
 }
 
 .menu-item text {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
+  color: #606266;
 }
 </style>

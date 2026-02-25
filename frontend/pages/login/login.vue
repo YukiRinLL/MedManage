@@ -103,38 +103,42 @@ export default {
 
 <style scoped>
 .login-container {
-  padding: 40px 20px;
+  padding: 60px 20px 40px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #f5f5f5;
+  background-color: #F5F7FA;
 }
 
 .logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 60px;
+  margin-bottom: 50px;
+  padding-top: 40px;
 }
 
 .logo-icon {
-  width: 100px;
-  height: 100px;
-  background-color: #007AFF;
-  border-radius: 20px;
-  margin-bottom: 20px;
+  width: 180px;
+  height: 180px;
+  background-color: #FFFFFF;
+  border-radius: 40px;
+  margin-bottom: 28px;
+  padding: 30px;
+  border: 2px solid #EBEEF5;
 }
 
 .app-name {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
-  color: #333333;
+  color: #303133;
 }
 
 .app-subtitle {
-  font-size: 14px;
-  color: #999999;
-  margin-top: 8px;
+  font-size: 16px;
+  color: #009D85;
+  margin-top: 12px;
+  font-weight: 500;
 }
 
 .form {
@@ -142,6 +146,10 @@ export default {
   max-width: 400px;
   margin: 0 auto;
   width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  padding: 35px 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .form-item {
@@ -151,32 +159,39 @@ export default {
 .form-label {
   display: block;
   font-size: 14px;
-  color: #666666;
+  color: #606266;
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .form-input {
   width: 100%;
   height: 48px;
-  padding: 0 14px;
-  border: 1px solid #E5E5E5;
+  padding: 0 16px;
+  border: 1px solid #DCDFE6;
   border-radius: 8px;
   font-size: 16px;
-  background-color: #FFFFFF;
+  background-color: #F5F7FA;
   box-sizing: border-box;
   line-height: 48px;
 }
 
+.form-input:focus {
+  background-color: #FFFFFF;
+  border-color: #009D85;
+}
+
 .form-input-placeholder {
-  color: #999999;
+  color: #C0C4CC;
 }
 
 .btn-primary {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
+  font-weight: 500;
   text-align: center;
   margin-top: 30px;
   margin-bottom: 20px;
@@ -184,14 +199,19 @@ export default {
   width: 100%;
 }
 
+.btn-primary:active {
+  background-color: #007D6B;
+}
+
 .register-link {
   text-align: center;
   font-size: 14px;
-  color: #666666;
+  color: #909399;
 }
 
 .link {
-  color: #007AFF;
+  color: #009D85;
   margin-left: 5px;
+  font-weight: 500;
 }
 </style>

@@ -151,8 +151,8 @@ export default {
 }
 
 .notification-item.unread {
-  background-color: #e6f2ff;
-  border-color: #007AFF;
+  background-color: rgba(0, 157, 133, 0.08);
+  border-color: #009D85;
 }
 
 .notification-icon {
@@ -190,13 +190,17 @@ export default {
 }
 
 .mark-read-btn {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: white;
   border: none;
   border-radius: 4px;
   padding: 4px 8px;
   font-size: 12px;
   margin-left: 8px;
+}
+
+.mark-read-btn:active {
+  background-color: #007D6B;
 }
 
 .empty-state {

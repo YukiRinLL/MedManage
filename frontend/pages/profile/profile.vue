@@ -228,35 +228,42 @@ export default {
 
 .gender-selector {
   display: flex;
-  gap: 20px;
+  gap: 12px;
 }
 
 .gender-option {
   flex: 1;
   padding: 12px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #DCDFE6;
   border-radius: 8px;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
+  color: #606266;
+  background-color: #F5F7FA;
 }
 
 .gender-option.active {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
-  border-color: #007AFF;
+  border-color: #009D85;
 }
 
 .btn-primary {
-  background-color: #007AFF;
+  background-color: #009D85;
   color: #FFFFFF;
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
+  font-weight: 500;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 24px;
   margin-bottom: 20px;
   border: none;
   width: 100%;
+}
+
+.btn-primary:active {
+  background-color: #007D6B;
 }
 
 /* 退出登录按钮 */
@@ -265,13 +272,18 @@ export default {
 }
 
 .btn-logout {
-  background-color: #ff3b30;
-  color: #FFFFFF;
+  background-color: #FFFFFF;
+  color: #F56C6C;
+  border: 1px solid #F56C6C;
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
+  font-weight: 500;
   text-align: center;
-  border: none;
   width: 100%;
+}
+
+.btn-logout:active {
+  background-color: #FEF0F0;
 }
 </style>

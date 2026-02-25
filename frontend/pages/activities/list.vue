@@ -1,9 +1,5 @@
 <template>
   <view class="activities-container">
-    <view class="header">
-      <text class="title">活动中心</text>
-    </view>
-
     <view class="activity-list">
       <view class="activity-item" v-for="activity in activities" :key="activity.id" @click="viewDetail(activity)">
         <image class="activity-cover" :src="activity.coverImage || '/static/default-cover.png'" mode="aspectFill"></image>
@@ -105,30 +101,23 @@ export default {
 <style scoped>
 .activities-container {
   min-height: 100vh;
-  background-color: #f5f5f5;
-}
-
-.header {
-  padding: 30rpx;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.title {
-  font-size: 40rpx;
-  font-weight: bold;
+  background-color: #F5F7FA;
 }
 
 .activity-list {
-  padding: 20rpx;
+  padding: 16rpx;
 }
 
 .activity-item {
   background-color: white;
-  border-radius: 16rpx;
-  margin-bottom: 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 16rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.activity-item:active {
+  background-color: #FAFAFA;
 }
 
 .activity-cover {
@@ -137,21 +126,24 @@ export default {
 }
 
 .activity-info {
-  padding: 24rpx;
+  padding: 28rpx;
 }
 
 .activity-title {
   font-size: 32rpx;
-  font-weight: bold;
-  color: #333;
+  font-weight: 600;
+  color: #303133;
   display: block;
   margin-bottom: 12rpx;
 }
 
 .activity-type {
   font-size: 24rpx;
-  color: #666;
-  display: block;
+  color: #009D85;
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  background-color: rgba(0, 157, 133, 0.1);
+  border-radius: 8rpx;
   margin-bottom: 16rpx;
 }
 
@@ -161,7 +153,7 @@ export default {
 
 .meta-item {
   font-size: 24rpx;
-  color: #999;
+  color: #909399;
   display: block;
   margin-bottom: 8rpx;
 }
@@ -173,19 +165,19 @@ export default {
 .activity-participants {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 16rpx;
 }
 
 .participants-count {
   font-size: 28rpx;
-  color: #409EFF;
-  font-weight: bold;
-  margin-right: 8rpx;
+  color: #009D85;
+  font-weight: 600;
 }
 
 .participants-text {
   font-size: 24rpx;
-  color: #999;
+  color: #909399;
 }
 
 .activity-status {
@@ -197,27 +189,28 @@ export default {
   padding: 8rpx 24rpx;
   border-radius: 24rpx;
   font-size: 24rpx;
+  font-weight: 500;
 }
 
 .status-0 {
-  background-color: #f0f0f0;
-  color: #999;
+  background-color: #F0F0F0;
+  color: #909399;
 }
 
 .status-1 {
-  background-color: #e1f3d8;
-  color: #67c23a;
+  background-color: rgba(0, 157, 133, 0.1);
+  color: #009D85;
 }
 
 .status-2 {
-  background-color: #ecf5ff;
-  color: #409EFF;
+  background-color: rgba(0, 157, 133, 0.1);
+  color: #009D85;
 }
 
 .loading, .empty {
   text-align: center;
-  padding: 60rpx 0;
-  color: #999;
+  padding: 100rpx 0;
+  color: #909399;
   font-size: 28rpx;
 }
 </style>

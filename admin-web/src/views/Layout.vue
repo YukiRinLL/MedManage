@@ -11,9 +11,9 @@
         :default-active="activeMenu"
         :collapse="isCollapse"
         router
-        background-color="#304156"
-        text-color="#bfcbd9"
-        active-text-color="#409EFF"
+        background-color="#FFFFFF"
+        text-color="#606266"
+        active-text-color="#009D85"
       >
         <template v-for="route in menuRoutes" :key="route.path">
           <el-sub-menu v-if="route.children && route.children.length > 0" :index="route.path">
@@ -174,9 +174,10 @@ const handleLogoError = (e) => {
 }
 
 .aside {
-  background-color: #304156;
-  transition: width 0.3s;
+  background-color: #FFFFFF;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  border-right: 1px solid #EBEEF5;
 }
 
 .logo {
@@ -184,12 +185,13 @@ const handleLogoError = (e) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #303133;
   font-size: 16px;
-  font-weight: bold;
-  border-bottom: 1px solid #1f2d3d;
+  font-weight: 600;
+  border-bottom: 1px solid #EBEEF5;
   gap: 8px;
   padding: 0 10px;
+  background-color: #FFFFFF;
 }
 
 .sidebar-logo {
@@ -237,11 +239,15 @@ const handleLogoError = (e) => {
 .collapse-icon {
   font-size: 20px;
   cursor: pointer;
-  color: #666;
+  color: #909399;
+  transition: all 0.3s ease;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .collapse-icon:hover {
-  color: #409EFF;
+  color: #009D85;
+  background-color: rgba(0, 157, 133, 0.1);
 }
 
 .header-right {
