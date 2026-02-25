@@ -151,6 +151,13 @@
             <artifactId>bcpkix-jdk18on</artifactId>
             <version>1.76</version>
         </dependency>
+
+        <!-- Apache POI for Excel export -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -44,9 +44,10 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="200">
+        <el-table-column label="操作" fixed="right" width="280">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleViewParticipants(row)">查看参与</el-button>
+            <el-button link type="success" @click="handleExport(row)">导出</el-button>
             <el-button link type="warning" @click="handleEdit(row)">编辑</el-button>
             <el-button link type="danger" @click="handleDelete(row)">删除</el-button>
           </template>
@@ -149,6 +150,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import request from '@/utils/request'
+import { useUserStore } from '@/store/user'
 
 const loading = ref(false)
 const tableData = ref([])
@@ -334,6 +336,46 @@ const handleDelete = async (row) => {
     if (error !== 'cancel') {
       console.error('删除失败:', error)
     }
+  }
+}
+
+const handleExport = async (row) => {
+  try {
+    const userStore = useUserStore()
+    const response = await fetch(`/api/activity-participant/export/${row.id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userStore.token}`
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error('导出失败')
+    }
+    
+    const blob = await response.blob()
+    const contentDisposition = response.headers.get('Content-Disposition')
+    let fileName = `${row.title}_参与者列表.xlsx`
+    if (contentDisposition) {
+      const match = contentDisposition.match(/filename\*=UTF-8''(.+)/)
+      if (match) {
+        fileName = decodeURIComponent(match[1])
+      }
+    }
+    
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = fileName
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+    
+    ElMessage.success('导出成功')
+  } catch (error) {
+    console.error('导出失败:', error)
+    ElMessage.error('导出失败')
   }
 }
 
