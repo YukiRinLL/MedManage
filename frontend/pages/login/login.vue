@@ -1,10 +1,9 @@
 <template>
   <view class="login-container">
     <view class="logo">
-      <view class="logo-icon">
-        <text class="logo-text">医</text>
-      </view>
-      <text class="app-name">医院患者管理</text>
+      <image src="/static/logo.png" class="logo-icon" mode="aspectFit" />
+      <text class="app-name">重庆圣通尚诺医疗管理™</text>
+      <text class="app-subtitle">健康管理系统</text>
     </view>
     
     <view class="form">
@@ -119,26 +118,23 @@ export default {
 }
 
 .logo-icon {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   background-color: #007AFF;
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-bottom: 20px;
-}
-
-.logo-text {
-  font-size: 60px;
-  color: #FFFFFF;
-  font-weight: bold;
 }
 
 .app-name {
   font-size: 24px;
   font-weight: 600;
   color: #333333;
+}
+
+.app-subtitle {
+  font-size: 14px;
+  color: #999999;
+  margin-top: 8px;
 }
 
 .form {

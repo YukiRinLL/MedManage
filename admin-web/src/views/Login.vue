@@ -2,8 +2,11 @@
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
-        <h1>医院患者管理系统</h1>
-        <p>管理后台</p>
+        <div class="logo-container">
+          <img src="/logo.png" alt="Logo" class="login-logo" @error="handleLogoError" />
+        </div>
+        <h1>重庆圣通尚诺医疗管理™</h1>
+        <p>患者管理系统 - 管理后台</p>
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form">
         <el-form-item prop="phone">
@@ -94,6 +97,10 @@ const handleLogin = async () => {
     }
   })
 }
+
+const handleLogoError = (e) => {
+  e.target.style.display = 'none'
+}
 </script>
 
 <style scoped>
@@ -117,6 +124,17 @@ const handleLogin = async () => {
 .login-header {
   text-align: center;
   margin-bottom: 30px;
+}
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.login-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: contain;
 }
 
 .login-header h1 {

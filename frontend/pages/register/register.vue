@@ -1,6 +1,8 @@
 <template>
   <view class="register-container">
-    <text class="page-title">注册账号</text>
+    <image src="/static/logo.png" class="page-logo" mode="aspectFit" />
+    <text class="page-title">重庆圣通尚诺医疗管理™</text>
+    <text class="page-subtitle">患者注册</text>
     
     <view class="form">
       <view class="form-item">
@@ -273,11 +275,28 @@ export default {
   background-color: #f5f5f5;
 }
 
+.page-logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  display: block;
+  border-radius: 16px;
+}
+
 .page-title {
   text-align: center;
-  margin-bottom: 40px;
   color: #333333;
   font-size: 20px;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  text-align: center;
+  display: block;
+  color: #999999;
+  font-size: 14px;
+  margin-bottom: 40px;
+  margin-top: 8px;
 }
 
 .form {

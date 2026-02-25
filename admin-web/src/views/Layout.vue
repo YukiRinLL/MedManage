@@ -2,8 +2,10 @@
   <el-container class="layout-container">
     <el-aside :width="isCollapse ? '64px' : '200px'" class="aside">
       <div class="logo">
-        <span v-if="!isCollapse">医院管理系统</span>
-        <span v-else>医院</span>
+        <img src="/logo.png" alt="Logo" class="sidebar-logo" @error="handleLogoError" v-if="!isCollapse" />
+        <img src="/logo.png" alt="Logo" class="sidebar-logo-small" @error="handleLogoError" v-else />
+        <span v-if="!isCollapse" class="logo-text">圣通尚诺医疗™</span>
+        <span v-else class="logo-text-small">尚诺</span>
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -159,6 +161,10 @@ const handleCommand = async (command) => {
     ElMessage.info('个人信息功能开发中')
   }
 }
+
+const handleLogoError = (e) => {
+  e.target.style.display = 'none'
+}
 </script>
 
 <style scoped>
@@ -179,9 +185,34 @@ const handleCommand = async (command) => {
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   border-bottom: 1px solid #1f2d3d;
+  gap: 8px;
+  padding: 0 10px;
+}
+
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: contain;
+}
+
+.sidebar-logo-small {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.logo-text {
+  white-space: nowrap;
+}
+
+.logo-text-small {
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .el-menu {

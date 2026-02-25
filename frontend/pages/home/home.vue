@@ -2,7 +2,8 @@
   <view class="home-container">
     <!-- 欢迎信息 -->
     <view class="welcome-section">
-      <text class="welcome-title">欢迎使用医院患者管理系统！</text>
+      <image src="/static/logo.png" class="welcome-logo" mode="aspectFit" />
+      <text class="welcome-title">重庆圣通尚诺医疗管理™</text>
       <text class="welcome-subtitle">您的健康管理助手</text>
     </view>
     
@@ -67,6 +68,13 @@ export default {
   background-color: white;
   margin-bottom: 20px;
   border-radius: 0 0 20px 20px;
+}
+
+.welcome-logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 15px;
+  border-radius: 10px;
 }
 
 .welcome-title {
