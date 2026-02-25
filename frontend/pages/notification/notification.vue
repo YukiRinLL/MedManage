@@ -7,9 +7,7 @@
         
         <view v-if="notifications.length > 0" class="notification-list">
           <view v-for="notification in notifications" :key="notification.id" class="notification-item" :class="{ unread: !notification.read }">
-            <text class="notification-icon">
-              {{ getNotificationIcon(notification.type) }}
-            </text>
+            <view class="notification-icon" :class="'type-' + notification.type.toLowerCase()"></view>
             <view class="notification-body">
               <view class="notification-header">
                 <text class="notification-title">{{ notification.title }}</text>
@@ -24,7 +22,7 @@
         </view>
         
         <view v-else class="empty-state">
-          <text class="empty-icon">🔔</text>
+          <view class="empty-icon"></view>
           <text class="empty-text">暂无通知</text>
           <text class="empty-subtext">当有新消息时，会显示在这里</text>
         </view>
@@ -81,20 +79,6 @@ export default {
           title: '标记已读失败',
           icon: 'none'
         })
-      }
-    },
-    getNotificationIcon(type) {
-      switch (type) {
-        case 'MEDICATION':
-          return '💊'
-        case 'VITAL_SIGN':
-          return '📊'
-        case 'APPOINTMENT':
-          return '📅'
-        case 'SYSTEM':
-          return '📢'
-        default:
-          return '🔔'
       }
     },
     formatDate(dateString) {
@@ -156,9 +140,61 @@ export default {
 }
 
 .notification-icon {
-  font-size: 24px;
+  width: 40px;
+  height: 40px;
   margin-right: 12px;
   flex-shrink: 0;
+  background-color: #F0F0F0;
+  border-radius: 8px;
+  position: relative;
+}
+
+.notification-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 12px;
+  height: 12px;
+  border: 2px solid #909399;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+
+.notification-icon::before {
+  content: '';
+  position: absolute;
+  bottom: calc(50% - 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 3px;
+  background-color: #909399;
+  border-radius: 0 0 3px 3px;
+}
+
+.notification-icon.type-medication {
+  background-color: rgba(0, 157, 133, 0.1);
+}
+
+.notification-icon.type-medication::after {
+  width: 14px;
+  height: 6px;
+  border: none;
+  background-color: #009D85;
+  border-radius: 3px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.notification-icon.type-medication::before {
+  width: 14px;
+  height: 6px;
+  background-color: #009D85;
+  border-radius: 3px;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  bottom: auto;
+  top: 50%;
 }
 
 .notification-body {
@@ -212,8 +248,37 @@ export default {
 }
 
 .empty-icon {
-  font-size: 60px;
-  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background-color: #F0F0F0;
+  border-radius: 16px;
+  position: relative;
+}
+
+.empty-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 24px;
+  height: 24px;
+  border: 3px solid #C0C4CC;
+  border-bottom: none;
+  border-radius: 12px 12px 0 0;
+}
+
+.empty-icon::before {
+  content: '';
+  position: absolute;
+  bottom: calc(50% - 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 6px;
+  background-color: #C0C4CC;
+  border-radius: 0 0 6px 6px;
 }
 
 .empty-text {

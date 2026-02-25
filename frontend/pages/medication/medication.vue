@@ -34,7 +34,7 @@
         </view>
         
         <view v-else class="empty-state">
-          <text class="empty-icon">💊</text>
+          <view class="empty-icon"></view>
           <text class="empty-text">暂无用药记录</text>
           <text class="empty-subtext">点击右上角添加按钮记录您的用药情况</text>
         </view>
@@ -215,8 +215,36 @@ export default {
 }
 
 .empty-icon {
-  font-size: 60px;
-  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background-color: #F0F0F0;
+  border-radius: 16px;
+  position: relative;
+}
+
+.empty-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 12px;
+  background-color: #C0C4CC;
+  border-radius: 6px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.empty-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 12px;
+  background-color: #C0C4CC;
+  border-radius: 6px;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .empty-text {

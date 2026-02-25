@@ -54,8 +54,10 @@
       </el-table>
 
       <el-pagination
-        v-model:current-page="pagination.page"
-        v-model:page-size="pagination.size"
+        :current-page="pagination.page"
+        @update:current-page="val => pagination.page = val"
+        :page-size="pagination.size"
+        @update:page-size="val => pagination.size = val"
         :total="pagination.total"
         :page-sizes="[10, 20, 50, 100]"
         layout="total, sizes, prev, pager, next, jumper"
