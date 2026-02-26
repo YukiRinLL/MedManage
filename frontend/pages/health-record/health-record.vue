@@ -1,115 +1,124 @@
 <template>
   <view class="health-record-container">
-    <!-- 健康评估卡片 -->
-    <view class="health-assessment-card" v-if="healthRecord">
-      <text class="assessment-title">健康评估</text>
-      <view class="assessment-score">
-        <text class="score-number">{{ healthScore }}</text>
-        <text class="score-label">健康评分</text>
-      </view>
-      <view class="assessment-status" :class="getHealthStatusClass(healthScore)">
-        {{ getHealthStatusText(healthScore) }}
-      </view>
-      <view class="health-suggestions">
-        <text class="suggestion-title">健康建议</text>
-        <view class="suggestion-item" v-for="(suggestion, index) in healthSuggestions" :key="index">
-          <text class="suggestion-icon">💡</text>
-          <text class="suggestion-text">{{ suggestion }}</text>
-        </view>
-      </view>
+    <!-- 加载状态 -->
+    <view v-if="isLoading" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
     </view>
     
-    <!-- 健康档案内容 -->
-    <view class="health-record-content">
-      <view class="record-card">
-        <text class="card-title">健康基本信息</text>
-        
-        <!-- 查看模式 -->
-        <view v-if="!isEditing">
-          <view class="record-item">
-            <text class="item-label">过往病史</text>
-            <text class="item-value">{{ healthRecord?.pastMedicalHistory || '无' }}</text>
-          </view>
-          <view class="record-item">
-            <text class="item-label">过敏史</text>
-            <text class="item-value">{{ healthRecord?.allergicHistory || '无' }}</text>
-          </view>
-          <view class="record-item">
-            <text class="item-label">家族病史</text>
-            <text class="item-value">{{ healthRecord?.familyMedicalHistory || '无' }}</text>
-          </view>
-          <view class="record-item">
-            <text class="item-label">血型</text>
-            <text class="item-value">{{ healthRecord?.bloodType || '未填写' }}</text>
-          </view>
-          <view class="record-item">
-            <text class="item-label">其他信息</text>
-            <text class="item-value">{{ healthRecord?.otherInfo || '无' }}</text>
-          </view>
-          
-          <button class="btn-edit" @click="startEditing">编辑档案</button>
+    <!-- 内容区域 -->
+    <view v-else>
+      <!-- 健康评估卡片 -->
+      <view class="health-assessment-card" v-if="healthRecord">
+        <text class="assessment-title">健康评估</text>
+        <view class="assessment-score">
+          <text class="score-number">{{ healthScore }}</text>
+          <text class="score-label">健康评分</text>
         </view>
-        
-        <!-- 编辑模式 -->
-        <view v-else>
-          <view class="form-item">
-            <text class="form-label">过往病史</text>
-            <textarea 
-              class="form-textarea" 
-              v-model="editForm.pastMedicalHistory" 
-              placeholder="请输入过往病史，若无请填写'无'"
-              placeholder-class="form-textarea-placeholder"
-              :focus="pastMedicalHistoryFocus"
-              @focus="pastMedicalHistoryFocus = true"
-              @blur="pastMedicalHistoryFocus = false"
-            ></textarea>
+        <view class="assessment-status" :class="getHealthStatusClass(healthScore)">
+          {{ getHealthStatusText(healthScore) }}
+        </view>
+        <view class="health-suggestions">
+          <text class="suggestion-title">健康建议</text>
+          <view class="suggestion-item" v-for="(suggestion, index) in healthSuggestions" :key="index">
+            <text class="suggestion-icon">💡</text>
+            <text class="suggestion-text">{{ suggestion }}</text>
           </view>
-          <view class="form-item">
-            <text class="form-label">过敏史</text>
-            <textarea 
-              class="form-textarea" 
-              v-model="editForm.allergicHistory" 
-              placeholder="请输入过敏史，若无请填写'无'"
-              placeholder-class="form-textarea-placeholder"
-              :focus="allergicHistoryFocus"
-              @focus="allergicHistoryFocus = true"
-              @blur="allergicHistoryFocus = false"
-            ></textarea>
-          </view>
-          <view class="form-item">
-            <text class="form-label">家族病史</text>
-            <textarea 
-              class="form-textarea" 
-              v-model="editForm.familyMedicalHistory" 
-              placeholder="请输入家族病史，若无请填写'无'"
-              placeholder-class="form-textarea-placeholder"
-              :focus="familyMedicalHistoryFocus"
-              @focus="familyMedicalHistoryFocus = true"
-              @blur="familyMedicalHistoryFocus = false"
-            ></textarea>
-          </view>
-          <view class="form-item">
-            <text class="form-label">血型</text>
-            <picker mode="selector" :range="bloodTypes" @change="onBloodTypeChange">
-              <view class="picker">{{ editForm.bloodType || '请选择血型' }}</view>
-            </picker>
-          </view>
-          <view class="form-item">
-            <text class="form-label">其他信息</text>
-            <textarea 
-              class="form-textarea" 
-              v-model="editForm.otherInfo" 
-              placeholder="请输入其他健康相关信息，若无请填写'无'"
-              placeholder-class="form-textarea-placeholder"
-              :focus="otherInfoFocus"
-              @focus="otherInfoFocus = true"
-              @blur="otherInfoFocus = false"
-            ></textarea>
+        </view>
+      </view>
+      
+      <!-- 健康档案内容 -->
+      <view class="health-record-content">
+        <view class="record-card">
+          <text class="card-title">健康基本信息</text>
+          
+          <!-- 查看模式 -->
+          <view v-if="!isEditing">
+            <view class="record-item">
+              <text class="item-label">过往病史</text>
+              <text class="item-value">{{ healthRecord?.pastMedicalHistory || '无' }}</text>
+            </view>
+            <view class="record-item">
+              <text class="item-label">过敏史</text>
+              <text class="item-value">{{ healthRecord?.allergicHistory || '无' }}</text>
+            </view>
+            <view class="record-item">
+              <text class="item-label">家族病史</text>
+              <text class="item-value">{{ healthRecord?.familyMedicalHistory || '无' }}</text>
+            </view>
+            <view class="record-item">
+              <text class="item-label">血型</text>
+              <text class="item-value">{{ healthRecord?.bloodType || '未填写' }}</text>
+            </view>
+            <view class="record-item">
+              <text class="item-label">其他信息</text>
+              <text class="item-value">{{ healthRecord?.otherInfo || '无' }}</text>
+            </view>
+            
+            <button class="btn-edit" @click="startEditing">编辑档案</button>
           </view>
           
-          <view class="form-actions">
-            <button class="btn-cancel" @click="cancelEditing">取消</button>
-            <button class="btn-save" @click="saveHealthRecord">保存</button>
+          <!-- 编辑模式 -->
+          <view v-else>
+            <view class="form-item">
+              <text class="form-label">过往病史</text>
+              <textarea 
+                class="form-textarea" 
+                v-model="editForm.pastMedicalHistory" 
+                placeholder="请输入过往病史，若无请填写'无'"
+                placeholder-class="form-textarea-placeholder"
+                :focus="pastMedicalHistoryFocus"
+                @focus="pastMedicalHistoryFocus = true"
+                @blur="pastMedicalHistoryFocus = false"
+              ></textarea>
+            </view>
+            <view class="form-item">
+              <text class="form-label">过敏史</text>
+              <textarea 
+                class="form-textarea" 
+                v-model="editForm.allergicHistory" 
+                placeholder="请输入过敏史，若无请填写'无'"
+                placeholder-class="form-textarea-placeholder"
+                :focus="allergicHistoryFocus"
+                @focus="allergicHistoryFocus = true"
+                @blur="allergicHistoryFocus = false"
+              ></textarea>
+            </view>
+            <view class="form-item">
+              <text class="form-label">家族病史</text>
+              <textarea 
+                class="form-textarea" 
+                v-model="editForm.familyMedicalHistory" 
+                placeholder="请输入家族病史，若无请填写'无'"
+                placeholder-class="form-textarea-placeholder"
+                :focus="familyMedicalHistoryFocus"
+                @focus="familyMedicalHistoryFocus = true"
+                @blur="familyMedicalHistoryFocus = false"
+              ></textarea>
+            </view>
+            <view class="form-item">
+              <text class="form-label">血型</text>
+              <picker mode="selector" :range="bloodTypes" @change="onBloodTypeChange">
+                <view class="picker">{{ editForm.bloodType || '请选择血型' }}</view>
+              </picker>
+            </view>
+            <view class="form-item">
+              <text class="form-label">其他信息</text>
+              <textarea 
+                class="form-textarea" 
+                v-model="editForm.otherInfo" 
+                placeholder="请输入其他健康相关信息，若无请填写'无'"
+                placeholder-class="form-textarea-placeholder"
+                :focus="otherInfoFocus"
+                @focus="otherInfoFocus = true"
+                @blur="otherInfoFocus = false"
+              ></textarea>
+            </view>
+            
+            <view class="form-actions">
+              <button class="btn-cancel" @click="cancelEditing">取消</button>
+              <button class="btn-save" @click="saveHealthRecord">保存</button>
+            </view>
           </view>
         </view>
       </view>
@@ -124,6 +133,7 @@ export default {
   data() {
     return {
       healthRecord: null,
+      isLoading: true,
       isEditing: false,
       editForm: {
         pastMedicalHistory: '',
@@ -218,6 +228,7 @@ export default {
       this.healthSuggestions = suggestions
     },
     async getHealthRecord() {
+      this.isLoading = true
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
@@ -236,6 +247,8 @@ export default {
           title: '获取健康档案失败',
           icon: 'none'
         })
+      } finally {
+        this.isLoading = false
       }
     },
     startEditing() {
@@ -291,6 +304,35 @@ export default {
   padding: 0;
   min-height: 100vh;
   background-color: #f5f5f5;
+}
+
+/* 加载状态样式 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 157, 133, 0.2);
+  border-radius: 50%;
+  border-top-color: #009D85;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #606266;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* 健康评估卡片 */
