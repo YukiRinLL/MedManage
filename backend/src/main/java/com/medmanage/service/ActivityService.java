@@ -2,6 +2,7 @@ package com.medmanage.service;
 
 import com.medmanage.entity.Activity;
 import com.medmanage.repository.ActivityRepository;
+import com.medmanage.service.ActivityStatusScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +20,15 @@ public class ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
     
+    @Autowired
+    private ActivityStatusScheduler activityStatusScheduler;
+    
     public Activity save(Activity activity) {
         activity.setCreatedAt(LocalDateTime.now());
         activity.setUpdatedAt(LocalDateTime.now());
-        return activityRepository.save(activity);
+        Activity savedActivity = activityRepository.save(activity);
+        activityStatusScheduler.handleActivityChange(savedActivity);
+        return savedActivity;
     }
     
     public Activity update(Long id, Activity activity) {
@@ -60,7 +66,9 @@ public class ActivityService {
         }
         
         existingActivity.setUpdatedAt(LocalDateTime.now());
-        return activityRepository.save(existingActivity);
+        Activity updatedActivity = activityRepository.save(existingActivity);
+        activityStatusScheduler.handleActivityChange(updatedActivity);
+        return updatedActivity;
     }
     
     public Activity findById(Long id) {
