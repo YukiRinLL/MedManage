@@ -48,20 +48,18 @@ export default {
     navigateTo(url) {
       // 标签栏页面列表
       const tabBarPages = [
-        'pages/home/home',
-        'pages/health-record/health-record',
-        'pages/activities/list',
-        'pages/medication/medication',
-        'pages/profile/profile'
+        '/pages/home/home',
+        '/pages/health-record/health-record',
+        '/pages/activities/list',
+        '/pages/medication/medication',
+        '/pages/profile/profile'
       ]
       
-      const targetUrl = url.replace(/^\//, '')
-      
       // 检查目标页面是否是标签栏页面
-      if (tabBarPages.includes(targetUrl)) {
-        uni.switchTab({ url: targetUrl })
+      if (tabBarPages.includes(url)) {
+        uni.switchTab({ url })
       } else {
-        uni.navigateTo({ url: targetUrl })
+        uni.navigateTo({ url })
       }
     }
   }
