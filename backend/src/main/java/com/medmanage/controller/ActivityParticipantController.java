@@ -193,7 +193,7 @@ public class ActivityParticipantController {
             workbook.write(outputStream);
             workbook.close();
 
-            String fileName = URLEncoder.encode(activity.getTitle() + "_参与者列表.xlsx", StandardCharsets.UTF_8).replace("+", "%20");
+            String fileName = URLEncoder.encode(activity.getTitle() + "_参与者列表.xlsx", String.valueOf(StandardCharsets.UTF_8)).replace("+", "%20");
 
             HttpHeaders headers1 = new HttpHeaders();
             headers1.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));

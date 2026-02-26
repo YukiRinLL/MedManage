@@ -1,5 +1,10 @@
 <template>
   <view class="vital-sign-container">
+    <!-- 添加记录按钮 -->
+    <view class="add-button-container">
+      <button class="add-button" @click="navigateToAddRecord">+ 添加记录</button>
+    </view>
+    
     <!-- 生命体征内容 -->
     <view class="vital-sign-content">
       <view class="vital-card">
@@ -40,7 +45,7 @@
         <view v-else class="empty-state">
           <text class="empty-icon">📊</text>
           <text class="empty-text">暂无生命体征记录</text>
-          <text class="empty-subtext">点击右上角添加按钮记录您的生命体征</text>
+          <text class="empty-subtext">点击下方添加按钮记录您的生命体征</text>
         </view>
       </view>
     </view>
@@ -94,6 +99,11 @@ export default {
       const heartRateNormal = sign.heartRate >= 60 && sign.heartRate <= 100
       
       return tempNormal && pressureNormal && sugarNormal && heartRateNormal
+    },
+    navigateToAddRecord() {
+      uni.navigateTo({
+        url: '/pages/vital-sign/add-record'
+      })
     }
   }
 }
@@ -106,9 +116,37 @@ export default {
   background-color: #f5f5f5;
 }
 
+/* 添加记录按钮 */
+.add-button-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+.add-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #009D85;
+  color: #FFFFFF;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 157, 133, 0.4);
+}
+
+.add-button:active {
+  background-color: #007D6B;
+  transform: scale(0.95);
+}
+
 /* 生命体征内容 */
 .vital-sign-content {
   padding: 16px;
+  padding-bottom: 100px;
 }
 
 .vital-card {

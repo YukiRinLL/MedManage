@@ -17,6 +17,14 @@
       }
     },
     {
+      "path": "pages/register/complete-info",
+      "style": {
+        "navigationBarTitleText": "完善信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/home/home",
       "style": {
         "navigationBarTitleText": "首页",
@@ -36,6 +44,14 @@
       "path": "pages/vital-sign/vital-sign",
       "style": {
         "navigationBarTitleText": "生命体征",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/vital-sign/add-record",
+      "style": {
+        "navigationBarTitleText": "添加记录",
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
@@ -76,7 +92,23 @@
     {
       "path": "pages/profile/profile",
       "style": {
+        "navigationBarTitleText": "我的",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/profile/personal-info",
+      "style": {
         "navigationBarTitleText": "个人信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/profile/edit-info",
+      "style": {
+        "navigationBarTitleText": "编辑个人信息",
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
@@ -100,7 +132,7 @@
       },
       {
         "pagePath": "pages/health-record/health-record",
-        "text": "健康"
+        "text": "健康管理"
       },
       {
         "pagePath": "pages/activities/list",

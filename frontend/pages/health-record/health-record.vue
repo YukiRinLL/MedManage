@@ -1,5 +1,24 @@
 <template>
   <view class="health-record-container">
+    <!-- 健康评估卡片 -->
+    <view class="health-assessment-card" v-if="healthRecord">
+      <text class="assessment-title">健康评估</text>
+      <view class="assessment-score">
+        <text class="score-number">{{ healthScore }}</text>
+        <text class="score-label">健康评分</text>
+      </view>
+      <view class="assessment-status" :class="getHealthStatusClass(healthScore)">
+        {{ getHealthStatusText(healthScore) }}
+      </view>
+      <view class="health-suggestions">
+        <text class="suggestion-title">健康建议</text>
+        <view class="suggestion-item" v-for="(suggestion, index) in healthSuggestions" :key="index">
+          <text class="suggestion-icon">💡</text>
+          <text class="suggestion-text">{{ suggestion }}</text>
+        </view>
+      </view>
+    </view>
+    
     <!-- 健康档案内容 -->
     <view class="health-record-content">
       <view class="record-card">
@@ -117,13 +136,87 @@ export default {
       pastMedicalHistoryFocus: false,
       allergicHistoryFocus: false,
       familyMedicalHistoryFocus: false,
-      otherInfoFocus: false
+      otherInfoFocus: false,
+      healthScore: 85,
+      healthSuggestions: [
+        '保持规律作息，保证充足睡眠',
+        '均衡饮食，多吃蔬菜水果',
+        '适量运动，增强体质',
+        '定期体检，关注健康状况'
+      ]
+    }
+  },
+  computed: {
+    // 根据健康记录计算健康评分
+    calculatedHealthScore() {
+      if (!this.healthRecord) return 85
+      
+      let score = 100
+      
+      // 根据过往病史扣分
+      if (this.healthRecord.pastMedicalHistory && this.healthRecord.pastMedicalHistory !== '无') {
+        score -= 10
+      }
+      
+      // 根据过敏史扣分
+      if (this.healthRecord.allergicHistory && this.healthRecord.allergicHistory !== '无') {
+        score -= 5
+      }
+      
+      // 根据家族病史扣分
+      if (this.healthRecord.familyMedicalHistory && this.healthRecord.familyMedicalHistory !== '无') {
+        score -= 8
+      }
+      
+      return Math.max(score, 60)
+    }
+  },
+  watch: {
+    healthRecord: {
+      handler() {
+        if (this.healthRecord) {
+          this.healthScore = this.calculatedHealthScore
+          this.updateHealthSuggestions()
+        }
+      },
+      deep: true
     }
   },
   onLoad() {
     this.getHealthRecord()
   },
   methods: {
+    getHealthStatusClass(score) {
+      if (score >= 90) return 'status-excellent'
+      if (score >= 80) return 'status-good'
+      if (score >= 70) return 'status-normal'
+      return 'status-poor'
+    },
+    getHealthStatusText(score) {
+      if (score >= 90) return '健康状态优秀'
+      if (score >= 80) return '健康状态良好'
+      if (score >= 70) return '健康状态一般'
+      return '健康状态需要关注'
+    },
+    updateHealthSuggestions() {
+      if (!this.healthRecord) return
+      
+      const suggestions = ['保持规律作息，保证充足睡眠', '均衡饮食，多吃蔬菜水果', '适量运动，增强体质']
+      
+      if (this.healthRecord.pastMedicalHistory && this.healthRecord.pastMedicalHistory !== '无') {
+        suggestions.push('定期复查，遵医嘱治疗')
+      }
+      
+      if (this.healthRecord.allergicHistory && this.healthRecord.allergicHistory !== '无') {
+        suggestions.push('避免接触过敏原')
+      }
+      
+      if (this.healthRecord.familyMedicalHistory && this.healthRecord.familyMedicalHistory !== '无') {
+        suggestions.push('关注家族遗传疾病风险，定期体检')
+      }
+      
+      this.healthSuggestions = suggestions
+    },
     async getHealthRecord() {
       try {
         const token = uni.getStorageSync('token')
@@ -200,10 +293,105 @@ export default {
   background-color: #f5f5f5;
 }
 
+/* 健康评估卡片 */
+.health-assessment-card {
+  background-color: #009D85;
+  color: #FFFFFF;
+  padding: 24px;
+  margin: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 157, 133, 0.3);
+}
+
+.assessment-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.assessment-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.score-number {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.score-label {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.assessment-status {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  align-self: center;
+}
+
+.status-excellent {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.status-good {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.status-normal {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.status-poor {
+  background-color: rgba(245, 108, 108, 0.2);
+  color: #FFFFFF;
+}
+
+.health-suggestions {
+  margin-top: 20px;
+}
+
+.suggestion-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.suggestion-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  margin-top: 2px;
+}
+
+.suggestion-text {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.95;
+}
+
 /* 健康档案内容 */
 .health-record-content {
   padding: 16px;
 }
+
 
 .record-card {
   background-color: #FFFFFF;

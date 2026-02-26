@@ -1,102 +1,47 @@
 <template>
   <view class="profile-container">
-    <!-- 个人信息卡片 -->
-    <view class="profile-card" v-if="userInfo">
-      <view class="form">
-        <view class="form-item">
-          <text class="form-label">手机号</text>
-          <input 
-            class="form-input" 
-            type="number" 
-            v-model="userInfo.phone" 
-            disabled 
-            placeholder-class="form-input-placeholder"
-          />
+    <!-- 用户信息卡片 -->
+    <view class="user-info-card" v-if="userInfo">
+      <view class="user-avatar">
+        <text class="avatar-icon">{{ getUserInitial(userInfo.name) }}</text>
+      </view>
+      <view class="user-details">
+        <text class="user-name">{{ userInfo.name }}</text>
+        <text class="user-phone">{{ userInfo.phone }}</text>
+      </view>
+      <view class="user-arrow" @click="navigateToPersonalInfo">
+        <text>›</text>
+      </view>
+    </view>
+    
+    <!-- 功能菜单 -->
+    <view class="menu-section">
+      <view class="menu-card">
+        <view class="menu-item" @click="navigateToPersonalInfo">
+          <text class="menu-icon">👤</text>
+          <text class="menu-text">个人信息</text>
+          <text class="menu-arrow">›</text>
         </view>
         
-        <view class="form-item">
-          <text class="form-label">姓名</text>
-          <input 
-            class="form-input" 
-            type="text" 
-            v-model="userInfo.name"
-            placeholder="请输入姓名"
-            placeholder-class="form-input-placeholder"
-            :focus="nameFocus"
-            @focus="nameFocus = true"
-            @blur="nameFocus = false"
-          />
+        <view class="menu-item" @click="navigateToSettings">
+          <text class="menu-icon">⚙️</text>
+          <text class="menu-text">设置</text>
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+      
+      <view class="menu-card">
+        <view class="menu-item" @click="navigateToAbout">
+          <text class="menu-icon">ℹ️</text>
+          <text class="menu-text">关于我们</text>
+          <text class="menu-arrow">›</text>
         </view>
         
-        <view class="form-item">
-          <text class="form-label">性别</text>
-          <view class="gender-selector">
-            <view class="gender-option" :class="{ active: userInfo.gender === 0 }" @click="userInfo.gender = 0">
-              <text>女</text>
-            </view>
-            <view class="gender-option" :class="{ active: userInfo.gender === 1 }" @click="userInfo.gender = 1">
-              <text>男</text>
-            </view>
-          </view>
+        <view class="menu-item" @click="navigateToHelp">
+          <text class="menu-icon">❓</text>
+          <text class="menu-text">帮助中心</text>
+          <text class="menu-arrow">›</text>
         </view>
-        
-        <view class="form-item">
-          <text class="form-label">年龄</text>
-          <input 
-            class="form-input" 
-            type="number" 
-            v-model="userInfo.age"
-            placeholder="请输入年龄"
-            placeholder-class="form-input-placeholder"
-            :focus="ageFocus"
-            @focus="ageFocus = true"
-            @blur="ageFocus = false"
-          />
-        </view>
-        
-        <view class="form-item">
-          <text class="form-label">身份证号</text>
-          <input 
-            class="form-input" 
-            type="text" 
-            v-model="userInfo.idCard"
-            placeholder="请输入身份证号"
-            placeholder-class="form-input-placeholder"
-            :focus="idCardFocus"
-            @focus="idCardFocus = true"
-            @blur="idCardFocus = false"
-          />
-        </view>
-        
-        <view class="form-item">
-          <text class="form-label">紧急联系人</text>
-          <input 
-            class="form-input" 
-            type="text" 
-            v-model="userInfo.emergencyContact"
-            placeholder="请输入紧急联系人"
-            placeholder-class="form-input-placeholder"
-            :focus="emergencyContactFocus"
-            @focus="emergencyContactFocus = true"
-            @blur="emergencyContactFocus = false"
-          />
-        </view>
-        
-        <view class="form-item">
-          <text class="form-label">紧急联系电话</text>
-          <input 
-            class="form-input" 
-            type="number" 
-            v-model="userInfo.emergencyPhone"
-            placeholder="请输入紧急联系电话"
-            placeholder-class="form-input-placeholder"
-            :focus="emergencyPhoneFocus"
-            @focus="emergencyPhoneFocus = true"
-            @blur="emergencyPhoneFocus = false"
-          />
-        </view>
-        
-        <button class="btn-primary" @click="updateProfile">保存修改</button>
       </view>
     </view>
     
@@ -104,21 +49,21 @@
     <view class="logout-section">
       <button class="btn-logout" @click="logout">退出登录</button>
     </view>
+    
+    <!-- 版本信息 -->
+    <view class="version-info">
+      <text class="version-text">版本 1.0.0</text>
+    </view>
   </view>
 </template>
 
 <script>
-import { get, put } from '../../utils/request.js'
+import { get } from '../../utils/request.js'
 
 export default {
   data() {
     return {
-      userInfo: null,
-      nameFocus: false,
-      ageFocus: false,
-      idCardFocus: false,
-      emergencyContactFocus: false,
-      emergencyPhoneFocus: false
+      userInfo: null
     }
   },
   onLoad() {
@@ -146,23 +91,33 @@ export default {
         })
       }
     },
-    async updateProfile() {
-      try {
-        const token = uni.getStorageSync('token')
-        const res = await put('/user/update', this.userInfo)
-        if (res.code === 200) {
-          uni.showToast({
-            title: '更新成功',
-            icon: 'success'
-          })
-        }
-      } catch (err) {
-        console.log(err)
-        uni.showToast({
-          title: '更新失败，请检查网络连接',
-          icon: 'none'
-        })
-      }
+    getUserInitial(name) {
+      if (!name) return '?'
+      return name.charAt(0).toUpperCase()
+    },
+    navigateToPersonalInfo() {
+      uni.navigateTo({
+        url: '/pages/profile/personal-info'
+      })
+    },
+    navigateToSettings() {
+      uni.showToast({
+        title: '设置功能开发中',
+        icon: 'none'
+      })
+    },
+
+    navigateToAbout() {
+      uni.showToast({
+        title: '关于我们功能开发中',
+        icon: 'none'
+      })
+    },
+    navigateToHelp() {
+      uni.showToast({
+        title: '帮助中心功能开发中',
+        icon: 'none'
+      })
     },
     logout() {
       uni.removeStorageSync('token')
@@ -182,93 +137,96 @@ export default {
   background-color: #f5f5f5;
 }
 
-/* 个人信息卡片 */
-.profile-card {
-  padding: 16px;
+/* 用户信息卡片 */
+.user-info-card {
+  background-color: #009D85;
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
 }
 
-.form {
+.user-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.avatar-icon {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.user-phone {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.user-arrow {
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+/* 功能菜单 */
+.menu-section {
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.menu-card {
   background-color: #FFFFFF;
   border-radius: 12px;
-  padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
 }
 
-.form-item {
-  margin-bottom: 20px;
-}
-
-.form-label {
-  display: block;
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.form-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 14px;
-  border: 1px solid #E5E5E5;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #FFFFFF;
-  box-sizing: border-box;
-  line-height: 48px;
-}
-
-.form-input-placeholder {
-  color: #999999;
-}
-
-.form-input[disabled] {
-  background-color: #f5f5f5;
-  color: #999;
-}
-
-.gender-selector {
+.menu-item {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.gender-option {
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.menu-text {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #DCDFE6;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 14px;
-  color: #606266;
-  background-color: #F5F7FA;
-}
-
-.gender-option.active {
-  background-color: #009D85;
-  color: #FFFFFF;
-  border-color: #009D85;
-}
-
-.btn-primary {
-  background-color: #009D85;
-  color: #FFFFFF;
-  border-radius: 8px;
-  padding: 14px;
   font-size: 16px;
-  font-weight: 500;
-  text-align: center;
-  margin-top: 24px;
-  margin-bottom: 20px;
-  border: none;
-  width: 100%;
+  color: #333;
 }
 
-.btn-primary:active {
-  background-color: #007D6B;
+.menu-arrow {
+  font-size: 20px;
+  color: #999;
 }
 
 /* 退出登录按钮 */
 .logout-section {
-  padding: 16px;
+  padding: 0 16px;
+  margin-top: 24px;
 }
 
 .btn-logout {
@@ -285,5 +243,16 @@ export default {
 
 .btn-logout:active {
   background-color: #FEF0F0;
+}
+
+/* 版本信息 */
+.version-info {
+  padding: 24px;
+  text-align: center;
+}
+
+.version-text {
+  font-size: 12px;
+  color: #999;
 }
 </style>

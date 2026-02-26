@@ -61,90 +61,6 @@
         />
       </view>
       
-      <view class="form-item">
-        <text class="form-label">性别</text>
-        <view class="gender-selector">
-          <view class="gender-option" :class="{ active: gender === 0 }" @click="gender = 0">
-            <text>女</text>
-          </view>
-          <view class="gender-option" :class="{ active: gender === 1 }" @click="gender = 1">
-            <text>男</text>
-          </view>
-        </view>
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">年龄</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="age" 
-          placeholder="请输入年龄"
-          placeholder-class="form-input-placeholder"
-          :focus="ageFocus"
-          @focus="ageFocus = true"
-          @blur="ageFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">身份证号</text>
-        <input 
-          class="form-input" 
-          type="text" 
-          v-model="idCard" 
-          placeholder="请输入身份证号"
-          placeholder-class="form-input-placeholder"
-          :focus="idCardFocus"
-          @focus="idCardFocus = true"
-          @blur="idCardFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">紧急联系人</text>
-        <input 
-          class="form-input" 
-          type="text" 
-          v-model="emergencyContact" 
-          placeholder="请输入紧急联系人"
-          placeholder-class="form-input-placeholder"
-          :focus="emergencyContactFocus"
-          @focus="emergencyContactFocus = true"
-          @blur="emergencyContactFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">紧急联系电话</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="emergencyPhone" 
-          placeholder="请输入紧急联系电话"
-          placeholder-class="form-input-placeholder"
-          :focus="emergencyPhoneFocus"
-          @focus="emergencyPhoneFocus = true"
-          @blur="emergencyPhoneFocus = false"
-        />
-      </view>
-      
-      <view v-if="isSuperAdmin" class="form-item">
-        <text class="form-label">用户角色</text>
-        <view class="role-selector">
-          <view 
-            v-for="role in roles" 
-            :key="role.value" 
-            class="role-option" 
-            :class="{ active: selectedRole === role.value }"
-            @click="selectRole(role.value)"
-          >
-            <text class="role-icon">{{ role.icon }}</text>
-            <text class="role-name">{{ role.label }}</text>
-          </view>
-        </view>
-      </view>
-      
       <button class="btn-primary" @click="register">注册</button>
       
       <view class="login-link">
@@ -165,39 +81,13 @@ export default {
       password: '',
       confirmPassword: '',
       name: '',
-      gender: 0,
-      age: '',
-      idCard: '',
-      emergencyContact: '',
-      emergencyPhone: '',
       phoneFocus: false,
       passwordFocus: false,
       confirmPasswordFocus: false,
-      nameFocus: false,
-      ageFocus: false,
-      idCardFocus: false,
-      emergencyContactFocus: false,
-      emergencyPhoneFocus: false,
-      isSuperAdmin: false,
-      selectedRole: 0,
-      roles: [
-        { value: 0, label: '普通用户', icon: '👤' },
-        { value: 1, label: '管理员', icon: '👨‍💼' },
-        { value: 2, label: '超级管理员', icon: '👑' }
-      ]
+      nameFocus: false
     }
   },
-  onLoad() {
-    this.checkSuperAdminPermission()
-  },
   methods: {
-    checkSuperAdminPermission() {
-      const isSuperAdmin = uni.getStorageSync('isSuperAdmin')
-      this.isSuperAdmin = isSuperAdmin === true
-    },
-    selectRole(role) {
-      this.selectedRole = role
-    },
     async register() {
       if (!this.phone) {
         uni.showToast({
@@ -227,28 +117,12 @@ export default {
         })
         return
       }
-      if (!this.age) {
-        uni.showToast({
-          title: '请输入年龄',
-          icon: 'none'
-        })
-        return
-      }
       
       try {
         const registerData = {
           phone: this.phone,
           password: this.password,
-          name: this.name,
-          gender: this.gender,
-          age: parseInt(this.age),
-          idCard: this.idCard,
-          emergencyContact: this.emergencyContact,
-          emergencyPhone: this.emergencyPhone
-        }
-        
-        if (this.isSuperAdmin) {
-          registerData.role = this.selectedRole
+          name: this.name
         }
         
         await post('/user/register', registerData)
@@ -256,7 +130,11 @@ export default {
           title: '注册成功',
           icon: 'success'
         })
-        uni.navigateBack()
+        setTimeout(() => {
+          uni.navigateTo({
+            url: '/pages/register/complete-info'
+          })
+        }, 1000)
       } catch (err) {
         console.log(err)
       }
@@ -291,6 +169,8 @@ export default {
   color: #303133;
   font-size: 20px;
   font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .page-subtitle {
