@@ -139,6 +139,12 @@
             <el-option label="进行中" :value="1" />
             <el-option label="已结束" :value="0" />
           </el-select>
+          <div class="status-tip">
+            <el-text size="small" type="info">
+              <el-icon><InfoFilled /></el-icon>
+              系统会在活动开始/结束时间到达时自动更新状态
+            </el-text>
+          </div>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -172,7 +178,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
+import { Plus, InfoFilled } from '@element-plus/icons-vue'
 import request from '@/utils/request'
 import { useUserStore } from '@/store/user'
 
@@ -502,5 +508,12 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.status-tip {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 </style>

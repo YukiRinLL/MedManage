@@ -112,6 +112,23 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/news/list",
+      "style": {
+        "navigationBarTitleText": "新闻资讯",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/news/detail",
+      "style": {
+        "navigationBarTitleText": "新闻详情",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
@@ -139,8 +156,8 @@
         "text": "活动"
       },
       {
-        "pagePath": "pages/medication/medication",
-        "text": "用药"
+        "pagePath": "pages/news/list",
+        "text": "新闻"
       },
       {
         "pagePath": "pages/profile/profile",

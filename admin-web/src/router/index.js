@@ -76,6 +76,12 @@ const routes = [
         name: 'Activities',
         component: () => import('@/views/activities/Index.vue'),
         meta: { title: '活动管理', icon: 'Calendar', roles: [1, 2] }
+      },
+      {
+        path: '/news',
+        name: 'News',
+        component: () => import('@/views/news/Index.vue'),
+        meta: { title: '新闻管理', icon: 'DocumentCopy', roles: [1, 2] }
       }
     ]
   }

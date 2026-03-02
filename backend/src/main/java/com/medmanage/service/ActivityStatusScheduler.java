@@ -59,9 +59,6 @@ public class ActivityStatusScheduler {
         LocalDateTime startTime = activity.getStartTime();
         LocalDateTime endTime = activity.getEndTime();
 
-        // 即时检查并更新状态
-        updateActivityStatus(activity);
-
         // 取消旧任务
         cancelTasks(activity.getId());
 
