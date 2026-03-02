@@ -42,7 +42,7 @@
         <button 
           class="join-btn" 
           :class="{ 'joined': hasJoined }" 
-          :disabled="hasJoined || activity.status !== 1"
+          :disabled="hasJoined || activity.status === 0"
           @click="handleJoin"
         >
           {{ hasJoined ? '已报名' : '立即报名' }}
@@ -114,9 +114,9 @@ export default {
     async handleJoin() {
       if (!this.activity) return
       
-      if (this.activity.status !== 1) {
+      if (this.activity.status === 0) {
         uni.showToast({
-          title: '活动未开始或已结束',
+          title: '活动已结束',
           icon: 'none'
         })
         return

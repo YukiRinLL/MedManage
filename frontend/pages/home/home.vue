@@ -33,6 +33,11 @@
         <text class="menu-icon">🔔</text>
         <text>通知中心</text>
       </view>
+
+      <view class="menu-item" @click="navigateTo('/pages/news/list')">
+        <text class="menu-icon">📰</text>
+        <text>新闻资讯</text>
+      </view>
     </view>
   </view>
 </template>
