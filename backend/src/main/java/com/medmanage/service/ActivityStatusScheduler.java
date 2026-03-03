@@ -23,8 +23,8 @@ public class ActivityStatusScheduler {
     private ActivityRepository activityRepository;
 
     private TaskScheduler taskScheduler;
-    private Map<Long, ScheduledFuture<?>> startTaskMap;
-    private Map<Long, ScheduledFuture<?>> endTaskMap;
+    private Map<String, ScheduledFuture<?>> startTaskMap;
+    private Map<String, ScheduledFuture<?>> endTaskMap;
 
     public ActivityStatusScheduler() {
         this.taskScheduler = new ConcurrentTaskScheduler();
@@ -59,9 +59,6 @@ public class ActivityStatusScheduler {
         LocalDateTime startTime = activity.getStartTime();
         LocalDateTime endTime = activity.getEndTime();
 
-        // 即时检查并更新状态
-        updateActivityStatus(activity);
-
         // 取消旧任务
         cancelTasks(activity.getId());
 
@@ -88,7 +85,7 @@ public class ActivityStatusScheduler {
     /**
      * 取消活动的定时任务
      */
-    public void cancelTasks(Long activityId) {
+    public void cancelTasks(String activityId) {
         if (startTaskMap.containsKey(activityId)) {
             startTaskMap.get(activityId).cancel(false);
             startTaskMap.remove(activityId);
@@ -126,7 +123,7 @@ public class ActivityStatusScheduler {
     /**
      * 更新活动为进行中状态
      */
-    private void updateActivityToInProgress(Long activityId) {
+    private void updateActivityToInProgress(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null && activity.getStatus() != 1) {
             activity.setStatus(1);
@@ -138,7 +135,7 @@ public class ActivityStatusScheduler {
     /**
      * 更新活动为已结束状态
      */
-    private void updateActivityToEnded(Long activityId) {
+    private void updateActivityToEnded(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null && activity.getStatus() != 0) {
             activity.setStatus(0);

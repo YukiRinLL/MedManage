@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    public User findById(Long id) {
+    public User findById(String id) {
         return userRepository.findById(id).orElse(null);
     }
     
@@ -48,14 +48,16 @@ public class UserService {
     
     public java.util.Map<String, Object> listUsers(int page, int size) {
         java.util.Map<String, Object> result = new java.util.HashMap<>();
-        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page - 1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
+        // 确保page不小于1
+        int safePage = Math.max(1, page);
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(safePage - 1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
         org.springframework.data.domain.Page<User> userPage = userRepository.findAll(pageable);
         result.put("list", userPage.getContent());
         result.put("total", userPage.getTotalElements());
         return result;
     }
     
-    public void deleteUser(Long userId) {
+    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }
 }

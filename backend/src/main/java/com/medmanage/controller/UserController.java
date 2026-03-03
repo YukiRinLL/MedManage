@@ -61,7 +61,7 @@ public class UserController {
     public Map<String, Object> logout(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             redisUtil.delete("user:" + userId + ":token");
             result.put("code", 200);
             result.put("message", "登出成功");
@@ -76,7 +76,7 @@ public class UserController {
     public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             User user = userService.findById(userId);
             result.put("code", 200);
             result.put("data", user);
@@ -91,7 +91,7 @@ public class UserController {
     public Map<String, Object> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             user.setId(userId);
             User updatedUser = userService.update(user);
             result.put("code", 200);
@@ -122,7 +122,7 @@ public class UserController {
     }
     
     @GetMapping("/{id}")
-    public Map<String, Object> getUserById(@PathVariable Long id) {
+    public Map<String, Object> getUserById(@PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             User user = userService.findById(id);
@@ -136,7 +136,7 @@ public class UserController {
     }
     
     @DeleteMapping("/{id}")
-    public Map<String, Object> deleteUser(@PathVariable Long id) {
+    public Map<String, Object> deleteUser(@PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             userService.deleteUser(id);

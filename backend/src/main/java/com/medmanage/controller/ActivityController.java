@@ -25,10 +25,10 @@ public class ActivityController {
         Map<String, Object> result = new HashMap<>();
         try {
             if (token != null && !token.isEmpty()) {
-                Long adminId = jwtUtil.getUserIdFromToken(token);
+                String adminId = jwtUtil.getUserIdFromToken(token);
                 activity.setCreatedBy(adminId);
             } else {
-                activity.setCreatedBy(1L);
+                activity.setCreatedBy("1");
             }
             Activity createdActivity = activityService.save(activity);
             result.put("code", 200);
@@ -42,7 +42,7 @@ public class ActivityController {
     }
     
     @PutMapping("/update/{id}")
-    public Map<String, Object> updateActivity(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody Activity activity) {
+    public Map<String, Object> updateActivity(@RequestHeader("Authorization") String token, @PathVariable String id, @RequestBody Activity activity) {
         Map<String, Object> result = new HashMap<>();
         try {
             Activity updatedActivity = activityService.update(id, activity);
@@ -76,7 +76,7 @@ public class ActivityController {
     }
     
     @GetMapping("/{id}")
-    public Map<String, Object> getActivity(@PathVariable Long id) {
+    public Map<String, Object> getActivity(@PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             Activity activity = activityService.findById(id);
@@ -90,7 +90,7 @@ public class ActivityController {
     }
     
     @DeleteMapping("/{id}")
-    public Map<String, Object> deleteActivity(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public Map<String, Object> deleteActivity(@RequestHeader("Authorization") String token, @PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             activityService.deleteActivity(id);

@@ -23,7 +23,7 @@ public class MedicationRecordController {
     public Map<String, Object> saveMedicationRecord(@RequestHeader("Authorization") String token, @RequestBody MedicationRecord medicationRecord) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             medicationRecord.setUserId(userId);
             MedicationRecord savedRecord = medicationRecordService.save(medicationRecord);
             result.put("code", 200);
@@ -48,7 +48,6 @@ public class MedicationRecordController {
         try {
             Map<String, Object> data = medicationRecordService.listMedicationRecords(page, size, name, medicationName, taken);
             result.put("code", 200);
-            result.put("message", "获取成功");
             result.put("data", data);
         } catch (Exception e) {
             result.put("code", 400);
@@ -57,11 +56,28 @@ public class MedicationRecordController {
         return result;
     }
     
-    @PutMapping("/update-taken/{id}")
-    public Map<String, Object> updateTakenStatus(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody Map<String, Boolean> params) {
+    @GetMapping("/user/list")
+    public Map<String, Object> getUserMedicationRecordList(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Boolean taken = params.get("taken");
+            String userId = jwtUtil.getUserIdFromToken(token);
+            List<MedicationRecord> records = medicationRecordService.findByUserId(userId);
+            result.put("code", 200);
+            result.put("data", records);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+    
+    @PutMapping("/update/taken/{id}")
+    public Map<String, Object> updateTakenStatus(
+            @RequestHeader("Authorization") String token,
+            @PathVariable("id") String id,
+            @RequestParam("taken") Boolean taken) {
+        Map<String, Object> result = new HashMap<>();
+        try {
             medicationRecordService.updateTakenStatus(id, taken);
             result.put("code", 200);
             result.put("message", "更新成功");

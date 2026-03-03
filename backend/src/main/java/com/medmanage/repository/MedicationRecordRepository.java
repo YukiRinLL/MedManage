@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MedicationRecordRepository extends JpaRepository<MedicationRecord, Long> {
-    List<MedicationRecord> findByUserIdOrderByMedicationTimeDesc(Long userId);
+public interface MedicationRecordRepository extends JpaRepository<MedicationRecord, String> {
+    List<MedicationRecord> findByUserIdOrderByMedicationTimeDesc(String userId);
 }

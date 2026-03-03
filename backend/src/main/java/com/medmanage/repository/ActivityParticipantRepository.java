@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ActivityParticipantRepository extends JpaRepository<ActivityParticipant, Long> {
-    List<ActivityParticipant> findByActivityIdOrderByParticipateTimeDesc(Long activityId);
-    List<ActivityParticipant> findByUserIdOrderByParticipateTimeDesc(Long userId);
-    ActivityParticipant findByActivityIdAndUserId(Long activityId, Long userId);
-    boolean existsByActivityIdAndUserId(Long activityId, Long userId);
-    boolean existsByActivityIdAndUserIdAndStatus(Long activityId, Long userId, Integer status);
+public interface ActivityParticipantRepository extends JpaRepository<ActivityParticipant, String> {
+    List<ActivityParticipant> findByActivityIdOrderByParticipateTimeDesc(String activityId);
+    List<ActivityParticipant> findByUserIdOrderByParticipateTimeDesc(String userId);
+    ActivityParticipant findByActivityIdAndUserId(String activityId, String userId);
+    boolean existsByActivityIdAndUserId(String activityId, String userId);
+    boolean existsByActivityIdAndUserIdAndStatus(String activityId, String userId, Integer status);
 }

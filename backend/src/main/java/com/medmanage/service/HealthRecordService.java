@@ -32,7 +32,7 @@ public class HealthRecordService {
         }
     }
     
-    public HealthRecord findByUserId(Long userId) {
+    public HealthRecord findByUserId(String userId) {
         return healthRecordRepository.findByUserId(userId);
     }
     

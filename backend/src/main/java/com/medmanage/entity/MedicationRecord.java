@@ -1,6 +1,8 @@
 package com.medmanage.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -9,11 +11,13 @@ import java.util.Date;
 @Table(name = "medication_records")
 public class MedicationRecord {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
+    private String id;
     
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "user_id", columnDefinition = "VARCHAR(36)")
+    private String userId;
     
     private String medicationName;
     private String dosage;
