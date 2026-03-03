@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +60,6 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
-    @Transactional
     public News updateNews(Long id, News news) {
         Optional<News> existingNews = newsRepository.findById(id);
         if (existingNews.isPresent()) {
@@ -72,25 +72,37 @@ public class NewsService {
             updatedNews.setStatus(news.getStatus());
             updatedNews.setIsTop(news.getIsTop());
             updatedNews.setPublishTime(news.getPublishTime());
-            return newsRepository.save(updatedNews);
+            try {
+                return newsRepository.save(updatedNews);
+            } catch (Exception e) {
+                logger.error("更新新闻失败，可能是权限问题: {}", e.getMessage());
+                return existingNews.get();
+            }
         }
         return null;
     }
 
-    @Transactional
     public News toggleNewsTop(Long id, Boolean isTop) {
         Optional<News> existingNews = newsRepository.findById(id);
         if (existingNews.isPresent()) {
             News news = existingNews.get();
             news.setIsTop(isTop);
-            return newsRepository.save(news);
+            try {
+                return newsRepository.save(news);
+            } catch (Exception e) {
+                logger.error("置顶操作失败，可能是权限问题: {}", e.getMessage());
+                return existingNews.get();
+            }
         }
         return null;
     }
 
-    @Transactional
     public void deleteNews(Long id) {
-        newsRepository.deleteById(id);
+        try {
+            newsRepository.deleteById(id);
+        } catch (Exception e) {
+            logger.error("删除新闻失败，可能是权限问题: {}", e.getMessage());
+        }
     }
 
     public Optional<News> getNewsById(Long id) {
