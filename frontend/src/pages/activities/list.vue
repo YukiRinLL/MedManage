@@ -2,7 +2,7 @@
   <view class="activities-container">
     <view class="activity-list">
       <view class="activity-item" v-for="activity in activities" :key="activity.id" @click="viewDetail(activity)">
-        <image class="activity-cover" :src="getImageUrl(activity.coverImage)" mode="aspectFill"></image>
+        <image class="activity-cover" :src="activity.coverImage || '/static/default-cover.png'" mode="aspectFill"></image>
         <view class="activity-info">
           <text class="activity-title">{{ activity.title }}</text>
           <text class="activity-type">{{ activity.activityType }}</text>
@@ -93,15 +93,6 @@ export default {
     getStatusText(status) {
       const texts = { 0: '已结束', 1: '进行中', 2: '未开始' }
       return texts[status] || '未知'
-    },
-    getImageUrl(coverImage) {
-      if (!coverImage) {
-        return '/static/default-cover.png'
-      }
-      if (coverImage.startsWith('http')) {
-        return coverImage
-      }
-      return 'http://localhost:8080' + coverImage
     }
   }
 }

@@ -98,49 +98,21 @@ public class AdminController {
             dashboard.put("totalAdmins", allAdmins.size());
             dashboard.put("totalNormalAdmins", admins.size());
             dashboard.put("totalSuperAdmins", superAdmins.size());
-            
-            return ResponseEntity.ok(dashboard);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("code", 500);
-            errorResponse.put("message", "获取仪表板数据失败: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-        }
-    }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createAdmin(@RequestHeader("Authorization") String token, @RequestBody Admin admin) {
-        try {
-            if (!validateAdminToken(token)) {
-                Map<String, Object> errorResponse = new HashMap<>();
-                errorResponse.put("code", 403);
-                errorResponse.put("message", "无管理员权限");
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
-            }
-
-            Admin createdAdmin = adminService.createAdmin(admin);
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
-            response.put("message", "管理员创建成功");
-            response.put("data", createdAdmin);
+            response.put("message", "获取成功");
+            response.put("data", dashboard);
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("code", 400);
-            errorResponse.put("message", e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
         } catch (Exception e) {
-            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 500);
-            errorResponse.put("message", "创建管理员失败: " + e.getMessage());
+            errorResponse.put("message", "获取仪表盘数据失败: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping("/admins")
     public ResponseEntity<?> getAllAdmins(@RequestHeader("Authorization") String token) {
         try {
             if (!validateAdminToken(token)) {
@@ -153,10 +125,10 @@ public class AdminController {
             List<Admin> admins = adminService.getAllAdmins();
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
+            response.put("message", "获取成功");
             response.put("data", admins);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 500);
             errorResponse.put("message", "获取管理员列表失败: " + e.getMessage());
@@ -164,30 +136,60 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateAdmin(@RequestHeader("Authorization") String token, @PathVariable("id") String id, @RequestBody Admin admin) {
+    @PostMapping("/create-admin")
+    public ResponseEntity<?> createAdmin(@RequestHeader("Authorization") String token, 
+                                         @RequestBody Admin admin) {
         try {
-            if (!validateAdminToken(token)) {
+            if (!validateSuperAdminToken(token)) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("code", 403);
-                errorResponse.put("message", "无管理员权限");
+                errorResponse.put("message", "需要超级管理员权限");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
             }
 
-            Admin updatedAdmin = adminService.updateAdmin(id, admin);
+            Admin createdAdmin = adminService.createAdmin(admin);
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
-            response.put("message", "管理员更新成功");
-            response.put("data", updatedAdmin);
+            response.put("message", "创建成功");
+            response.put("data", createdAdmin);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
-            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 400);
             errorResponse.put("message", e.getMessage());
             return ResponseEntity.badRequest().body(errorResponse);
         } catch (Exception e) {
-            e.printStackTrace();
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("code", 500);
+            errorResponse.put("message", "创建管理员失败: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        }
+    }
+
+    @PutMapping("/update-admin/{adminId}")
+    public ResponseEntity<?> updateAdmin(@RequestHeader("Authorization") String token, 
+                                         @PathVariable Long adminId, 
+                                         @RequestBody Admin admin) {
+        try {
+            if (!validateSuperAdminToken(token)) {
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("code", 403);
+                errorResponse.put("message", "需要超级管理员权限");
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+            }
+
+            Admin updatedAdmin = adminService.updateAdmin(adminId, admin);
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 200);
+            response.put("message", "更新成功");
+            response.put("data", updatedAdmin);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("code", 400);
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
+        } catch (Exception e) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 500);
             errorResponse.put("message", "更新管理员失败: " + e.getMessage());
@@ -195,23 +197,23 @@ public class AdminController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteAdmin(@RequestHeader("Authorization") String token, @PathVariable("id") String id) {
+    @DeleteMapping("/admins/{adminId}")
+    public ResponseEntity<?> deleteAdmin(@RequestHeader("Authorization") String token, 
+                                        @PathVariable Long adminId) {
         try {
-            if (!validateAdminToken(token)) {
+            if (!validateSuperAdminToken(token)) {
                 Map<String, Object> errorResponse = new HashMap<>();
                 errorResponse.put("code", 403);
-                errorResponse.put("message", "无管理员权限");
+                errorResponse.put("message", "需要超级管理员权限");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
             }
 
-            adminService.deleteAdmin(id);
+            adminService.deleteAdmin(adminId);
             Map<String, Object> response = new HashMap<>();
             response.put("code", 200);
-            response.put("message", "管理员删除成功");
+            response.put("message", "删除成功");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("code", 500);
             errorResponse.put("message", "删除管理员失败: " + e.getMessage());
@@ -221,9 +223,25 @@ public class AdminController {
 
     private boolean validateAdminToken(String token) {
         try {
-            String adminId = jwtUtil.getUserIdFromToken(token);
-            String storedToken = (String) redisUtil.get("admin:" + adminId + ":token");
-            return storedToken != null && storedToken.equals(token.replace("Bearer ", ""));
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+            Long adminId = jwtUtil.getUserIdFromToken(token);
+            Admin admin = adminService.getAdminById(adminId);
+            return admin != null && admin.getRole() >= 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean validateSuperAdminToken(String token) {
+        try {
+            if (token.startsWith("Bearer ")) {
+                token = token.substring(7);
+            }
+            Long adminId = jwtUtil.getUserIdFromToken(token);
+            Admin admin = adminService.getAdminById(adminId);
+            return admin != null && admin.getRole() == 2;
         } catch (Exception e) {
             return false;
         }

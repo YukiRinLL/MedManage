@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, String> {
+public interface NewsRepository extends JpaRepository<News, Long> {
 
     // 按置顶、发布时间排序
     Page<News> findByStatusOrderByIsTopDescPublishTimeDesc(Integer status, Pageable pageable);
@@ -21,9 +21,7 @@ public interface NewsRepository extends JpaRepository<News, String> {
 
     Page<News> findByTitleContainingAndStatusOrderByIsTopDescPublishTimeDesc(String title, Integer status, Pageable pageable);
 
-    List<News> findByIsTopTrueAndStatusOrderByPublishTimeDesc(Integer status);
-
     @Modifying
     @Query("UPDATE News n SET n.viewCount = n.viewCount + 1 WHERE n.id = :id")
-    void incrementViewCount(@Param("id") String id);
+    void incrementViewCount(@Param("id") Long id);
 }

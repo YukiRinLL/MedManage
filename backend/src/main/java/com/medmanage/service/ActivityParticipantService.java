@@ -19,35 +19,35 @@ public class ActivityParticipantService {
         return activityParticipantRepository.save(participant);
     }
     
-    public ActivityParticipant findById(String id) {
+    public ActivityParticipant findById(Long id) {
         return activityParticipantRepository.findById(id).orElse(null);
     }
     
-    public List<ActivityParticipant> findByActivityId(String activityId) {
+    public List<ActivityParticipant> findByActivityId(Long activityId) {
         return activityParticipantRepository.findByActivityIdOrderByParticipateTimeDesc(activityId);
     }
     
-    public List<ActivityParticipant> findByUserId(String userId) {
+    public List<ActivityParticipant> findByUserId(Long userId) {
         return activityParticipantRepository.findByUserIdOrderByParticipateTimeDesc(userId);
     }
     
-    public ActivityParticipant findByActivityIdAndUserId(String activityId, String userId) {
+    public ActivityParticipant findByActivityIdAndUserId(Long activityId, Long userId) {
         return activityParticipantRepository.findByActivityIdAndUserId(activityId, userId);
     }
     
-    public boolean existsByActivityIdAndUserId(String activityId, String userId) {
+    public boolean existsByActivityIdAndUserId(Long activityId, Long userId) {
         return activityParticipantRepository.existsByActivityIdAndUserId(activityId, userId);
     }
     
-    public boolean isJoined(String activityId, String userId) {
+    public boolean isJoined(Long activityId, Long userId) {
         return activityParticipantRepository.existsByActivityIdAndUserIdAndStatus(activityId, userId, 1);
     }
     
-    public void deleteParticipant(String id) {
+    public void deleteParticipant(Long id) {
         activityParticipantRepository.deleteById(id);
     }
     
-    public void cancelParticipation(String activityId, String userId) {
+    public void cancelParticipation(Long activityId, Long userId) {
         ActivityParticipant participant = activityParticipantRepository.findByActivityIdAndUserId(activityId, userId);
         if (participant != null) {
             participant.setStatus(0);

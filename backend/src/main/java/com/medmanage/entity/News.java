@@ -1,8 +1,6 @@
 package com.medmanage.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -11,10 +9,8 @@ import java.time.LocalDateTime;
 public class News {
 
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "title", nullable = false, length = 500)
     private String title;
@@ -44,8 +40,8 @@ public class News {
     @Column(name = "view_count")
     private Integer viewCount = 0;
 
-    @Column(name = "created_by", columnDefinition = "VARCHAR(36)")
-    private String createdBy;
+    @Column(name = "created_by")
+    private Long createdBy;
 
     @Column(name = "created_at", updatable = false)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -66,11 +62,11 @@ public class News {
         updatedAt = LocalDateTime.now();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -146,11 +142,11 @@ public class News {
         this.viewCount = viewCount;
     }
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 

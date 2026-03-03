@@ -42,7 +42,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         
         try {
-            String userId = jwtUtil.getUserIdFromToken(token);
+            Long userId = jwtUtil.getUserIdFromToken(token);
             
             // 统一的token验证逻辑：
             // 1. 优先尝试管理员token验证（管理员可以访问所有接口）

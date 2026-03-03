@@ -22,7 +22,7 @@ public class MedicationRecordService {
         return medicationRecordRepository.save(medicationRecord);
     }
     
-    public List<MedicationRecord> findByUserId(String userId) {
+    public List<MedicationRecord> findByUserId(Long userId) {
         return medicationRecordRepository.findByUserIdOrderByMedicationTimeDesc(userId);
     }
     
@@ -35,7 +35,7 @@ public class MedicationRecordService {
         return result;
     }
     
-    public void updateTakenStatus(String id, Boolean taken) {
+    public void updateTakenStatus(Long id, Boolean taken) {
         MedicationRecord record = medicationRecordRepository.findById(id).orElse(null);
         if (record != null) {
             record.setTaken(taken);

@@ -24,12 +24,12 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     
-    public String generateToken(String userId) {
+    public String generateToken(Long userId) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + expiration);
         
         return Jwts.builder()
-                .setSubject(userId)
+                .setSubject(userId.toString())
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .signWith(getSigningKey())
@@ -44,12 +44,12 @@ public class JwtUtil {
                 .getBody();
     }
     
-    public String getUserIdFromToken(String token) {
+    public Long getUserIdFromToken(String token) {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
         }
         Claims claims = getClaimsFromToken(token);
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
     
     public boolean isTokenExpired(String token) {

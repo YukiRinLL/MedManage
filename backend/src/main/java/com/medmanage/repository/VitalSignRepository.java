@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface VitalSignRepository extends JpaRepository<VitalSign, String> {
-    List<VitalSign> findByUserIdOrderByRecordTimeDesc(String userId);
+public interface VitalSignRepository extends JpaRepository<VitalSign, Long> {
+    List<VitalSign> findByUserIdOrderByRecordTimeDesc(Long userId);
 }

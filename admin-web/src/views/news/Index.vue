@@ -41,8 +41,8 @@
           <template #default="{ row }">
             <el-image
               v-if="row.coverImage"
-              :src="getImageUrl(row.coverImage)"
-              :preview-src-list="[getImageUrl(row.coverImage)]"
+              :src="row.coverImage"
+              :preview-src-list="[row.coverImage]"
               fit="cover"
               style="width: 80px; height: 60px; border-radius: 4px;"
             />
@@ -166,7 +166,7 @@
           </el-input>
           <div v-if="form.coverImage" class="cover-preview">
             <el-image
-              :src="getImageUrl(form.coverImage)"
+              :src="form.coverImage"
               fit="cover"
               style="width: 200px; height: 120px; border-radius: 4px; margin-top: 10px;"
             />
@@ -258,7 +258,7 @@ import { ElMessage } from 'element-plus'
 import { Plus, Search, Edit, Delete, View, Top } from '@element-plus/icons-vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
-import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, fetchTitle as apiFetchTitle, fetchContent, fetchCover as apiFetchCover, uploadFile } from '@/api/news'
+import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, fetchTitle as apiFetchTitle, fetchContent, fetchCover as apiFetchCover } from '@/api/news'
 
 console.log('News Index.vue 组件加载 - WangEditor已导入')
 
@@ -304,16 +304,14 @@ const editorConfig = {
   placeholder: '请输入文章内容',
   MENU_CONF: {
     uploadImage: {
-      customUpload: async (file, insertFn) => {
-        try {
-          const res = await uploadFile(file)
-          if (res.code === 200 && res.data) {
-            insertFn(res.data, '', '')
-          } else {
-            ElMessage.error('图片上传失败')
-          }
-        } catch (error) {
-          console.error('上传失败:', error)
+      customUpload(file, insertFn) {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = function (e) {
+          const base64Str = e.target.result
+          insertFn(base64Str, '', '')
+        }
+        reader.onerror = function () {
           ElMessage.error('图片上传失败')
         }
       }
@@ -515,29 +513,14 @@ const fetchContentFromUrl = async () => {
   }
 }
 
-const handleCoverUpload = async (file) => {
-  try {
-    const res = await uploadFile(file.raw)
-    if (res.code === 200 && res.data) {
-      form.coverImage = res.data
-      ElMessage.success('封面上传成功')
-    } else {
-      ElMessage.error('封面上传失败')
-    }
-  } catch (error) {
-    console.error('上传失败:', error)
-    ElMessage.error('封面上传失败')
+const handleCoverUpload = (file) => {
+  const reader = new FileReader()
+  reader.readAsDataURL(file.raw)
+  reader.onload = function (e) {
+    const base64Str = e.target.result
+    form.coverImage = base64Str
+    ElMessage.success('封面上传成功')
   }
-}
-
-const getImageUrl = (coverImage) => {
-  if (!coverImage) {
-    return ''
-  }
-  if (coverImage.startsWith('http')) {
-    return coverImage
-  }
-  return `http://localhost:8080${coverImage}`
 }
 
 const handlePreview = async (row) => {

@@ -16,7 +16,7 @@ public class VitalSignService {
         return vitalSignRepository.save(vitalSign);
     }
     
-    public List<VitalSign> findByUserId(String userId) {
+    public List<VitalSign> findByUserId(Long userId) {
         return vitalSignRepository.findByUserIdOrderByRecordTimeDesc(userId);
     }
 }

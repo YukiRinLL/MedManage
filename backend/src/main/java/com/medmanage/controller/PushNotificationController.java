@@ -25,7 +25,7 @@ public class PushNotificationController {
                                                  @RequestBody Map<String, Object> request) {
         try {
             // 从token中解析用户ID
-            String userId = getUserIdFromToken(token);
+            Long userId = getUserIdFromToken(token);
             
             String deviceToken = (String) request.get("token");
             String deviceType = (String) request.getOrDefault("deviceType", "unknown");
@@ -48,7 +48,7 @@ public class PushNotificationController {
                                              @RequestBody Map<String, Object> request) {
         try {
             // 从token中解析用户ID
-            String userId = getUserIdFromToken(token);
+            Long userId = getUserIdFromToken(token);
 
             String title = (String) request.getOrDefault("title", "测试通知");
             String body = (String) request.getOrDefault("body", "这是一条测试推送通知");
@@ -67,7 +67,7 @@ public class PushNotificationController {
                                                    @RequestBody Map<String, Object> request) {
         try {
             // 从token中解析用户ID
-            String userId = getUserIdFromToken(token);
+            Long userId = getUserIdFromToken(token);
 
             String medicationName = (String) request.get("medicationName");
             String dosage = (String) request.get("dosage");
@@ -77,7 +77,7 @@ public class PushNotificationController {
                 return ResponseEntity.badRequest().body("Missing required parameters");
             }
 
-            pushNotificationService.sendNotificationToUser(userId, "服药提醒", "请服用 " + medicationName + "，剂量：" + dosage + "，时间：" + time, new java.util.HashMap<>());
+            pushNotificationService.sendMedicationReminder(userId, medicationName, dosage, time);
             return ResponseEntity.ok().body("Medication reminder sent successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -91,7 +91,7 @@ public class PushNotificationController {
                                                     @RequestBody Map<String, Object> request) {
         try {
             // 从token中解析用户ID
-            String userId = getUserIdFromToken(token);
+            Long userId = getUserIdFromToken(token);
 
             String doctorName = (String) request.get("doctorName");
             String department = (String) request.get("department");
@@ -101,7 +101,7 @@ public class PushNotificationController {
                 return ResponseEntity.badRequest().body("Missing required parameters");
             }
 
-            pushNotificationService.sendNotificationToUser(userId, "复诊提醒", "您预约了 " + doctorName + "（" + department + "）的复诊，时间：" + dateTime, new java.util.HashMap<>());
+            pushNotificationService.sendAppointmentReminder(userId, doctorName, department, dateTime);
             return ResponseEntity.ok().body("Appointment reminder sent successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -110,7 +110,7 @@ public class PushNotificationController {
     }
 
     // 从JWT token中解析用户ID
-    private String getUserIdFromToken(String token) {
+    private Long getUserIdFromToken(String token) {
         // 移除Bearer前缀
         if (token.startsWith("Bearer ")) {
             token = token.substring(7);

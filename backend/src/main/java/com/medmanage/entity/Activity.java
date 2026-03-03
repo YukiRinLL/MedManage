@@ -1,8 +1,6 @@
 package com.medmanage.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -11,10 +9,8 @@ import java.time.LocalDateTime;
 public class Activity {
     
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(name = "id", columnDefinition = "VARCHAR(36)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
     @Column(name = "title", nullable = false, length = 200)
     private String title;
@@ -46,8 +42,8 @@ public class Activity {
     @Column(name = "cover_image", columnDefinition = "LONGTEXT")
     private String coverImage;
     
-    @Column(name = "created_by", columnDefinition = "VARCHAR(36)")
-    private String createdBy;
+    @Column(name = "created_by")
+    private Long createdBy;
     
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -55,11 +51,11 @@ public class Activity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -143,11 +139,11 @@ public class Activity {
         this.coverImage = coverImage;
     }
 
-    public String getCreatedBy() {
+    public Long getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
     }
 
