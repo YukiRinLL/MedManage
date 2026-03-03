@@ -62,9 +62,9 @@ export default {
     async fetchActivities() {
       this.loading = true
       try {
-        const res = await request.get('/activity/list')
+        const res = await request.get('/activity/active')
         if (res.code === 200) {
-          this.activities = res.data.list || []
+          this.activities = res.data || []
         }
       } catch (error) {
         console.error('获取活动列表失败:', error)
