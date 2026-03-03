@@ -1,21 +1,47 @@
-import request from '../utils/request.js'
+const BASE_URL = 'http://localhost:8080/api'
 
-function requestApi(url, method = 'GET', data = {}) {
-  return request[method.toLowerCase()](url, data)
+function request(url, method = 'GET', data = {}) {
+  return new Promise((resolve, reject) => {
+    uni.request({
+      url: BASE_URL + url,
+      method: method,
+      data: data,
+      header: {
+        'Content-Type': 'application/json',
+        'Authorization': uni.getStorageSync('token') || ''
+      },
+      success: (res) => {
+        if (res.statusCode === 200) {
+          resolve(res.data)
+        } else {
+          reject({
+            code: res.statusCode,
+            message: res.data.message || '请求失败'
+          })
+        }
+      },
+      fail: (err) => {
+        reject({
+          code: -1,
+          message: '网络连接失败'
+        })
+      }
+    })
+  })
 }
 
 export function getPublishedNews(page = 0, size = 10) {
-  return requestApi('/news/published', 'GET', { page, size })
+  return request('/news/published', 'GET', { page, size })
 }
 
 export function getPublishedNewsList() {
-  return requestApi('/news/published/list', 'GET')
+  return request('/news/published/list', 'GET')
 }
 
 export function getNewsById(id) {
-  return requestApi(`/news/${id}/detail`, 'GET')
+  return request(`/news/${id}/detail`, 'GET')
 }
 
 export function fetchNewsContent(url) {
-  return requestApi('/news/fetch-content', 'POST', { url })
+  return request('/news/fetch-content', 'POST', { url })
 }

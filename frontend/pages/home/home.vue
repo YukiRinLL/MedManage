@@ -56,7 +56,7 @@ export default {
         '/pages/home/home',
         '/pages/health-record/health-record',
         '/pages/activities/list',
-        '/pages/news/list',
+        '/pages/medication/medication',
         '/pages/profile/profile'
       ]
       
