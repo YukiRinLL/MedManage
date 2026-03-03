@@ -49,7 +49,7 @@ public class PushNotificationService {
     }
 
     // 注册设备token
-    public void registerDeviceToken(Long userId, String token, String deviceType) {
+    public void registerDeviceToken(String userId, String token, String deviceType) {
         try {
             // 检查是否已存在该token
             DeviceToken existingToken = deviceTokenRepository.findByToken(token);
@@ -73,7 +73,7 @@ public class PushNotificationService {
     }
 
     // 发送推送通知给指定用户
-    public void sendNotificationToUser(Long userId, String title, String body, Map<String, String> data) {
+    public void sendNotificationToUser(String userId, String title, String body, Map<String, String> data) {
         try {
             // 保存到数据库
             Notification notification = new Notification();
@@ -100,7 +100,7 @@ public class PushNotificationService {
                 }
             }
         } catch (Exception e) {
-            log.error("Error sending notification to user {}: {}", userId, e.getMessage());
+            log.error("Error sending notification: {}", e.getMessage());
         }
     }
 
@@ -126,43 +126,19 @@ public class PushNotificationService {
     // 发送iOS通知
     private void sendIOSNotification(String token, String title, String body, Map<String, String> data) {
         try {
-            // 注意：iOS通知需要通过APNs发送
-            // 这里简化处理，实际需要实现APNs发送逻辑
-            // 可以使用第三方库如java-apns或直接调用APNs API
-            log.info("iOS notification would be sent to token: {}", token);
-            log.info("Title: {}, Body: {}, Data: {}", title, body, data);
+            Message message = Message.builder()
+                    .setToken(token)
+                    .setNotification(com.google.firebase.messaging.Notification.builder()
+                            .setTitle(title)
+                            .setBody(body)
+                            .build())
+                    .putAllData(data)
+                    .build();
+
+            String response = FirebaseMessaging.getInstance().send(message);
+            log.info("iOS notification sent successfully: {}", response);
         } catch (Exception e) {
             log.error("Error sending iOS notification: {}", e.getMessage());
         }
-    }
-
-    // 发送批量通知
-    public void sendBatchNotifications(List<Long> userIds, String title, String body, Map<String, String> data) {
-        for (Long userId : userIds) {
-            sendNotificationToUser(userId, title, body, data);
-        }
-    }
-
-    // 发送服药提醒
-    public void sendMedicationReminder(Long userId, String medicationName, String dosage, String time) {
-        String title = "服药提醒";
-        String body = String.format("该服用%s了，剂量：%s", medicationName, dosage);
-        Map<String, String> data = new java.util.HashMap<>();
-        data.put("type", "medication_reminder");
-        data.put("time", time);
-        data.put("medicationName", medicationName);
-        sendNotificationToUser(userId, title, body, data);
-    }
-
-    // 发送复诊提醒
-    public void sendAppointmentReminder(Long userId, String doctorName, String department, String dateTime) {
-        String title = "复诊提醒";
-        String body = String.format("您预约了%s医生的%s，时间：%s", doctorName, department, dateTime);
-        Map<String, String> data = new java.util.HashMap<>();
-        data.put("type", "appointment_reminder");
-        data.put("doctorName", doctorName);
-        data.put("department", department);
-        data.put("dateTime", dateTime);
-        sendNotificationToUser(userId, title, body, data);
     }
 }

@@ -43,7 +43,7 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateNews(@PathVariable Long id, @RequestBody News news) {
+    public ResponseEntity<Map<String, Object>> updateNews(@PathVariable String id, @RequestBody News news) {
         Map<String, Object> response = new HashMap<>();
         try {
             News updatedNews = newsService.updateNews(id, news);
@@ -65,7 +65,7 @@ public class NewsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Object>> deleteNews(@PathVariable String id) {
         Map<String, Object> response = new HashMap<>();
         try {
             newsService.deleteNews(id);
@@ -81,7 +81,7 @@ public class NewsController {
     }
 
     @PutMapping("/{id}/top")
-    public ResponseEntity<Map<String, Object>> toggleNewsTop(@PathVariable Long id, @RequestParam Boolean isTop) {
+    public ResponseEntity<Map<String, Object>> toggleNewsTop(@PathVariable String id, @RequestParam Boolean isTop) {
         Map<String, Object> response = new HashMap<>();
         try {
             News news = newsService.toggleNewsTop(id, isTop);
@@ -102,33 +102,50 @@ public class NewsController {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> getNewsById(@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getNewsList(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Integer status,
+            @RequestParam(required = false) Boolean isTop) {
         Map<String, Object> response = new HashMap<>();
         try {
-            News news = newsService.getNewsById(id).orElse(null);
-            if (news != null) {
-                response.put("code", 200);
-                response.put("message", "获取成功");
-                response.put("data", news);
-            } else {
-                response.put("code", 404);
-                response.put("message", "新闻不存在");
-            }
+            Map<String, Object> data = newsService.getNewsList(page, size, title, status, isTop);
+            response.put("code", 200);
+            response.put("message", "获取成功");
+            response.put("data", data);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("获取新闻失败", e);
+            logger.error("获取新闻列表失败", e);
             response.put("code", 500);
             response.put("message", "获取失败: " + e.getMessage());
             return ResponseEntity.ok(response);
         }
     }
 
-    @GetMapping("/{id}/detail")
-    public ResponseEntity<Map<String, Object>> getNewsDetail(@PathVariable Long id) {
+    @GetMapping("/top")
+    public ResponseEntity<Map<String, Object>> getTopNews() {
         Map<String, Object> response = new HashMap<>();
         try {
-            News news = newsService.getNewsDetail(id);
+            List<News> topNews = newsService.getTopNews();
+            response.put("code", 200);
+            response.put("message", "获取成功");
+            response.put("data", topNews);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("获取置顶新闻失败", e);
+            response.put("code", 500);
+            response.put("message", "获取失败: " + e.getMessage());
+            return ResponseEntity.ok(response);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String, Object>> getNewsById(@PathVariable String id) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            News news = newsService.getNewsById(id);
             if (news != null) {
                 response.put("code", 200);
                 response.put("message", "获取成功");
@@ -140,153 +157,6 @@ public class NewsController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("获取新闻详情失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @GetMapping
-    public ResponseEntity<Map<String, Object>> getAllNews(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-            Page<News> newsPage = newsService.getAllNews(pageable);
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", newsPage);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取新闻列表失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @GetMapping("/published")
-    public ResponseEntity<Map<String, Object>> getPublishedNews(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            Page<News> newsPage = newsService.getPublishedNews(pageable);
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", newsPage);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取已发布新闻列表失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @GetMapping("/published/list")
-    public ResponseEntity<Map<String, Object>> getPublishedNewsList() {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            List<News> newsList = newsService.getPublishedNewsList();
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", newsList);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取已发布新闻列表失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Map<String, Object>> searchNews(
-            @RequestParam String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Pageable pageable = PageRequest.of(page, size);
-            Page<News> newsPage = newsService.searchNews(keyword, pageable);
-            response.put("code", 200);
-            response.put("message", "搜索成功");
-            response.put("data", newsPage);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("搜索新闻失败", e);
-            response.put("code", 500);
-            response.put("message", "搜索失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @PostMapping("/fetch-title")
-    public ResponseEntity<Map<String, Object>> fetchTitle(@RequestBody Map<String, String> request) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            String url = request.get("url");
-            if (url == null || url.trim().isEmpty()) {
-                response.put("code", 400);
-                response.put("message", "URL不能为空");
-                return ResponseEntity.ok(response);
-            }
-            String title = newsService.fetchTitleFromUrl(url);
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", title);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取标题失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @PostMapping("/fetch-content")
-    public ResponseEntity<Map<String, Object>> fetchContent(@RequestBody Map<String, String> request) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            String url = request.get("url");
-            if (url == null || url.trim().isEmpty()) {
-                response.put("code", 400);
-                response.put("message", "URL不能为空");
-                return ResponseEntity.ok(response);
-            }
-            String content = newsService.fetchContentFromUrl(url);
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", content);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取内容失败", e);
-            response.put("code", 500);
-            response.put("message", "获取失败: " + e.getMessage());
-            return ResponseEntity.ok(response);
-        }
-    }
-
-    @PostMapping("/fetch-cover")
-    public ResponseEntity<Map<String, Object>> fetchCover(@RequestBody Map<String, String> request) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            String url = request.get("url");
-            if (url == null || url.trim().isEmpty()) {
-                response.put("code", 400);
-                response.put("message", "URL不能为空");
-                return ResponseEntity.ok(response);
-            }
-            String coverImage = newsService.fetchCoverImageFromUrl(url);
-            response.put("code", 200);
-            response.put("message", "获取成功");
-            response.put("data", coverImage);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("获取封面图失败", e);
             response.put("code", 500);
             response.put("message", "获取失败: " + e.getMessage());
             return ResponseEntity.ok(response);

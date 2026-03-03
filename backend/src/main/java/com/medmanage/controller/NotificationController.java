@@ -61,7 +61,7 @@ public class NotificationController {
     }
     
     @DeleteMapping("/{id}")
-    public Map<String, Object> deleteNotification(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public Map<String, Object> deleteNotification(@RequestHeader("Authorization") String token, @PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             notificationService.deleteNotification(id);
@@ -78,7 +78,7 @@ public class NotificationController {
     public Map<String, Object> getUnreadNotifications(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             List<Notification> notifications = notificationService.findUnreadByUserId(userId);
             result.put("code", 200);
             result.put("data", notifications);
@@ -90,25 +90,10 @@ public class NotificationController {
     }
     
     @PutMapping("/mark-read/{id}")
-    public Map<String, Object> markAsRead(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+    public Map<String, Object> markAsRead(@RequestHeader("Authorization") String token, @PathVariable String id) {
         Map<String, Object> result = new HashMap<>();
         try {
             notificationService.markAsRead(id);
-            result.put("code", 200);
-            result.put("message", "标记成功");
-        } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
-        }
-        return result;
-    }
-    
-    @PutMapping("/mark-all-read")
-    public Map<String, Object> markAllAsRead(@RequestHeader("Authorization") String token) {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
-            notificationService.markAllAsRead(userId);
             result.put("code", 200);
             result.put("message", "标记成功");
         } catch (Exception e) {

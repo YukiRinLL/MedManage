@@ -21,7 +21,7 @@
         <image
           v-if="item.coverImage"
           class="news-cover"
-          :src="item.coverImage"
+          :src="getImageUrl(item.coverImage)"
           mode="aspectFill"
         />
         <view v-else class="news-cover-placeholder">
@@ -118,6 +118,16 @@ const goToDetail = (item) => {
   uni.navigateTo({
     url: `/pages/news/detail?id=${item.id}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}`
   })
+}
+
+const getImageUrl = (coverImage) => {
+  if (!coverImage) {
+    return ''
+  }
+  if (coverImage.startsWith('http')) {
+    return coverImage
+  }
+  return 'http://localhost:8080' + coverImage
 }
 
 onPullDownRefresh(() => {

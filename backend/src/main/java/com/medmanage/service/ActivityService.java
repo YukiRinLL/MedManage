@@ -31,7 +31,7 @@ public class ActivityService {
         return savedActivity;
     }
     
-    public Activity update(Long id, Activity activity) {
+    public Activity update(String id, Activity activity) {
         Activity existingActivity = activityRepository.findById(id).orElse(null);
         if (existingActivity == null) {
             throw new RuntimeException("活动不存在");
@@ -71,7 +71,7 @@ public class ActivityService {
         return updatedActivity;
     }
     
-    public Activity findById(Long id) {
+    public Activity findById(String id) {
         return activityRepository.findById(id).orElse(null);
     }
     
@@ -92,15 +92,15 @@ public class ActivityService {
         return activityRepository.findByStatusOrderByStartTimeDesc(status);
     }
     
-    public List<Activity> findByCreatedBy(Long createdBy) {
+    public List<Activity> findByCreatedBy(String createdBy) {
         return activityRepository.findByCreatedByOrderByCreatedAtDesc(createdBy);
     }
     
-    public void deleteActivity(Long id) {
+    public void deleteActivity(String id) {
         activityRepository.deleteById(id);
     }
     
-    public void incrementParticipants(Long activityId) {
+    public void incrementParticipants(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null) {
             activity.setCurrentParticipants(activity.getCurrentParticipants() + 1);
@@ -108,7 +108,7 @@ public class ActivityService {
         }
     }
     
-    public void decrementParticipants(Long activityId) {
+    public void decrementParticipants(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null && activity.getCurrentParticipants() > 0) {
             activity.setCurrentParticipants(activity.getCurrentParticipants() - 1);

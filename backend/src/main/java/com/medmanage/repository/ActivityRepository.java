@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ActivityRepository extends JpaRepository<Activity, Long> {
+public interface ActivityRepository extends JpaRepository<Activity, String> {
     List<Activity> findByStatusOrderByStartTimeDesc(Integer status);
-    List<Activity> findByCreatedByOrderByCreatedAtDesc(Long createdBy);
+    List<Activity> findByCreatedByOrderByCreatedAtDesc(String createdBy);
 }

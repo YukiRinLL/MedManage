@@ -1,5 +1,7 @@
 package com.medmanage.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -8,14 +10,16 @@ import java.time.LocalDateTime;
 public class ActivityParticipant {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
+    private String id;
     
-    @Column(name = "activity_id", nullable = false)
-    private Long activityId;
+    @Column(name = "activity_id", nullable = false, columnDefinition = "VARCHAR(36)")
+    private String activityId;
     
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "user_id", nullable = false, columnDefinition = "VARCHAR(36)")
+    private String userId;
     
     @Column(name = "participate_time")
     private LocalDateTime participateTime;
@@ -26,27 +30,27 @@ public class ActivityParticipant {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getActivityId() {
+    public String getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(Long activityId) {
+    public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

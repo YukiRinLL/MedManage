@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    public User findById(Long id) {
+    public User findById(String id) {
         return userRepository.findById(id).orElse(null);
     }
     
@@ -55,7 +55,7 @@ public class UserService {
         return result;
     }
     
-    public void deleteUser(Long userId) {
+    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }
 }

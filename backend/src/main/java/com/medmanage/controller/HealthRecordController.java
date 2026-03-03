@@ -42,7 +42,7 @@ public class HealthRecordController {
     public Map<String, Object> getHealthRecord(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             HealthRecord healthRecord = healthRecordService.findByUserId(userId);
             result.put("code", 200);
             result.put("data", healthRecord);
@@ -57,7 +57,7 @@ public class HealthRecordController {
     public Map<String, Object> saveHealthRecord(@RequestHeader("Authorization") String token, @RequestBody HealthRecord healthRecord) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             healthRecord.setUserId(userId);
             HealthRecord savedRecord = healthRecordService.saveOrUpdate(healthRecord);
             result.put("code", 200);
@@ -74,7 +74,7 @@ public class HealthRecordController {
     public Map<String, Object> updateHealthRecord(@RequestHeader("Authorization") String token, @RequestBody HealthRecord healthRecord) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             healthRecord.setUserId(userId);
             HealthRecord updatedRecord = healthRecordService.saveOrUpdate(healthRecord);
             result.put("code", 200);

@@ -112,15 +112,15 @@
               <el-upload
                 class="cover-uploader"
                 :show-file-list="false"
+                :on-change="handleCoverUpload"
                 :before-upload="beforeUpload"
-                :on-change="handleFileChange"
                 accept="image/*"
               >
                 <img v-if="imagePreview" :src="imagePreview" class="cover-preview" />
                 <el-icon v-else class="cover-upload-icon"><Plus /></el-icon>
               </el-upload>
               <div class="cover-info">
-                <el-text size="small" type="info">点击上传图片（自动转为Base64）</el-text>
+                <el-text size="small" type="info">点击上传图片</el-text>
                 <el-divider direction="horizontal" content-position="center">或</el-divider>
                 <el-input 
                   v-model="createForm.coverImage" 
@@ -299,7 +299,7 @@ const handleEdit = (row) => {
   createForm.maxParticipants = row.maxParticipants
   createForm.status = row.status
   createForm.coverImage = row.coverImage
-  imagePreview.value = row.coverImage || ''
+  imagePreview.value = row.coverImage ? (row.coverImage.startsWith('http') ? row.coverImage : `http://localhost:8080${row.coverImage}`) : ''
   createDialogVisible.value = true
 }
 
@@ -315,22 +315,39 @@ const beforeUpload = (file) => {
     ElMessage.error('图片大小不能超过 5MB')
     return false
   }
-  return false
+  return true
 }
 
-const handleFileChange = (file) => {
-  const reader = new FileReader()
-  reader.onload = (e) => {
-    const base64 = e.target.result
-    imagePreview.value = base64
-    createForm.coverImage = base64
+const handleCoverUpload = async (file) => {
+  const formData = new FormData()
+  formData.append('file', file.raw)
+  
+  try {
+    const res = await request.post('/file/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    
+    if (res.code === 200) {
+      const filePath = res.data
+      const fullUrl = filePath.startsWith('http') ? filePath : `http://localhost:8080${filePath}`
+      imagePreview.value = fullUrl
+      createForm.coverImage = filePath
+      ElMessage.success('上传成功')
+    } else {
+      ElMessage.error('上传失败: ' + res.message)
+    }
+  } catch (error) {
+    console.error('上传失败:', error)
+    ElMessage.error('上传失败')
   }
-  reader.readAsDataURL(file.raw)
 }
 
 const handleUrlInput = () => {
   if (createForm.coverImage && !createForm.coverImage.startsWith('data:image')) {
-    imagePreview.value = createForm.coverImage
+    const fullUrl = createForm.coverImage.startsWith('http') ? createForm.coverImage : `http://localhost:8080${createForm.coverImage}`
+    imagePreview.value = fullUrl
   }
 }
 

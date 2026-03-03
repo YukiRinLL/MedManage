@@ -41,7 +41,7 @@ public class AdminService {
         return admin;
     }
     
-    public Admin getAdminById(Long id) {
+    public Admin getAdminById(String id) {
         return adminRepository.findById(id).orElse(null);
     }
     
@@ -53,7 +53,7 @@ public class AdminService {
         return adminRepository.findByRole(role);
     }
     
-    public Admin updateAdmin(Long id, Admin admin) {
+    public Admin updateAdmin(String id, Admin admin) {
         Admin existingAdmin = adminRepository.findById(id).orElse(null);
         if (existingAdmin == null) {
             throw new RuntimeException("管理员不存在");
@@ -86,7 +86,7 @@ public class AdminService {
         return adminRepository.save(existingAdmin);
     }
     
-    public void deleteAdmin(Long id) {
+    public void deleteAdmin(String id) {
         adminRepository.deleteById(id);
     }
 }

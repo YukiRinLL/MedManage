@@ -5,7 +5,7 @@
     </view>
 
     <scroll-view scroll-y class="content" v-else-if="activity">
-      <image class="activity-cover" :src="activity.coverImage || '/static/default-cover.png'" mode="aspectFill"></image>
+      <image class="activity-cover" :src="getImageUrl(activity.coverImage)" mode="aspectFill"></image>
       
       <view class="activity-header">
         <text class="activity-title">{{ activity.title }}</text>
@@ -195,6 +195,15 @@ export default {
     getStatusText(status) {
       const texts = { 0: '已结束', 1: '进行中', 2: '未开始' }
       return texts[status] || '未知'
+    },
+    getImageUrl(coverImage) {
+      if (!coverImage) {
+        return '/static/default-cover.png'
+      }
+      if (coverImage.startsWith('http')) {
+        return coverImage
+      }
+      return 'http://localhost:8080' + coverImage
     }
   }
 }

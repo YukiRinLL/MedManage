@@ -1,5 +1,7 @@
 package com.medmanage.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -8,8 +10,10 @@ import java.time.LocalDateTime;
 public class Admin {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", columnDefinition = "VARCHAR(36)")
+    private String id;
     
     @Column(name = "phone", unique = true, nullable = false, length = 11)
     private String phone;
@@ -41,11 +45,11 @@ public class Admin {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

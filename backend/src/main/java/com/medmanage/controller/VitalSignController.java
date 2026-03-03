@@ -23,7 +23,7 @@ public class VitalSignController {
     public Map<String, Object> saveVitalSign(@RequestHeader("Authorization") String token, @RequestBody VitalSign vitalSign) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             vitalSign.setUserId(userId);
             VitalSign savedSign = vitalSignService.save(vitalSign);
             result.put("code", 200);
@@ -40,7 +40,7 @@ public class VitalSignController {
     public Map<String, Object> getVitalSignList(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             List<VitalSign> vitalSigns = vitalSignService.findByUserId(userId);
             result.put("code", 200);
             result.put("data", vitalSigns);

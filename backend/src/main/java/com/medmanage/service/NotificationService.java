@@ -22,11 +22,11 @@ public class NotificationService {
         return notificationRepository.save(notification);
     }
     
-    public List<Notification> findByUserId(Long userId) {
+    public List<Notification> findByUserId(String userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
     }
     
-    public List<Notification> findUnreadByUserId(Long userId) {
+    public List<Notification> findUnreadByUserId(String userId) {
         return notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
     }
     
@@ -41,7 +41,7 @@ public class NotificationService {
     
     public void createNotification(String phone, Integer type, String title, String content, String notifyTime) {
         Notification notification = new Notification();
-        notification.setUserId(1L);
+        notification.setUserId("1");
         notification.setType(type.toString());
         notification.setTitle(title);
         notification.setContent(content);
@@ -49,11 +49,11 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
     
-    public void deleteNotification(Long id) {
+    public void deleteNotification(String id) {
         notificationRepository.deleteById(id);
     }
     
-    public void markAsRead(Long id) {
+    public void markAsRead(String id) {
         Notification notification = notificationRepository.findById(id).orElse(null);
         if (notification != null) {
             notification.setIsRead(true);
@@ -61,7 +61,7 @@ public class NotificationService {
         }
     }
     
-    public void markAllAsRead(Long userId) {
+    public void markAllAsRead(String userId) {
         List<Notification> notifications = notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
         for (Notification notification : notifications) {
             notification.setIsRead(true);

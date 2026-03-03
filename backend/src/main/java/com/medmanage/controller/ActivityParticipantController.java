@@ -40,11 +40,28 @@ public class ActivityParticipantController {
     private UserService userService;
     
     @PostMapping("/join")
-    public Map<String, Object> joinActivity(@RequestHeader("Authorization") String token, @RequestBody Map<String, Long> params) {
+    public Map<String, Object> joinActivity(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> params) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
-            Long activityId = params.get("activityId");
+            String userId = jwtUtil.getUserIdFromToken(token);
+            String activityId = params.get("activityId");
+            
+            // 检查活动是否存在
+            Activity activity = activityService.findById(activityId);
+            if (activity == null) {
+                result.put("code", 404);
+                result.put("message", "活动不存在");
+                return result;
+            }
+            
+            // 检查活动是否已满员
+            if (activity.getMaxParticipants() != null && activity.getCurrentParticipants() != null) {
+                if (activity.getCurrentParticipants() >= activity.getMaxParticipants()) {
+                    result.put("code", 400);
+                    result.put("message", "活动已满员，无法报名");
+                    return result;
+                }
+            }
             
             if (activityParticipantService.isJoined(activityId, userId)) {
                 result.put("code", 400);
@@ -77,11 +94,11 @@ public class ActivityParticipantController {
     }
     
     @PostMapping("/cancel")
-    public Map<String, Object> cancelActivity(@RequestHeader("Authorization") String token, @RequestBody Map<String, Long> params) {
+    public Map<String, Object> cancelActivity(@RequestHeader("Authorization") String token, @RequestBody Map<String, String> params) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
-            Long activityId = params.get("activityId");
+            String userId = jwtUtil.getUserIdFromToken(token);
+            String activityId = params.get("activityId");
             
             activityParticipantService.cancelParticipation(activityId, userId);
             activityService.decrementParticipants(activityId);
@@ -96,7 +113,7 @@ public class ActivityParticipantController {
     }
     
     @GetMapping("/list/{activityId}")
-    public Map<String, Object> getParticipants(@PathVariable Long activityId) {
+    public Map<String, Object> getParticipants(@PathVariable String activityId) {
         Map<String, Object> result = new HashMap<>();
         try {
             List<ActivityParticipant> participants = activityParticipantService.findByActivityId(activityId);
@@ -113,7 +130,7 @@ public class ActivityParticipantController {
     public Map<String, Object> getMyActivities(@RequestHeader("Authorization") String token) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Long userId = jwtUtil.getUserIdFromToken(token);
+            String userId = jwtUtil.getUserIdFromToken(token);
             List<ActivityParticipant> participants = activityParticipantService.findByUserId(userId);
             result.put("code", 200);
             result.put("data", participants);
@@ -125,7 +142,7 @@ public class ActivityParticipantController {
     }
 
     @GetMapping("/export/{activityId}")
-    public ResponseEntity<byte[]> exportParticipants(@PathVariable Long activityId) {
+    public ResponseEntity<byte[]> exportParticipants(@PathVariable String activityId) {
         try {
             Activity activity = activityService.findById(activityId);
             if (activity == null) {
@@ -193,15 +210,19 @@ public class ActivityParticipantController {
             workbook.write(outputStream);
             workbook.close();
 
-            String fileName = URLEncoder.encode(activity.getTitle() + "_参与者列表.xlsx", String.valueOf(StandardCharsets.UTF_8)).replace("+", "%20");
+            byte[] bytes = outputStream.toByteArray();
+            outputStream.close();
+
+            String fileName = URLEncoder.encode(activity.getTitle() + "参与者列表.xlsx", StandardCharsets.UTF_8.toString());
 
             HttpHeaders headers1 = new HttpHeaders();
-            headers1.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            headers1.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             headers1.setContentDispositionFormData("attachment", fileName);
+            headers1.setContentLength(bytes.length);
 
             return ResponseEntity.ok()
                     .headers(headers1)
-                    .body(outputStream.toByteArray());
+                    .body(bytes);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
