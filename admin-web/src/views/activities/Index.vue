@@ -112,6 +112,7 @@
               <el-upload
                 class="cover-uploader"
                 :show-file-list="false"
+                :auto-upload="false"
                 :on-change="handleCoverUpload"
                 :before-upload="beforeUpload"
                 accept="image/*"
@@ -299,7 +300,7 @@ const handleEdit = (row) => {
   createForm.maxParticipants = row.maxParticipants
   createForm.status = row.status
   createForm.coverImage = row.coverImage
-  imagePreview.value = row.coverImage ? (row.coverImage.startsWith('http') ? row.coverImage : `http://localhost:8080${row.coverImage}`) : ''
+  imagePreview.value = row.coverImage ? (row.coverImage.startsWith('http') ? row.coverImage : `/api${row.coverImage}`) : ''
   createDialogVisible.value = true
 }
 
@@ -319,34 +320,35 @@ const beforeUpload = (file) => {
 }
 
 const handleCoverUpload = async (file) => {
-  const formData = new FormData()
-  formData.append('file', file.raw)
-  
-  try {
-    const res = await request.post('/file/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
+    const formData = new FormData()
+    formData.append('file', file.raw)
+    formData.append('type', 'activity')
     
-    if (res.code === 200) {
-      const filePath = res.data
-      const fullUrl = filePath.startsWith('http') ? filePath : `http://localhost:8080${filePath}`
-      imagePreview.value = fullUrl
-      createForm.coverImage = filePath
-      ElMessage.success('上传成功')
-    } else {
-      ElMessage.error('上传失败: ' + res.message)
+    try {
+      const res = await request.post('/file/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      
+      if (res.code === 200) {
+        const filePath = res.data
+        const fullUrl = filePath.startsWith('http') ? filePath : `/api${filePath}`
+        imagePreview.value = fullUrl
+        createForm.coverImage = filePath
+        ElMessage.success('上传成功')
+      } else {
+        ElMessage.error('上传失败: ' + res.message)
+      }
+    } catch (error) {
+      console.error('上传失败:', error)
+      ElMessage.error('上传失败')
     }
-  } catch (error) {
-    console.error('上传失败:', error)
-    ElMessage.error('上传失败')
   }
-}
 
 const handleUrlInput = () => {
   if (createForm.coverImage && !createForm.coverImage.startsWith('data:image')) {
-    const fullUrl = createForm.coverImage.startsWith('http') ? createForm.coverImage : `http://localhost:8080${createForm.coverImage}`
+    const fullUrl = createForm.coverImage.startsWith('http') ? createForm.coverImage : `/api${createForm.coverImage}`
     imagePreview.value = fullUrl
   }
 }

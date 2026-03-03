@@ -138,7 +138,9 @@ public class NewsService {
 
     public Map<String, Object> getNewsList(int page, int size, String title, Integer status, Boolean isTop) {
         Map<String, Object> result = new HashMap<>();
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "isTop", "publishTime"));
+        // 确保page不小于1
+        int safePage = Math.max(1, page);
+        Pageable pageable = PageRequest.of(safePage - 1, size, Sort.by(Sort.Direction.DESC, "isTop", "publishTime"));
         Page<News> newsPage = newsRepository.findAll(pageable);
         result.put("list", newsPage.getContent());
         result.put("total", newsPage.getTotalElements());
