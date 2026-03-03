@@ -64,7 +64,10 @@ export default {
       try {
         const res = await request.get('/activity/list')
         if (res.code === 200) {
-          this.activities = res.data.list || []
+          this.activities = (res.data.list || []).map(activity => ({
+            ...activity,
+            coverImage: activity.coverImage ? `http://localhost:8080/api${activity.coverImage}` : ''
+          }))
         }
       } catch (error) {
         console.error('获取活动列表失败:', error)

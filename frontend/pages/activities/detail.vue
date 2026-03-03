@@ -87,7 +87,10 @@ export default {
       try {
         const res = await request.get(`/activity/${this.activityId}`)
         if (res.code === 200) {
-          this.activity = res.data
+          this.activity = {
+            ...res.data,
+            coverImage: res.data.coverImage ? `http://localhost:8080/api${res.data.coverImage}` : ''
+          }
           this.checkJoined()
         }
       } catch (error) {
