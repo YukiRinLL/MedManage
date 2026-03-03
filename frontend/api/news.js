@@ -30,8 +30,8 @@ function request(url, method = 'GET', data = {}) {
   })
 }
 
-export function getPublishedNews(page = 0, size = 10) {
-  return request('/news/published', 'GET', { page, size })
+export function getPublishedNews(page = 1, size = 10) {
+  return request(`/news?page=${page}&size=${size}`, 'GET')
 }
 
 export function getPublishedNewsList() {
@@ -39,7 +39,7 @@ export function getPublishedNewsList() {
 }
 
 export function getNewsById(id) {
-  return request(`/news/${id}/detail`, 'GET')
+  return request(`/news/${id}`, 'GET')
 }
 
 export function fetchNewsContent(url) {

@@ -28,14 +28,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
-import { fetchNewsContent } from '@/api/news'
+import { getNewsById } from '@/api/news'
 
 const title = ref('')
 const source = ref('')
 const publishTime = ref('')
 const articleContent = ref('')
 const loading = ref(false)
-const articleUrl = ref('')
+const newsId = ref('')
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
@@ -44,13 +44,19 @@ const formatDate = (dateStr) => {
 }
 
 const loadArticleContent = async () => {
-  if (!articleUrl.value) return
+  if (!newsId.value) return
 
   loading.value = true
   try {
-    const res = await fetchNewsContent(articleUrl.value)
+    const res = await getNewsById(newsId.value)
     if (res.code === 200 && res.data) {
-      articleContent.value = processContent(res.data)
+      title.value = res.data.title || title.value
+      source.value = res.data.source || ''
+      publishTime.value = res.data.publishTime || ''
+      articleContent.value = processContent(res.data.content || '')
+      uni.setNavigationBarTitle({
+        title: title.value || '新闻详情'
+      })
     } else {
       uni.showToast({
         title: '获取文章内容失败',
@@ -94,18 +100,15 @@ const processContent = (html) => {
 
 onLoad((options) => {
   if (options.id) {
+    newsId.value = options.id
     console.log('新闻ID:', options.id)
-  }
-  if (options.url) {
-    articleUrl.value = decodeURIComponent(options.url)
   }
   if (options.title) {
     title.value = decodeURIComponent(options.title)
+    uni.setNavigationBarTitle({
+      title: title.value || '新闻详情'
+    })
   }
-
-  uni.setNavigationBarTitle({
-    title: title.value || '新闻详情'
-  })
 
   loadArticleContent()
 })

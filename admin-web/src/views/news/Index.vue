@@ -258,7 +258,7 @@ import { ElMessage } from 'element-plus'
 import { Plus, Search, Edit, Delete, View, Top } from '@element-plus/icons-vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css'
-import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, fetchTitle as apiFetchTitle, fetchContent, fetchCover as apiFetchCover, uploadFile } from '@/api/news'
+import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, uploadFile } from '@/api/news'
 
 console.log('News Index.vue 组件加载 - WangEditor已导入')
 
@@ -300,7 +300,7 @@ const editorRef = ref(null)
 
 const toolbarConfig = {}
 
-const editorConfig = { 
+const editorConfig = {
   placeholder: '请输入文章内容',
   MENU_CONF: {
     uploadImage: {
@@ -308,7 +308,9 @@ const editorConfig = {
         try {
           const res = await uploadFile(file)
           if (res.code === 200 && res.data) {
-            insertFn(res.data, '', '')
+            // 将相对路径转换为完整 URL
+            const imageUrl = res.data.startsWith('http') ? res.data : `http://localhost:8080/api${res.data}`
+            insertFn(imageUrl, '', '')
           } else {
             ElMessage.error('图片上传失败')
           }
@@ -349,8 +351,8 @@ const loadData = async () => {
   try {
     const res = await getNewsList(pagination.page - 1, pagination.size)
     if (res.code === 200) {
-      newsList.value = res.data.content
-      pagination.total = res.data.totalElements
+      newsList.value = res.data.list || []
+      pagination.total = res.data.total || 0
     }
   } catch (error) {
     console.error('加载数据失败:', error)
@@ -374,8 +376,8 @@ const searchNews = async () => {
   try {
     const res = await getNewsList(pagination.page - 1, pagination.size, searchForm.keyword)
     if (res.code === 200) {
-      newsList.value = res.data.content
-      pagination.total = res.data.totalElements
+      newsList.value = res.data.list || []
+      pagination.total = res.data.total || 0
     }
   } catch (error) {
     console.error('搜索失败:', error)
@@ -478,16 +480,23 @@ const fetchTitle = async () => {
   }
   fetchingTitle.value = true
   try {
-    const res = await apiFetchTitle(form.url)
-    if (res.code === 200 && res.data) {
-      form.title = res.data
+    // 使用代理请求微信文章页面
+    const proxyUrl = form.url.replace('https://mp.weixin.qq.com', '/wechat')
+    const response = await fetch(proxyUrl)
+    const html = await response.text()
+    // 从HTML中提取标题
+    const titleMatch = html.match(/<h1[^>]*class="rich_media_title[^"]*"[^>]*>(.*?)<\/h1>/s)
+    if (titleMatch) {
+      // 去除HTML标签和空白
+      const title = titleMatch[1].replace(/<[^>]+>/g, '').trim()
+      form.title = title
       ElMessage.success('获取标题成功')
     } else {
       ElMessage.warning('获取标题失败，请手动输入')
     }
   } catch (error) {
     console.error('获取标题失败:', error)
-    ElMessage.error('获取标题失败')
+    ElMessage.error('获取标题失败，请手动输入')
   } finally {
     fetchingTitle.value = false
   }
@@ -500,16 +509,30 @@ const fetchContentFromUrl = async () => {
   }
   fetchingContent.value = true
   try {
-    const res = await fetchContent(form.url)
-    if (res.code === 200 && res.data) {
-      form.content = res.data
+    // 使用代理请求微信文章页面
+    const proxyUrl = form.url.replace('https://mp.weixin.qq.com', '/wechat')
+    const response = await fetch(proxyUrl)
+    const html = await response.text()
+    // 从HTML中提取正文内容
+    const contentMatch = html.match(/<div[^>]*class="rich_media_content[^"]*"[^>]*>([\s\S]*?)<\/div>/)
+    if (contentMatch && contentMatch[1]) {
+      let content = contentMatch[1].trim()
+      // 清理微信特定的属性
+      content = content.replace(/data-src=/g, 'src=')
+      content = content.replace(/style="[^"]*"/g, '')
+      content = content.replace(/class="[^"]*"/g, '')
+      // 使用编辑器实例设置内容
+      if (editorRef.value) {
+        editorRef.value.setHtml(content)
+      }
+      form.content = content
       ElMessage.success('获取内容成功，已导入编辑器')
     } else {
       ElMessage.warning('获取内容失败，请手动输入')
     }
   } catch (error) {
     console.error('获取内容失败:', error)
-    ElMessage.error('获取内容失败')
+    ElMessage.error('获取内容失败，请手动输入')
   } finally {
     fetchingContent.value = false
   }
@@ -576,7 +599,8 @@ const resetForm = () => {
   form.content = ''
   form.coverImage = ''
   form.source = ''
-  form.sortOrder = 0
+  form.isTop = false
+  form.publishTime = ''
   form.status = 1
   if (formRef.value) {
     formRef.value.resetFields()

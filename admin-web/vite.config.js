@@ -16,6 +16,12 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         rewrite: (path) => path
+      },
+      '/wechat': {
+        target: 'https://mp.weixin.qq.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/wechat/, ''),
+        secure: false
       }
     }
   }

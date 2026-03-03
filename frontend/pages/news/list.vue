@@ -1,9 +1,5 @@
 <template>
   <view class="news-page">
-    <view class="news-header">
-      <text class="header-title">新闻资讯</text>
-    </view>
-
     <view class="news-list" v-if="newsList.length > 0">
       <view
         class="news-item"
@@ -45,7 +41,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
+import { ref, onMounted } from 'vue'
+import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { getPublishedNews } from '@/api/news'
 
 const newsList = ref([])
@@ -70,10 +67,15 @@ const loadNews = async (isRefresh = false) => {
       hasMore.value = true
     }
 
-    const res = await getPublishedNews(page.value - 1, size.value)
+    const res = await getPublishedNews(page.value, size.value)
 
+    console.log('API Response:', res)
     if (res.code === 200) {
-      const newData = res.data.content || []
+      const newData = (res.data.list || []).map(item => ({
+        ...item,
+        coverImage: item.coverImage ? `http://localhost:8080/api${item.coverImage}` : ''
+      }))
+      console.log('News data:', newData, 'Total:', res.data.total)
 
       if (isRefresh) {
         newsList.value = newData
@@ -104,7 +106,7 @@ const loadNews = async (isRefresh = false) => {
 
 const goToDetail = (item) => {
   uni.navigateTo({
-    url: `/pages/news/detail?id=${item.id}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}`
+    url: `/pages/news/detail?id=${item.id}&title=${encodeURIComponent(item.title)}`
   })
 }
 
