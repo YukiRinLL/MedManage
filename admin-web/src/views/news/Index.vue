@@ -52,13 +52,7 @@
         <el-table-column prop="title" label="标题" min-width="200" show-overflow-tooltip />
         <el-table-column prop="source" label="来源" width="120" show-overflow-tooltip />
         <el-table-column prop="viewCount" label="浏览量" width="100" align="center" />
-        <el-table-column prop="isTop" label="置顶" width="80" align="center">
-          <template #default="{ row }">
-            <el-tag :type="row.isTop ? 'danger' : 'info'">
-              {{ row.isTop ? '置顶' : '正常' }}
-            </el-tag>
-          </template>
-        </el-table-column>
+        <el-table-column prop="sortOrder" label="排序" width="80" align="center" />
         <el-table-column prop="status" label="状态" width="100" align="center">
           <template #default="{ row }">
             <el-tag :type="row.status === 1 ? 'success' : 'info'">
@@ -66,9 +60,8 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="publishTime" label="发布时间" width="180" />
         <el-table-column prop="createdAt" label="创建时间" width="180" />
-        <el-table-column label="操作" width="300" fixed="right">
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link @click="handleEdit(row)">
               <el-icon><Edit /></el-icon>
@@ -77,14 +70,6 @@
             <el-button type="primary" link @click="handlePreview(row)">
               <el-icon><View /></el-icon>
               预览
-            </el-button>
-            <el-button 
-              :type="row.isTop ? 'warning' : 'success'" 
-              link 
-              @click="handleToggleTop(row)"
-            >
-              <el-icon><Top /></el-icon>
-              {{ row.isTop ? '取消置顶' : '置顶' }}
             </el-button>
             <el-popconfirm
               title="确定删除这条新闻吗？"
@@ -103,8 +88,8 @@
 
       <div class="pagination-wrapper">
         <el-pagination
-          v-model="pagination.page"
-          :page-size="pagination.size"
+          v-model:current-page="pagination.page"
+          v-model:page-size="pagination.size"
           :page-sizes="[10, 20, 50, 100]"
           :total="pagination.total"
           layout="total, sizes, prev, pager, next, jumper"
@@ -117,7 +102,7 @@
     <el-dialog
       v-model="dialogVisible"
       :title="dialogTitle"
-      width="900px"
+      width="700px"
       destroy-on-close
     >
       <el-form
@@ -130,18 +115,13 @@
         <el-form-item label="文章链接" prop="url">
           <el-input
             v-model="form.url"
-            placeholder="请输入微信公众号文章链接（可选）"
+            placeholder="请输入微信公众号文章链接"
             @blur="handleUrlBlur"
           >
             <template #append>
-              <el-button-group>
-                <el-button @click="fetchTitle" :loading="fetchingTitle" size="small">
-                  获取标题
-                </el-button>
-                <el-button @click="fetchContentFromUrl" :loading="fetchingContent" type="primary" size="small">
-                  获取内容
-                </el-button>
-              </el-button-group>
+              <el-button @click="fetchTitle" :loading="fetchingTitle">
+                获取标题
+              </el-button>
             </template>
           </el-input>
         </el-form-item>
@@ -151,17 +131,11 @@
         </el-form-item>
 
         <el-form-item label="封面图">
-          <el-input v-model="form.coverImage" placeholder="请输入封面图URL或上传图片">
+          <el-input v-model="form.coverImage" placeholder="请输入封面图URL或自动获取">
             <template #append>
-              <el-upload
-                class="cover-upload"
-                action=""
-                :auto-upload="false"
-                :on-change="handleCoverUpload"
-                accept="image/*"
-              >
-                <el-button type="primary">上传封面</el-button>
-              </el-upload>
+              <el-button @click="fetchCover" :loading="fetchingCover">
+                获取封面
+              </el-button>
             </template>
           </el-input>
           <div v-if="form.coverImage" class="cover-preview">
@@ -177,44 +151,9 @@
           <el-input v-model="form.source" placeholder="请输入文章来源" />
         </el-form-item>
 
-        <el-form-item label="内容" prop="content">
-          <div class="editor-container">
-            <Toolbar
-              :editor="editorRef"
-              :defaultConfig="toolbarConfig"
-              mode="default"
-              style="border-bottom: 1px solid #dcdfe6;"
-            />
-            <Editor
-              v-model="form.content"
-              :defaultConfig="editorConfig"
-              mode="default"
-              @onCreated="handleEditorCreated"
-              style="height: 400px; overflow-y: hidden;"
-            />
-          </div>
-        </el-form-item>
-
-        <el-form-item label="发布时间" prop="publishTime">
-          <el-date-picker
-            v-model="form.publishTime"
-            type="datetime"
-            placeholder="选择发布时间"
-            format="YYYY-MM-DD HH:mm:ss"
-            value-format="YYYY-MM-DD HH:mm:ss"
-            style="width: 100%;"
-          />
-          <span class="form-tip">不选择则默认为当前时间</span>
-        </el-form-item>
-
-        <el-form-item label="置顶">
-          <el-switch
-            v-model="form.isTop"
-            active-text="置顶"
-            inactive-text="正常"
-            :active-value="true"
-            :inactive-value="false"
-          />
+        <el-form-item label="排序">
+          <el-input-number v-model="form.sortOrder" :min="0" :max="999" />
+          <span class="form-tip">数字越大排序越靠前</span>
         </el-form-item>
 
         <el-form-item label="状态">
@@ -255,12 +194,8 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { Plus, Search, Edit, Delete, View, Top } from '@element-plus/icons-vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import '@wangeditor/editor/dist/css/style.css'
-import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, fetchTitle as apiFetchTitle, fetchContent, fetchCover as apiFetchCover } from '@/api/news'
-
-console.log('News Index.vue 组件加载 - WangEditor已导入')
+import { Plus, Search, Edit, Delete, View } from '@element-plus/icons-vue'
+import { getNewsList, createNews, updateNews, deleteNews, fetchTitle as apiFetchTitle, fetchContent, fetchCover as apiFetchCover } from '@/api/news'
 
 const loading = ref(false)
 const dialogVisible = ref(false)
@@ -268,7 +203,6 @@ const dialogTitle = ref('添加新闻')
 const submitting = ref(false)
 const fetchingTitle = ref(false)
 const fetchingCover = ref(false)
-const fetchingContent = ref(false)
 const formRef = ref(null)
 const isEdit = ref(false)
 const currentId = ref(null)
@@ -288,48 +222,20 @@ const newsList = ref([])
 const form = reactive({
   title: '',
   url: '',
-  content: '',
   coverImage: '',
   source: '',
-  isTop: false,
-  publishTime: '',
+  sortOrder: 0,
   status: 1
 })
 
-const editorRef = ref(null)
-
-const toolbarConfig = {}
-
-const editorConfig = { 
-  placeholder: '请输入文章内容',
-  MENU_CONF: {
-    uploadImage: {
-      customUpload(file, insertFn) {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = function (e) {
-          const base64Str = e.target.result
-          insertFn(base64Str, '', '')
-        }
-        reader.onerror = function () {
-          ElMessage.error('图片上传失败')
-        }
-      }
-    }
-  }
-}
-
-const handleEditorCreated = (editorInstance) => {
-  editorRef.value = editorInstance
-}
-
 const rules = {
+  url: [
+    { required: true, message: '请输入文章链接', trigger: 'blur' },
+    { pattern: /^https?:\/\/.+/, message: '请输入有效的URL', trigger: 'blur' }
+  ],
   title: [
     { required: true, message: '请输入标题', trigger: 'blur' },
     { min: 2, max: 200, message: '标题长度在2-200个字符', trigger: 'blur' }
-  ],
-  content: [
-    { required: true, message: '请输入内容', trigger: 'blur' }
   ]
 }
 
@@ -420,21 +326,6 @@ const handleDelete = async (row) => {
   }
 }
 
-const handleToggleTop = async (row) => {
-  try {
-    const res = await toggleNewsTop(row.id, !row.isTop)
-    if (res.code === 200) {
-      ElMessage.success(row.isTop ? '已取消置顶' : '已置顶')
-      loadData()
-    } else {
-      ElMessage.error(res.message || '操作失败')
-    }
-  } catch (error) {
-    console.error('置顶操作失败:', error)
-    ElMessage.error('操作失败')
-  }
-}
-
 const handleSubmit = async () => {
   const valid = await formRef.value.validate().catch(() => false)
   if (!valid) return
@@ -491,35 +382,25 @@ const fetchTitle = async () => {
   }
 }
 
-const fetchContentFromUrl = async () => {
+const fetchCover = async () => {
   if (!form.url) {
     ElMessage.warning('请先输入文章链接')
     return
   }
-  fetchingContent.value = true
+  fetchingCover.value = true
   try {
-    const res = await fetchContent(form.url)
+    const res = await apiFetchCover(form.url)
     if (res.code === 200 && res.data) {
-      form.content = res.data
-      ElMessage.success('获取内容成功，已导入编辑器')
+      form.coverImage = res.data
+      ElMessage.success('获取封面成功')
     } else {
-      ElMessage.warning('获取内容失败，请手动输入')
+      ElMessage.warning('获取封面失败')
     }
   } catch (error) {
-    console.error('获取内容失败:', error)
-    ElMessage.error('获取内容失败')
+    console.error('获取封面失败:', error)
+    ElMessage.error('获取封面失败')
   } finally {
-    fetchingContent.value = false
-  }
-}
-
-const handleCoverUpload = (file) => {
-  const reader = new FileReader()
-  reader.readAsDataURL(file.raw)
-  reader.onload = function (e) {
-    const base64Str = e.target.result
-    form.coverImage = base64Str
-    ElMessage.success('封面上传成功')
+    fetchingCover.value = false
   }
 }
 
@@ -530,25 +411,17 @@ const handlePreview = async (row) => {
   previewData.source = row.source
   previewData.createdAt = row.createdAt
 
-  if (row.content) {
-    previewData.content = row.content
-    previewLoading.value = false
-  } else if (row.url) {
-    try {
-      const res = await fetchContent(row.url)
-      if (res.code === 200 && res.data) {
-        previewData.content = res.data
-      } else {
-        previewData.content = '<p style="text-align: center; color: #999;">无法获取文章内容</p>'
-      }
-    } catch (error) {
-      console.error('获取内容失败:', error)
+  try {
+    const res = await fetchContent(row.url)
+    if (res.code === 200 && res.data) {
+      previewData.content = res.data
+    } else {
       previewData.content = '<p style="text-align: center; color: #999;">无法获取文章内容</p>'
-    } finally {
-      previewLoading.value = false
     }
-  } else {
-    previewData.content = '<p style="text-align: center; color: #999;">文章内容为空</p>'
+  } catch (error) {
+    console.error('获取内容失败:', error)
+    previewData.content = '<p style="text-align: center; color: #999;">无法获取文章内容</p>'
+  } finally {
     previewLoading.value = false
   }
 }
@@ -556,7 +429,6 @@ const handlePreview = async (row) => {
 const resetForm = () => {
   form.title = ''
   form.url = ''
-  form.content = ''
   form.coverImage = ''
   form.source = ''
   form.sortOrder = 0
@@ -639,28 +511,6 @@ onMounted(() => {
 
 .cover-preview {
   margin-top: 5px;
-}
-
-.cover-upload {
-  margin-left: 10px;
-}
-
-.editor-container {
-  width: 100%;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.editor-container :deep(.w-e-toolbar) {
-  border-bottom: 1px solid #dcdfe6;
-  background-color: #f5f7fa;
-}
-
-.editor-container :deep(.w-e-text-container) {
-  min-height: 400px;
-  background-color: #fff;
-  padding: 10px;
 }
 
 :deep(.preview-dialog .el-dialog__body) {

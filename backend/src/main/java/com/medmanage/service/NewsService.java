@@ -5,9 +5,6 @@ import com.medmanage.repository.NewsRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -41,21 +33,6 @@ public class NewsService {
             String fetchedTitle = fetchTitleFromUrl(news.getUrl());
             news.setTitle(fetchedTitle != null ? fetchedTitle : "未获取到标题");
         }
-        // 如果用户没有提供内容，且提供了URL，则从URL获取内容
-        if ((news.getContent() == null || news.getContent().trim().isEmpty()) && news.getUrl() != null && !news.getUrl().trim().isEmpty()) {
-            String fetchedContent = fetchContentFromUrl(news.getUrl());
-            if (fetchedContent != null) {
-                news.setContent(fetchedContent);
-            }
-        }
-        // 如果没有设置发布时间，默认为当前时间
-        if (news.getPublishTime() == null) {
-            news.setPublishTime(LocalDateTime.now());
-        }
-        // 如果isTop为null，默认为false
-        if (news.getIsTop() == null) {
-            news.setIsTop(false);
-        }
         return newsRepository.save(news);
     }
 
@@ -70,20 +47,8 @@ public class NewsService {
             updatedNews.setCoverImage(news.getCoverImage());
             updatedNews.setSource(news.getSource());
             updatedNews.setStatus(news.getStatus());
-            updatedNews.setIsTop(news.getIsTop());
-            updatedNews.setPublishTime(news.getPublishTime());
+            updatedNews.setSortOrder(news.getSortOrder());
             return newsRepository.save(updatedNews);
-        }
-        return null;
-    }
-
-    @Transactional
-    public News toggleNewsTop(Long id, Boolean isTop) {
-        Optional<News> existingNews = newsRepository.findById(id);
-        if (existingNews.isPresent()) {
-            News news = existingNews.get();
-            news.setIsTop(isTop);
-            return newsRepository.save(news);
         }
         return null;
     }
@@ -112,15 +77,15 @@ public class NewsService {
     }
 
     public Page<News> getPublishedNews(Pageable pageable) {
-        return newsRepository.findByStatusOrderByIsTopDescPublishTimeDesc(1, pageable);
+        return newsRepository.findByStatusOrderBySortOrderDescCreatedAtDesc(1, pageable);
     }
 
     public List<News> getPublishedNewsList() {
-        return newsRepository.findByStatusOrderByIsTopDescPublishTimeDesc(1);
+        return newsRepository.findByStatusOrderBySortOrderDescCreatedAtDesc(1);
     }
 
     public Page<News> searchNews(String keyword, Pageable pageable) {
-        return newsRepository.findByTitleContainingAndStatusOrderByIsTopDescPublishTimeDesc(keyword, 1, pageable);
+        return newsRepository.findByTitleContainingAndStatusOrderBySortOrderDescCreatedAtDesc(keyword, 1, pageable);
     }
 
     public String fetchTitleFromUrl(String url) {
@@ -170,40 +135,35 @@ public class NewsService {
                     .timeout(10000)
                     .get();
 
-            Element contentElement = doc.selectFirst("#js_content");
-            if (contentElement == null) {
-                contentElement = doc.selectFirst("article");
-            }
-            if (contentElement == null) {
-                contentElement = doc.selectFirst(".content, .post-content, .entry-content, main");
-            }
-            if (contentElement == null) {
-                contentElement = doc.body();
-            }
+            StringBuilder content = new StringBuilder();
 
-            // 移除脚本和样式
-            contentElement.select("script, style, .rich_media_tool, .rich_media_extra").remove();
+            Element richContent = doc.selectFirst("#js_content");
+            if (richContent != null) {
+                richContent.select("script, style, .rich_media_tool, .rich_media_extra").remove();
 
-            // 处理图片，转换为base64
-            Elements images = contentElement.select("img");
-            for (Element img : images) {
-                String imgUrl = img.attr("data-src");
-                if (imgUrl.isEmpty()) {
-                    imgUrl = img.attr("src");
+                for (Element img : richContent.select("img")) {
+                    String dataSrc = img.attr("data-src");
+                    if (!dataSrc.isEmpty()) {
+                        img.attr("src", dataSrc);
+                    }
                 }
-                if (!imgUrl.isEmpty()) {
-                    String base64Image = downloadImageToBase64(imgUrl);
-                    if (base64Image != null) {
-                        img.attr("src", base64Image);
-                        img.removeAttr("data-src");
+
+                content.append(richContent.html());
+            } else {
+                Element article = doc.selectFirst("article");
+                if (article != null) {
+                    content.append(article.html());
+                } else {
+                    Element mainContent = doc.selectFirst(".content, .post-content, .entry-content, main");
+                    if (mainContent != null) {
+                        content.append(mainContent.html());
+                    } else {
+                        content.append(doc.body().html());
                     }
                 }
             }
 
-            // 处理段落格式，确保文本有适当的段落结构
-            processParagraphs(contentElement);
-
-            String html = contentElement.html();
+            String html = content.toString();
             html = html.replaceAll("<script[^>]*>.*?</script>", "");
             html = html.replaceAll("<style[^>]*>.*?</style>", "");
             html = html.replaceAll("onclick=\"[^\"]*\"", "");
@@ -216,65 +176,6 @@ public class NewsService {
             logger.error("获取内容失败: {}", e.getMessage());
             return null;
         }
-    }
-
-    private void processParagraphs(Element element) {
-        // 将连续的文本节点和inline元素包装成段落
-        Elements sections = element.select("section, div");
-        for (Element section : sections) {
-            // 如果section包含文本但没有段落标签，添加段落
-            if (section.select("p, h1, h2, h3, h4, h5, h6").isEmpty()) {
-                String text = section.text().trim();
-                if (!text.isEmpty()) {
-                    section.html("<p>" + section.html().replaceAll("<br\\s*/?>", "</p><p>") + "</p>");
-                }
-            }
-        }
-
-        // 确保所有文本都在段落中
-        for (Node node : element.childNodes()) {
-            if (node instanceof TextNode) {
-                TextNode textNode = (TextNode) node;
-                String text = textNode.text().trim();
-                if (!text.isEmpty()) {
-                    Element p = new Element("p");
-                    p.text(text);
-                    node.replaceWith(p);
-                }
-            }
-        }
-    }
-
-    private String downloadImageToBase64(String imageUrl) {
-        try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
-            connection.setConnectTimeout(10000);
-            connection.setReadTimeout(10000);
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                String contentType = connection.getContentType();
-                try (InputStream inputStream = connection.getInputStream();
-                     ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-
-                    byte[] buffer = new byte[8192];
-                    int bytesRead;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
-                    }
-
-                    byte[] imageBytes = outputStream.toByteArray();
-                    String base64 = Base64.getEncoder().encodeToString(imageBytes);
-                    return "data:" + contentType + ";base64," + base64;
-                }
-            }
-        } catch (Exception e) {
-            logger.error("下载图片失败: {} - {}", imageUrl, e.getMessage());
-        }
-        return null;
     }
 
     public String fetchCoverImageFromUrl(String url) {

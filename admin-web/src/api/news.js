@@ -68,11 +68,3 @@ export function fetchCover(url) {
     data: { url }
   })
 }
-
-export function toggleNewsTop(id, isTop) {
-  return request({
-    url: `/news/${id}/top`,
-    method: 'put',
-    params: { isTop }
-  })
-}

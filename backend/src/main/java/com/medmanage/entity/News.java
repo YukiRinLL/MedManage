@@ -30,12 +30,8 @@ public class News {
     @Column(name = "status")
     private Integer status = 1;
 
-    @Column(name = "is_top")
-    private Boolean isTop = false;
-
-    @Column(name = "publish_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime publishTime;
+    @Column(name = "sort_order")
+    private Integer sortOrder = 0;
 
     @Column(name = "view_count")
     private Integer viewCount = 0;
@@ -118,20 +114,12 @@ public class News {
         this.status = status;
     }
 
-    public Boolean getIsTop() {
-        return isTop;
+    public Integer getSortOrder() {
+        return sortOrder;
     }
 
-    public void setIsTop(Boolean isTop) {
-        this.isTop = isTop;
-    }
-
-    public LocalDateTime getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(LocalDateTime publishTime) {
-        this.publishTime = publishTime;
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     public Integer getViewCount() {
