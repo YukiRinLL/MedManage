@@ -26,8 +26,4 @@ public class RedisUtil {
     public boolean exists(String key) {
         return redisTemplate.hasKey(key);
     }
-    
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return redisTemplate;
-    }
 }
