@@ -100,6 +100,9 @@ const menuRoutes = computed(() => {
   const routes = router.getRoutes()
   const userRole = userStore.userInfo?.role
   
+  console.log('Layout - 用户角色:', userRole)
+  console.log('Layout - 所有路由:', routes.map(r => ({ path: r.path, meta: r.meta })))
+  
   const buildMenu = (routeList) => {
     const menu = []
     routeList.forEach(route => {
@@ -127,8 +130,9 @@ const menuRoutes = computed(() => {
   }
   
   const allRoutes = buildMenu(routes)
+  console.log('Layout - 构建后的菜单:', allRoutes)
   
-  return allRoutes.filter(route => {
+  const filteredRoutes = allRoutes.filter(route => {
     if (route.path === '/system') {
       return true
     }
@@ -139,6 +143,9 @@ const menuRoutes = computed(() => {
     }
     return false
   })
+  
+  console.log('Layout - 过滤后的菜单:', filteredRoutes)
+  return filteredRoutes
 })
 
 const toggleCollapse = () => {

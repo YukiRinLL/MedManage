@@ -80,6 +80,28 @@ public class NewsController {
         }
     }
 
+    @PutMapping("/{id}/top")
+    public ResponseEntity<Map<String, Object>> toggleNewsTop(@PathVariable Long id, @RequestParam Boolean isTop) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            News news = newsService.toggleNewsTop(id, isTop);
+            if (news != null) {
+                response.put("code", 200);
+                response.put("message", isTop ? "置顶成功" : "取消置顶成功");
+                response.put("data", news);
+            } else {
+                response.put("code", 404);
+                response.put("message", "新闻不存在");
+            }
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.error("置顶操作失败", e);
+            response.put("code", 500);
+            response.put("message", "操作失败: " + e.getMessage());
+            return ResponseEntity.ok(response);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Map<String, Object>> getNewsById(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();

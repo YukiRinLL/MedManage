@@ -14,11 +14,12 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    Page<News> findByStatusOrderBySortOrderDescCreatedAtDesc(Integer status, Pageable pageable);
+    // 按置顶、发布时间排序
+    Page<News> findByStatusOrderByIsTopDescPublishTimeDesc(Integer status, Pageable pageable);
 
-    List<News> findByStatusOrderBySortOrderDescCreatedAtDesc(Integer status);
+    List<News> findByStatusOrderByIsTopDescPublishTimeDesc(Integer status);
 
-    Page<News> findByTitleContainingAndStatusOrderBySortOrderDescCreatedAtDesc(String title, Integer status, Pageable pageable);
+    Page<News> findByTitleContainingAndStatusOrderByIsTopDescPublishTimeDesc(String title, Integer status, Pageable pageable);
 
     @Modifying
     @Query("UPDATE News n SET n.viewCount = n.viewCount + 1 WHERE n.id = :id")
