@@ -19,18 +19,13 @@ public class FileController {
     private static final String UPLOAD_DIR = "uploads";
 
     @PostMapping("/upload")
-    public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile file, 
-                                         @RequestParam(value = "type", defaultValue = "common") String type, 
-                                         HttpServletRequest request) {
+    public Map<String, Object> uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
 
         try {
             // 获取项目根目录的绝对路径
             String projectRoot = System.getProperty("user.dir");
-            
-            // 根据功能类型和文件类型创建子目录
-            String fileType = getFileType(file.getOriginalFilename());
-            Path uploadPath = Paths.get(projectRoot, UPLOAD_DIR, type, fileType);
+            Path uploadPath = Paths.get(projectRoot, UPLOAD_DIR);
 
             // 确保上传目录存在
             File uploadDir = uploadPath.toFile();
@@ -56,7 +51,7 @@ public class FileController {
             file.transferTo(dest);
 
             // 返回文件路径
-            String fileUrl = "/" + UPLOAD_DIR + "/" + type + "/" + fileType + "/" + filename;
+            String fileUrl = "/" + UPLOAD_DIR + "/" + filename;
             result.put("code", 200);
             result.put("message", "上传成功");
             result.put("data", fileUrl);
@@ -66,31 +61,5 @@ public class FileController {
         }
 
         return result;
-    }
-    
-    private String getFileType(String filename) {
-        if (filename == null) {
-            return "other";
-        }
-        String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
-        
-        // 图片类型
-        String[] imageExtensions = {"jpg", "jpeg", "png", "gif", "webp", "bmp"};
-        for (String ext : imageExtensions) {
-            if (ext.equals(extension)) {
-                return "images";
-            }
-        }
-        
-        // 文档类型
-        String[] docExtensions = {"doc", "docx", "pdf", "txt", "xls", "xlsx", "ppt", "pptx"};
-        for (String ext : docExtensions) {
-            if (ext.equals(extension)) {
-                return "docs";
-            }
-        }
-        
-        // 其他类型
-        return "other";
     }
 }

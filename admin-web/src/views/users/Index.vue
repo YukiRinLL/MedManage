@@ -217,7 +217,7 @@ const fetchUsers = async () => {
     if (searchForm.role === -1) {
       delete params.role
     }
-    const res = await request.get('/admin/list', { params })
+    const res = await request.get('/admin/admins', { params })
     tableData.value = res.data || []
     pagination.total = res.data?.length || 0
   } catch (error) {

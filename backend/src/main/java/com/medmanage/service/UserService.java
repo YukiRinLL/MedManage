@@ -48,9 +48,7 @@ public class UserService {
     
     public java.util.Map<String, Object> listUsers(int page, int size) {
         java.util.Map<String, Object> result = new java.util.HashMap<>();
-        // 确保page不小于1
-        int safePage = Math.max(1, page);
-        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(safePage - 1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page - 1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
         org.springframework.data.domain.Page<User> userPage = userRepository.findAll(pageable);
         result.put("list", userPage.getContent());
         result.put("total", userPage.getTotalElements());

@@ -80,7 +80,6 @@ export function toggleNewsTop(id, isTop) {
 export function uploadFile(file) {
   const formData = new FormData()
   formData.append('file', file)
-  formData.append('type', 'news')
   return request({
     url: '/file/upload',
     method: 'post',

@@ -537,7 +537,7 @@ const getImageUrl = (coverImage) => {
   if (coverImage.startsWith('http')) {
     return coverImage
   }
-  return `/api${coverImage}`
+  return `http://localhost:8080${coverImage}`
 }
 
 const handlePreview = async (row) => {
