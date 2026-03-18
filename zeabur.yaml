@@ -1,0 +1,32 @@
+version: 1
+
+services:
+  - type: docker
+    name: medmanage-backend
+    dockerfile: ./backend/Dockerfile
+    context: ./backend
+    env:
+      - KEY: DB_URL
+        VALUE: ${DB_URL}
+      - KEY: DB_USERNAME
+        VALUE: ${DB_USERNAME}
+      - KEY: DB_PASSWORD
+        VALUE: ${DB_PASSWORD}
+      - KEY: REDIS_HOST
+        VALUE: ${REDIS_HOST}
+      - KEY: REDIS_PORT
+        VALUE: ${REDIS_PORT}
+      - KEY: REDIS_PASSWORD
+        VALUE: ${REDIS_PASSWORD}
+      - KEY: REDIS_DATABASE
+        VALUE: ${REDIS_DATABASE}
+      - KEY: JWT_SECRET
+        VALUE: ${JWT_SECRET}
+      - KEY: JWT_EXPIRATION
+        VALUE: ${JWT_EXPIRATION}
+      - KEY: SERVER_PORT
+        VALUE: ${SERVER_PORT}
+    ports:
+      - port: 8080
+        expose: true
+        protocol: http
