@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/store/user'
 
 const request = axios.create({
   baseURL: '/api',
@@ -20,9 +19,9 @@ request.interceptors.request.use(
       data: config.data,
       headers: config.headers
     })
-    const userStore = useUserStore()
-    if (userStore.token) {
-      config.headers.Authorization = `Bearer ${userStore.token}`
+    const token = localStorage.getItem('admin_token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
@@ -58,8 +57,11 @@ request.interceptors.response.use(
     console.error('错误响应数据字符串:', JSON.stringify(error.response?.data, null, 2))
     if (error.response?.status === 401) {
       console.log('401错误，跳转到登录页')
-      const userStore = useUserStore()
-      userStore.logout()
+      // 清除本地存储
+      localStorage.removeItem('admin_token')
+      localStorage.removeItem('admin_user')
+      localStorage.removeItem('admin_isAdmin')
+      localStorage.removeItem('admin_isSuperAdmin')
       if (window.location.pathname !== '/login') {
         window.location.href = '/login'
       }

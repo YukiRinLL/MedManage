@@ -29,7 +29,7 @@
       </el-form>
 
       <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column prop="title" label="活动标题" min-width="200" />
         <el-table-column prop="activityType" label="活动类型" width="120" />
         <el-table-column prop="location" label="活动地点" width="150" />
@@ -156,7 +156,7 @@
 
     <el-dialog v-model="participantsDialogVisible" title="参与人员" width="800px">
       <el-table :data="participants" stripe v-loading="participantsLoading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="360" show-overflow-tooltip />
         <el-table-column prop="userId" label="用户ID" width="100" />
         <el-table-column prop="userName" label="用户姓名" width="120" />
         <el-table-column prop="userPhone" label="手机号" width="130" />

@@ -2,9 +2,9 @@ spring:
   application:
     name: medmanage-backend
   datasource:
-    url: jdbc:mysql://sql.wsfdb.cn:3306/yukirinllmedmanage?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: YukiRinLLMedManage
-    password: LUOCANYU
+    url: ${DB_URL:jdbc:mysql://sql.wsfdb.cn:3306/yukirinllmedmanage?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai}
+    username: ${DB_USERNAME:YukiRinLLMedManage}
+    password: ${DB_PASSWORD:LUOCANYU}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -19,17 +19,17 @@ spring:
     time-zone: Asia/Shanghai
     default-property-inclusion: non_null
   redis:
-    host: redis-15749.c52.us-east-1-4.ec2.cloud.redislabs.com
-    port: 15749
-    password: IDxlxgCOGp89HeXv4KBeZOmy4YE1nuqp
-    database: 0
+    host: ${REDIS_HOST:redis-15749.c52.us-east-1-4.ec2.cloud.redislabs.com}
+    port: ${REDIS_PORT:15749}
+    password: ${REDIS_PASSWORD:IDxlxgCOGp89HeXv4KBeZOmy4YE1nuqp}
+    database: ${REDIS_DATABASE:0}
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api
 
@@ -37,5 +37,5 @@ logging:
   config: classpath:log4j2.xml
 
 jwt:
-  secret: bWVkYW5hZ2Vfc2VjcmV0X2tleV8yMDI0X2Zvcl9qd3RfdG9rZW5fZ2VuZXJhdGlvbl9hbmRfdmFsaWRhdGlvbl9wbGVhc2Vfa2VlcF90aGlzX3NlY3JldA==
-  expiration: 86400000
+  secret: ${JWT_SECRET:bWVkYW5hZ2Vfc2VjcmV0X2tleV8yMDI0X2Zvcl9qd3RfdG9rZW5fZ2VuZXJhdGlvbl9hbmRfdmFsaWRhdGlvbl9wbGVhc2Vfa2VlcF90aGlzX3NlY3JldA==}
+  expiration: ${JWT_EXPIRATION:86400000}

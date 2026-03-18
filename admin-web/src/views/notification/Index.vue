@@ -37,7 +37,7 @@
       </el-form>
 
       <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column prop="userName" label="用户姓名" width="120" />
         <el-table-column prop="userPhone" label="手机号" width="130" />
         <el-table-column prop="type" label="类型" width="100">
@@ -79,8 +79,23 @@
 
     <el-dialog v-model="createDialogVisible" title="创建通知" width="600px">
       <el-form :model="createForm" :rules="createRules" ref="createFormRef" label-width="100px">
-        <el-form-item label="用户手机号" prop="phone">
-          <el-input v-model="createForm.phone" placeholder="请输入用户手机号" />
+        <el-form-item label="选择用户" prop="userId">
+          <el-autocomplete
+            v-model="createForm.userName"
+            :fetch-suggestions="searchUsers"
+            placeholder="请输入姓名或手机号搜索用户"
+            :trigger-on-focus="false"
+            @select="handleUserSelect"
+          >
+            <template #prefix>
+              <el-icon class="el-input__icon"><Search /></el-icon>
+            </template>
+            <template #suffix v-if="createForm.userName && createForm.userId">
+              <el-button @click="clearUserSelection" size="small" circle>
+                <el-icon><Close /></el-icon>
+              </el-button>
+            </template>
+          </el-autocomplete>
         </el-form-item>
         <el-form-item label="通知类型" prop="type">
           <el-select v-model="createForm.type" placeholder="请选择通知类型">
@@ -143,6 +158,7 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Search, Close, Plus } from '@element-plus/icons-vue'
 import request from '@/utils/request'
 
 const loading = ref(false)
@@ -164,7 +180,9 @@ const pagination = reactive({
 })
 
 const createForm = reactive({
-  phone: '',
+  userId: null,
+  userName: '',
+  userPhone: '',
   type: null,
   title: '',
   content: '',
@@ -174,9 +192,8 @@ const createForm = reactive({
 const viewData = ref({})
 
 const createRules = {
-  phone: [
-    { required: true, message: '请输入用户手机号', trigger: 'blur' },
-    { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' }
+  userId: [
+    { required: true, message: '请选择用户', trigger: 'blur' }
   ],
   type: [
     { required: true, message: '请选择通知类型', trigger: 'change' }
@@ -200,6 +217,50 @@ const getTypeType = (type) => {
 const getTypeText = (type) => {
   const texts = { 1: '就诊提醒', 2: '用药提醒', 3: '检查通知', 4: '随访提醒', 5: '复诊提醒' }
   return texts[type] || '未知'
+}
+
+const searchUsers = async (query, callback) => {
+  if (!query) {
+    callback([])
+    return
+  }
+  
+  try {
+    const response = await request.get('/user/list', {
+      params: {
+        page: 1,
+        size: 10,
+        name: query,
+        phone: query
+      }
+    })
+    
+    if (response.code === 200 && response.data?.list) {
+      const users = response.data.list.map(user => ({
+        value: user.id,
+        label: `${user.name} (${user.phone})`,
+        user: user
+      }))
+      callback(users)
+    } else {
+      callback([])
+    }
+  } catch (error) {
+    console.error('搜索用户失败:', error)
+    callback([])
+  }
+}
+
+const handleUserSelect = (item) => {
+  createForm.userId = item.value
+  createForm.userName = item.user.name
+  createForm.userPhone = item.user.phone
+}
+
+const clearUserSelection = () => {
+  createForm.userId = null
+  createForm.userName = ''
+  createForm.userPhone = ''
 }
 
 const fetchNotifications = async () => {
@@ -234,7 +295,9 @@ const handleReset = () => {
 }
 
 const showCreateDialog = () => {
-  createForm.phone = ''
+  createForm.userId = null
+  createForm.userName = ''
+  createForm.userPhone = ''
   createForm.type = null
   createForm.title = ''
   createForm.content = ''
@@ -249,7 +312,7 @@ const handleCreate = async () => {
     if (valid) {
       try {
         const data = {
-          phone: createForm.phone,
+          phone: createForm.userPhone,
           type: createForm.type,
           title: createForm.title,
           content: createForm.content,

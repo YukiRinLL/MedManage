@@ -33,7 +33,7 @@
       </el-form>
 
       <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="360" show-overflow-tooltip />
         <el-table-column prop="name" label="姓名" width="120" />
         <el-table-column prop="phone" label="手机号" width="130" />
         <el-table-column prop="gender" label="性别" width="80">

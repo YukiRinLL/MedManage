@@ -26,7 +26,7 @@
       </el-form>
 
       <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" />
+        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column prop="userName" label="用户姓名" width="120" />
         <el-table-column prop="userPhone" label="手机号" width="130" />
         <el-table-column prop="bloodType" label="血型" width="80" />

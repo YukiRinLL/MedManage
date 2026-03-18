@@ -1,6 +1,6 @@
 -- 医院患者管理系统 - 数据库表结构创建脚本
--- 版本：3.0
--- 日期：2026-03-03
+-- 版本：4.0
+-- 日期：2026-03-10
 -- 说明：使用UUID作为主键
 
 -- 创建数据库（如果不存在）
@@ -178,7 +178,19 @@ CREATE TABLE IF NOT EXISTS news (
     KEY idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='新闻资讯表';
 
+-- 11. 创建user_tags表（患者标签关联表）
+CREATE TABLE IF NOT EXISTS user_tags (
+    id VARCHAR(36) PRIMARY KEY COMMENT '主键ID（UUID）',
+    user_id VARCHAR(36) NOT NULL COMMENT '用户ID',
+    tag_name VARCHAR(100) NOT NULL COMMENT '标签名称',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    INDEX idx_user_id (user_id),
+    INDEX idx_tag_name (tag_name),
+    UNIQUE KEY unique_user_tag (user_id, tag_name),
+    CONSTRAINT fk_user_tags_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='患者标签关联表';
+
 -- 表结构创建完成
 SELECT '数据库表结构创建完成！' AS message;
 SELECT '数据库名：yukirinllmedmanage' AS info;
-SELECT '共创建10个表：users, admins, health_records, vital_signs, medication_records, notifications, device_tokens, activities, activity_participants, news' AS info;
+SELECT '共创建11个表：users, admins, health_records, vital_signs, medication_records, notifications, device_tokens, activities, activity_participants, news, user_tags' AS info;
