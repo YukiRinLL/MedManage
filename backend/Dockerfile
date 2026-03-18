@@ -4,12 +4,15 @@ FROM maven:3.8.8-eclipse-temurin-8 AS build
 # 设置工作目录
 WORKDIR /app
 
-# 复制pom.xml和源代码
+# 先复制 pom.xml 并下载依赖（利用 Docker 缓存）
 COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# 复制源代码
 COPY src ./src
 
-# 构建项目
-RUN mvn clean package -DskipTests
+# 构建项目（使用 -B 批处理模式，-U 强制更新依赖）
+RUN mvn clean package -DskipTests -B -U
 
 # 第二阶段：运行阶段
 FROM eclipse-temurin:8-jre-alpine
