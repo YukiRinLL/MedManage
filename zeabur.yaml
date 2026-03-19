@@ -30,12 +30,3 @@ services:
       - port: 8080
         expose: true
         protocol: http
-
-  - type: docker
-    name: medmanage-frontend
-    dockerfile: ./frontend/Dockerfile
-    context: ./frontend
-    ports:
-      - port: 80
-        expose: true
-        protocol: http
