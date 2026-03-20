@@ -133,19 +133,23 @@ const menuRoutes = computed(() => {
   console.log('Layout - 构建后的菜单:', allRoutes)
   
   const filteredRoutes = allRoutes.filter(route => {
-    if (route.path === '/system') {
-      return true
-    }
     if (route.path === '/patients' || route.path === '/health' || 
         route.path === '/medication' || route.path === '/notification' || 
-        route.path === '/activities' || route.path === '/news') {
+        route.path === '/activities' || route.path === '/news' || route.path === '/system') {
       return true
     }
     return false
   })
   
-  console.log('Layout - 过滤后的菜单:', filteredRoutes)
-  return filteredRoutes
+  // 排序菜单，将/system路由移到最后面
+  const sortedRoutes = filteredRoutes.sort((a, b) => {
+    if (a.path === '/system') return 1
+    if (b.path === '/system') return -1
+    return 0
+  })
+  
+  console.log('Layout - 排序后的菜单:', sortedRoutes)
+  return sortedRoutes
 })
 
 const toggleCollapse = () => {
