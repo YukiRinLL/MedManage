@@ -16,7 +16,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:3000", "http://192.168.0.102:5173")
+                .allowedOrigins("http://localhost:5173", "http://localhost:3000", 
+                                "http://192.168.0.102:5173", "http://192.168.0.102:3000", 
+                                "https://stsn-admin-web.zeabur.app", "https://stsn-frontend.zeabur.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
                 .exposedHeaders("Content-Length")
