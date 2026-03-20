@@ -8,10 +8,10 @@
       <view class="form-item">
         <text class="form-label">性别</text>
         <view class="gender-selector">
-          <view class="gender-option" :class="{ active: gender === 0 }" @click="gender = 0">
+          <view class="gender-option" :class="{ active: gender === 0 }" @click="gender = 0" :disabled="loading">
             <text>女</text>
           </view>
-          <view class="gender-option" :class="{ active: gender === 1 }" @click="gender = 1">
+          <view class="gender-option" :class="{ active: gender === 1 }" @click="gender = 1" :disabled="loading">
             <text>男</text>
           </view>
         </view>
@@ -28,20 +28,7 @@
           :focus="ageFocus"
           @focus="ageFocus = true"
           @blur="ageFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">身份证号</text>
-        <input 
-          class="form-input" 
-          type="text" 
-          v-model="idCard" 
-          placeholder="请输入身份证号"
-          placeholder-class="form-input-placeholder"
-          :focus="idCardFocus"
-          @focus="idCardFocus = true"
-          @blur="idCardFocus = false"
+          :disabled="loading"
         />
       </view>
       
@@ -56,6 +43,7 @@
           :focus="emergencyContactFocus"
           @focus="emergencyContactFocus = true"
           @blur="emergencyContactFocus = false"
+          :disabled="loading"
         />
       </view>
       
@@ -70,13 +58,24 @@
           :focus="emergencyPhoneFocus"
           @focus="emergencyPhoneFocus = true"
           @blur="emergencyPhoneFocus = false"
+          :disabled="loading"
         />
       </view>
       
-      <button class="btn-primary" @click="completeInfo">保存信息</button>
+      <button class="btn-primary" @click="completeInfo" :disabled="loading">
+        {{ loading ? '保存中...' : '保存信息' }}
+      </button>
       
       <view class="skip-link">
-        <text class="skip-text" @click="skipComplete">暂不填写，稍后完善</text>
+        <text class="skip-text" @click="skipComplete" :disabled="loading">暂不填写，稍后完善</text>
+      </view>
+    </view>
+    
+    <!-- 加载遮罩 -->
+    <view class="loading-mask" v-if="loading">
+      <view class="loading-content">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">保存中，请稍候...</text>
       </view>
     </view>
   </view>
@@ -90,17 +89,17 @@ export default {
     return {
       gender: 0,
       age: '',
-      idCard: '',
       emergencyContact: '',
       emergencyPhone: '',
       ageFocus: false,
-      idCardFocus: false,
       emergencyContactFocus: false,
-      emergencyPhoneFocus: false
+      emergencyPhoneFocus: false,
+      loading: false
     }
   },
   methods: {
     async completeInfo() {
+      this.loading = true
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
@@ -113,7 +112,6 @@ export default {
         const userInfo = {
           gender: this.gender,
           age: parseInt(this.age),
-          idCard: this.idCard,
           emergencyContact: this.emergencyContact,
           emergencyPhone: this.emergencyPhone
         }
@@ -134,6 +132,8 @@ export default {
           title: '保存失败，请检查网络连接',
           icon: 'none'
         })
+      } finally {
+        this.loading = false
       }
     },
     skipComplete() {
@@ -150,6 +150,7 @@ export default {
   padding: 40px 20px;
   min-height: 100vh;
   background-color: #F5F7FA;
+  position: relative;
 }
 
 .page-logo {
@@ -219,6 +220,11 @@ export default {
   border-color: #009D85;
 }
 
+.form-input:disabled {
+  background-color: #F0F0F0;
+  color: #999999;
+}
+
 .form-input-placeholder {
   color: #C0C4CC;
 }
@@ -245,6 +251,11 @@ export default {
   border-color: #009D85;
 }
 
+.gender-option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   background-color: #009D85;
   color: #FFFFFF;
@@ -263,6 +274,11 @@ export default {
   background-color: #007D6B;
 }
 
+.btn-primary:disabled {
+  background-color: #B3D9D2;
+  color: #FFFFFF;
+}
+
 .skip-link {
   text-align: center;
   font-size: 14px;
@@ -271,5 +287,54 @@ export default {
 .skip-text {
   color: #009D85;
   font-weight: 500;
+}
+
+.skip-text:disabled {
+  color: #B3D9D2;
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #F3F3F3;
+  border-top: 4px solid #009D85;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #303133;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

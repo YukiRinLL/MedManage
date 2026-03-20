@@ -16,6 +16,7 @@
           :focus="phoneFocus"
           @focus="phoneFocus = true"
           @blur="phoneFocus = false"
+          :disabled="loading"
         />
       </view>
       
@@ -30,6 +31,7 @@
           :focus="passwordFocus"
           @focus="passwordFocus = true"
           @blur="passwordFocus = false"
+          :disabled="loading"
         />
       </view>
       
@@ -44,6 +46,7 @@
           :focus="confirmPasswordFocus"
           @focus="confirmPasswordFocus = true"
           @blur="confirmPasswordFocus = false"
+          :disabled="loading"
         />
       </view>
       
@@ -58,14 +61,40 @@
           :focus="nameFocus"
           @focus="nameFocus = true"
           @blur="nameFocus = false"
+          :disabled="loading"
         />
       </view>
       
-      <button class="btn-primary" @click="register">注册</button>
+      <view class="form-item">
+        <text class="form-label">身份证号</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="idCard" 
+          placeholder="请输入身份证号"
+          placeholder-class="form-input-placeholder"
+          :focus="idCardFocus"
+          @focus="idCardFocus = true"
+          @blur="idCardFocus = false"
+          :disabled="loading"
+        />
+      </view>
+      
+      <button class="btn-primary" @click="register" :disabled="loading">
+        {{ loading ? '注册中...' : '注册' }}
+      </button>
       
       <view class="login-link">
         <text>已有账号？</text>
-        <text class="link" @click="goToLogin">立即登录</text>
+        <text class="link" @click="goToLogin" :disabled="loading">立即登录</text>
+      </view>
+    </view>
+    
+    <!-- 加载遮罩 -->
+    <view class="loading-mask" v-if="loading">
+      <view class="loading-content">
+        <view class="loading-spinner"></view>
+        <text class="loading-text">注册中，请稍候...</text>
       </view>
     </view>
   </view>
@@ -81,10 +110,13 @@ export default {
       password: '',
       confirmPassword: '',
       name: '',
+      idCard: '',
       phoneFocus: false,
       passwordFocus: false,
       confirmPasswordFocus: false,
-      nameFocus: false
+      nameFocus: false,
+      idCardFocus: false,
+      loading: false
     }
   },
   methods: {
@@ -117,26 +149,76 @@ export default {
         })
         return
       }
+      if (!this.idCard) {
+        uni.showToast({
+          title: '请输入身份证号',
+          icon: 'none'
+        })
+        return
+      }
+      // 简单的身份证号验证
+      const idCard = this.idCard.trim()
+      // 移除空格和其他特殊字符
+      const cleanIdCard = idCard.replace(/\s/g, '')
+      // 检查长度
+      if (cleanIdCard.length !== 18) {
+        uni.showToast({
+          title: '身份证号长度必须为18位',
+          icon: 'none'
+        })
+        return
+      }
+      // 检查格式
+      const idCardRegex = /^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/
+      if (!idCardRegex.test(cleanIdCard)) {
+        uni.showToast({
+          title: '身份证号格式不正确',
+          icon: 'none'
+        })
+        return
+      }
+      // 使用清理后的身份证号
+      this.idCard = cleanIdCard
       
+      this.loading = true
       try {
         const registerData = {
           phone: this.phone,
           password: this.password,
-          name: this.name
+          name: this.name,
+          idCard: this.idCard
         }
         
-        await post('/user/register', registerData)
-        uni.showToast({
-          title: '注册成功',
-          icon: 'success'
-        })
-        setTimeout(() => {
-          uni.navigateTo({
-            url: '/pages/register/complete-info'
+        const res = await post('/user/register', registerData)
+        if (res.code === 200) {
+          if (res.token) {
+            uni.setStorageSync('token', res.token)
+          }
+          uni.showToast({
+            title: '注册成功',
+            icon: 'success'
           })
-        }, 1000)
+          setTimeout(() => {
+            uni.navigateTo({
+              url: '/pages/register/complete-info'
+            })
+          }, 1000)
+        } else {
+          uni.showToast({
+            title: res.message || '注册失败',
+            icon: 'none'
+          })
+        }
       } catch (err) {
         console.log(err)
+        const errorMessage = err.message || err.data?.message || '注册失败，请检查网络连接'
+        uni.showToast({
+          title: errorMessage,
+          icon: 'none',
+          duration: 2000
+        })
+      } finally {
+        this.loading = false
       }
     },
     goToLogin() {
@@ -151,6 +233,7 @@ export default {
   padding: 40px 20px;
   min-height: 100vh;
   background-color: #F5F7FA;
+  position: relative;
 }
 
 .page-logo {
@@ -219,6 +302,11 @@ export default {
 .form-input:focus {
   background-color: #FFFFFF;
   border-color: #009D85;
+}
+
+.form-input:disabled {
+  background-color: #F0F0F0;
+  color: #999999;
 }
 
 .form-input-placeholder {
@@ -297,6 +385,11 @@ export default {
   background-color: #007D6B;
 }
 
+.btn-primary:disabled {
+  background-color: #B3D9D2;
+  color: #FFFFFF;
+}
+
 .login-link {
   text-align: center;
   font-size: 14px;
@@ -307,5 +400,54 @@ export default {
   color: #009D85;
   margin-left: 5px;
   font-weight: 500;
+}
+
+.link:disabled {
+  color: #B3D9D2;
+}
+
+/* 加载遮罩 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #F3F3F3;
+  border-top: 4px solid #009D85;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #303133;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
