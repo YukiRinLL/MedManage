@@ -9,8 +9,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class MedManageApplication {
     public static void main(String[] args) {
-        // 加载环境变量
-        Dotenv dotenv = Dotenv.load();
+        // 加载环境变量，忽略文件不存在的情况
+        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
         SpringApplication.run(MedManageApplication.class, args);
     }
 }
