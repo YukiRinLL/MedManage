@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import { useUserStore } from '@/store/user'
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
@@ -57,11 +58,9 @@ request.interceptors.response.use(
     console.error('错误响应数据字符串:', JSON.stringify(error.response?.data, null, 2))
     if (error.response?.status === 401) {
       console.log('401错误，跳转到登录页')
-      // 清除本地存储
-      localStorage.removeItem('admin_token')
-      localStorage.removeItem('admin_user')
-      localStorage.removeItem('admin_isAdmin')
-      localStorage.removeItem('admin_isSuperAdmin')
+      // 清除本地存储并更新状态
+      const userStore = useUserStore()
+      userStore.logout()
       if (window.location.pathname !== '/login') {
         window.location.href = '/login'
       }
