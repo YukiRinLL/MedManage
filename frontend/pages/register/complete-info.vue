@@ -123,7 +123,7 @@ export default {
         })
         setTimeout(() => {
           uni.switchTab({
-            url: '/pages/home/home'
+            url: '/pages/tabbar/index'
           })
         }, 1000)
       } catch (err) {
@@ -138,7 +138,7 @@ export default {
     },
     skipComplete() {
       uni.switchTab({
-        url: '/pages/home/home'
+        url: '/pages/tabbar/index'
       })
     }
   }

@@ -10,6 +10,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String> {
     User findByPhone(String phone);
     boolean existsByPhone(String phone);
-    boolean existsByIdCard(String idCard);
     Page<User> findAllByIdIn(List<String> ids, Pageable pageable);
 }

@@ -32,12 +32,9 @@ public class UserController {
         Map<String, Object> result = new HashMap<>();
         try {
             User registeredUser = userService.register(user);
-            String token = jwtUtil.generateToken(registeredUser.getId());
-            redisUtil.set("user:" + registeredUser.getId() + ":token", token, 86400);
             result.put("code", 200);
             result.put("message", "注册成功");
             result.put("data", registeredUser);
-            result.put("token", token);
         } catch (Exception e) {
             result.put("code", 400);
             result.put("message", e.getMessage());

@@ -45,6 +45,16 @@ request.interceptors.response.use(
     const res = response.data
     if (res.code !== 200) {
       console.error('响应码不是200:', res.code, res.message)
+      // 检查是否是401错误
+      if (res.code === 401) {
+        console.log('401错误，跳转到登录页')
+        // 清除本地存储并更新状态
+        const userStore = useUserStore()
+        userStore.logout()
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login'
+        }
+      }
       ElMessage.error(res.message || '请求失败')
       return Promise.reject(new Error(res.message || '请求失败'))
     }
