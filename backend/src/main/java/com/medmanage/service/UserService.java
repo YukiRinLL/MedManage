@@ -18,6 +18,9 @@ public class UserService {
         if (userRepository.existsByPhone(user.getPhone())) {
             throw new RuntimeException("手机号已注册");
         }
+        if (user.getIdCard() != null && !user.getIdCard().isEmpty() && userRepository.existsByIdCard(user.getIdCard())) {
+            throw new RuntimeException("身份证号已注册");
+        }
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         return userRepository.save(user);
     }
