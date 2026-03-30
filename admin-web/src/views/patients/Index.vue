@@ -145,7 +145,7 @@
 
       <template #footer>
         <el-button @click="editTagsDialogVisible = false">取消</el-button>
-        <el-button :type="hasTags ? 'primary' : 'success'" @click="handleButtonClick">{{ hasTags ? '保存' : '确定' }}</el-button>
+        <el-button type="primary" @click="handleButtonClick">确定</el-button>
       </template>
     </el-dialog>
   </div>
@@ -290,10 +290,10 @@ const handleRemoveTag = (index) => {
 }
 
 const handleButtonClick = () => {
-  if (hasTags.value) {
-    handleSaveTags()
-  } else {
+  if (tagInput.value && tagInput.value.trim() !== '') {
     handleAddTag()
+  } else {
+    handleSaveTags()
   }
 }
 
