@@ -16,6 +16,7 @@
             placeholder="请输入标题关键词"
             clearable
             @keyup.enter="handleSearch"
+            style="width: 300px"
           />
         </el-form-item>
         <el-form-item>

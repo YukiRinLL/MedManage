@@ -13,13 +13,13 @@
 
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="手机号">
-          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable />
+          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable style="width: 180px" />
         </el-form-item>
         <el-form-item label="姓名">
-          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable />
+          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable style="width: 150px" />
         </el-form-item>
         <el-form-item label="角色">
-          <el-select v-model="searchForm.role" placeholder="请选择角色" clearable>
+          <el-select v-model="searchForm.role" placeholder="请选择角色" clearable style="width: 150px">
             <el-option label="全部" :value="-1" />
             <el-option label="普通用户" :value="0" />
             <el-option label="管理员" :value="1" />

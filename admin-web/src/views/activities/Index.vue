@@ -13,10 +13,10 @@
 
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="活动标题">
-          <el-input v-model="searchForm.title" placeholder="请输入活动标题" clearable />
+          <el-input v-model="searchForm.title" placeholder="请输入活动标题" clearable style="width: 250px" />
         </el-form-item>
         <el-form-item label="活动状态">
-          <el-select v-model="searchForm.status" placeholder="请选择状态" clearable>
+          <el-select v-model="searchForm.status" placeholder="请选择状态" clearable style="width: 150px">
             <el-option label="未开始" :value="2" />
             <el-option label="进行中" :value="1" />
             <el-option label="已结束" :value="0" />

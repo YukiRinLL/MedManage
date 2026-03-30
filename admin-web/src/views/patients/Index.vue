@@ -10,13 +10,13 @@
 
       <el-form :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="姓名">
-          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable />
+          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable style="width: 150px" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable />
+          <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable style="width: 180px" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-select v-model="searchForm.gender" placeholder="请选择性别" clearable>
+          <el-select v-model="searchForm.gender" placeholder="请选择性别" clearable style="width: 100px">
             <el-option label="男" :value="1" />
             <el-option label="女" :value="0" />
           </el-select>
@@ -27,7 +27,7 @@
           <el-input-number v-model="searchForm.maxAge" placeholder="最大" :min="0" style="width: 80px" />
         </el-form-item>
         <el-form-item label="标签">
-          <el-input v-model="searchForm.tagName" placeholder="请输入标签" clearable />
+          <el-input v-model="searchForm.tagName" placeholder="请输入标签" clearable style="width: 150px" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleSearch">搜索</el-button>
@@ -187,6 +187,11 @@ const fetchPatients = async () => {
     const params = {
       page: currentPage.value,
       size: pageSize.value,
+      name: searchForm.name,
+      phone: searchForm.phone,
+      gender: searchForm.gender,
+      minAge: searchForm.minAge,
+      maxAge: searchForm.maxAge,
       tagName: searchForm.tagName
     }
     
