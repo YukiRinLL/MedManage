@@ -23,6 +23,9 @@ WORKDIR /app
 # 从构建阶段复制打包好的jar文件
 COPY --from=build /app/target/backend-1.0-SNAPSHOT.jar app.jar
 
+# 创建uploads目录
+RUN mkdir -p /app/uploads
+
 # 暴露应用端口
 EXPOSE 8080
 
