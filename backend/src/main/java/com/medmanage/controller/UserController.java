@@ -118,10 +118,15 @@ public class UserController {
     public Map<String, Object> listUsers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) Integer gender,
+            @RequestParam(required = false) Integer minAge,
+            @RequestParam(required = false) Integer maxAge,
             @RequestParam(required = false) String tagName) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Map<String, Object> data = userService.listUsers(page, size, tagName);
+            Map<String, Object> data = userService.listUsers(page, size, name, phone, gender, minAge, maxAge, tagName);
             result.put("code", 200);
             result.put("message", "获取成功");
             result.put("data", data);

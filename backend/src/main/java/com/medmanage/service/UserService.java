@@ -55,13 +55,44 @@ public class UserService {
         return userRepository.findAll();
     }
     
-    public java.util.Map<String, Object> listUsers(int page, int size, String tagName) {
+    public java.util.Map<String, Object> listUsers(int page, int size, String name, String phone, Integer gender, Integer minAge, Integer maxAge, String tagName) {
         java.util.Map<String, Object> result = new java.util.HashMap<>();
         // 确保page不小于1
         int safePage = Math.max(1, page);
         org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(safePage - 1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
         
         org.springframework.data.domain.Page<User> userPage;
+        
+        // 构建查询条件
+        org.springframework.data.jpa.domain.Specification<User> spec = (root, query, criteriaBuilder) -> {
+            java.util.List<javax.persistence.criteria.Predicate> predicates = new java.util.ArrayList<>();
+            
+            // 名字模糊查询
+            if (name != null && !name.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+            }
+            
+            // 手机号模糊查询
+            if (phone != null && !phone.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("phone"), "%" + phone + "%"));
+            }
+            
+            // 性别条件筛选
+            if (gender != null) {
+                predicates.add(criteriaBuilder.equal(root.get("gender"), gender));
+            }
+            
+            // 年龄范围筛选
+            if (minAge != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("age"), minAge));
+            }
+            if (maxAge != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("age"), maxAge));
+            }
+            
+            return criteriaBuilder.and(predicates.toArray(new javax.persistence.criteria.Predicate[0]));
+        };
+        
         if (tagName != null && !tagName.isEmpty()) {
             // 先获取有该标签的用户ID列表
             java.util.List<String> userIds = userTagService.getUsersByTagName(tagName);
@@ -70,11 +101,18 @@ public class UserService {
                 result.put("total", 0);
                 return result;
             }
-            // 根据用户ID列表查询用户
-            userPage = userRepository.findAllByIdIn(userIds, pageable);
+            // 构建包含标签的查询条件
+            org.springframework.data.jpa.domain.Specification<User> tagSpec = (root, query, criteriaBuilder) -> {
+                return criteriaBuilder.and(
+                    spec.toPredicate(root, query, criteriaBuilder),
+                    root.get("id").in(userIds)
+                );
+            };
+            // 根据标签和其他条件查询用户
+            userPage = userRepository.findAll(tagSpec, pageable);
         } else {
-            // 查询所有用户
-            userPage = userRepository.findAll(pageable);
+            // 根据其他条件查询用户
+            userPage = userRepository.findAll(spec, pageable);
         }
         
         result.put("list", userPage.getContent());
