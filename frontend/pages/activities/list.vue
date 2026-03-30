@@ -41,6 +41,7 @@
 
 <script>
 import request from '@/utils/request.js'
+import { getImageUrl } from '@/utils/request'
 
 export default {
   data() {
@@ -66,7 +67,7 @@ export default {
         if (res.code === 200) {
           this.activities = (res.data.list || []).map(activity => ({
             ...activity,
-            coverImage: activity.coverImage ? `http://localhost:8080/api${activity.coverImage}` : ''
+            coverImage: getImageUrl(activity.coverImage)
           }))
         }
       } catch (error) {

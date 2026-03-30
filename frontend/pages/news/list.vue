@@ -44,6 +44,7 @@
 import { ref, onMounted } from 'vue'
 import { onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 import { getPublishedNews } from '@/api/news'
+import { getImageUrl } from '@/utils/request'
 
 const newsList = ref([])
 const loading = ref(false)
@@ -73,7 +74,7 @@ const loadNews = async (isRefresh = false) => {
     if (res.code === 200) {
       const newData = (res.data.list || []).map(item => ({
         ...item,
-        coverImage: item.coverImage ? `http://localhost:8080/api${item.coverImage}` : ''
+        coverImage: getImageUrl(item.coverImage)
       }))
       console.log('News data:', newData, 'Total:', res.data.total)
 

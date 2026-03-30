@@ -62,3 +62,15 @@ export function put(url, data) {
 export function del(url, data) {
   return request(url, 'DELETE', data)
 }
+
+// 获取完整的图片URL
+export function getImageUrl(relativePath) {
+  if (!relativePath) {
+    return ''
+  }
+  if (relativePath.startsWith('http')) {
+    return relativePath
+  }
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+  return `${BASE_URL}${relativePath}`
+}

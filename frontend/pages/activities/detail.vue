@@ -65,6 +65,7 @@
 
 <script>
 import request from '@/utils/request.js'
+import { getImageUrl } from '@/utils/request'
 
 export default {
   data() {
@@ -89,7 +90,7 @@ export default {
         if (res.code === 200) {
           this.activity = {
             ...res.data,
-            coverImage: res.data.coverImage ? `http://localhost:8080/api${res.data.coverImage}` : ''
+            coverImage: getImageUrl(res.data.coverImage)
           }
           this.checkJoined()
         }
