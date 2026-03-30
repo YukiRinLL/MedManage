@@ -38,7 +38,7 @@
         <el-table-column prop="phone" label="手机号" width="130" />
         <el-table-column prop="gender" label="性别" width="80">
           <template #default="{ row }">
-            {{ row.gender === 1 ? '男' : '女' }}
+            {{ row.gender === 0 ? '女' : '男' }}
           </template>
         </el-table-column>
         <el-table-column prop="age" label="年龄" width="80" />

@@ -46,7 +46,7 @@
         <el-table-column prop="name" label="姓名" width="100" />
         <el-table-column prop="gender" label="性别" width="80">
           <template #default="{ row }">
-            {{ row.gender === 1 ? '男' : '女' }}
+            {{ row.gender === 0 ? '女' : '男' }}
           </template>
         </el-table-column>
         <el-table-column prop="age" label="年龄" width="80" />
@@ -95,7 +95,7 @@
         <el-descriptions-item label="患者ID">{{ currentPatient.id }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ currentPatient.phone }}</el-descriptions-item>
         <el-descriptions-item label="姓名">{{ currentPatient.name }}</el-descriptions-item>
-        <el-descriptions-item label="性别">{{ currentPatient.gender === 1 ? '男' : '女' }}</el-descriptions-item>
+        <el-descriptions-item label="性别">{{ currentPatient.gender === 0 ? '女' : '男' }}</el-descriptions-item>
         <el-descriptions-item label="年龄">{{ currentPatient.age }}</el-descriptions-item>
         <el-descriptions-item label="地址">{{ currentPatient.address }}</el-descriptions-item>
         <el-descriptions-item label="标签" :span="2">

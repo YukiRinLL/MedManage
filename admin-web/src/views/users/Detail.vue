@@ -10,7 +10,7 @@
         <el-descriptions-item label="用户ID">{{ userInfo.id }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ userInfo.phone }}</el-descriptions-item>
         <el-descriptions-item label="姓名">{{ userInfo.name }}</el-descriptions-item>
-        <el-descriptions-item label="性别">{{ userInfo.gender === 1 ? '男' : '女' }}</el-descriptions-item>
+        <el-descriptions-item label="性别">{{ userInfo.gender === 0 ? '女' : '男' }}</el-descriptions-item>
         <el-descriptions-item label="年龄">{{ userInfo.age }}</el-descriptions-item>
         <el-descriptions-item label="角色">
           <el-tag :type="getRoleType(userInfo.role)">

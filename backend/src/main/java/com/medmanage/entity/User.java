@@ -25,7 +25,7 @@ public class User {
     private String name;
     
     @Column(name = "gender")
-    private Integer gender;
+    private Integer gender; // 性别(0:女,1:男)
     
     @Column(name = "age")
     private Integer age;
