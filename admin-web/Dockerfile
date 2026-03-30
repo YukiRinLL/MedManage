@@ -22,8 +22,8 @@ FROM nginx:1.21-alpine
 # 复制构建产物到nginx的html目录
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# 复制nginx配置文件（如果需要）
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# 复制nginx配置文件
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 暴露端口
 EXPOSE 80
