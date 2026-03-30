@@ -300,6 +300,8 @@ const editorRef = ref(null)
 
 const toolbarConfig = {}
 
+import request from '@/utils/request'
+
 const editorConfig = {
   placeholder: '请输入文章内容',
   MENU_CONF: {
@@ -309,7 +311,8 @@ const editorConfig = {
           const res = await uploadFile(file)
           if (res.code === 200 && res.data) {
             // 将相对路径转换为完整 URL
-            const imageUrl = res.data.startsWith('http') ? res.data : `http://localhost:8080/api${res.data}`
+            const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+            const imageUrl = res.data.startsWith('http') ? res.data : `${baseUrl}${res.data}`
             insertFn(imageUrl, '', '')
           } else {
             ElMessage.error('图片上传失败')
@@ -560,7 +563,8 @@ const getImageUrl = (coverImage) => {
   if (coverImage.startsWith('http')) {
     return coverImage
   }
-  return `/api${coverImage}`
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+  return `${baseUrl}${coverImage}`
 }
 
 const handlePreview = async (row) => {

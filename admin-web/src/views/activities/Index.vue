@@ -300,7 +300,8 @@ const handleEdit = (row) => {
   createForm.maxParticipants = row.maxParticipants
   createForm.status = row.status
   createForm.coverImage = row.coverImage
-  imagePreview.value = row.coverImage ? (row.coverImage.startsWith('http') ? row.coverImage : `/api${row.coverImage}`) : ''
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+  imagePreview.value = row.coverImage ? (row.coverImage.startsWith('http') ? row.coverImage : `${baseUrl}${row.coverImage}`) : ''
   createDialogVisible.value = true
 }
 
@@ -333,7 +334,8 @@ const handleCoverUpload = async (file) => {
       
       if (res.code === 200) {
         const filePath = res.data
-        const fullUrl = filePath.startsWith('http') ? filePath : `/api${filePath}`
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+        const fullUrl = filePath.startsWith('http') ? filePath : `${baseUrl}${filePath}`
         imagePreview.value = fullUrl
         createForm.coverImage = filePath
         ElMessage.success('上传成功')
@@ -348,7 +350,8 @@ const handleCoverUpload = async (file) => {
 
 const handleUrlInput = () => {
   if (createForm.coverImage && !createForm.coverImage.startsWith('data:image')) {
-    const fullUrl = createForm.coverImage.startsWith('http') ? createForm.coverImage : `/api${createForm.coverImage}`
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api'
+    const fullUrl = createForm.coverImage.startsWith('http') ? createForm.coverImage : `${baseUrl}${createForm.coverImage}`
     imagePreview.value = fullUrl
   }
 }
