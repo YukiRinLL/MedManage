@@ -4,6 +4,7 @@ import com.medmanage.entity.ActivityParticipant;
 import com.medmanage.repository.ActivityParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ public class ActivityParticipantService {
     @Autowired
     private ActivityParticipantRepository activityParticipantRepository;
     
+    @Transactional
     public ActivityParticipant save(ActivityParticipant participant) {
         participant.setParticipateTime(LocalDateTime.now());
         participant.setCreatedAt(LocalDateTime.now());
@@ -43,10 +45,12 @@ public class ActivityParticipantService {
         return activityParticipantRepository.existsByActivityIdAndUserIdAndStatus(activityId, userId, 1);
     }
     
+    @Transactional
     public void deleteParticipant(String id) {
         activityParticipantRepository.deleteById(id);
     }
     
+    @Transactional
     public void cancelParticipation(String activityId, String userId) {
         ActivityParticipant participant = activityParticipantRepository.findByActivityIdAndUserId(activityId, userId);
         if (participant != null) {

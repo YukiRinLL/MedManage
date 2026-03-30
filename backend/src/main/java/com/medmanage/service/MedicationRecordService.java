@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ public class MedicationRecordService {
     @Autowired
     private MedicationRecordRepository medicationRecordRepository;
     
+    @Transactional
     public MedicationRecord save(MedicationRecord medicationRecord) {
         return medicationRecordRepository.save(medicationRecord);
     }
@@ -35,6 +37,7 @@ public class MedicationRecordService {
         return result;
     }
     
+    @Transactional
     public void updateTakenStatus(String id, Boolean taken) {
         MedicationRecord record = medicationRecordRepository.findById(id).orElse(null);
         if (record != null) {

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ public class ActivityService {
     @Autowired
     private ActivityStatusScheduler activityStatusScheduler;
     
+    @Transactional
     public Activity save(Activity activity) {
         activity.setCreatedAt(LocalDateTime.now());
         activity.setUpdatedAt(LocalDateTime.now());
@@ -31,6 +33,7 @@ public class ActivityService {
         return savedActivity;
     }
     
+    @Transactional
     public Activity update(String id, Activity activity) {
         Activity existingActivity = activityRepository.findById(id).orElse(null);
         if (existingActivity == null) {
@@ -96,10 +99,12 @@ public class ActivityService {
         return activityRepository.findByCreatedByOrderByCreatedAtDesc(createdBy);
     }
     
+    @Transactional
     public void deleteActivity(String id) {
         activityRepository.deleteById(id);
     }
     
+    @Transactional
     public void incrementParticipants(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null) {
@@ -108,6 +113,7 @@ public class ActivityService {
         }
     }
     
+    @Transactional
     public void decrementParticipants(String activityId) {
         Activity activity = activityRepository.findById(activityId).orElse(null);
         if (activity != null && activity.getCurrentParticipants() > 0) {

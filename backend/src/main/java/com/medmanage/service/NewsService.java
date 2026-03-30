@@ -61,6 +61,7 @@ public class NewsService {
         return newsRepository.save(news);
     }
 
+    @Transactional
     public News updateNews(String id, News news) {
         Optional<News> existingNews = newsRepository.findById(id);
         if (existingNews.isPresent()) {
@@ -83,6 +84,7 @@ public class NewsService {
         return null;
     }
 
+    @Transactional
     public News toggleNewsTop(String id, Boolean isTop) {
         Optional<News> existingNews = newsRepository.findById(id);
         if (existingNews.isPresent()) {
@@ -98,6 +100,7 @@ public class NewsService {
         return null;
     }
 
+    @Transactional
     public void deleteNews(String id) {
         try {
             newsRepository.deleteById(id);

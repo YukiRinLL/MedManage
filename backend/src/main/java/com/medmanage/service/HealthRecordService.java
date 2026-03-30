@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class HealthRecordService {
     @Autowired
     private HealthRecordRepository healthRecordRepository;
     
+    @Transactional
     public HealthRecord saveOrUpdate(HealthRecord healthRecord) {
         HealthRecord existingRecord = healthRecordRepository.findByUserId(healthRecord.getUserId());
         

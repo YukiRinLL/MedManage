@@ -4,6 +4,7 @@ import com.medmanage.entity.User;
 import com.medmanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 @Service
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     private UserTagService userTagService;
     
+    @Transactional
     public User register(User user) {
         if (userRepository.existsByPhone(user.getPhone())) {
             throw new RuntimeException("手机号已注册");
@@ -40,6 +42,7 @@ public class UserService {
         return userRepository.findByPhone(phone);
     }
     
+    @Transactional
     public User update(User user) {
         return userRepository.save(user);
     }
@@ -79,6 +82,7 @@ public class UserService {
         return result;
     }
     
+    @Transactional
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
     }

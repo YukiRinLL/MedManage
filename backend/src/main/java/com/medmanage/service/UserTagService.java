@@ -4,6 +4,7 @@ import com.medmanage.entity.UserTag;
 import com.medmanage.repository.UserTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class UserTagService {
     @Autowired
     private UserTagRepository userTagRepository;
     
+    @Transactional
     public void addTagToUser(String userId, String tagName) {
         // 检查关联是否已存在
         List<UserTag> existing = userTagRepository.findByUserId(userId);
@@ -30,10 +32,12 @@ public class UserTagService {
         userTagRepository.save(userTag);
     }
     
+    @Transactional
     public void removeTagFromUser(String userId, String tagName) {
         userTagRepository.deleteByUserIdAndTagName(userId, tagName);
     }
     
+    @Transactional
     public void setUserTags(String userId, List<String> tagNames) {
         // 先删除所有现有关联
         userTagRepository.deleteByUserId(userId);
