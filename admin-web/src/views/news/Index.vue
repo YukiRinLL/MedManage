@@ -253,14 +253,19 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus, Search, Edit, Delete, View, Top } from '@element-plus/icons-vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import '@wangeditor/editor/dist/css/style.css'
 import { getNewsList, createNews, updateNews, deleteNews, toggleNewsTop, uploadFile } from '@/api/news'
 
-console.log('News Index.vue 组件加载 - WangEditor已导入')
+// 动态导入WangEditor编辑器，优化页面加载速度
+const Editor = defineAsyncComponent(() => import('@wangeditor/editor-for-vue').then(module => module.Editor))
+const Toolbar = defineAsyncComponent(() => import('@wangeditor/editor-for-vue').then(module => module.Toolbar))
+
+// 加载编辑器样式
+import '@wangeditor/editor/dist/css/style.css'
+
+console.log('News Index.vue 组件加载 - WangEditor已设置为动态导入')
 
 const loading = ref(false)
 const dialogVisible = ref(false)
