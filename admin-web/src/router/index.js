@@ -82,6 +82,12 @@ const routes = [
         name: 'News',
         component: () => import('@/views/news/Index.vue'),
         meta: { title: '新闻管理', icon: 'DocumentCopy', roles: [1, 2] }
+      },
+      {
+        path: '/diagnosis',
+        name: 'Diagnosis',
+        component: () => import('@/views/diagnosis/Index.vue'),
+        meta: { title: '诊断信息管理', icon: 'Notebook', roles: [1, 2] }
       }
     ]
   }

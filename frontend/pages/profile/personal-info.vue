@@ -36,6 +36,71 @@
         <text class="info-label">紧急联系电话</text>
         <text class="info-value">{{ userInfo.emergencyPhone || '未填写' }}</text>
       </view>
+      
+      <view class="info-item">
+        <text class="info-label">透析号</text>
+        <text class="info-value">{{ userInfo.txNumber || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">民族</text>
+        <text class="info-value">{{ userInfo.nation || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">出生日期</text>
+        <text class="info-value">{{ userInfo.birthDate ? this.formatDate(userInfo.birthDate) : '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">邮政编码</text>
+        <text class="info-value">{{ userInfo.postalCode || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">邮箱</text>
+        <text class="info-value">{{ userInfo.email || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">保险类型</text>
+        <text class="info-value">{{ userInfo.insuranceType || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">就医凭证类型</text>
+        <text class="info-value">{{ userInfo.medicalCertType || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">电子医保号</text>
+        <text class="info-value">{{ userInfo.electronicMedicalId || '未填写' }}</text>
+      </view>
+      
+      <view class="info-item" @click="navigateToDiagnosis">
+        <text class="info-label">诊断信息</text>
+        <text class="info-value">{{ userInfo.diagnosis ? '查看详情 ›' : '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">住院状态</text>
+        <text class="info-value">{{ userInfo.hospitalizationStatus === 1 ? '住院' : '非住院' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">患者类型</text>
+        <text class="info-value">{{ userInfo.patientType === 0 ? '普通患者' : '其他' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">入院日期</text>
+        <text class="info-value">{{ userInfo.admissionDate ? this.formatDate(userInfo.admissionDate) : '未填写' }}</text>
+      </view>
+      
+      <view class="info-item">
+        <text class="info-label">出院日期</text>
+        <text class="info-value">{{ userInfo.dischargeDate ? this.formatDate(userInfo.dischargeDate) : '未出院' }}</text>
+      </view>
     </view>
     
     <!-- 修改按钮 -->
@@ -83,6 +148,19 @@ export default {
       uni.navigateTo({
         url: '/pages/profile/edit-info'
       })
+    },
+    navigateToDiagnosis() {
+      uni.navigateTo({
+        url: '/pages/diagnosis/diagnosis'
+      })
+    },
+    formatDate(dateString) {
+      if (!dateString) return ''
+      const date = new Date(dateString)
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
     }
   }
 }

@@ -38,6 +38,11 @@
         <text class="menu-icon">📰</text>
         <text>新闻资讯</text>
       </view>
+      
+      <view class="menu-item" @click="navigateTo('/pages/diagnosis/diagnosis')">
+        <text class="menu-icon">🩺</text>
+        <text>诊断信息</text>
+      </view>
     </view>
   </view>
 </template>

@@ -15,6 +15,9 @@
         <el-form-item label="手机号">
           <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable style="width: 180px" />
         </el-form-item>
+        <el-form-item label="身份证号">
+          <el-input v-model="searchForm.idCard" placeholder="请输入身份证号" clearable style="width: 200px" />
+        </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="searchForm.gender" placeholder="" clearable style="width: 100px">
             <el-option label="男" :value="1" />
@@ -62,10 +65,11 @@
             {{ formatDate(row.createdAt) }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200" fixed="right">
+        <el-table-column label="操作" width="250" fixed="right">
           <template #default="{ row }">
             <el-button type="primary" link @click="handleView(row)">详情</el-button>
-            <el-button type="success" link @click="handleEditTags(row)">编辑标签</el-button>
+            <el-button type="success" link @click="handleEdit(row)">编辑</el-button>
+            <el-button type="info" link @click="handleEditTags(row)">编辑标签</el-button>
             <el-button type="danger" link @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -92,12 +96,35 @@
       :close-on-click-modal="false"
     >
       <el-descriptions v-if="currentPatient" :column="2" border>
+        <!-- 基本信息 -->
         <el-descriptions-item label="患者ID">{{ currentPatient.id }}</el-descriptions-item>
-        <el-descriptions-item label="手机号">{{ currentPatient.phone }}</el-descriptions-item>
+        <el-descriptions-item label="透析号">{{ currentPatient.txNumber || '-' }}</el-descriptions-item>
         <el-descriptions-item label="姓名">{{ currentPatient.name }}</el-descriptions-item>
         <el-descriptions-item label="性别">{{ currentPatient.gender === 0 ? '女' : '男' }}</el-descriptions-item>
         <el-descriptions-item label="年龄">{{ currentPatient.age }}</el-descriptions-item>
-        <el-descriptions-item label="地址">{{ currentPatient.address }}</el-descriptions-item>
+        <el-descriptions-item label="民族">{{ currentPatient.nation || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="出生日期">{{ formatDate(currentPatient.birthDate) }}</el-descriptions-item>
+        <el-descriptions-item label="身份证号">{{ currentPatient.idCard || '-' }}</el-descriptions-item>
+        
+        <!-- 联系信息 -->
+        <el-descriptions-item label="手机号">{{ currentPatient.phone }}</el-descriptions-item>
+        <el-descriptions-item label="邮箱">{{ currentPatient.email || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="地址">{{ currentPatient.address || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="邮政编码">{{ currentPatient.postalCode || '-' }}</el-descriptions-item>
+        
+        <!-- 医疗信息 -->
+        <el-descriptions-item label="保险类型">{{ currentPatient.insuranceType || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="就医凭证类型">{{ currentPatient.medicalCertType || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="电子医保号">{{ currentPatient.electronicMedicalId || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="诊断信息" :span="2">{{ currentPatient.diagnosis || '-' }}</el-descriptions-item>
+        
+        <!-- 住院信息 -->
+        <el-descriptions-item label="住院状态">{{ currentPatient.hospitalizationStatus === 1 ? '住院' : '非住院' }}</el-descriptions-item>
+        <el-descriptions-item label="患者类型">{{ currentPatient.patientType === 0 ? '普通患者' : '其他' }}</el-descriptions-item>
+        <el-descriptions-item label="入院日期">{{ formatDate(currentPatient.admissionDate) }}</el-descriptions-item>
+        <el-descriptions-item label="出院日期">{{ formatDate(currentPatient.dischargeDate) }}</el-descriptions-item>
+        
+        <!-- 其他信息 -->
         <el-descriptions-item label="标签" :span="2">
           <el-tag v-for="tag in currentPatient.tags" :key="tag" size="small" style="margin-right: 5px">{{ tag }}</el-tag>
           <span v-if="!currentPatient.tags || currentPatient.tags.length === 0">无</span>
@@ -148,6 +175,105 @@
         <el-button type="primary" @click="handleButtonClick">确定</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog
+      v-model="editDialogVisible"
+      title="编辑患者信息"
+      width="800px"
+      :close-on-click-modal="false"
+    >
+      <el-form v-if="editForm" :model="editForm" label-width="120px">
+        <el-form-item label="患者ID">
+          <el-input v-model="editForm.id" disabled />
+        </el-form-item>
+        <el-form-item label="透析号">
+          <el-input v-model="editForm.txNumber" disabled />
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="editForm.phone" />
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input v-model="editForm.name" />
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-select v-model="editForm.gender">
+            <el-option label="男" :value="1" />
+            <el-option label="女" :value="0" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="民族">
+          <el-input v-model="editForm.nation" />
+        </el-form-item>
+        <el-form-item label="身份证号">
+          <el-input v-model="editForm.idCard" />
+        </el-form-item>
+        <el-form-item label="出生日期">
+          <el-date-picker
+            v-model="editForm.birthDate"
+            type="datetime"
+            placeholder="选择日期时间"
+            style="width: 100%"
+          />
+        </el-form-item>
+        <el-form-item label="年龄">
+          <el-input-number v-model="editForm.age" :min="0" />
+        </el-form-item>
+        <el-form-item label="邮政编码">
+          <el-input v-model="editForm.postalCode" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="editForm.email" />
+        </el-form-item>
+        <el-form-item label="保险类型">
+          <el-input v-model="editForm.insuranceType" />
+        </el-form-item>
+        <el-form-item label="就医凭证类型">
+          <el-input v-model="editForm.medicalCertType" />
+        </el-form-item>
+        <el-form-item label="电子医保号">
+          <el-input v-model="editForm.electronicMedicalId" />
+        </el-form-item>
+        <el-form-item label="诊断信息">
+          <el-input v-model="editForm.diagnosis" type="textarea" />
+        </el-form-item>
+        <el-form-item label="住院状态">
+          <el-select v-model="editForm.hospitalizationStatus">
+            <el-option label="非住院" :value="0" />
+            <el-option label="住院" :value="1" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="患者类型">
+          <el-select v-model="editForm.patientType">
+            <el-option label="普通患者" :value="0" />
+            <el-option label="其他" :value="1" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="入院日期">
+          <el-date-picker
+            v-model="editForm.admissionDate"
+            type="datetime"
+            placeholder="选择日期时间"
+            style="width: 100%"
+          />
+        </el-form-item>
+        <el-form-item label="出院日期">
+          <el-date-picker
+            v-model="editForm.dischargeDate"
+            type="datetime"
+            placeholder="选择日期时间"
+            style="width: 100%"
+          />
+        </el-form-item>
+        <el-form-item label="地址">
+          <el-input v-model="editForm.address" type="textarea" />
+        </el-form-item>
+      </el-form>
+
+      <template #footer>
+        <el-button @click="editDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleSaveEdit">保存</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -167,6 +293,8 @@ const editTagsDialogVisible = ref(false)
 const currentEditPatient = ref(null)
 const tagInput = ref('')
 const currentTags = ref([])
+const editDialogVisible = ref(false)
+const editForm = ref(null)
 
 const hasTags = computed(() => {
   return currentTags.value.length > 0
@@ -175,6 +303,7 @@ const hasTags = computed(() => {
 const searchForm = reactive({
   name: '',
   phone: '',
+  idCard: '',
   gender: null,
   minAge: null,
   maxAge: null,
@@ -189,6 +318,7 @@ const fetchPatients = async () => {
       size: pageSize.value,
       name: searchForm.name,
       phone: searchForm.phone,
+      idCard: searchForm.idCard,
       gender: searchForm.gender,
       minAge: searchForm.minAge,
       maxAge: searchForm.maxAge,
@@ -237,6 +367,7 @@ const handleSearch = () => {
 const handleReset = () => {
   searchForm.name = ''
   searchForm.phone = ''
+  searchForm.idCard = ''
   searchForm.gender = null
   searchForm.minAge = null
   searchForm.maxAge = null
@@ -347,6 +478,45 @@ const handleDelete = async (row) => {
 
 const handleAdd = () => {
   ElMessage.info('新增患者功能待实现')
+}
+
+const handleEdit = async (row) => {
+  try {
+    const response = await request.get(`/user/${row.id}`)
+    if (response.code === 200) {
+      editForm.value = { ...response.data }
+      // 转换日期格式
+      if (editForm.value.birthDate) {
+        editForm.value.birthDate = new Date(editForm.value.birthDate)
+      }
+      if (editForm.value.admissionDate) {
+        editForm.value.admissionDate = new Date(editForm.value.admissionDate)
+      }
+      if (editForm.value.dischargeDate) {
+        editForm.value.dischargeDate = new Date(editForm.value.dischargeDate)
+      }
+      editDialogVisible.value = true
+    }
+  } catch (error) {
+    ElMessage.error('获取患者详情失败')
+    console.error('Error fetching patient details:', error)
+  }
+}
+
+const handleSaveEdit = async () => {
+  if (!editForm.value) return
+  
+  try {
+    const response = await request.put(`/user/${editForm.value.id}`, editForm.value)
+    if (response.code === 200) {
+      ElMessage.success('保存成功')
+      editDialogVisible.value = false
+      fetchPatients()
+    }
+  } catch (error) {
+    ElMessage.error('保存失败')
+    console.error('Error saving patient details:', error)
+  }
 }
 
 const handleSizeChange = (val) => {

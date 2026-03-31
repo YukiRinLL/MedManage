@@ -12,5 +12,6 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
     User findByPhone(String phone);
     boolean existsByPhone(String phone);
     boolean existsByIdCard(String idCard);
+    boolean existsByTxNumber(String txNumber);
     Page<User> findAllByIdIn(List<String> ids, Pageable pageable);
 }

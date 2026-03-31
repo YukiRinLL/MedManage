@@ -61,6 +61,20 @@
         />
       </view>
       
+      <view class="form-item">
+        <text class="form-label">身份证号</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="idCard" 
+          placeholder="请输入身份证号"
+          placeholder-class="form-input-placeholder"
+          :focus="idCardFocus"
+          @focus="idCardFocus = true"
+          @blur="idCardFocus = false; extractBirthDateFromIdCard()"
+        />
+      </view>
+      
       <button class="btn-primary" @click="register">注册</button>
       
       <view class="login-link">
@@ -81,13 +95,24 @@ export default {
       password: '',
       confirmPassword: '',
       name: '',
+      idCard: '',
+      birthDate: '',
       phoneFocus: false,
       passwordFocus: false,
       confirmPasswordFocus: false,
-      nameFocus: false
+      nameFocus: false,
+      idCardFocus: false
     }
   },
   methods: {
+    extractBirthDateFromIdCard() {
+      if (this.idCard && this.idCard.length === 18) {
+        const year = this.idCard.substring(6, 10)
+        const month = this.idCard.substring(10, 12)
+        const day = this.idCard.substring(12, 14)
+        this.birthDate = `${year}-${month}-${day}`
+      }
+    },
     async register() {
       if (!this.phone) {
         uni.showToast({
@@ -122,7 +147,9 @@ export default {
         const registerData = {
           phone: this.phone,
           password: this.password,
-          name: this.name
+          name: this.name,
+          idCard: this.idCard,
+          birthDate: this.birthDate
         }
         
         await post('/user/register', registerData)

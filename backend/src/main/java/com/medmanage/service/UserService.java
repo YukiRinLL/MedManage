@@ -23,7 +23,18 @@ public class UserService {
         if (user.getIdCard() != null && !user.getIdCard().isEmpty() && userRepository.existsByIdCard(user.getIdCard())) {
             throw new RuntimeException("身份证号已注册");
         }
+        if (user.getTxNumber() != null && !user.getTxNumber().isEmpty() && userRepository.existsByTxNumber(user.getTxNumber())) {
+            throw new RuntimeException("透析号已注册");
+        }
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        // 初始化入院日期为注册时间
+        if (user.getAdmissionDate() == null) {
+            user.setAdmissionDate(java.time.LocalDateTime.now());
+        }
+        // 初始化患者类型为普通患者
+        if (user.getPatientType() == null) {
+            user.setPatientType(0);
+        }
         return userRepository.save(user);
     }
     

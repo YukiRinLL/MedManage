@@ -54,20 +54,6 @@
       </view>
       
       <view class="form-item">
-        <text class="form-label">身份证号</text>
-        <input 
-          class="form-input" 
-          type="text" 
-          v-model="editForm.idCard"
-          placeholder="请输入身份证号"
-          placeholder-class="form-input-placeholder"
-          :focus="idCardFocus"
-          @focus="idCardFocus = true"
-          @blur="idCardFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
         <text class="form-label">紧急联系人</text>
         <input 
           class="form-input" 
@@ -95,6 +81,50 @@
         />
       </view>
       
+      <view class="form-item">
+        <text class="form-label">民族</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="editForm.nation"
+          placeholder="请输入民族"
+          placeholder-class="form-input-placeholder"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">出生日期</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="editForm.birthDate"
+          placeholder="请输入出生日期"
+          placeholder-class="form-input-placeholder"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">邮政编码</text>
+        <input 
+          class="form-input" 
+          type="number" 
+          v-model="editForm.postalCode"
+          placeholder="请输入邮政编码"
+          placeholder-class="form-input-placeholder"
+        />
+      </view>
+      
+      <view class="form-item">
+        <text class="form-label">邮箱</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="editForm.email"
+          placeholder="请输入邮箱"
+          placeholder-class="form-input-placeholder"
+        />
+      </view>
+      
       <view class="form-actions">
         <button class="btn-cancel" @click="cancelEdit">取消</button>
         <button class="btn-save" @click="saveChanges">保存修改</button>
@@ -117,7 +147,20 @@ export default {
         age: '',
         idCard: '',
         emergencyContact: '',
-        emergencyPhone: ''
+        emergencyPhone: '',
+        txNumber: '',
+        nation: '',
+        birthDate: '',
+        postalCode: '',
+        email: '',
+        insuranceType: '',
+        medicalCertType: '',
+        electronicMedicalId: '',
+        diagnosis: '',
+        hospitalizationStatus: 0,
+        admissionDate: '',
+        dischargeDate: '',
+        patientType: 0
       },
       nameFocus: false,
       ageFocus: false,

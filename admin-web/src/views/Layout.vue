@@ -135,7 +135,8 @@ const menuRoutes = computed(() => {
   const filteredRoutes = allRoutes.filter(route => {
     if (route.path === '/patients' || route.path === '/health' || 
         route.path === '/medication' || route.path === '/notification' || 
-        route.path === '/activities' || route.path === '/news' || route.path === '/system') {
+        route.path === '/activities' || route.path === '/news' || 
+        route.path === '/diagnosis' || route.path === '/system') {
       return true
     }
     return false

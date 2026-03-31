@@ -42,6 +42,45 @@ public class User {
     @Column(name = "address", length = 200)
     private String address;
     
+    @Column(name = "tx_number", unique = true, length = 50) // 透析号
+    private String txNumber;
+    
+    @Column(name = "nation", length = 20) // 民族
+    private String nation;
+    
+    @Column(name = "birth_date") // 出生日期
+    private LocalDateTime birthDate;
+    
+    @Column(name = "postal_code", length = 10) // 邮政编码
+    private String postalCode;
+    
+    @Column(name = "email", length = 100) // 邮箱
+    private String email;
+    
+    @Column(name = "insurance_type", length = 50) // 保险类型
+    private String insuranceType;
+    
+    @Column(name = "medical_cert_type", length = 50) // 就医凭证类型
+    private String medicalCertType;
+    
+    @Column(name = "electronic_medical_id", length = 50) // 电子医保号
+    private String electronicMedicalId;
+    
+    @Column(name = "diagnosis", length = 500) // 诊断信息
+    private String diagnosis;
+    
+    @Column(name = "hospitalization_status") // 住院状态 (1=住院)
+    private Integer hospitalizationStatus;
+    
+    @Column(name = "admission_date") // 入院日期
+    private LocalDateTime admissionDate;
+    
+    @Column(name = "discharge_date") // 出院日期
+    private LocalDateTime dischargeDate;
+    
+    @Column(name = "patient_type") // 患者类型 (0=普通患者)
+    private Integer patientType;
+    
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     
@@ -142,5 +181,110 @@ public class User {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    // 新添加字段的getter和setter方法
+    public String getTxNumber() {
+        return txNumber;
+    }
+
+    public void setTxNumber(String txNumber) {
+        this.txNumber = txNumber;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public LocalDateTime getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDateTime birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getInsuranceType() {
+        return insuranceType;
+    }
+
+    public void setInsuranceType(String insuranceType) {
+        this.insuranceType = insuranceType;
+    }
+
+    public String getMedicalCertType() {
+        return medicalCertType;
+    }
+
+    public void setMedicalCertType(String medicalCertType) {
+        this.medicalCertType = medicalCertType;
+    }
+
+    public String getElectronicMedicalId() {
+        return electronicMedicalId;
+    }
+
+    public void setElectronicMedicalId(String electronicMedicalId) {
+        this.electronicMedicalId = electronicMedicalId;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public Integer getHospitalizationStatus() {
+        return hospitalizationStatus;
+    }
+
+    public void setHospitalizationStatus(Integer hospitalizationStatus) {
+        this.hospitalizationStatus = hospitalizationStatus;
+    }
+
+    public LocalDateTime getAdmissionDate() {
+        return admissionDate;
+    }
+
+    public void setAdmissionDate(LocalDateTime admissionDate) {
+        this.admissionDate = admissionDate;
+    }
+
+    public LocalDateTime getDischargeDate() {
+        return dischargeDate;
+    }
+
+    public void setDischargeDate(LocalDateTime dischargeDate) {
+        this.dischargeDate = dischargeDate;
+    }
+
+    public Integer getPatientType() {
+        return patientType;
+    }
+
+    public void setPatientType(Integer patientType) {
+        this.patientType = patientType;
     }
 }
