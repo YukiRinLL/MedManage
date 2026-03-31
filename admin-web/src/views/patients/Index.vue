@@ -16,15 +16,15 @@
           <el-input v-model="searchForm.phone" placeholder="请输入手机号" clearable style="width: 180px" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-select v-model="searchForm.gender" placeholder="请选择性别" clearable style="width: 100px">
+          <el-select v-model="searchForm.gender" placeholder="" clearable style="width: 100px">
             <el-option label="男" :value="1" />
             <el-option label="女" :value="0" />
           </el-select>
         </el-form-item>
         <el-form-item label="年龄范围">
-          <el-input-number v-model="searchForm.minAge" placeholder="最小" :min="0" style="width: 80px" />
+          <el-input-number v-model="searchForm.minAge" placeholder="" :min="0" style="width: 100px" />
           <span style="margin: 0 10px">-</span>
-          <el-input-number v-model="searchForm.maxAge" placeholder="最大" :min="0" style="width: 80px" />
+          <el-input-number v-model="searchForm.maxAge" placeholder="" :min="0" style="width: 100px" />
         </el-form-item>
         <el-form-item label="标签">
           <el-input v-model="searchForm.tagName" placeholder="请输入标签" clearable style="width: 150px" />
@@ -197,7 +197,7 @@ const fetchPatients = async () => {
     
     // 移除null值
     Object.keys(params).forEach(key => {
-      if (params[key] === null || params[key] === undefined || params[key] === '') {
+      if (params[key] === null || params[key] === undefined || (typeof params[key] === 'string' && params[key] === '')) {
         delete params[key]
       }
     })
