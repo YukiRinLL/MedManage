@@ -1,9 +1,12 @@
 package com.medmanage.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @Entity
 @Table(name = "users")
@@ -49,6 +52,7 @@ public class User {
     private String nation;
     
     @Column(name = "birth_date") // 出生日期
+    @JsonDeserialize(using = BirthDateDeserializer.class)
     private LocalDateTime birthDate;
     
     @Column(name = "postal_code", length = 10) // 邮政编码
@@ -73,9 +77,11 @@ public class User {
     private Integer hospitalizationStatus;
     
     @Column(name = "admission_date") // 入院日期
+    @JsonDeserialize(using = BirthDateDeserializer.class)
     private LocalDateTime admissionDate;
     
     @Column(name = "discharge_date") // 出院日期
+    @JsonDeserialize(using = BirthDateDeserializer.class)
     private LocalDateTime dischargeDate;
     
     @Column(name = "patient_type") // 患者类型 (0=普通患者)
@@ -127,12 +133,19 @@ public class User {
         this.gender = gender;
     }
 
+    // 不使用数据库中的age字段，而是通过生日动态计算年龄
     public Integer getAge() {
-        return age;
+        if (birthDate == null) {
+            return null;
+        }
+        java.time.LocalDate birth = birthDate.toLocalDate();
+        java.time.LocalDate now = java.time.LocalDate.now();
+        return java.time.Period.between(birth, now).getYears();
     }
 
+    // 不设置年龄，年龄通过生日动态计算
     public void setAge(Integer age) {
-        this.age = age;
+        // 忽略设置年龄的操作，年龄通过生日动态计算
     }
 
     public String getIdCard() {
@@ -286,5 +299,24 @@ public class User {
 
     public void setPatientType(Integer patientType) {
         this.patientType = patientType;
+    }
+
+    // 自定义出生日期反序列化器
+    public static class BirthDateDeserializer extends com.fasterxml.jackson.databind.JsonDeserializer<LocalDateTime> {
+        @Override
+        public LocalDateTime deserialize(com.fasterxml.jackson.core.JsonParser p, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws java.io.IOException {
+            String value = p.getValueAsString();
+            try {
+                // 尝试解析为ISO_DATE_TIME格式（如：2023-12-01T12:00:00）
+                return LocalDateTime.parse(value, DateTimeFormatter.ISO_DATE_TIME);
+            } catch (DateTimeParseException e) {
+                try {
+                    // 如果失败，尝试解析为日期格式（如：2023-12-01）
+                    return LocalDateTime.parse(value + "T00:00:00", DateTimeFormatter.ISO_DATE_TIME);
+                } catch (DateTimeParseException ex) {
+                    throw new java.io.IOException("Failed to parse date: " + value, ex);
+                }
+            }
+        }
     }
 }

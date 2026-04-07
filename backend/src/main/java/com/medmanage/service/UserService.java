@@ -26,6 +26,20 @@ public class UserService {
         if (user.getTxNumber() != null && !user.getTxNumber().isEmpty() && userRepository.existsByTxNumber(user.getTxNumber())) {
             throw new RuntimeException("透析号已注册");
         }
+        
+        // 从身份证号提取生日
+        if (user.getIdCard() != null && user.getIdCard().length() == 18) {
+            try {
+                String year = user.getIdCard().substring(6, 10);
+                String month = user.getIdCard().substring(10, 12);
+                String day = user.getIdCard().substring(12, 14);
+                String birthDateStr = year + "-" + month + "-" + day + "T00:00:00";
+                user.setBirthDate(java.time.LocalDateTime.parse(birthDateStr));
+            } catch (Exception e) {
+                throw new RuntimeException("身份证号格式错误");
+            }
+        }
+        
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         // 初始化入院日期为注册时间
         if (user.getAdmissionDate() == null) {
@@ -35,6 +49,8 @@ public class UserService {
         if (user.getPatientType() == null) {
             user.setPatientType(0);
         }
+        // 不设置年龄，年龄通过生日动态计算
+        user.setAge(null);
         return userRepository.save(user);
     }
     

@@ -12,7 +12,14 @@ function request(url, method = 'GET', data = {}) {
       },
       success: (res) => {
         if (res.statusCode === 200) {
-          resolve(res.data)
+          if (res.data.code === 200) {
+            resolve(res.data)
+          } else {
+            reject({
+              code: res.data.code,
+              message: res.data.message || '请求失败'
+            })
+          }
         } else {
           reject({
             code: res.statusCode,
