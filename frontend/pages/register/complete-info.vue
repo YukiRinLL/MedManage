@@ -6,33 +6,6 @@
     
     <view class="form">
       <view class="form-item">
-        <text class="form-label">性别</text>
-        <view class="gender-selector">
-          <view class="gender-option" :class="{ active: gender === 0 }" @click="gender = 0" :disabled="loading">
-            <text>女</text>
-          </view>
-          <view class="gender-option" :class="{ active: gender === 1 }" @click="gender = 1" :disabled="loading">
-            <text>男</text>
-          </view>
-        </view>
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">年龄</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="age" 
-          placeholder="请输入年龄"
-          placeholder-class="form-input-placeholder"
-          :focus="ageFocus"
-          @focus="ageFocus = true"
-          @blur="ageFocus = false"
-          :disabled="loading"
-        />
-      </view>
-      
-      <view class="form-item">
         <text class="form-label">紧急联系人</text>
         <input 
           class="form-input" 
@@ -62,6 +35,21 @@
         />
       </view>
       
+      <view class="form-item">
+        <text class="form-label">地址</text>
+        <input 
+          class="form-input" 
+          type="text" 
+          v-model="address" 
+          placeholder="请输入地址"
+          placeholder-class="form-input-placeholder"
+          :focus="addressFocus"
+          @focus="addressFocus = true"
+          @blur="addressFocus = false"
+          :disabled="loading"
+        />
+      </view>
+      
       <button class="btn-primary" @click="completeInfo" :disabled="loading">
         {{ loading ? '保存中...' : '保存信息' }}
       </button>
@@ -87,13 +75,12 @@ import { put } from '../../utils/request.js'
 export default {
   data() {
     return {
-      gender: 0,
-      age: '',
       emergencyContact: '',
       emergencyPhone: '',
-      ageFocus: false,
+      address: '',
       emergencyContactFocus: false,
       emergencyPhoneFocus: false,
+      addressFocus: false,
       loading: false
     }
   },
@@ -110,26 +97,32 @@ export default {
         }
         
         const userInfo = {
-          gender: this.gender,
-          age: parseInt(this.age),
           emergencyContact: this.emergencyContact,
-          emergencyPhone: this.emergencyPhone
+          emergencyPhone: this.emergencyPhone,
+          address: this.address
         }
         
-        await put('/user/update', userInfo)
-        uni.showToast({
-          title: '信息保存成功',
-          icon: 'success'
-        })
-        setTimeout(() => {
-          uni.switchTab({
-            url: '/pages/tabbar/index'
+        const response = await put('/user/update', userInfo)
+        if (response.code === 200) {
+          uni.showToast({
+            title: '信息保存成功',
+            icon: 'success'
           })
-        }, 1000)
+          setTimeout(() => {
+            uni.switchTab({
+              url: '/pages/tabbar/index'
+            })
+          }, 1000)
+        } else {
+          uni.showToast({
+            title: response.message || '保存失败',
+            icon: 'none'
+          })
+        }
       } catch (err) {
         console.log(err)
         uni.showToast({
-          title: '保存失败，请检查网络连接',
+          title: err.message || '网络错误，请稍后重试',
           icon: 'none'
         })
       } finally {
@@ -169,6 +162,8 @@ export default {
   color: #303133;
   font-size: 20px;
   font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
 }
 
 .page-subtitle {

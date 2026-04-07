@@ -12,11 +12,19 @@ function request(url, method = 'GET', data = {}) {
       },
       success: (res) => {
         if (res.statusCode === 200) {
-          resolve(res.data)
+          // 检查响应体中的code字段
+          if (res.data && res.data.code === 200) {
+            resolve(res.data)
+          } else {
+            reject({
+              code: res.data?.code || 400,
+              message: res.data?.message || '请求失败'
+            })
+          }
         } else {
           reject({
             code: res.statusCode,
-            message: res.data.message || '请求失败'
+            message: res.data?.message || '请求失败'
           })
         }
       },

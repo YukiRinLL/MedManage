@@ -5,7 +5,9 @@ import com.medmanage.service.UserService;
 import com.medmanage.service.UserTagService;
 import com.medmanage.util.JwtUtil;
 import com.medmanage.util.RedisUtil;
+import com.medmanage.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,94 +30,77 @@ public class UserController {
     private RedisUtil redisUtil;
     
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody User user) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> register(@RequestBody User user) {
         try {
             User registeredUser = userService.register(user);
             String token = jwtUtil.generateToken(registeredUser.getId());
             redisUtil.set("user:" + registeredUser.getId() + ":token", token, 86400);
-            result.put("code", 200);
-            result.put("message", "注册成功");
-            result.put("data", registeredUser);
-            result.put("token", token);
+            Map<String, Object> data = new HashMap<>();
+            data.put("data", registeredUser);
+            data.put("token", token);
+            return ResponseUtil.success("注册成功", data);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> params) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> params) {
         try {
             String phone = params.get("phone");
             String password = params.get("password");
             User user = userService.login(phone, password);
             String token = jwtUtil.generateToken(user.getId());
             redisUtil.set("user:" + user.getId() + ":token", token, 86400);
-            result.put("code", 200);
-            result.put("message", "登录成功");
-            result.put("token", token);
-            result.put("user", user);
+            Map<String, Object> data = new HashMap<>();
+            data.put("token", token);
+            data.put("user", user);
+            return ResponseUtil.success("登录成功", data);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @PostMapping("/logout")
-    public Map<String, Object> logout(@RequestHeader("Authorization") String token) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> logout(@RequestHeader("Authorization") String token) {
         try {
             String userId = jwtUtil.getUserIdFromToken(token);
             redisUtil.delete("user:" + userId + ":token");
-            result.put("code", 200);
-            result.put("message", "登出成功");
+            return ResponseUtil.success("登出成功", null);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @GetMapping("/info")
-    public Map<String, Object> getUserInfo(@RequestHeader("Authorization") String token) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestHeader("Authorization") String token) {
         try {
             String userId = jwtUtil.getUserIdFromToken(token);
             User user = userService.findById(userId);
             List<String> tagNames = userTagService.getUserTagNames(userId);
-            result.put("code", 200);
-            result.put("data", user);
-            result.put("tags", tagNames);
+            Map<String, Object> data = new HashMap<>();
+            data.put("data", user);
+            data.put("tags", tagNames);
+            return ResponseUtil.success(data);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @PutMapping("/update")
-    public Map<String, Object> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
         try {
             String userId = jwtUtil.getUserIdFromToken(token);
             user.setId(userId);
             User updatedUser = userService.update(user);
-            result.put("code", 200);
-            result.put("message", "更新成功");
-            result.put("data", updatedUser);
+            return ResponseUtil.success("更新成功", updatedUser);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @GetMapping("/list")
-    public Map<String, Object> listUsers(
+    public ResponseEntity<Map<String, Object>> listUsers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String name,
@@ -124,76 +109,57 @@ public class UserController {
             @RequestParam(required = false) Integer minAge,
             @RequestParam(required = false) Integer maxAge,
             @RequestParam(required = false) String tagName) {
-        Map<String, Object> result = new HashMap<>();
         try {
             Map<String, Object> data = userService.listUsers(page, size, name, phone, gender, minAge, maxAge, tagName);
-            result.put("code", 200);
-            result.put("message", "获取成功");
-            result.put("data", data);
+            return ResponseUtil.success("获取成功", data);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @GetMapping("/{id}")
-    public Map<String, Object> getUserById(@PathVariable String id) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> getUserById(@PathVariable String id) {
         try {
             User user = userService.findById(id);
             List<String> tagNames = userTagService.getUserTagNames(id);
-            result.put("code", 200);
-            result.put("data", user);
-            result.put("tags", tagNames);
+            Map<String, Object> data = new HashMap<>();
+            data.put("data", user);
+            data.put("tags", tagNames);
+            return ResponseUtil.success(data);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @DeleteMapping("/{id}")
-    public Map<String, Object> deleteUser(@PathVariable String id) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable String id) {
         try {
             userService.deleteUser(id);
-            result.put("code", 200);
-            result.put("message", "删除成功");
+            return ResponseUtil.success("删除成功", null);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     // 标签相关接口
     @PostMapping("/{id}/tags")
-    public Map<String, Object> setUserTags(@PathVariable String id, @RequestBody Map<String, List<String>> request) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> setUserTags(@PathVariable String id, @RequestBody Map<String, List<String>> request) {
         try {
             List<String> tagNames = request.get("tagNames");
             userTagService.setUserTags(id, tagNames);
-            result.put("code", 200);
-            result.put("message", "标签设置成功");
+            return ResponseUtil.success("标签设置成功", null);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
     
     @GetMapping("/{id}/tags")
-    public Map<String, Object> getUserTags(@PathVariable String id) {
-        Map<String, Object> result = new HashMap<>();
+    public ResponseEntity<Map<String, Object>> getUserTags(@PathVariable String id) {
         try {
             List<String> tagNames = userTagService.getUserTagNames(id);
-            result.put("code", 200);
-            result.put("data", tagNames);
+            return ResponseUtil.success(tagNames);
         } catch (Exception e) {
-            result.put("code", 400);
-            result.put("message", e.getMessage());
+            return ResponseUtil.badRequest(e.getMessage());
         }
-        return result;
     }
 }

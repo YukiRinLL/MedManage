@@ -152,18 +152,33 @@ export default {
           birthDate: this.birthDate
         }
         
-        await post('/user/register', registerData)
-        uni.showToast({
-          title: '注册成功',
-          icon: 'success'
-        })
-        setTimeout(() => {
-          uni.navigateTo({
-            url: '/pages/register/complete-info'
+        const response = await post('/user/register', registerData)
+        if (response.code === 200) {
+          uni.showToast({
+            title: '注册成功',
+            icon: 'success'
           })
-        }, 1000)
+          // 保存token到本地存储
+          if (response.token) {
+            uni.setStorageSync('token', response.token)
+          }
+          setTimeout(() => {
+            uni.navigateTo({
+              url: '/pages/register/complete-info'
+            })
+          }, 1000)
+        } else {
+          uni.showToast({
+            title: response.message || '注册失败',
+            icon: 'none'
+          })
+        }
       } catch (err) {
         console.log(err)
+        uni.showToast({
+          title: err.message || '网络错误，请稍后重试',
+          icon: 'none'
+        })
       }
     },
     goToLogin() {
