@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { get } from '../../utils/request.js'
+import { getUserInfo, fetchUserInfo } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -79,9 +79,16 @@ export default {
           })
           return
         }
-        const res = await get('/user/info')
-        if (res.code === 200) {
-          this.userInfo = res.data
+        // 先尝试从本地存储获取
+        let userInfo = getUserInfo()
+        if (userInfo) {
+          this.userInfo = userInfo
+        } else {
+          // 本地没有则从API获取
+          userInfo = await fetchUserInfo()
+          if (userInfo) {
+            this.userInfo = userInfo
+          }
         }
       } catch (err) {
         console.log(err)

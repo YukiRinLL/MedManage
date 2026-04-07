@@ -134,11 +134,22 @@ public class User {
     }
 
     public Integer getAge() {
+        if (birthDate == null) {
+            return null;
+        }
+        java.time.LocalDate birth = birthDate.toLocalDate();
+        java.time.LocalDate today = java.time.LocalDate.now();
+        int age = today.getYear() - birth.getYear();
+        java.time.MonthDay birthMonthDay = java.time.MonthDay.from(birth);
+        java.time.MonthDay currentMonthDay = java.time.MonthDay.from(today);
+        if (currentMonthDay.isBefore(birthMonthDay)) {
+            age--;
+        }
         return age;
     }
 
     public void setAge(Integer age) {
-        this.age = age;
+        // 年龄根据出生日期动态计算，不存储到数据库
     }
 
     public String getIdCard() {

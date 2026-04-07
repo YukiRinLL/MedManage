@@ -175,12 +175,14 @@ public class UserService {
                 predicates.add(criteriaBuilder.equal(root.get("gender"), gender));
             }
             
-            // 年龄范围筛选
+            // 年龄范围筛选（使用出生日期计算）
             if (minAge != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("age"), minAge));
+                java.time.LocalDate maxBirthDate = java.time.LocalDate.now().minusYears(minAge);
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("birthDate"), maxBirthDate.atStartOfDay()));
             }
             if (maxAge != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("age"), maxAge));
+                java.time.LocalDate minBirthDate = java.time.LocalDate.now().minusYears(maxAge + 1).plusDays(1);
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("birthDate"), minBirthDate.atStartOfDay()));
             }
             
             return criteriaBuilder.and(predicates.toArray(new javax.persistence.criteria.Predicate[0]));

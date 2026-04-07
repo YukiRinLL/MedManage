@@ -40,20 +40,6 @@
       </view>
       
       <view class="form-item">
-        <text class="form-label">年龄</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="editForm.age"
-          placeholder="请输入年龄"
-          placeholder-class="form-input-placeholder"
-          :focus="ageFocus"
-          @focus="ageFocus = true"
-          @blur="ageFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
         <text class="form-label">紧急联系人</text>
         <input 
           class="form-input" 
@@ -134,7 +120,8 @@
 </template>
 
 <script>
-import { get, put } from '../../utils/request.js'
+import { put } from '../../utils/request.js'
+import { getUserInfo, fetchUserInfo, setUserInfo } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -144,7 +131,6 @@ export default {
         phone: '',
         name: '',
         gender: 0,
-        age: '',
         idCard: '',
         emergencyContact: '',
         emergencyPhone: '',
@@ -163,7 +149,6 @@ export default {
         patientType: 0
       },
       nameFocus: false,
-      ageFocus: false,
       idCardFocus: false,
       emergencyContactFocus: false,
       emergencyPhoneFocus: false
@@ -182,10 +167,18 @@ export default {
           })
           return
         }
-        const res = await get('/user/info')
-        if (res.code === 200) {
-          this.userInfo = res.data
-          this.editForm = { ...res.data }
+        // 先尝试从本地存储获取
+        let userInfo = getUserInfo()
+        if (userInfo) {
+          this.userInfo = userInfo
+          this.editForm = { ...userInfo }
+        } else {
+          // 本地没有则从API获取
+          userInfo = await fetchUserInfo()
+          if (userInfo) {
+            this.userInfo = userInfo
+            this.editForm = { ...userInfo }
+          }
         }
       } catch (err) {
         console.log(err)
@@ -204,6 +197,10 @@ export default {
             title: '更新成功',
             icon: 'success'
           })
+          // 更新本地存储的用户信息
+          if (res.data) {
+            setUserInfo(res.data)
+          }
           setTimeout(() => {
             uni.navigateBack()
           }, 1000)

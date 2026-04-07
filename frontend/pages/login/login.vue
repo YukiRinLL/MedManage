@@ -79,8 +79,8 @@ export default {
           phone: this.phone,
           password: this.password
         })
-        uni.setStorageSync('token', res.token)
-        uni.setStorageSync('user', JSON.stringify(res.data))
+        uni.setStorageSync('token', res.data.token)
+        uni.setStorageSync('user', JSON.stringify(res.data.user))
         uni.showToast({
           title: '登录成功',
           icon: 'success'
