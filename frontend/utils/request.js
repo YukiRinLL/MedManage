@@ -8,7 +8,7 @@ function request(url, method = 'GET', data = {}) {
       data: data,
       header: {
         'Content-Type': 'application/json',
-        'Authorization': uni.getStorageSync('token') || ''
+        'Authorization': uni.getStorageSync('token') ? 'Bearer ' + uni.getStorageSync('token') : ''
       },
       success: (res) => {
         if (res.statusCode === 200) {

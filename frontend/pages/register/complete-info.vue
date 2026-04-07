@@ -110,7 +110,7 @@ export default {
           })
           setTimeout(() => {
             uni.switchTab({
-              url: '/pages/tabbar/index'
+              url: '/pages/home/home'
             })
           }, 1000)
         } else {
@@ -120,7 +120,7 @@ export default {
           })
         }
       } catch (err) {
-        console.log(err)
+        console.log('保存信息失败:', err)
         uni.showToast({
           title: err.message || '网络错误，请稍后重试',
           icon: 'none'
@@ -131,7 +131,7 @@ export default {
     },
     skipComplete() {
       uni.switchTab({
-        url: '/pages/tabbar/index'
+        url: '/pages/home/home'
       })
     }
   }

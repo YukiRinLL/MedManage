@@ -12,19 +12,41 @@ public class RedisUtil {
     private RedisTemplate<String, Object> redisTemplate;
     
     public void set(String key, Object value, long expire) {
-        redisTemplate.opsForValue().set(key, value, expire, TimeUnit.SECONDS);
+        try {
+            redisTemplate.opsForValue().set(key, value, expire, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            // 记录日志，不影响应用启动
+            System.err.println("Redis set error: " + e.getMessage());
+        }
     }
     
     public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
+        try {
+            return redisTemplate.opsForValue().get(key);
+        } catch (Exception e) {
+            // 记录日志，不影响应用启动
+            System.err.println("Redis get error: " + e.getMessage());
+            return null;
+        }
     }
     
     public void delete(String key) {
-        redisTemplate.delete(key);
+        try {
+            redisTemplate.delete(key);
+        } catch (Exception e) {
+            // 记录日志，不影响应用启动
+            System.err.println("Redis delete error: " + e.getMessage());
+        }
     }
     
     public boolean exists(String key) {
-        return redisTemplate.hasKey(key);
+        try {
+            return redisTemplate.hasKey(key);
+        } catch (Exception e) {
+            // 记录日志，不影响应用启动
+            System.err.println("Redis exists error: " + e.getMessage());
+            return false;
+        }
     }
     
     public RedisTemplate<String, Object> getRedisTemplate() {

@@ -159,8 +159,8 @@ export default {
             icon: 'success'
           })
           // 保存token到本地存储
-          if (response.token) {
-            uni.setStorageSync('token', response.token)
+          if (response.data && response.data.token) {
+            uni.setStorageSync('token', response.data.token)
           }
           setTimeout(() => {
             uni.navigateTo({

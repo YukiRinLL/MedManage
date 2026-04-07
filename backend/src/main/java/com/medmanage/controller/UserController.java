@@ -88,8 +88,11 @@ public class UserController {
     }
     
     @PutMapping("/update")
-    public ResponseEntity<Map<String, Object>> updateUser(@RequestHeader("Authorization") String token, @RequestBody User user) {
+    public ResponseEntity<Map<String, Object>> updateUser(@RequestHeader(value = "Authorization", required = false) String token, @RequestBody User user) {
         try {
+            if (token == null || token.isEmpty()) {
+                return ResponseUtil.unauthorized("未登录");
+            }
             String userId = jwtUtil.getUserIdFromToken(token);
             user.setId(userId);
             User updatedUser = userService.update(user);
