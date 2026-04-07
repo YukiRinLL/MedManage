@@ -89,10 +89,7 @@ export default {
           url: '/pages/home/home'
         })
       } catch (err) {
-        uni.showToast({
-          title: err.message || '登录失败',
-          icon: 'none'
-        })
+        console.log(err)
       }
     },
     goToRegister() {

@@ -133,19 +133,12 @@ public class User {
         this.gender = gender;
     }
 
-    // 不使用数据库中的age字段，而是通过生日动态计算年龄
     public Integer getAge() {
-        if (birthDate == null) {
-            return null;
-        }
-        java.time.LocalDate birth = birthDate.toLocalDate();
-        java.time.LocalDate now = java.time.LocalDate.now();
-        return java.time.Period.between(birth, now).getYears();
+        return age;
     }
 
-    // 不设置年龄，年龄通过生日动态计算
     public void setAge(Integer age) {
-        // 忽略设置年龄的操作，年龄通过生日动态计算
+        this.age = age;
     }
 
     public String getIdCard() {

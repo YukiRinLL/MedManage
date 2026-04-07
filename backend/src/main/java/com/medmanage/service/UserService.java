@@ -27,14 +27,20 @@ public class UserService {
             throw new RuntimeException("透析号已注册");
         }
         
-        // 从身份证号提取生日
+        // 从身份证号提取生日和性别
         if (user.getIdCard() != null && user.getIdCard().length() == 18) {
             try {
+                // 提取生日
                 String year = user.getIdCard().substring(6, 10);
                 String month = user.getIdCard().substring(10, 12);
                 String day = user.getIdCard().substring(12, 14);
                 String birthDateStr = year + "-" + month + "-" + day + "T00:00:00";
                 user.setBirthDate(java.time.LocalDateTime.parse(birthDateStr));
+                
+                // 提取性别：第17位，奇数为男(1)，偶数为女(0)
+                char genderChar = user.getIdCard().charAt(16);
+                int gender = Integer.parseInt(String.valueOf(genderChar)) % 2;
+                user.setGender(gender);
             } catch (Exception e) {
                 throw new RuntimeException("身份证号格式错误");
             }
@@ -71,7 +77,67 @@ public class UserService {
     
     @Transactional
     public User update(User user) {
-        return userRepository.save(user);
+        // 先从数据库中获取完整的用户对象
+        User existingUser = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("用户不存在"));
+        
+        // 只更新前端发送的字段
+        if (user.getGender() != null) {
+            existingUser.setGender(user.getGender());
+        }
+        // 不更新年龄，年龄通过生日动态计算
+        // if (user.getAge() != null) {
+        //     existingUser.setAge(user.getAge());
+        // }
+        if (user.getEmergencyContact() != null) {
+            existingUser.setEmergencyContact(user.getEmergencyContact());
+        }
+        if (user.getEmergencyPhone() != null) {
+            existingUser.setEmergencyPhone(user.getEmergencyPhone());
+        }
+        if (user.getAddress() != null) {
+            existingUser.setAddress(user.getAddress());
+        }
+        if (user.getTxNumber() != null) {
+            existingUser.setTxNumber(user.getTxNumber());
+        }
+        if (user.getNation() != null) {
+            existingUser.setNation(user.getNation());
+        }
+        if (user.getBirthDate() != null) {
+            existingUser.setBirthDate(user.getBirthDate());
+        }
+        if (user.getPostalCode() != null) {
+            existingUser.setPostalCode(user.getPostalCode());
+        }
+        if (user.getEmail() != null) {
+            existingUser.setEmail(user.getEmail());
+        }
+        if (user.getInsuranceType() != null) {
+            existingUser.setInsuranceType(user.getInsuranceType());
+        }
+        if (user.getMedicalCertType() != null) {
+            existingUser.setMedicalCertType(user.getMedicalCertType());
+        }
+        if (user.getElectronicMedicalId() != null) {
+            existingUser.setElectronicMedicalId(user.getElectronicMedicalId());
+        }
+        if (user.getDiagnosis() != null) {
+            existingUser.setDiagnosis(user.getDiagnosis());
+        }
+        if (user.getHospitalizationStatus() != null) {
+            existingUser.setHospitalizationStatus(user.getHospitalizationStatus());
+        }
+        if (user.getAdmissionDate() != null) {
+            existingUser.setAdmissionDate(user.getAdmissionDate());
+        }
+        if (user.getDischargeDate() != null) {
+            existingUser.setDischargeDate(user.getDischargeDate());
+        }
+        if (user.getPatientType() != null) {
+            existingUser.setPatientType(user.getPatientType());
+        }
+        
+        return userRepository.save(existingUser);
     }
     
     public User findById(String id) {
