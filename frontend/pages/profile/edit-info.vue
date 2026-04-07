@@ -198,8 +198,8 @@ export default {
             icon: 'success'
           })
           // 更新本地存储的用户信息
-          if (res.data) {
-            setUserInfo(res.data)
+          if (res.data && res.data.data) {
+            setUserInfo(res.data.data)
           }
           setTimeout(() => {
             uni.navigateBack()

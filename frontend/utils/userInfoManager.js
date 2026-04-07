@@ -42,8 +42,8 @@ export async function fetchUserInfo() {
       return null
     }
     const res = await get('/user/info')
-    if (res.code === 200 && res.data && res.data.data && res.data.data.data) {
-      const userInfo = res.data.data.data
+    if (res.code === 200 && res.data && res.data.data) {
+      const userInfo = res.data.data
       setUserInfo(userInfo)
       return userInfo
     }
