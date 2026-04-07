@@ -380,8 +380,8 @@ const handleView = async (row) => {
   try {
     const response = await request.get(`/user/${row.id}`)
     if (response.code === 200) {
-      currentPatient.value = response.data
-      currentPatient.value.tags = response.tags || []
+      currentPatient.value = response.data.data
+      currentPatient.value.tags = response.data.tags || []
       detailDialogVisible.value = true
     }
   } catch (error) {
@@ -484,7 +484,7 @@ const handleEdit = async (row) => {
   try {
     const response = await request.get(`/user/${row.id}`)
     if (response.code === 200) {
-      editForm.value = { ...response.data }
+      editForm.value = { ...response.data.data }
       // 转换日期格式
       if (editForm.value.birthDate) {
         editForm.value.birthDate = new Date(editForm.value.birthDate)

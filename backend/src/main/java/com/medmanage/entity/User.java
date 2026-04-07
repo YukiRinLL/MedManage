@@ -109,6 +109,7 @@ public class User {
         this.phone = phone;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -192,6 +193,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
@@ -303,6 +305,17 @@ public class User {
 
     public void setPatientType(Integer patientType) {
         this.patientType = patientType;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
     // 自定义出生日期反序列化器
