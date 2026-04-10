@@ -23,6 +23,12 @@
           <text class="menu-arrow">›</text>
         </view>
         
+        <view class="menu-item" @click="navigateToInsurance">
+          <text class="menu-icon">💳</text>
+          <text class="menu-text">参保信息</text>
+          <text class="menu-arrow">›</text>
+        </view>
+        
         <view class="menu-item" @click="navigateToSettings">
           <text class="menu-icon">⚙️</text>
           <text class="menu-text">设置</text>
@@ -105,6 +111,11 @@ export default {
     navigateToPersonalInfo() {
       uni.navigateTo({
         url: '/pages/profile/personal-info'
+      })
+    },
+    navigateToInsurance() {
+      uni.navigateTo({
+        url: '/pages/insurance/insurance'
       })
     },
     navigateToSettings() {

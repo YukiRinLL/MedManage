@@ -88,6 +88,12 @@ const routes = [
         name: 'Diagnosis',
         component: () => import('@/views/diagnosis/Index.vue'),
         meta: { title: '诊断信息管理', icon: 'Notebook', roles: [1, 2] }
+      },
+      {
+        path: '/insurance',
+        name: 'Insurance',
+        component: () => import('@/views/insurance/Index.vue'),
+        meta: { title: '参保信息管理', icon: 'Wallet', roles: [1, 2] }
       }
     ]
   }

@@ -43,6 +43,11 @@
         <text class="menu-icon">🩺</text>
         <text>诊断信息</text>
       </view>
+      
+      <view class="menu-item" @click="navigateTo('/pages/insurance/insurance')">
+        <text class="menu-icon">💳</text>
+        <text>参保信息</text>
+      </view>
     </view>
   </view>
 </template>

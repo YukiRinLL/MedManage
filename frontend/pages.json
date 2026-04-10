@@ -129,6 +129,22 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/insurance/insurance",
+      "style": {
+        "navigationBarTitleText": "参保信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/insurance/edit-insurance",
+      "style": {
+        "navigationBarTitleText": "编辑参保信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
