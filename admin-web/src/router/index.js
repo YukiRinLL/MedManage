@@ -94,6 +94,12 @@ const routes = [
         name: 'Insurance',
         component: () => import('@/views/insurance/Index.vue'),
         meta: { title: '参保信息管理', icon: 'Wallet', roles: [1, 2] }
+      },
+      {
+        path: '/schedule',
+        name: 'Schedule',
+        component: () => import('@/views/schedule/Index.vue'),
+        meta: { title: '透析排班管理', icon: 'Calendar', roles: [1, 2] }
       }
     ]
   }

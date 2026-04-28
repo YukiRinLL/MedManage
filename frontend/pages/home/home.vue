@@ -48,6 +48,11 @@
         <text class="menu-icon">💳</text>
         <text>参保信息</text>
       </view>
+      
+      <view class="menu-item" @click="navigateTo('/pages/schedule/schedule')">
+        <text class="menu-icon">📅</text>
+        <text>透析排班</text>
+      </view>
     </view>
   </view>
 </template>

@@ -137,6 +137,14 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/schedule/schedule",
+      "style": {
+        "navigationBarTitleText": "透析排班",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
