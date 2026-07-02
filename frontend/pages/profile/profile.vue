@@ -126,8 +126,8 @@ export default {
       })
     },
     navigateToInsurance() {
-      uni.navigateTo({
-        url: '/pages/insurance/insurance'
+      uni.switchTab({
+        url: '/pages/service-center/service-center'
       })
     },
     navigateToSettings() {

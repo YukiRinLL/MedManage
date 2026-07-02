@@ -14,7 +14,12 @@
           <text class="card-title">今日用药</text>
           
           <view v-if="medications.length > 0" class="medication-list">
-            <view v-for="med in medications" :key="med.id" class="medication-item">
+            <view 
+              v-for="(med, index) in medications" 
+              :key="med.id" 
+              class="medication-item animate-fade-in-up"
+              :style="{ animationDelay: index * 0.05 + 's' }"
+            >
               <view class="medication-header">
                 <text class="medication-name">{{ med.medicationName }}</text>
                 <text class="medication-time">{{ formatDate(med.medicationTime) }}</text>
@@ -30,10 +35,16 @@
                 </view>
               </view>
               <view class="medication-actions">
-                <label class="taken-checkbox" @click="toggleTaken(med)">
-                  <checkbox :checked="med.taken" />
+                <view 
+                  class="taken-button" 
+                  :class="{ taken: med.taken }"
+                  @click="toggleTaken(med)"
+                >
+                  <view class="checkbox-circle" :class="{ checked: med.taken }">
+                    <text v-if="med.taken" class="check-icon">✓</text>
+                  </view>
                   <text class="checkbox-label">{{ med.taken ? '已服用' : '未服用' }}</text>
-                </label>
+                </view>
               </view>
               <view v-if="med.notes" class="medication-notes">
                 {{ med.notes }}
@@ -71,7 +82,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return
@@ -91,10 +102,16 @@ export default {
       }
     },
     async toggleTaken(med) {
+      uni.vibrateShort({})
       med.taken = !med.taken
       try {
         const token = uni.getStorageSync('token')
         await put(`/medication/update-taken/${med.id}`, { taken: med.taken })
+        uni.showToast({
+          title: med.taken ? '已标记为服用' : '已标记为未服用',
+          icon: 'none',
+          duration: 1500
+        })
       } catch (err) {
         console.log(err)
         uni.showToast({
@@ -177,11 +194,32 @@ export default {
   gap: 12px;
 }
 
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out both;
+}
+
 .medication-item {
   padding: 16px;
   border-radius: 8px;
   background-color: #f9f9f9;
   border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+.medication-item:active {
+  background-color: #FFFFFF;
+  transform: scale(0.98);
 }
 
 .medication-header {
@@ -230,15 +268,56 @@ export default {
   margin-bottom: 12px;
 }
 
-.taken-checkbox {
+.taken-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  background-color: #F5F7FA;
+  border: 1px solid #DCDFE6;
+  transition: all 0.25s ease;
+}
+
+.taken-button:active {
+  transform: scale(0.96);
+}
+
+.taken-button.taken {
+  background-color: rgba(0, 157, 133, 0.1);
+  border-color: #009D85;
+}
+
+.checkbox-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #C0C4CC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.checkbox-circle.checked {
+  background-color: #009D85;
+  border-color: #009D85;
+  transform: scale(1.1);
+}
+
+.check-icon {
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .checkbox-label {
   font-size: 14px;
-  color: #333;
+  color: #606266;
+}
+
+.taken-button.taken .checkbox-label {
+  color: #009D85;
 }
 
 .medication-notes {

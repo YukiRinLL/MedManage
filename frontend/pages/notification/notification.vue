@@ -56,7 +56,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return

@@ -33,6 +33,30 @@
       }
     },
     {
+      "path": "pages/health-manage/health-manage",
+      "style": {
+        "navigationBarTitleText": "健康管理",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/service-center/service-center",
+      "style": {
+        "navigationBarTitleText": "服务中心",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/interaction/interaction",
+      "style": {
+        "navigationBarTitleText": "互动中心",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/health-record/health-record",
       "style": {
         "navigationBarTitleText": "健康档案",
@@ -145,6 +169,14 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/diagnosis/diagnosis",
+      "style": {
+        "navigationBarTitleText": "诊断信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
@@ -164,16 +196,16 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/health-record/health-record",
+        "pagePath": "pages/health-manage/health-manage",
         "text": "健康管理"
       },
       {
-        "pagePath": "pages/activities/list",
-        "text": "活动"
+        "pagePath": "pages/service-center/service-center",
+        "text": "服务中心"
       },
       {
-        "pagePath": "pages/news/list",
-        "text": "新闻"
+        "pagePath": "pages/interaction/interaction",
+        "text": "互动中心"
       },
       {
         "pagePath": "pages/profile/profile",

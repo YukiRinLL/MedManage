@@ -19,34 +19,41 @@
           <text class="card-title">最近记录</text>
           
           <view v-if="vitalSigns.length > 0" class="vital-list">
-            <view v-for="sign in vitalSigns" :key="sign.id" class="vital-item">
+            <view 
+              v-for="(sign, index) in vitalSigns" 
+              :key="sign.id" 
+              class="vital-item animate-fade-in-up"
+              :style="{ animationDelay: index * 0.05 + 's' }"
+              @click="handleItemClick(sign)"
+            >
               <view class="vital-header">
                 <text class="vital-time">{{ formatDate(sign.recordTime) }}</text>
-                <text class="vital-status" :class="{ normal: isNormal(sign) }">
-                  {{ isNormal(sign) ? '正常' : '异常' }}
-                </text>
+                <view class="vital-status" :class="isNormal(sign) ? 'status-normal' : 'status-abnormal'">
+                  {{ isNormal(sign) ? '✓ 正常' : '! 异常' }}
+                </view>
               </view>
               <view class="vital-details">
                 <view class="vital-detail-item">
                   <text class="detail-label">体温</text>
-                  <text class="detail-value">{{ sign.temperature }}℃</text>
+                  <text class="detail-value" :class="{ abnormal: !isTempNormal(sign.temperature) }">{{ sign.temperature }}℃</text>
                 </view>
                 <view class="vital-detail-item">
                   <text class="detail-label">血压</text>
-                  <text class="detail-value">{{ sign.systolicPressure }}/{{ sign.diastolicPressure }}mmHg</text>
+                  <text class="detail-value" :class="{ abnormal: !isPressureNormal(sign.systolicPressure, sign.diastolicPressure) }">{{ sign.systolicPressure }}/{{ sign.diastolicPressure }}mmHg</text>
                 </view>
                 <view class="vital-detail-item">
                   <text class="detail-label">血糖</text>
-                  <text class="detail-value">{{ sign.bloodSugar }}mmol/L</text>
+                  <text class="detail-value" :class="{ abnormal: !isSugarNormal(sign.bloodSugar) }">{{ sign.bloodSugar }}mmol/L</text>
                 </view>
                 <view class="vital-detail-item">
                   <text class="detail-label">心率</text>
-                  <text class="detail-value">{{ sign.heartRate }}bpm</text>
+                  <text class="detail-value" :class="{ abnormal: !isHeartRateNormal(sign.heartRate) }">{{ sign.heartRate }}bpm</text>
                 </view>
               </view>
               <view v-if="sign.notes" class="vital-notes">
                 {{ sign.notes }}
               </view>
+              <text class="vital-arrow">›</text>
             </view>
           </view>
           
@@ -80,7 +87,7 @@ export default {
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.switchTab({
+          uni.navigateTo({
             url: '/pages/login/login'
           })
           return
@@ -105,15 +112,34 @@ export default {
       return date.toLocaleString()
     },
     isNormal(sign) {
-      const tempNormal = sign.temperature >= 36.0 && sign.temperature <= 37.3
-      const pressureNormal = sign.systolicPressure >= 90 && sign.systolicPressure <= 140 && 
-                            sign.diastolicPressure >= 60 && sign.diastolicPressure <= 90
-      const sugarNormal = sign.bloodSugar >= 3.9 && sign.bloodSugar <= 6.1
-      const heartRateNormal = sign.heartRate >= 60 && sign.heartRate <= 100
-      
-      return tempNormal && pressureNormal && sugarNormal && heartRateNormal
+      return this.isTempNormal(sign.temperature) && 
+             this.isPressureNormal(sign.systolicPressure, sign.diastolicPressure) && 
+             this.isSugarNormal(sign.bloodSugar) && 
+             this.isHeartRateNormal(sign.heartRate)
+    },
+    isTempNormal(temp) {
+      return temp >= 36.0 && temp <= 37.3
+    },
+    isPressureNormal(systolic, diastolic) {
+      return systolic >= 90 && systolic <= 140 && diastolic >= 60 && diastolic <= 90
+    },
+    isSugarNormal(sugar) {
+      return sugar >= 3.9 && sugar <= 6.1
+    },
+    isHeartRateNormal(rate) {
+      return rate >= 60 && rate <= 100
+    },
+    handleItemClick(sign) {
+      uni.vibrateShort({})
+      uni.showModal({
+        title: '记录详情',
+        content: `体温: ${sign.temperature}℃\n血压: ${sign.systolicPressure}/${sign.diastolicPressure}mmHg\n血糖: ${sign.bloodSugar}mmol/L\n心率: ${sign.heartRate}bpm${sign.notes ? '\n备注: ' + sign.notes : ''}`,
+        showCancel: false,
+        confirmText: '知道了'
+      })
     },
     navigateToAddRecord() {
+      uni.vibrateShort({})
       uni.navigateTo({
         url: '/pages/vital-sign/add-record'
       })
@@ -275,6 +301,66 @@ export default {
   color: #666;
   padding-top: 8px;
   border-top: 1px dashed #f0f0f0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out both;
+}
+
+.vital-item {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.vital-item:active {
+  background-color: #FFFFFF;
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.vital-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.status-normal {
+  background-color: rgba(0, 157, 133, 0.15);
+  color: #009D85;
+}
+
+.status-abnormal {
+  background-color: rgba(245, 108, 108, 0.15);
+  color: #F56C6C;
+}
+
+.detail-value.abnormal {
+  color: #F56C6C;
+  font-weight: 600;
+}
+
+.vital-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #C0C4CC;
 }
 
 .empty-state {
