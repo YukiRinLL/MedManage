@@ -2,7 +2,13 @@
   <view class="insurance-container">
     <!-- <view class="page-title">参保信息</view> -->
     
-    <view class="insurance-card" v-if="insuranceInfo">
+    <view v-if="loading" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
+    <view v-else>
+      <view class="insurance-card" v-if="insuranceInfo">
       <view class="info-section">
         <text class="section-title">基本信息</text>
         
@@ -80,10 +86,11 @@
         </view>
       </view>
       
-    </view>
-    
-    <view class="empty-state" v-else>
-      <text class="empty-text">暂无参保信息</text>
+      </view>
+      
+      <view class="empty-state" v-else>
+        <text class="empty-text">暂无参保信息</text>
+      </view>
     </view>
   </view>
 </template>
@@ -156,6 +163,34 @@ export default {
   padding: 20rpx;
   background-color: #f5f7fa;
   min-height: 100vh;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 157, 133, 0.2);
+  border-radius: 50%;
+  border-top-color: #009D85;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #606266;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .page-title {

@@ -1,7 +1,14 @@
 <template>
   <view class="profile-container">
+    <!-- 加载状态 -->
+    <view v-if="isLoading" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
     <!-- 用户信息卡片 -->
-    <view class="user-info-card" v-if="userInfo">
+    <view v-else>
+      <view class="user-info-card" v-if="userInfo">
       <view class="user-avatar">
         <text class="avatar-icon">{{ getUserInitial(userInfo.name) }}</text>
       </view>
@@ -60,6 +67,7 @@
     <view class="version-info">
       <text class="version-text">版本 1.0.0</text>
     </view>
+    </view>
   </view>
 </template>
 
@@ -69,7 +77,8 @@ import { getUserInfo, fetchUserInfo } from '../../utils/userInfoManager.js'
 export default {
   data() {
     return {
-      userInfo: null
+      userInfo: null,
+      isLoading: true
     }
   },
   onLoad() {
@@ -77,6 +86,7 @@ export default {
   },
   methods: {
     async getUserInfo() {
+      this.isLoading = true
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
@@ -102,6 +112,8 @@ export default {
           title: '获取个人信息失败',
           icon: 'none'
         })
+      } finally {
+        this.isLoading = false
       }
     },
     getUserInitial(name) {
@@ -153,6 +165,34 @@ export default {
   padding: 0;
   min-height: 100vh;
   background-color: #f5f5f5;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 157, 133, 0.2);
+  border-radius: 50%;
+  border-top-color: #009D85;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #606266;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* 用户信息卡片 */

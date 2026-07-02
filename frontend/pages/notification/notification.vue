@@ -1,7 +1,13 @@
 <template>
   <view class="notification-container">
+    <!-- 加载状态 -->
+    <view v-if="isLoading" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
+    </view>
+    
     <!-- 通知内容 -->
-    <view class="notification-content">
+    <view v-else class="notification-content">
       <view class="notification-card">
         <text class="card-title">消息通知</text>
         
@@ -37,7 +43,8 @@ import { get, put } from '../../utils/request.js'
 export default {
   data() {
     return {
-      notifications: []
+      notifications: [],
+      isLoading: true
     }
   },
   onLoad() {
@@ -45,6 +52,7 @@ export default {
   },
   methods: {
     async getNotifications() {
+      this.isLoading = true
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
@@ -63,6 +71,8 @@ export default {
           title: '获取通知失败',
           icon: 'none'
         })
+      } finally {
+        this.isLoading = false
       }
     },
     async markAsRead(id) {
@@ -95,6 +105,34 @@ export default {
   padding: 0;
   min-height: 100vh;
   background-color: #f5f5f5;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 157, 133, 0.2);
+  border-radius: 50%;
+  border-top-color: #009D85;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #606266;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* 通知内容 */

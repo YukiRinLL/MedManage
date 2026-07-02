@@ -1,24 +1,31 @@
 <template>
   <view class="diagnosis-container">
-    <view class="page-header">
-      <text class="page-title">诊断信息</text>
+    <view v-if="isLoading" class="loading-container">
+      <view class="loading-spinner"></view>
+      <text class="loading-text">加载中...</text>
     </view>
+    
+    <view v-else>
+      <view class="page-header">
+        <text class="page-title">诊断信息</text>
+      </view>
 
-    <view class="diagnosis-list" v-if="diagnoses.length > 0">
-      <view class="diagnosis-item" v-for="(item, index) in diagnoses" :key="item.id">
-        <view class="diagnosis-header">
-          <text class="diagnosis-name">{{ item.diseName }}</text>
-          <text class="diagnosis-sort">排序: {{ item.sort }}</text>
-        </view>
-        <view class="diagnosis-info" v-if="item.diseCode">
-          <text class="info-label">疾病编码: </text>
-          <text class="info-value">{{ item.diseCode }}</text>
+      <view class="diagnosis-list" v-if="diagnoses.length > 0">
+        <view class="diagnosis-item" v-for="(item, index) in diagnoses" :key="item.id">
+          <view class="diagnosis-header">
+            <text class="diagnosis-name">{{ item.diseName }}</text>
+            <text class="diagnosis-sort">排序: {{ item.sort }}</text>
+          </view>
+          <view class="diagnosis-info" v-if="item.diseCode">
+            <text class="info-label">疾病编码: </text>
+            <text class="info-value">{{ item.diseCode }}</text>
+          </view>
         </view>
       </view>
-    </view>
 
-    <view v-else class="empty-state">
-      <text class="empty-text">暂无诊断信息</text>
+      <view v-else class="empty-state">
+        <text class="empty-text">暂无诊断信息</text>
+      </view>
     </view>
   </view>
 </template>
@@ -29,7 +36,8 @@ import { getDiagnosesByUserId } from '../../api/diagnosis'
 export default {
   data() {
     return {
-      diagnoses: []
+      diagnoses: [],
+      isLoading: true
     }
   },
   onLoad() {
@@ -37,6 +45,7 @@ export default {
   },
   methods: {
     async fetchDiagnoses() {
+      this.isLoading = true
       try {
         const userId = uni.getStorageSync('userId')
         if (!userId) {
@@ -50,7 +59,6 @@ export default {
         const response = await getDiagnosesByUserId(userId)
         if (response.code === 200) {
           this.diagnoses = response.data || []
-          // 按排序号排序
           this.diagnoses.sort((a, b) => a.sort - b.sort)
         }
       } catch (error) {
@@ -59,6 +67,8 @@ export default {
           title: '获取诊断信息失败',
           icon: 'none'
         })
+      } finally {
+        this.isLoading = false
       }
     }
   }
@@ -70,6 +80,34 @@ export default {
   padding: 20rpx;
   min-height: 100vh;
   background-color: #f5f5f5;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 157, 133, 0.2);
+  border-radius: 50%;
+  border-top-color: #009D85;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  font-size: 14px;
+  color: #606266;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .page-header {
