@@ -11,7 +11,7 @@
     <view v-if="plan" class="plan-content">
       <view v-if="plan.abnormalIndicators" class="abnormal-alert">
         <view class="alert-header">
-          <text class="alert-icon">⚠️</text>
+          <image src="/static/icons/png/filled/symbols/alert_triangle@2x.png" class="alert-icon" mode="aspectFit" />
           <text class="alert-title">异常指标预警</text>
         </view>
         <view class="alert-content">
@@ -25,7 +25,7 @@
       <view class="plan-detail">
         <view class="detail-section">
           <view class="section-header-mini">
-            <text class="section-icon">🥗</text>
+            <image src="/static/icons/png/filled/nutrition/fruits@2x.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">饮食调整方案</text>
           </view>
           <view class="section-content">
@@ -35,7 +35,7 @@
 
         <view class="detail-section">
           <view class="section-header-mini">
-            <text class="section-icon">💧</text>
+            <image src="/static/icons/png/filled/objects/running_water@2x.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">饮水管控方案</text>
           </view>
           <view class="section-content">
@@ -45,7 +45,7 @@
 
         <view class="detail-section">
           <view class="section-header-mini">
-            <text class="section-icon">🏃</text>
+            <image src="/static/icons/png/filled/exercise/walking@2x.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">生活作息建议</text>
           </view>
           <view class="section-content">
@@ -55,7 +55,7 @@
 
         <view class="detail-section">
           <view class="section-header-mini">
-            <text class="section-icon">💊</text>
+            <image src="/static/icons/png/filled/medications/pill_1@2x.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">用药调整建议</text>
           </view>
           <view class="section-content">
@@ -65,7 +65,7 @@
 
         <view class="detail-section">
           <view class="section-header-mini">
-            <text class="section-icon">📝</text>
+            <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">随访注意事项</text>
           </view>
           <view class="section-content">
@@ -81,7 +81,7 @@
     </view>
 
     <view v-else-if="!isLoading" class="empty-state">
-      <text class="empty-icon">📋</text>
+      <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="empty-icon" mode="aspectFit" />
       <text class="empty-text">暂无提升方案</text>
       <text class="empty-subtext">您的专属方案将由医护团队制定</text>
     </view>
@@ -164,21 +164,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00B59D 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
 .header-content {
@@ -220,7 +207,8 @@ export default {
 }
 
 .alert-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .alert-title {
@@ -284,7 +272,8 @@ export default {
 }
 
 .section-icon {
-  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }
 
 .section-title-mini {
@@ -331,7 +320,8 @@ export default {
 }
 
 .empty-icon {
-  font-size: 60px;
+  width: 48px;
+  height: 48px;
   margin-bottom: 20px;
 }
 

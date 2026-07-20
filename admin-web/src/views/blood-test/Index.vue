@@ -164,7 +164,7 @@
 import { ref, reactive } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { get, post, put, del } from '@/utils/request'
+import request from '@/utils/request'
 
 const loading = ref(false)
 const showAddDialog = ref(false)
@@ -209,7 +209,7 @@ const pagination = reactive({
 const fetchData = async () => {
   loading.value = true
   try {
-    const res = await get(`/blood-test/list/${searchForm.userId || 'all'}`)
+    const res = await request.get(`/blood-test/list/${searchForm.userId || 'all'}`)
     if (res.code === 200) {
       tableData.value = res.data || []
       pagination.total = tableData.value.length
@@ -247,10 +247,10 @@ const handleCurrentChange = (page) => {
 const handleSave = async () => {
   try {
     if (formData.id) {
-      await put(`/blood-test/update/${formData.id}`, formData)
+      await request.put(`/blood-test/update/${formData.id}`, formData)
       ElMessage.success('更新成功')
     } else {
-      await post('/blood-test/create', formData)
+      await request.post('/blood-test/create', formData)
       ElMessage.success('创建成功')
     }
     showAddDialog.value = false
@@ -273,7 +273,7 @@ const deleteRow = async (row) => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    await del(`/blood-test/delete/${row.id}`)
+    await request.delete(`/blood-test/delete/${row.id}`)
     ElMessage.success('删除成功')
     fetchData()
   } catch {

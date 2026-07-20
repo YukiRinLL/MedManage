@@ -25,19 +25,19 @@
     <view class="menu-section">
       <view class="menu-card">
         <view class="menu-item" @click="navigateToPersonalInfo">
-          <text class="menu-icon">👤</text>
+          <image src="/static/icons/png/filled/people/person@2x.png" class="menu-icon-img" mode="aspectFit" />
           <text class="menu-text">个人信息</text>
           <text class="menu-arrow">›</text>
         </view>
         
         <view class="menu-item" @click="navigateToInsurance">
-          <text class="menu-icon">💳</text>
+          <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
           <text class="menu-text">参保信息</text>
           <text class="menu-arrow">›</text>
         </view>
         
         <view class="menu-item" @click="navigateToSettings">
-          <text class="menu-icon">⚙️</text>
+          <image src="/static/icons/png/filled/symbols/ui_settings@2x.png" class="menu-icon-img" mode="aspectFit" />
           <text class="menu-text">设置</text>
           <text class="menu-arrow">›</text>
         </view>
@@ -45,13 +45,13 @@
       
       <view class="menu-card">
         <view class="menu-item" @click="navigateToAbout">
-          <text class="menu-icon">ℹ️</text>
+          <image src="/static/icons/png/filled/symbols/info@2x.png" class="menu-icon-img" mode="aspectFit" />
           <text class="menu-text">关于我们</text>
           <text class="menu-arrow">›</text>
         </view>
         
         <view class="menu-item" @click="navigateToHelp">
-          <text class="menu-icon">❓</text>
+          <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
           <text class="menu-text">帮助中心</text>
           <text class="menu-arrow">›</text>
         </view>
@@ -267,6 +267,12 @@ export default {
 
 .menu-icon {
   font-size: 20px;
+  margin-right: 12px;
+}
+
+.menu-icon-img {
+  width: 20px;
+  height: 20px;
   margin-right: 12px;
 }
 

@@ -16,7 +16,7 @@
         @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')"
       >
         <view class="nav-icon-wrapper bg-green">
-          <text class="nav-icon">❤️</text>
+          <image src="/static/icons/png/filled/symbols/heart_cardiogram@2x.png" class="nav-icon-img" mode="aspectFit" />
         </view>
         <view class="nav-content">
           <text class="nav-title">健康管理</text>
@@ -33,7 +33,7 @@
         @click="handleNavClick('/pages/service-center/service-center', '服务中心')"
       >
         <view class="nav-icon-wrapper bg-orange">
-          <text class="nav-icon">💳</text>
+          <image src="/static/icons/png/filled/objects/insurance_card@2x.png" class="nav-icon-img" mode="aspectFit" />
         </view>
         <view class="nav-content">
           <text class="nav-title">服务中心</text>
@@ -50,7 +50,7 @@
         @click="handleNavClick('/pages/interaction/interaction', '互动中心')"
       >
         <view class="nav-icon-wrapper bg-pink">
-          <text class="nav-icon">🎉</text>
+          <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="nav-icon-img" mode="aspectFit" />
         </view>
         <view class="nav-content">
           <text class="nav-title">互动中心</text>
@@ -64,7 +64,7 @@
     
     <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.4s' }" v-if="hasAlert">
       <view class="alert-card" @click="handleAlertClick">
-        <view class="alert-icon">⚠️</view>
+        <image src="/static/icons/png/filled/symbols/alert_triangle@2x.png" class="alert-icon" mode="aspectFit" />
         <view class="alert-content">
           <text class="alert-title">指标异常提醒</text>
           <text class="alert-desc">您有 {{ alertCount }} 项指标超出正常范围</text>
@@ -75,7 +75,10 @@
 
     <view class="tips-section animate-fade-in" :style="{ animationDelay: '0.4s' }">
       <view class="tips-header">
-        <text class="tips-title">💡 使用提示</text>
+        <view class="tips-title-wrap">
+          <image src="/static/icons/png/filled/symbols/info@2x.png" class="tips-icon" mode="aspectFit" />
+          <text class="tips-title">使用提示</text>
+        </view>
         <view class="tips-badge">3</view>
       </view>
       <view class="tips-list">
@@ -299,10 +302,9 @@ export default {
 .welcome-section {
   padding: 50px 20px 35px;
   text-align: center;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F5F7FA 100%);
+  background-color: #FFFFFF;
   margin-bottom: 16px;
   position: relative;
-  overflow: hidden;
 }
 
 .logo-container {
@@ -375,6 +377,7 @@ export default {
   bottom: 0;
   width: 4px;
   border-radius: 0 2px 2px 0;
+  background-color: #E4E7ED;
 }
 
 .nav-card:active {
@@ -383,15 +386,15 @@ export default {
 }
 
 .nav-card:nth-child(1)::before {
-  background: linear-gradient(180deg, #009D85 0%, #00C4A7 100%);
+  background-color: #009D85;
 }
 
 .nav-card:nth-child(2)::before {
-  background: linear-gradient(180deg, #FAA31A 0%, #FFC53D 100%);
+  background-color: #FAA31A;
 }
 
 .nav-card:nth-child(3)::before {
-  background: linear-gradient(180deg, #EC4899 0%, #F472B6 100%);
+  background-color: #EC4899;
 }
 
 .nav-icon-wrapper {
@@ -410,19 +413,36 @@ export default {
 }
 
 .bg-green {
-  background: linear-gradient(135deg, rgba(0, 157, 133, 0.15) 0%, rgba(0, 157, 133, 0.05) 100%);
+  background-color: rgba(0, 157, 133, 0.1);
+}
+
+.bg-green .nav-icon-img {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
 }
 
 .bg-orange {
-  background: linear-gradient(135deg, rgba(250, 173, 20, 0.15) 0%, rgba(250, 173, 20, 0.05) 100%);
+  background-color: rgba(250, 173, 20, 0.1);
+}
+
+.bg-orange .nav-icon-img {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(56%) saturate(694%) hue-rotate(356deg) brightness(103%) contrast(101%);
 }
 
 .bg-pink {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(236, 72, 153, 0.05) 100%);
+  background-color: rgba(236, 72, 153, 0.1);
+}
+
+.bg-pink .nav-icon-img {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(64%) saturate(726%) hue-rotate(290deg) brightness(95%) contrast(95%);
 }
 
 .nav-icon {
   font-size: 28px;
+}
+
+.nav-icon-img {
+  width: 28px;
+  height: 28px;
 }
 
 .nav-content {
@@ -473,14 +493,19 @@ export default {
 .alert-card {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, rgba(250, 173, 20, 0.1) 0%, rgba(250, 173, 20, 0.05) 100%);
+  background-color: rgba(250, 173, 20, 0.08);
   padding: 16px 20px;
   border-radius: 12px;
   border-left: 4px solid #E6A23C;
 }
 
+.alert-card .alert-icon {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(56%) saturate(694%) hue-rotate(356deg) brightness(103%) contrast(101%);
+}
+
 .alert-icon {
-  font-size: 24px;
+  width: 24px;
+  height: 24px;
   margin-right: 12px;
 }
 
@@ -515,6 +540,17 @@ export default {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
+}
+
+.tips-title-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.tips-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
 }
 
 .tips-title {

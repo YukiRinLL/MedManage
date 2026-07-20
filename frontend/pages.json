@@ -225,23 +225,33 @@
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "static/icons/png/filled/places/home@2x.png",
+        "selectedIconPath": "static/icons/png/filled/places/home@2x.png"
       },
       {
         "pagePath": "pages/health-manage/health-manage",
-        "text": "健康管理"
+        "text": "健康管理",
+        "iconPath": "static/icons/png/filled/symbols/heart_cardiogram@2x.png",
+        "selectedIconPath": "static/icons/png/filled/symbols/heart_cardiogram@2x.png"
       },
       {
         "pagePath": "pages/interaction/interaction",
-        "text": "互动中心"
+        "text": "互动中心",
+        "iconPath": "static/icons/png/filled/objects/megaphone@2x.png",
+        "selectedIconPath": "static/icons/png/filled/objects/megaphone@2x.png"
       },
       {
         "pagePath": "pages/health-education/health-education",
-        "text": "科普宣教"
+        "text": "科普宣教",
+        "iconPath": "static/icons/png/filled/objects/book@2x.png",
+        "selectedIconPath": "static/icons/png/filled/objects/book@2x.png"
       },
       {
         "pagePath": "pages/profile/profile",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "static/icons/png/filled/people/person@2x.png",
+        "selectedIconPath": "static/icons/png/filled/people/person@2x.png"
       }
     ]
   },

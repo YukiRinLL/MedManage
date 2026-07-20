@@ -15,7 +15,7 @@
         @click="handleItemClick('/pages/insurance/insurance', '参保信息')"
       >
         <view class="menu-icon-wrapper bg-orange">
-          <text class="menu-icon">💳</text>
+          <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
         <text class="menu-text">参保信息</text>
         <text class="menu-hint">查询医保参保状态</text>
@@ -27,7 +27,7 @@
         @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
       >
         <view class="menu-icon-wrapper bg-cyan">
-          <text class="menu-icon">📅</text>
+          <image src="/static/icons/png/filled/objects/calendar@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
         <text class="menu-text">透析排班</text>
         <text class="menu-hint">查看透析安排时间</text>
@@ -36,21 +36,21 @@
     
     <view class="service-info animate-fade-in" :style="{ animationDelay: '0.25s' }">
       <view class="info-card">
-        <text class="info-icon">📞</text>
+        <image src="/static/icons/png/filled/objects/phone@2x.png" class="info-icon" mode="aspectFit" />
         <view class="info-content">
           <text class="info-title">服务热线</text>
           <text class="info-value">400-888-8888</text>
         </view>
       </view>
       <view class="info-card">
-        <text class="info-icon">🕐</text>
+        <image src="/static/icons/png/filled/objects/clock@2x.png" class="info-icon" mode="aspectFit" />
         <view class="info-content">
           <text class="info-title">服务时间</text>
           <text class="info-value">周一至周日 8:00-20:00</text>
         </view>
       </view>
       <view class="info-card">
-        <text class="info-icon">📍</text>
+        <image src="/static/icons/png/filled/symbols/geo_location@2x.png" class="info-icon" mode="aspectFit" />
         <view class="info-content">
           <text class="info-title">机构地址</text>
           <text class="info-value">北京市朝阳区健康路88号</text>
@@ -60,14 +60,14 @@
 
     <view class="medical-staff-section animate-fade-in" :style="{ animationDelay: '0.3s' }">
       <view class="section-title-wrap">
-        <text class="section-icon">👩‍⚕️</text>
+        <image src="/static/icons/png/filled/people/nurse@2x.png" class="section-icon" mode="aspectFit" />
         <text class="section-label">专属医护团队</text>
       </view>
       
       <view class="staff-list">
         <view class="staff-card" v-if="nurse">
           <view class="staff-avatar">
-            <text class="avatar-icon">👩‍⚕️</text>
+            <image src="/static/icons/png/filled/people/nurse@2x.png" class="avatar-icon" mode="aspectFit" />
           </view>
           <view class="staff-info">
             <text class="staff-name">{{ nurse.name }}</text>
@@ -75,14 +75,14 @@
             <text class="staff-department">{{ nurse.department }}</text>
           </view>
           <view class="staff-action" @click="callStaff(nurse.phone)">
-            <text class="action-icon">📞</text>
+            <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
             <text class="action-text">联系</text>
           </view>
         </view>
         
         <view class="staff-card" v-if="doctor">
           <view class="staff-avatar">
-            <text class="avatar-icon">👨‍⚕️</text>
+            <image src="/static/icons/png/filled/people/doctor.png" class="avatar-icon" mode="aspectFit" />
           </view>
           <view class="staff-info">
             <text class="staff-name">{{ doctor.name }}</text>
@@ -90,13 +90,13 @@
             <text class="staff-department">{{ doctor.department }}</text>
           </view>
           <view class="staff-action" @click="callStaff(doctor.phone)">
-            <text class="action-icon">📞</text>
+            <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
             <text class="action-text">联系</text>
           </view>
         </view>
         
         <view class="staff-card empty-staff" v-if="!nurse && !doctor">
-          <text class="empty-icon">👥</text>
+          <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
           <text class="empty-text">暂无专属医护人员</text>
         </view>
       </view>
@@ -216,26 +216,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00B59D 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -291,15 +273,28 @@ export default {
 }
 
 .bg-orange {
-  background: linear-gradient(135deg, rgba(250, 173, 20, 0.2) 0%, rgba(250, 173, 20, 0.05) 100%);
+  background-color: rgba(250, 173, 20, 0.1);
+}
+
+.bg-orange .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(56%) saturate(694%) hue-rotate(356deg) brightness(103%) contrast(101%);
 }
 
 .bg-cyan {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0.05) 100%);
+  background-color: rgba(14, 165, 233, 0.1);
+}
+
+.bg-cyan .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(46%) sepia(92%) saturate(1833%) hue-rotate(197deg) brightness(101%) contrast(103%);
 }
 
 .menu-icon {
   font-size: 36px;
+}
+
+.menu-icon-img {
+  width: 36px;
+  height: 36px;
 }
 
 .menu-text {
@@ -336,7 +331,8 @@ export default {
 }
 
 .info-icon {
-  font-size: 28px;
+  width: 28px;
+  height: 28px;
   margin-right: 16px;
 }
 
@@ -371,7 +367,8 @@ export default {
 }
 
 .section-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .section-label {
@@ -407,7 +404,8 @@ export default {
 }
 
 .avatar-icon {
-  font-size: 28px;
+  width: 28px;
+  height: 28px;
 }
 
 .staff-info {
@@ -444,7 +442,8 @@ export default {
 }
 
 .action-icon {
-  font-size: 18px;
+  width: 18px;
+  height: 18px;
   margin-bottom: 2px;
 }
 
@@ -459,7 +458,8 @@ export default {
 }
 
 .empty-icon {
-  font-size: 36px;
+  width: 36px;
+  height: 36px;
   margin-right: 12px;
 }
 

@@ -57,7 +57,7 @@
         </view>
         
         <view v-else class="empty-state">
-          <text class="empty-icon">📋</text>
+          <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="empty-icon" mode="aspectFit" />
           <text class="empty-text">暂无检查记录</text>
         </view>
       </view>
@@ -74,7 +74,7 @@
 
         <view class="chart-container">
           <view class="chart-placeholder">
-            <text class="chart-icon">📈</text>
+            <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="chart-icon" mode="aspectFit" />
             <text class="chart-text">指标趋势图表</text>
             <text class="chart-subtext">展示近12个月指标变化曲线</text>
           </view>
@@ -310,26 +310,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00B59D 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -478,7 +460,8 @@ export default {
 }
 
 .empty-icon {
-  font-size: 48px;
+  width: 40px;
+  height: 40px;
   margin-bottom: 16px;
 }
 
@@ -523,7 +506,8 @@ export default {
 }
 
 .chart-icon {
-  font-size: 48px;
+  width: 40px;
+  height: 40px;
   margin-bottom: 16px;
 }
 

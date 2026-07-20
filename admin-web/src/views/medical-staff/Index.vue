@@ -119,7 +119,7 @@
 import { ref, reactive } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { get, post, put, del } from '@/utils/request'
+import request from '@/utils/request'
 
 const loading = ref(false)
 const showAddDialog = ref(false)
@@ -155,7 +155,7 @@ const fetchData = async () => {
     const params = {
       ...searchForm
     }
-    const res = await get('/medical-staff/list', params)
+    const res = await request.get('/medical-staff/list', { params })
     if (res.code === 200) {
       tableData.value = res.data || []
       pagination.total = tableData.value.length
@@ -193,10 +193,10 @@ const handleCurrentChange = (page) => {
 const handleSave = async () => {
   try {
     if (formData.id) {
-      await put(`/medical-staff/update/${formData.id}`, formData)
+      await request.put(`/medical-staff/update/${formData.id}`, formData)
       ElMessage.success('更新成功')
     } else {
-      await post('/medical-staff/create', formData)
+      await request.post('/medical-staff/create', formData)
       ElMessage.success('创建成功')
     }
     showAddDialog.value = false
@@ -215,7 +215,7 @@ const editRow = (row) => {
 const toggleActive = async (row) => {
   try {
     row.isActive = !row.isActive
-    await put(`/medical-staff/update/${row.id}`, row)
+    await request.put(`/medical-staff/update/${row.id}`, row)
     ElMessage.success(row.isActive ? '已设为在职' : '已设为离职')
     fetchData()
   } catch (err) {
@@ -230,7 +230,7 @@ const deleteRow = async (row) => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    await del(`/medical-staff/delete/${row.id}`)
+    await request.delete(`/medical-staff/delete/${row.id}`)
     ElMessage.success('删除成功')
     fetchData()
   } catch {

@@ -135,7 +135,7 @@ onMounted(() => {
 }
 
 .news-header {
-  background: linear-gradient(135deg, #009D85 0%, #00b894 100%);
+  background-color: #009D85;
   padding: 40rpx 30rpx;
 }
 
@@ -206,7 +206,7 @@ onMounted(() => {
   width: 200rpx;
   height: 140rpx;
   border-radius: 12rpx;
-  background: linear-gradient(135deg, #e0e0e0 0%, #f0f0f0 100%);
+  background-color: #F5F7FA;
   display: flex;
   align-items: center;
   justify-content: center;

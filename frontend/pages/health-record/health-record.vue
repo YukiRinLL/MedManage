@@ -13,7 +13,7 @@
         <text class="assessment-title">健康建议</text>
         <view class="health-suggestions">
           <view class="suggestion-item" v-for="(suggestion, index) in healthSuggestions" :key="index">
-            <text class="suggestion-icon">💡</text>
+            <image src="/static/icons/png/filled/symbols/info@2x.png" class="suggestion-icon" mode="aspectFit" />
             <text class="suggestion-text">{{ suggestion }}</text>
           </view>
         </view>
@@ -317,7 +317,8 @@ export default {
 }
 
 .suggestion-icon {
-  font-size: 16px;
+  width: 16px;
+  height: 16px;
   margin-right: 8px;
   margin-top: 2px;
 }

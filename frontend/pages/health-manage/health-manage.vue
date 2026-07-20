@@ -15,7 +15,7 @@
         @click="handleItemClick('/pages/health-record/health-record', '健康档案')"
       >
         <view class="menu-icon-wrapper bg-green">
-          <text class="menu-icon">📋</text>
+          <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">健康档案</text>
@@ -28,7 +28,7 @@
         @click="handleItemClick('/pages/vital-sign/vital-sign', '生命体征')"
       >
         <view class="menu-icon-wrapper bg-red">
-          <text class="menu-icon">❤️</text>
+          <image src="/static/icons/png/filled/symbols/heart_cardiogram@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">生命体征</text>
@@ -41,7 +41,7 @@
         @click="handleItemClick('/pages/medication/medication', '用药记录')"
       >
         <view class="menu-icon-wrapper bg-blue">
-          <text class="menu-icon">💊</text>
+          <image src="/static/icons/png/filled/medications/pill_1@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">用药记录</text>
@@ -54,7 +54,7 @@
         @click="handleItemClick('/pages/diagnosis/diagnosis', '诊断信息')"
       >
         <view class="menu-icon-wrapper bg-purple">
-          <text class="menu-icon">🩺</text>
+          <image src="/static/icons/png/filled/devices/stethoscope@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">诊断信息</text>
@@ -67,7 +67,7 @@
         @click="handleItemClick('/pages/core-indicator/core-indicator', '核心指标')"
       >
         <view class="menu-icon-wrapper bg-orange">
-          <text class="menu-icon">📊</text>
+          <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">核心指标</text>
@@ -80,7 +80,7 @@
         @click="handleItemClick('/pages/improvement-plan/improvement-plan', '指标提升方案')"
       >
         <view class="menu-icon-wrapper bg-cyan">
-          <text class="menu-icon">🎯</text>
+          <image src="/static/icons/png/filled/symbols/risk_analysis@2x.png" class="menu-icon-img" mode="aspectFit" />
           <view class="ripple-effect"></view>
         </view>
         <text class="menu-text">指标提升方案</text>
@@ -170,26 +170,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00C4A7 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -246,31 +228,62 @@ export default {
 }
 
 .bg-green {
-  background: linear-gradient(135deg, rgba(0, 157, 133, 0.2) 0%, rgba(0, 157, 133, 0.05) 100%);
+  background-color: rgba(0, 157, 133, 0.1);
+}
+
+.bg-green .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
 }
 
 .bg-red {
-  background: linear-gradient(135deg, rgba(245, 108, 108, 0.2) 0%, rgba(245, 108, 108, 0.05) 100%);
+  background-color: rgba(245, 108, 108, 0.1);
+}
+
+.bg-red .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(35%) sepia(66%) saturate(654%) hue-rotate(349deg) brightness(100%) contrast(99%);
 }
 
 .bg-blue {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.05) 100%);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.bg-blue .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(98%) saturate(2963%) hue-rotate(212deg) brightness(97%) contrast(104%);
 }
 
 .bg-purple {
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(147, 51, 234, 0.05) 100%);
+  background-color: rgba(147, 51, 234, 0.1);
+}
+
+.bg-purple .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(28%) sepia(96%) saturate(3882%) hue-rotate(271deg) brightness(91%) contrast(100%);
 }
 
 .bg-orange {
-  background: linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(251, 146, 60, 0.05) 100%);
+  background-color: rgba(251, 146, 60, 0.1);
+}
+
+.bg-orange .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(54%) sepia(96%) saturate(1288%) hue-rotate(11deg) brightness(99%) contrast(99%);
 }
 
 .bg-cyan {
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.05) 100%);
+  background-color: rgba(6, 182, 212, 0.1);
+}
+
+.bg-cyan .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(53%) sepia(90%) saturate(383%) hue-rotate(141deg) brightness(95%) contrast(105%);
 }
 
 .menu-icon {
   font-size: 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-icon-img {
+  width: 36px;
+  height: 36px;
   position: relative;
   z-index: 1;
 }

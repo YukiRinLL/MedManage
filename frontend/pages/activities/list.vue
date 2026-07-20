@@ -7,14 +7,14 @@
           <text class="activity-title">{{ activity.title }}</text>
           <text class="activity-type">{{ activity.activityType }}</text>
           <view class="activity-meta">
-            <text class="meta-item">
-              <text class="icon">📍</text>
-              {{ activity.location }}
-            </text>
-            <text class="meta-item">
-              <text class="icon">⏰</text>
-              {{ formatTime(activity.startTime) }}
-            </text>
+            <view class="meta-item">
+              <image src="/static/icons/png/filled/symbols/geo_location@2x.png" class="icon" mode="aspectFit" />
+              <text>{{ activity.location }}</text>
+            </view>
+            <view class="meta-item">
+              <image src="/static/icons/png/filled/objects/clock@2x.png" class="icon" mode="aspectFit" />
+              <text>{{ formatTime(activity.startTime) }}</text>
+            </view>
           </view>
           <view class="activity-participants">
             <text class="participants-count">{{ activity.currentParticipants || 0 }}/{{ activity.maxParticipants || '不限' }}</text>
@@ -164,6 +164,8 @@ export default {
 }
 
 .icon {
+  width: 24rpx;
+  height: 24rpx;
   margin-right: 8rpx;
 }
 

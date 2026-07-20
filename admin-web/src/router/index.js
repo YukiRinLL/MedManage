@@ -63,7 +63,7 @@ const routes = [
         path: '/medication',
         name: 'Medication',
         component: () => import('@/views/medication/Index.vue'),
-        meta: { title: '用药记录', icon: 'Medicine', roles: [1, 2] }
+        meta: { title: '用药记录', icon: 'Pill', roles: [1, 2] }
       },
       {
         path: '/notification',
@@ -105,7 +105,7 @@ const routes = [
         path: '/education',
         name: 'Education',
         component: () => import('@/views/education/Index.vue'),
-        meta: { title: '科普宣教管理', icon: 'BookOpen', roles: [1, 2] }
+        meta: { title: '科普宣教管理', icon: 'Notebook', roles: [1, 2] }
       },
       {
         path: '/blood-test',
@@ -132,30 +132,18 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
   const token = userStore.token
 
-  console.log('路由守卫 - 目标路由:', to.path, to.meta)
-  console.log('路由守卫 - token:', token)
-  console.log('路由守卫 - userInfo:', userStore.userInfo)
-  console.log('路由守卫 - userRole:', userStore.userInfo?.role)
-
   if (to.meta.requiresAuth && !token) {
-    console.log('路由守卫 - 需要认证但没有token，跳转到登录页')
     next('/login')
   } else if (to.path === '/login' && token) {
-    console.log('路由守卫 - 已登录但访问登录页，跳转到首页')
     next('/')
   } else {
     const userRole = userStore.userInfo?.role
     const requiredRoles = to.meta?.roles
     
-    console.log('路由守卫 - requiredRoles:', requiredRoles)
-    console.log('路由守卫 - 检查权限:', requiredRoles, 'includes', userRole, '=', requiredRoles && requiredRoles.includes(userRole))
-    
     if (requiredRoles && !requiredRoles.includes(userRole)) {
-      console.log('路由守卫 - 权限不足，停留在当前页')
       ElMessage.error('您没有权限访问此页面')
-      next(from.path)
+      next(false)
     } else {
-      console.log('路由守卫 - 允许访问')
       next()
     }
   }

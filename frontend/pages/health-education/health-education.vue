@@ -54,7 +54,7 @@
           mode="aspectFill"
         />
         <view v-else class="education-cover-placeholder">
-          <text class="placeholder-icon">📚</text>
+          <image src="/static/icons/png/filled/objects/book@2x.png" class="placeholder-icon" mode="aspectFit" />
         </view>
         <view class="education-info">
           <text class="education-title">{{ item.title }}</text>
@@ -68,7 +68,7 @@
     </view>
 
     <view class="empty-state" v-else-if="!isLoading">
-      <text class="empty-icon">📖</text>
+      <image src="/static/icons/png/filled/objects/book@2x.png" class="empty-icon" mode="aspectFit" />
       <text class="empty-text">暂无科普内容</text>
       <text class="empty-subtext">敬请期待更多健康知识</text>
     </view>
@@ -175,26 +175,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00B59D 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -264,7 +246,8 @@ export default {
 }
 
 .placeholder-icon {
-  font-size: 32px;
+  width: 36px;
+  height: 36px;
 }
 
 .education-info {
@@ -325,7 +308,8 @@ export default {
 }
 
 .empty-icon {
-  font-size: 60px;
+  width: 48px;
+  height: 48px;
   margin-bottom: 20px;
 }
 

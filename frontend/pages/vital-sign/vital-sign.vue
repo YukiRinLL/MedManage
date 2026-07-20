@@ -58,7 +58,7 @@
           </view>
           
           <view v-else class="empty-state">
-            <text class="empty-icon">📊</text>
+            <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="empty-icon" mode="aspectFit" />
             <text class="empty-text">暂无生命体征记录</text>
             <text class="empty-subtext">点击下方添加按钮记录您的生命体征</text>
           </view>
@@ -372,7 +372,8 @@ export default {
 }
 
 .empty-icon {
-  font-size: 60px;
+  width: 48px;
+  height: 48px;
   margin-bottom: 20px;
 }
 

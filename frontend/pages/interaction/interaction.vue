@@ -15,7 +15,7 @@
         @click="handleItemClick('/pages/activities/list', '活动中心')"
       >
         <view class="menu-icon-wrapper bg-pink">
-          <text class="menu-icon">🎉</text>
+          <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
         <text class="menu-text">活动中心</text>
         <text class="menu-hint">参与健康互动活动</text>
@@ -27,7 +27,7 @@
         @click="handleItemClick('/pages/news/list', '新闻资讯')"
       >
         <view class="menu-icon-wrapper bg-yellow">
-          <text class="menu-icon">📰</text>
+          <image src="/static/icons/png/filled/objects/spreadsheets@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
         <text class="menu-text">新闻资讯</text>
         <text class="menu-hint">了解医疗健康动态</text>
@@ -40,7 +40,7 @@
       >
         <view class="wide-content">
           <view class="menu-icon-wrapper bg-indigo">
-            <text class="menu-icon">🔔</text>
+            <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="menu-icon-img" mode="aspectFit" />
             <view class="notification-badge" v-if="unreadCount > 0">{{ unreadCount }}</view>
           </view>
           <view class="wide-text">
@@ -142,26 +142,8 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: linear-gradient(135deg, #009D85 0%, #00B59D 100%);
+  background-color: #009D85;
   color: #FFFFFF;
-  position: relative;
-  overflow: hidden;
-}
-
-.header-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -262,19 +244,36 @@ export default {
 }
 
 .bg-pink {
-  background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(236, 72, 153, 0.05) 100%);
+  background-color: rgba(236, 72, 153, 0.1);
+}
+
+.bg-pink .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(64%) saturate(726%) hue-rotate(290deg) brightness(95%) contrast(95%);
 }
 
 .bg-yellow {
-  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2) 0%, rgba(234, 179, 8, 0.05) 100%);
+  background-color: rgba(234, 179, 8, 0.1);
+}
+
+.bg-yellow .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(71%) sepia(94%) saturate(443%) hue-rotate(36deg) brightness(99%) contrast(103%);
 }
 
 .bg-indigo {
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background-color: rgba(99, 102, 241, 0.1);
+}
+
+.bg-indigo .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(32%) sepia(52%) saturate(1612%) hue-rotate(239deg) brightness(96%) contrast(99%);
 }
 
 .menu-icon {
   font-size: 36px;
+}
+
+.menu-icon-img {
+  width: 36px;
+  height: 36px;
 }
 
 .menu-text {

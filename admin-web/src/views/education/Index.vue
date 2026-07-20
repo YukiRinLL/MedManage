@@ -131,7 +131,7 @@
 import { ref, reactive } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { get, post, put, del } from '@/utils/request'
+import request from '@/utils/request'
 
 const loading = ref(false)
 const showAddDialog = ref(false)
@@ -171,7 +171,7 @@ const fetchData = async () => {
       size: pagination.size,
       ...searchForm
     }
-    const res = await get('/health-education/list', params)
+    const res = await request.get('/health-education/list', { params })
     if (res.code === 200) {
       tableData.value = res.data.list || []
       pagination.total = res.data.total || 0
@@ -210,10 +210,10 @@ const handleCurrentChange = (page) => {
 const handleSave = async () => {
   try {
     if (formData.id) {
-      await put(`/health-education/update/${formData.id}`, formData)
+      await request.put(`/health-education/update/${formData.id}`, formData)
       ElMessage.success('更新成功')
     } else {
-      await post('/health-education/create', formData)
+      await request.post('/health-education/create', formData)
       ElMessage.success('创建成功')
     }
     showAddDialog.value = false
@@ -238,10 +238,10 @@ const viewDetail = (row) => {
 const togglePublish = async (row) => {
   try {
     if (row.isPublished) {
-      await put(`/health-education/unpublish/${row.id}`)
+      await request.put(`/health-education/unpublish/${row.id}`)
       ElMessage.success('已下架')
     } else {
-      await put(`/health-education/publish/${row.id}`)
+      await request.put(`/health-education/publish/${row.id}`)
       ElMessage.success('已发布')
     }
     fetchData()
@@ -257,7 +257,7 @@ const deleteRow = async (row) => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    await del(`/health-education/delete/${row.id}`)
+    await request.delete(`/health-education/delete/${row.id}`)
     ElMessage.success('删除成功')
     fetchData()
   } catch {

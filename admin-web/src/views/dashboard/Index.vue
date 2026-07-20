@@ -44,7 +44,7 @@
         <el-card class="stat-card">
           <div class="stat-content">
             <div class="stat-icon medications">
-              <el-icon :size="40"><Medicine /></el-icon>
+              <el-icon :size="40"><Pill /></el-icon>
             </div>
             <div class="stat-info">
               <div class="stat-value">{{ dashboardData.totalMedications || 0 }}</div>
