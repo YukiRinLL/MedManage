@@ -49,6 +49,57 @@
           <text class="info-value">周一至周日 8:00-20:00</text>
         </view>
       </view>
+      <view class="info-card">
+        <text class="info-icon">📍</text>
+        <view class="info-content">
+          <text class="info-title">机构地址</text>
+          <text class="info-value">北京市朝阳区健康路88号</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="medical-staff-section animate-fade-in" :style="{ animationDelay: '0.3s' }">
+      <view class="section-title-wrap">
+        <text class="section-icon">👩‍⚕️</text>
+        <text class="section-label">专属医护团队</text>
+      </view>
+      
+      <view class="staff-list">
+        <view class="staff-card" v-if="nurse">
+          <view class="staff-avatar">
+            <text class="avatar-icon">👩‍⚕️</text>
+          </view>
+          <view class="staff-info">
+            <text class="staff-name">{{ nurse.name }}</text>
+            <text class="staff-position">责任护士</text>
+            <text class="staff-department">{{ nurse.department }}</text>
+          </view>
+          <view class="staff-action" @click="callStaff(nurse.phone)">
+            <text class="action-icon">📞</text>
+            <text class="action-text">联系</text>
+          </view>
+        </view>
+        
+        <view class="staff-card" v-if="doctor">
+          <view class="staff-avatar">
+            <text class="avatar-icon">👨‍⚕️</text>
+          </view>
+          <view class="staff-info">
+            <text class="staff-name">{{ doctor.name }}</text>
+            <text class="staff-position">主治医生</text>
+            <text class="staff-department">{{ doctor.department }}</text>
+          </view>
+          <view class="staff-action" @click="callStaff(doctor.phone)">
+            <text class="action-icon">📞</text>
+            <text class="action-text">联系</text>
+          </view>
+        </view>
+        
+        <view class="staff-card empty-staff" v-if="!nurse && !doctor">
+          <text class="empty-icon">👥</text>
+          <text class="empty-text">暂无专属医护人员</text>
+        </view>
+      </view>
     </view>
     
     <view class="bottom-space"></view>
@@ -56,13 +107,36 @@
 </template>
 
 <script>
+import { get } from '../../utils/request.js'
+
 export default {
   data() {
     return {
-      isNavigating: false
+      isNavigating: false,
+      nurse: null,
+      doctor: null
     }
   },
+  onLoad() {
+    this.fetchMedicalStaff()
+  },
   methods: {
+    async fetchMedicalStaff() {
+      try {
+        const userId = uni.getStorageSync('userId')
+        const nurseRes = await get(`/medical-staff/patient/${userId}/nurse`)
+        const doctorRes = await get(`/medical-staff/patient/${userId}/doctor`)
+        
+        if (nurseRes.code === 200) {
+          this.nurse = nurseRes.data
+        }
+        if (doctorRes.code === 200) {
+          this.doctor = doctorRes.data
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    },
     handleItemClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true
@@ -80,6 +154,24 @@ export default {
           this.isNavigating = false
         }
       })
+    },
+    callStaff(phone) {
+      if (phone) {
+        uni.makePhoneCall({
+          phoneNumber: phone,
+          fail: () => {
+            uni.showToast({
+              title: '拨号失败',
+              icon: 'none'
+            })
+          }
+        })
+      } else {
+        uni.showToast({
+          title: '暂无联系电话',
+          icon: 'none'
+        })
+      }
     }
   }
 }
@@ -264,6 +356,116 @@ export default {
   font-size: 16px;
   font-weight: 600;
   color: #303133;
+}
+
+.medical-staff-section {
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.section-icon {
+  font-size: 20px;
+}
+
+.section-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.staff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.staff-card {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.staff-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 157, 133, 0.2) 0%, rgba(0, 157, 133, 0.05) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+}
+
+.avatar-icon {
+  font-size: 28px;
+}
+
+.staff-info {
+  flex: 1;
+}
+
+.staff-name {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.staff-position {
+  display: block;
+  font-size: 14px;
+  color: #009D85;
+  margin-bottom: 2px;
+}
+
+.staff-department {
+  font-size: 13px;
+  color: #909399;
+}
+
+.staff-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: rgba(0, 157, 133, 0.1);
+  border-radius: 8px;
+}
+
+.action-icon {
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.action-text {
+  font-size: 12px;
+  color: #009D85;
+}
+
+.empty-staff {
+  justify-content: center;
+  padding: 30px;
+}
+
+.empty-icon {
+  font-size: 36px;
+  margin-right: 12px;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #909399;
 }
 
 .bottom-space {

@@ -177,6 +177,38 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/health-education/health-education",
+      "style": {
+        "navigationBarTitleText": "科普宣教",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/health-education/detail",
+      "style": {
+        "navigationBarTitleText": "科普详情",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/core-indicator/core-indicator",
+      "style": {
+        "navigationBarTitleText": "核心指标",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/improvement-plan/improvement-plan",
+      "style": {
+        "navigationBarTitleText": "指标提升方案",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
     }
   ],
   "globalStyle": {
@@ -200,12 +232,12 @@
         "text": "健康管理"
       },
       {
-        "pagePath": "pages/service-center/service-center",
-        "text": "服务中心"
-      },
-      {
         "pagePath": "pages/interaction/interaction",
         "text": "互动中心"
+      },
+      {
+        "pagePath": "pages/health-education/health-education",
+        "text": "科普宣教"
       },
       {
         "pagePath": "pages/profile/profile",

@@ -41,7 +41,7 @@
         <view class="wide-content">
           <view class="menu-icon-wrapper bg-indigo">
             <text class="menu-icon">🔔</text>
-            <view class="notification-badge" v-if="hasUnread">3</view>
+            <view class="notification-badge" v-if="unreadCount > 0">{{ unreadCount }}</view>
           </view>
           <view class="wide-text">
             <text class="menu-text">通知中心</text>
@@ -57,14 +57,30 @@
 </template>
 
 <script>
+import { get } from '../../utils/request.js'
+
 export default {
   data() {
     return {
       isNavigating: false,
-      hasUnread: true
+      unreadCount: 0
     }
   },
+  onLoad() {
+    this.fetchUnreadCount()
+  },
   methods: {
+    async fetchUnreadCount() {
+      try {
+        const userId = uni.getStorageSync('userId')
+        const res = await get(`/notification/unread/${userId}`)
+        if (res.code === 200) {
+          this.unreadCount = res.data || 0
+        }
+      } catch (err) {
+        console.log('获取未读通知失败:', err)
+      }
+    },
     handleItemClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true

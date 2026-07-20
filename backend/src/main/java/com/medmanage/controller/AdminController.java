@@ -1,6 +1,7 @@
 package com.medmanage.controller;
 
 import com.medmanage.entity.Admin;
+import com.medmanage.repository.*;
 import com.medmanage.service.AdminService;
 import com.medmanage.util.JwtUtil;
 import com.medmanage.util.RedisUtil;
@@ -25,6 +26,24 @@ public class AdminController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private HealthRecordRepository healthRecordRepository;
+
+    @Autowired
+    private MedicationRecordRepository medicationRecordRepository;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    private HealthEducationRepository healthEducationRepository;
+
+    @Autowired
+    private ActivityRepository activityRepository;
 
     @PostMapping("/login")
     public ResponseEntity<?> adminLogin(@RequestBody Map<String, String> request) {
@@ -98,6 +117,13 @@ public class AdminController {
             dashboard.put("totalAdmins", allAdmins.size());
             dashboard.put("totalNormalAdmins", admins.size());
             dashboard.put("totalSuperAdmins", superAdmins.size());
+            
+            dashboard.put("totalUsers", userRepository.count());
+            dashboard.put("totalRecords", healthRecordRepository.count());
+            dashboard.put("totalMedications", medicationRecordRepository.count());
+            dashboard.put("totalNotifications", notificationRepository.count());
+            dashboard.put("totalHealthEducation", healthEducationRepository.count());
+            dashboard.put("totalActivities", activityRepository.count());
             
             return ResponseEntity.ok(dashboard);
         } catch (Exception e) {

@@ -60,6 +60,32 @@
         <text class="menu-text">诊断信息</text>
         <text class="menu-hint">查看诊断报告结果</text>
       </view>
+      
+      <view 
+        class="menu-item animate-fade-in-up" 
+        :style="{ animationDelay: '0.3s' }"
+        @click="handleItemClick('/pages/core-indicator/core-indicator', '核心指标')"
+      >
+        <view class="menu-icon-wrapper bg-orange">
+          <text class="menu-icon">📊</text>
+          <view class="ripple-effect"></view>
+        </view>
+        <text class="menu-text">核心指标</text>
+        <text class="menu-hint">查血指标趋势追踪</text>
+      </view>
+      
+      <view 
+        class="menu-item animate-fade-in-up" 
+        :style="{ animationDelay: '0.35s' }"
+        @click="handleItemClick('/pages/improvement-plan/improvement-plan', '指标提升方案')"
+      >
+        <view class="menu-icon-wrapper bg-cyan">
+          <text class="menu-icon">🎯</text>
+          <view class="ripple-effect"></view>
+        </view>
+        <text class="menu-text">指标提升方案</text>
+        <text class="menu-hint">个性化干预方案</text>
+      </view>
     </view>
     
     <view class="bottom-space"></view>
@@ -233,6 +259,14 @@ export default {
 
 .bg-purple {
   background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(147, 51, 234, 0.05) 100%);
+}
+
+.bg-orange {
+  background: linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(251, 146, 60, 0.05) 100%);
+}
+
+.bg-cyan {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.2) 0%, rgba(6, 182, 212, 0.05) 100%);
 }
 
 .menu-icon {

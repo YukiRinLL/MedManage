@@ -89,6 +89,20 @@ public class NotificationController {
         return result;
     }
     
+    @GetMapping("/unread/count/{userId}")
+    public Map<String, Object> getUnreadCount(@PathVariable String userId) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            long count = notificationService.countUnreadByUserId(userId);
+            result.put("code", 200);
+            result.put("data", count);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+    
     @PutMapping("/mark-read/{id}")
     public Map<String, Object> markAsRead(@RequestHeader("Authorization") String token, @PathVariable String id) {
         Map<String, Object> result = new HashMap<>();

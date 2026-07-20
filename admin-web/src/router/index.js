@@ -100,6 +100,24 @@ const routes = [
         name: 'Schedule',
         component: () => import('@/views/schedule/Index.vue'),
         meta: { title: '透析排班管理', icon: 'Calendar', roles: [1, 2] }
+      },
+      {
+        path: '/education',
+        name: 'Education',
+        component: () => import('@/views/education/Index.vue'),
+        meta: { title: '科普宣教管理', icon: 'BookOpen', roles: [1, 2] }
+      },
+      {
+        path: '/blood-test',
+        name: 'BloodTest',
+        component: () => import('@/views/blood-test/Index.vue'),
+        meta: { title: '核心指标管理', icon: 'DataLine', roles: [1, 2] }
+      },
+      {
+        path: '/medical-staff',
+        name: 'MedicalStaff',
+        component: () => import('@/views/medical-staff/Index.vue'),
+        meta: { title: '医护人员管理', icon: 'UserFilled', roles: [1, 2] }
       }
     ]
   }

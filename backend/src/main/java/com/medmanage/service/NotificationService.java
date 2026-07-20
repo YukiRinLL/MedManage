@@ -30,6 +30,10 @@ public class NotificationService {
         return notificationRepository.findByUserIdAndIsReadFalseOrderByCreatedAtDesc(userId);
     }
     
+    public long countUnreadByUserId(String userId) {
+        return notificationRepository.countByUserIdAndIsReadFalse(userId);
+    }
+    
     public Map<String, Object> listNotifications(int page, int size, String name, Integer type, Boolean read) {
         Map<String, Object> result = new HashMap<>();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));

@@ -26,6 +26,10 @@ public class VitalSign {
     private Integer heartRate;
     private String notes;
     
+    private Double weight;
+    private String bodyFeeling;
+    private String symptoms;
+    
     @Column(name = "record_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date recordTime;

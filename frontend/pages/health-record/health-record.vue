@@ -8,18 +8,10 @@
     
     <!-- 内容区域 -->
     <view v-else>
-      <!-- 健康评估卡片 -->
+      <!-- 健康建议卡片 -->
       <view class="health-assessment-card" v-if="healthRecord">
-        <text class="assessment-title">健康评估</text>
-        <view class="assessment-score">
-          <text class="score-number">{{ healthScore }}</text>
-          <text class="score-label">健康评分</text>
-        </view>
-        <view class="assessment-status" :class="getHealthStatusClass(healthScore)">
-          {{ getHealthStatusText(healthScore) }}
-        </view>
+        <text class="assessment-title">健康建议</text>
         <view class="health-suggestions">
-          <text class="suggestion-title">健康建议</text>
           <view class="suggestion-item" v-for="(suggestion, index) in healthSuggestions" :key="index">
             <text class="suggestion-icon">💡</text>
             <text class="suggestion-text">{{ suggestion }}</text>
@@ -147,7 +139,6 @@ export default {
       allergicHistoryFocus: false,
       familyMedicalHistoryFocus: false,
       otherInfoFocus: false,
-      healthScore: 85,
       healthSuggestions: [
         '保持规律作息，保证充足睡眠',
         '均衡饮食，多吃蔬菜水果',
@@ -156,36 +147,11 @@ export default {
       ]
     }
   },
-  computed: {
-    // 根据健康记录计算健康评分
-    calculatedHealthScore() {
-      if (!this.healthRecord) return 85
-      
-      let score = 100
-      
-      // 根据过往病史扣分
-      if (this.healthRecord.pastMedicalHistory && this.healthRecord.pastMedicalHistory !== '无') {
-        score -= 10
-      }
-      
-      // 根据过敏史扣分
-      if (this.healthRecord.allergicHistory && this.healthRecord.allergicHistory !== '无') {
-        score -= 5
-      }
-      
-      // 根据家族病史扣分
-      if (this.healthRecord.familyMedicalHistory && this.healthRecord.familyMedicalHistory !== '无') {
-        score -= 8
-      }
-      
-      return Math.max(score, 60)
-    }
-  },
+  computed: {},
   watch: {
     healthRecord: {
       handler() {
         if (this.healthRecord) {
-          this.healthScore = this.calculatedHealthScore
           this.updateHealthSuggestions()
         }
       },
@@ -196,18 +162,6 @@ export default {
     this.getHealthRecord()
   },
   methods: {
-    getHealthStatusClass(score) {
-      if (score >= 90) return 'status-excellent'
-      if (score >= 80) return 'status-good'
-      if (score >= 70) return 'status-normal'
-      return 'status-poor'
-    },
-    getHealthStatusText(score) {
-      if (score >= 90) return '健康状态优秀'
-      if (score >= 80) return '健康状态良好'
-      if (score >= 70) return '健康状态一般'
-      return '健康状态需要关注'
-    },
     updateHealthSuggestions() {
       if (!this.healthRecord) return
       
@@ -335,7 +289,7 @@ export default {
   to { transform: rotate(360deg); }
 }
 
-/* 健康评估卡片 */
+/* 健康建议卡片 */
 .health-assessment-card {
   background-color: #009D85;
   color: #FFFFFF;
@@ -352,62 +306,8 @@ export default {
   display: block;
 }
 
-.assessment-score {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.score-number {
-  font-size: 48px;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.score-label {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-.assessment-status {
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 20px;
-  align-self: center;
-}
-
-.status-excellent {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-}
-
-.status-good {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-}
-
-.status-normal {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-}
-
-.status-poor {
-  background-color: rgba(245, 108, 108, 0.2);
-  color: #FFFFFF;
-}
-
 .health-suggestions {
   margin-top: 20px;
-}
-
-.suggestion-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  display: block;
 }
 
 .suggestion-item {

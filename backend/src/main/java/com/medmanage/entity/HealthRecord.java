@@ -25,6 +25,15 @@ public class HealthRecord {
     private String bloodType;
     private String otherInfo;
     
+    private Integer age;
+    private Integer dialysisYears;
+    private String basicDiseases;
+    private String complications;
+    private String dialysisPlan;
+    private String registrationInfo;
+    private String emergencyContactName;
+    private String emergencyContactPhone;
+    
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;

@@ -62,6 +62,17 @@
       </view>
     </view>
     
+    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.4s' }" v-if="hasAlert">
+      <view class="alert-card" @click="handleAlertClick">
+        <view class="alert-icon">⚠️</view>
+        <view class="alert-content">
+          <text class="alert-title">指标异常提醒</text>
+          <text class="alert-desc">您有 {{ alertCount }} 项指标超出正常范围</text>
+        </view>
+        <view class="alert-arrow">›</view>
+      </view>
+    </view>
+
     <view class="tips-section animate-fade-in" :style="{ animationDelay: '0.4s' }">
       <view class="tips-header">
         <text class="tips-title">💡 使用提示</text>
@@ -74,12 +85,35 @@
         </view>
       </view>
     </view>
+
+    <view class="notice-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
+      <view class="section-header-wrap">
+        <text class="section-title">📢 最新公告</text>
+        <text class="section-more" @click="goToNotification">查看更多 ›</text>
+      </view>
+      <scroll-view class="notice-scroll" scroll-x>
+        <view class="notice-list">
+          <view 
+            class="notice-item" 
+            v-for="(notice, index) in notices" 
+            :key="index"
+            @click="goToNotificationDetail(notice)"
+          >
+            <text class="notice-tag" v-if="notice.isTop">置顶</text>
+            <text class="notice-title">{{ notice.title }}</text>
+            <text class="notice-time">{{ notice.time }}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
     
     <view class="bottom-space"></view>
   </view>
 </template>
 
 <script>
+import { get } from '../../utils/request.js'
+
 export default {
   data() {
     return {
@@ -88,10 +122,71 @@ export default {
         '按时查看用药提醒',
         '关注最新活动通知'
       ],
-      isNavigating: false
+      isNavigating: false,
+      hasAlert: false,
+      alertCount: 0,
+      notices: []
     }
   },
+  onLoad() {
+    this.fetchNotices()
+    this.fetchAbnormalIndicators()
+  },
   methods: {
+    async fetchNotices() {
+      try {
+        const res = await get('/news?page=1&size=5')
+        if (res.code === 200) {
+          const data = res.data
+          if (data.list && data.list.length > 0) {
+            this.notices = data.list.map(item => ({
+              title: item.title,
+              time: this.formatDate(item.createdAt),
+              isTop: item.isTop || false,
+              id: item.id
+            }))
+          }
+        }
+      } catch (err) {
+        console.log('获取公告失败:', err)
+      }
+    },
+    async fetchAbnormalIndicators() {
+      try {
+        const userId = uni.getStorageSync('userId')
+        const res = await get(`/blood-test/latest/${userId}`)
+        if (res.code === 200 && res.data) {
+          const test = res.data
+          let count = 0
+          const indicators = [
+            { key: 'hemoglobin', min: 110, max: 130 },
+            { key: 'ureaNitrogen', min: 3.2, max: 7.1 },
+            { key: 'uricAcid', min: 208, max: 428 },
+            { key: 'potassium', min: 3.5, max: 5.5 },
+            { key: 'sodium', min: 135, max: 145 },
+            { key: 'calcium', min: 2.1, max: 2.6 },
+            { key: 'phosphorus', min: 0.8, max: 1.45 },
+            { key: 'albumin', min: 35, max: 50 },
+            { key: 'parathyroidHormone', min: 150, max: 300 }
+          ]
+          indicators.forEach(ind => {
+            const value = test[ind.key]
+            if (value !== null && value !== undefined && (value < ind.min || value > ind.max)) {
+              count++
+            }
+          })
+          this.alertCount = count
+          this.hasAlert = count > 0
+        }
+      } catch (err) {
+        console.log('获取异常指标失败:', err)
+      }
+    },
+    formatDate(dateString) {
+      if (!dateString) return ''
+      const date = new Date(dateString)
+      return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+    },
     handleNavClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true
@@ -110,6 +205,21 @@ export default {
         fail: () => {
           this.isNavigating = false
         }
+      })
+    },
+    handleAlertClick() {
+      uni.navigateTo({
+        url: '/pages/core-indicator/core-indicator'
+      })
+    },
+    goToNotification() {
+      uni.navigateTo({
+        url: '/pages/notification/notification'
+      })
+    },
+    goToNotificationDetail(notice) {
+      uni.navigateTo({
+        url: '/pages/notification/notification'
       })
     }
   }
@@ -355,8 +465,49 @@ export default {
   color: #009D85;
 }
 
+.alert-section {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.alert-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(250, 173, 20, 0.1) 0%, rgba(250, 173, 20, 0.05) 100%);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border-left: 4px solid #E6A23C;
+}
+
+.alert-icon {
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #E6A23C;
+  margin-bottom: 4px;
+}
+
+.alert-desc {
+  font-size: 13px;
+  color: #909399;
+}
+
+.alert-arrow {
+  font-size: 20px;
+  color: #C0C4CC;
+}
+
 .tips-section {
-  margin-top: 20px;
+  margin-top: 16px;
   padding: 0 16px;
 }
 
@@ -408,6 +559,75 @@ export default {
   font-size: 13px;
   color: #606266;
   line-height: 1.6;
+}
+
+.notice-section {
+  margin-top: 20px;
+  padding: 0 16px;
+}
+
+.section-header-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.section-more {
+  font-size: 13px;
+  color: #009D85;
+}
+
+.notice-scroll {
+  white-space: nowrap;
+}
+
+.notice-list {
+  display: inline-flex;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.notice-item {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.notice-tag {
+  font-size: 11px;
+  color: #FFFFFF;
+  background-color: #F56C6C;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.notice-title {
+  font-size: 14px;
+  color: #303133;
+  font-weight: 500;
+  margin-bottom: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 170px;
+}
+
+.notice-time {
+  font-size: 12px;
+  color: #909399;
 }
 
 .bottom-space {
