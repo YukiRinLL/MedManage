@@ -35,7 +35,7 @@
 
         <view class="detail-section">
           <view class="section-header-mini">
-            <image src="/static/icons/png/filled/objects/running_water@2x.png" class="section-icon" mode="aspectFit" />
+            <image src="/static/icons/png/filled/objects/running_water.png" class="section-icon" mode="aspectFit" />
             <text class="section-title-mini">饮水管控方案</text>
           </view>
           <view class="section-content">
