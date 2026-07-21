@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +32,10 @@ public class HealthEducationController {
             result = healthEducationService.getPublishedByPage(page, size);
         }
         
-        return ResponseUtil.success(Map.of(
-                "list", result.getContent(),
-                "total", result.getTotalElements()
-        ));
+        Map<String, Object> data = new HashMap<>();
+        data.put("list", result.getContent());
+        data.put("total", result.getTotalElements());
+        return ResponseUtil.success(data);
     }
 
     @GetMapping("/all")
