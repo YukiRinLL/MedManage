@@ -236,16 +236,16 @@
         "selectedIconPath": "static/icons/png/filled/symbols/heart_cardiogram@2x.png"
       },
       {
+        "pagePath": "pages/service-center/service-center",
+        "text": "服务中心",
+        "iconPath": "static/icons/png/filled/objects/insurance_card@2x.png",
+        "selectedIconPath": "static/icons/png/filled/objects/insurance_card@2x.png"
+      },
+      {
         "pagePath": "pages/interaction/interaction",
         "text": "互动中心",
         "iconPath": "static/icons/png/filled/objects/megaphone@2x.png",
         "selectedIconPath": "static/icons/png/filled/objects/megaphone@2x.png"
-      },
-      {
-        "pagePath": "pages/health-education/health-education",
-        "text": "科普宣教",
-        "iconPath": "static/icons/png/filled/objects/book@2x.png",
-        "selectedIconPath": "static/icons/png/filled/objects/book@2x.png"
       },
       {
         "pagePath": "pages/profile/profile",

@@ -1,89 +1,125 @@
 <template>
   <view class="plan-container">
     <view class="section-header animate-fade-in">
-      <view class="header-bg"></view>
       <view class="header-content">
         <text class="section-title">指标提升方案</text>
         <text class="section-desc">个性化干预，持续改善健康</text>
       </view>
     </view>
 
-    <view v-if="plan" class="plan-content">
-      <view v-if="plan.abnormalIndicators" class="abnormal-alert">
-        <view class="alert-header">
-          <image src="/static/icons/png/filled/symbols/alert_triangle@2x.png" class="alert-icon" mode="aspectFit" />
-          <text class="alert-title">异常指标预警</text>
+    <view class="plan-content">
+      <view class="section-card animate-fade-in-up" :style="{ animationDelay: '0.1s' }">
+        <view class="card-header">
+          <image src="/static/icons/png/filled/symbols/alert_triangle@2x.png" class="card-icon" mode="aspectFit" />
+          <text class="card-title">异常指标提醒</text>
+          <view class="alert-badge" v-if="abnormalIndicators.length > 0">{{ abnormalIndicators.length }}</view>
         </view>
-        <view class="alert-content">
-          <text class="alert-text">{{ plan.abnormalIndicators }}</text>
-        </view>
-        <view class="risk-level" :class="plan.riskLevel">
-          风险等级：{{ getRiskText(plan.riskLevel) }}
-        </view>
-      </view>
-
-      <view class="plan-detail">
-        <view class="detail-section">
-          <view class="section-header-mini">
-            <image src="/static/icons/png/filled/nutrition/fruits@2x.png" class="section-icon" mode="aspectFit" />
-            <text class="section-title-mini">饮食调整方案</text>
-          </view>
-          <view class="section-content">
-            <text class="content-text">{{ plan.dietPlan || '暂无饮食调整方案' }}</text>
-          </view>
-        </view>
-
-        <view class="detail-section">
-          <view class="section-header-mini">
-            <image src="/static/icons/png/filled/objects/running_water.png" class="section-icon" mode="aspectFit" />
-            <text class="section-title-mini">饮水管控方案</text>
-          </view>
-          <view class="section-content">
-            <text class="content-text">{{ plan.waterControlPlan || '暂无饮水管控方案' }}</text>
+        
+        <view v-if="abnormalIndicators.length > 0" class="abnormal-list">
+          <view 
+            class="abnormal-item" 
+            v-for="(item, index) in abnormalIndicators" 
+            :key="index"
+            :class="item.level"
+          >
+            <view class="indicator-icon">
+              <image :src="getIndicatorIcon(item.key)" class="icon-img" mode="aspectFit" />
+            </view>
+            <view class="indicator-info">
+              <text class="indicator-name">{{ item.name }}</text>
+              <text class="indicator-value">当前值: <text class="value-number">{{ item.value }}</text> {{ item.unit }}</text>
+              <text class="indicator-range">正常范围: {{ item.min }} - {{ item.max }} {{ item.unit }}</text>
+            </view>
+            <view class="indicator-status">
+              <text class="status-text" :class="item.level">{{ item.level === 'high' ? '偏高' : '偏低' }}</text>
+            </view>
           </view>
         </view>
-
-        <view class="detail-section">
-          <view class="section-header-mini">
-            <image src="/static/icons/png/filled/exercise/walking@2x.png" class="section-icon" mode="aspectFit" />
-            <text class="section-title-mini">生活作息建议</text>
-          </view>
-          <view class="section-content">
-            <text class="content-text">{{ plan.lifestyleSuggestions || '暂无生活作息建议' }}</text>
-          </view>
-        </view>
-
-        <view class="detail-section">
-          <view class="section-header-mini">
-            <image src="/static/icons/png/filled/medications/pill_1@2x.png" class="section-icon" mode="aspectFit" />
-            <text class="section-title-mini">用药调整建议</text>
-          </view>
-          <view class="section-content">
-            <text class="content-text">{{ plan.medicationAdjustments || '暂无用药调整建议' }}</text>
-          </view>
-        </view>
-
-        <view class="detail-section">
-          <view class="section-header-mini">
-            <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="section-icon" mode="aspectFit" />
-            <text class="section-title-mini">随访注意事项</text>
-          </view>
-          <view class="section-content">
-            <text class="content-text">{{ plan.followUpNotes || '暂无随访注意事项' }}</text>
-          </view>
+        
+        <view v-else class="normal-state">
+          <image src="/static/icons/png/filled/symbols/info@2x.png" class="normal-icon" mode="aspectFit" />
+          <text class="normal-text">所有指标正常</text>
+          <text class="normal-subtext">继续保持良好的生活习惯</text>
         </view>
       </view>
 
-      <view class="plan-footer">
-        <text class="plan-status">方案状态：{{ plan.status === 'active' ? '进行中' : '已完成' }}</text>
-        <text class="plan-date">开始日期：{{ formatDate(plan.startDate) }}</text>
+      <view class="section-card animate-fade-in-up" :style="{ animationDelay: '0.2s' }">
+        <view class="card-header">
+          <image src="/static/icons/png/filled/symbols/risk_analysis@2x.png" class="card-icon" mode="aspectFit" />
+          <text class="card-title">提升方案</text>
+        </view>
+        
+        <view v-if="plan && plan.dietPlan" class="plan-section">
+          <view class="plan-item">
+            <image src="/static/icons/png/filled/nutrition/fruits@2x.png" class="plan-icon" mode="aspectFit" />
+            <view class="plan-body">
+              <text class="plan-title">饮食调整方案</text>
+              <text class="plan-desc">{{ plan.dietPlan }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view v-if="plan && plan.waterControlPlan" class="plan-section">
+          <view class="plan-item">
+            <image src="/static/icons/png/filled/objects/running_water.png" class="plan-icon" mode="aspectFit" />
+            <view class="plan-body">
+              <text class="plan-title">饮水管控方案</text>
+              <text class="plan-desc">{{ plan.waterControlPlan }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view v-if="plan && plan.lifestyleSuggestions" class="plan-section">
+          <view class="plan-item">
+            <image src="/static/icons/png/filled/exercise/walking@2x.png" class="plan-icon" mode="aspectFit" />
+            <view class="plan-body">
+              <text class="plan-title">生活作息建议</text>
+              <text class="plan-desc">{{ plan.lifestyleSuggestions }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view v-if="plan && plan.medicationAdjustments" class="plan-section">
+          <view class="plan-item">
+            <image src="/static/icons/png/filled/medications/pill_1@2x.png" class="plan-icon" mode="aspectFit" />
+            <view class="plan-body">
+              <text class="plan-title">用药调整建议</text>
+              <text class="plan-desc">{{ plan.medicationAdjustments }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view v-if="plan && plan.followUpNotes" class="plan-section">
+          <view class="plan-item">
+            <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="plan-icon" mode="aspectFit" />
+            <view class="plan-body">
+              <text class="plan-title">随访注意事项</text>
+              <text class="plan-desc">{{ plan.followUpNotes }}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view v-if="(!plan || (!plan.dietPlan && !plan.waterControlPlan && !plan.lifestyleSuggestions && !plan.medicationAdjustments && !plan.followUpNotes)) && !isLoading" class="empty-plan">
+          <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="empty-icon" mode="aspectFit" />
+          <text class="empty-text">暂无提升方案</text>
+          <text class="empty-subtext">您的专属方案将由医护团队根据您的指标情况制定</text>
+        </view>
       </view>
-    </view>
 
-    <view v-else-if="!isLoading" class="empty-state">
-      <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="empty-icon" mode="aspectFit" />
-      <text class="empty-text">暂无提升方案</text>
-      <text class="empty-subtext">您的专属方案将由医护团队制定</text>
+      <view v-if="plan" class="section-card animate-fade-in-up" :style="{ animationDelay: '0.3s' }">
+        <view class="plan-meta">
+          <view class="meta-item">
+            <text class="meta-label">方案状态</text>
+            <text class="meta-value" :class="plan.status === 'active' ? 'active' : 'completed'">
+              {{ plan.status === 'active' ? '进行中' : '已完成' }}
+            </text>
+          </view>
+          <view class="meta-item">
+            <text class="meta-label">开始日期</text>
+            <text class="meta-value">{{ formatDate(plan.startDate) }}</text>
+          </view>
+        </view>
+      </view>
     </view>
 
     <view class="loading-container" v-if="isLoading">
@@ -102,20 +138,30 @@ export default {
   data() {
     return {
       plan: null,
+      abnormalIndicators: [],
       isLoading: true
     }
   },
   onLoad() {
-    this.fetchPlan()
+    this.fetchData()
   },
   methods: {
-    async fetchPlan() {
+    async fetchData() {
       this.isLoading = true
       try {
         const userId = uni.getStorageSync('userId')
-        const res = await get(`/improvement-plan/current/${userId}`)
-        if (res.code === 200) {
-          this.plan = res.data
+        
+        const [planRes, testRes] = await Promise.all([
+          get(`/improvement-plan/current/${userId}`),
+          get(`/blood-test/latest/${userId}`)
+        ])
+        
+        if (planRes.code === 200) {
+          this.plan = planRes.data
+        }
+        
+        if (testRes.code === 200 && testRes.data) {
+          this.abnormalIndicators = this.calculateAbnormal(testRes.data)
         }
       } catch (err) {
         console.log(err)
@@ -123,18 +169,51 @@ export default {
         this.isLoading = false
       }
     },
+    calculateAbnormal(test) {
+      const indicators = [
+        { key: 'hemoglobin', name: '血红蛋白', unit: 'g/L', min: 110, max: 130 },
+        { key: 'ureaNitrogen', name: '尿素氮', unit: 'mmol/L', min: 3.2, max: 7.1 },
+        { key: 'uricAcid', name: '尿酸', unit: 'μmol/L', min: 208, max: 428 },
+        { key: 'potassium', name: '钾', unit: 'mmol/L', min: 3.5, max: 5.5 },
+        { key: 'sodium', name: '钠', unit: 'mmol/L', min: 135, max: 145 },
+        { key: 'calcium', name: '钙', unit: 'mmol/L', min: 2.1, max: 2.6 },
+        { key: 'phosphorus', name: '磷', unit: 'mmol/L', min: 0.8, max: 1.45 },
+        { key: 'albumin', name: '白蛋白', unit: 'g/L', min: 35, max: 50 },
+        { key: 'parathyroidHormone', name: '甲状旁腺激素', unit: 'pg/mL', min: 150, max: 300 }
+      ]
+      
+      const abnormal = []
+      indicators.forEach(ind => {
+        const value = test[ind.key]
+        if (value !== null && value !== undefined) {
+          if (value < ind.min) {
+            abnormal.push({ ...ind, value, level: 'low' })
+          } else if (value > ind.max) {
+            abnormal.push({ ...ind, value, level: 'high' })
+          }
+        }
+      })
+      
+      return abnormal
+    },
+    getIndicatorIcon(key) {
+      const iconMap = {
+        hemoglobin: '/static/icons/png/filled/symbols/heart_cardiogram@2x.png',
+        ureaNitrogen: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        uricAcid: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        potassium: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        sodium: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        calcium: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        phosphorus: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        albumin: '/static/icons/png/filled/graphs/chart_bar@2x.png',
+        parathyroidHormone: '/static/icons/png/filled/graphs/chart_bar@2x.png'
+      }
+      return iconMap[key] || '/static/icons/png/filled/graphs/chart_bar@2x.png'
+    },
     formatDate(dateString) {
       if (!dateString) return '-'
       const date = new Date(dateString)
       return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
-    },
-    getRiskText(riskLevel) {
-      const riskMap = {
-        'high': '高风险',
-        'medium': '中风险',
-        'low': '低风险'
-      }
-      return riskMap[riskLevel] || '无风险'
     }
   }
 }
@@ -148,29 +227,27 @@ export default {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out both;
 }
 
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
 .section-header {
   padding: 30px 20px 20px;
   background-color: #009D85;
   color: #FFFFFF;
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
 }
 
 .section-title {
@@ -191,149 +268,251 @@ export default {
   padding: 16px;
 }
 
-.abnormal-alert {
+.section-card {
   background-color: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
-  border-left: 4px solid #F56C6C;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.alert-header {
+.card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F0F0F0;
 }
 
-.alert-icon {
-  width: 20px;
-  height: 20px;
+.card-icon {
+  width: 22px;
+  height: 22px;
 }
 
-.alert-title {
+.card-title {
   font-size: 16px;
   font-weight: 600;
   color: #303133;
 }
 
-.alert-content {
-  margin-bottom: 12px;
+.alert-badge {
+  background-color: #F56C6C;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: auto;
 }
 
-.alert-text {
-  font-size: 14px;
-  color: #606266;
-  line-height: 1.6;
-}
-
-.risk-level {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.risk-level.high {
-  background-color: rgba(245, 108, 108, 0.1);
-  color: #F56C6C;
-}
-
-.risk-level.medium {
-  background-color: rgba(250, 173, 20, 0.1);
-  color: #E6A23C;
-}
-
-.risk-level.low {
-  background-color: rgba(0, 157, 133, 0.1);
-  color: #009D85;
-}
-
-.plan-detail {
+.abnormal-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.detail-section {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  padding: 16px;
-}
-
-.section-header-mini {
+.abnormal-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #F0F0F0;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #F5F7FA;
+  border-left: 3px solid #E6A23C;
 }
 
-.section-icon {
-  width: 18px;
-  height: 18px;
+.abnormal-item.high {
+  border-left-color: #F56C6C;
+  background-color: rgba(245, 108, 108, 0.05);
 }
 
-.section-title-mini {
+.abnormal-item.low {
+  border-left-color: #3B82F6;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.indicator-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.icon-img {
+  width: 22px;
+  height: 22px;
+}
+
+.indicator-info {
+  flex: 1;
+}
+
+.indicator-name {
+  display: block;
   font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.indicator-value {
+  display: block;
+  font-size: 13px;
+  color: #606266;
+  margin-bottom: 2px;
+}
+
+.value-number {
   font-weight: 600;
   color: #303133;
 }
 
-.section-content {
-  padding: 8px 0;
+.indicator-range {
+  font-size: 12px;
+  color: #909399;
 }
 
-.content-text {
+.indicator-status {
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.status-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-text.high {
+  color: #F56C6C;
+}
+
+.status-text.low {
+  color: #3B82F6;
+}
+
+.normal-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.normal-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+}
+
+.normal-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #009D85;
+  margin-bottom: 6px;
+}
+
+.normal-subtext {
+  font-size: 13px;
+  color: #909399;
+}
+
+.plan-section {
+  margin-bottom: 16px;
+}
+
+.plan-section:last-child {
+  margin-bottom: 0;
+}
+
+.plan-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.plan-icon {
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+.plan-body {
+  flex: 1;
+}
+
+.plan-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 8px;
+}
+
+.plan-desc {
   font-size: 14px;
   color: #606266;
   line-height: 1.6;
 }
 
-.plan-footer {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  padding: 16px;
-  margin-top: 12px;
-}
-
-.plan-status {
-  display: block;
-  font-size: 14px;
-  color: #009D85;
-  margin-bottom: 8px;
-}
-
-.plan-date {
-  font-size: 14px;
-  color: #909399;
-}
-
-.empty-state {
+.empty-plan {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
+  padding: 30px 0;
 }
 
 .empty-icon {
   width: 48px;
   height: 48px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .empty-text {
-  font-size: 16px;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 6px;
 }
 
 .empty-subtext {
-  font-size: 14px;
-  color: #999;
+  font-size: 13px;
+  color: #909399;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.plan-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.meta-item {
+  flex: 1;
+  text-align: center;
+}
+
+.meta-label {
+  display: block;
+  font-size: 13px;
+  color: #909399;
+  margin-bottom: 6px;
+}
+
+.meta-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.meta-value.active {
+  color: #009D85;
+}
+
+.meta-value.completed {
+  color: #909399;
 }
 
 .loading-container {
@@ -342,7 +521,6 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
 }
 
 .loading-spinner {

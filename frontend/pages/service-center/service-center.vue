@@ -32,6 +32,18 @@
         <text class="menu-text">透析排班</text>
         <text class="menu-hint">查看透析安排时间</text>
       </view>
+      
+      <view 
+        class="menu-item animate-fade-in-up" 
+        :style="{ animationDelay: '0.2s' }"
+        @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
+      >
+        <view class="menu-icon-wrapper bg-green">
+          <image src="/static/icons/png/filled/objects/book@2x.png" class="menu-icon-img" mode="aspectFit" />
+        </view>
+        <text class="menu-text">科普宣教</text>
+        <text class="menu-hint">健康知识学习</text>
+      </view>
     </view>
     
     <view class="service-info animate-fade-in" :style="{ animationDelay: '0.25s' }">
@@ -286,6 +298,14 @@ export default {
 
 .bg-cyan .menu-icon-img {
   filter: brightness(0) saturate(100%) invert(46%) sepia(92%) saturate(1833%) hue-rotate(197deg) brightness(101%) contrast(103%);
+}
+
+.bg-green {
+  background-color: rgba(0, 157, 133, 0.1);
+}
+
+.bg-green .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
 }
 
 .menu-icon {
