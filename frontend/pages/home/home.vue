@@ -62,12 +62,16 @@
       </view>
     </view>
     
-    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.4s' }" v-if="hasAlert">
-      <view class="alert-card" @click="handleAlertClick">
-        <image src="/static/icons/png/filled/symbols/alert_triangle@2x.png" class="alert-icon" mode="aspectFit" />
+    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.4s' }">
+      <view class="alert-card" :class="{ 'alert-normal': !hasAlert }" @click="handleAlertClick">
+        <image 
+          :src="hasAlert ? '/static/icons/png/filled/symbols/alert_triangle@2x.png' : '/static/icons/png/filled/symbols/info@2x.png'" 
+          class="alert-icon" 
+          mode="aspectFit" 
+        />
         <view class="alert-content">
-          <text class="alert-title">指标异常提醒</text>
-          <text class="alert-desc">您有 {{ alertCount }} 项指标超出正常范围</text>
+          <text class="alert-title" :class="{ 'alert-title-normal': !hasAlert }">{{ hasAlert ? '指标异常提醒' : '指标状态正常' }}</text>
+          <text class="alert-desc">{{ hasAlert ? '您有 ' + alertCount + ' 项指标超出正常范围' : '您的检查指标均在正常范围内，请继续保持' }}</text>
         </view>
         <view class="alert-arrow">›</view>
       </view>
@@ -529,6 +533,19 @@ export default {
 .alert-arrow {
   font-size: 20px;
   color: #C0C4CC;
+}
+
+.alert-normal {
+  background-color: rgba(0, 157, 133, 0.08);
+  border-left-color: #009D85;
+}
+
+.alert-normal .alert-icon {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
+}
+
+.alert-title-normal {
+  color: #009D85;
 }
 
 .tips-section {
