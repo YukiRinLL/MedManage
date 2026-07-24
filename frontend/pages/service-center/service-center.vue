@@ -8,7 +8,7 @@
       </view>
     </view>
     
-    <view class="menu-grid">
+    <view class="menu-list">
       <view 
         class="menu-item animate-fade-in-up" 
         :style="{ animationDelay: '0.1s' }"
@@ -17,8 +17,11 @@
         <view class="menu-icon-wrapper bg-orange">
           <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
-        <text class="menu-text">参保信息</text>
-        <text class="menu-hint">查询医保参保状态</text>
+        <view class="menu-item-content">
+          <text class="menu-text">参保信息</text>
+          <text class="menu-hint">查询医保参保状态</text>
+        </view>
+        <text class="menu-arrow">›</text>
       </view>
       
       <view 
@@ -29,8 +32,11 @@
         <view class="menu-icon-wrapper bg-cyan">
           <image src="/static/icons/png/filled/objects/calendar@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
-        <text class="menu-text">透析排班</text>
-        <text class="menu-hint">查看透析安排时间</text>
+        <view class="menu-item-content">
+          <text class="menu-text">透析排班</text>
+          <text class="menu-hint">查看透析安排时间</text>
+        </view>
+        <text class="menu-arrow">›</text>
       </view>
       
       <view 
@@ -41,8 +47,11 @@
         <view class="menu-icon-wrapper bg-green">
           <image src="/static/icons/png/filled/objects/book@2x.png" class="menu-icon-img" mode="aspectFit" />
         </view>
-        <text class="menu-text">科普宣教</text>
-        <text class="menu-hint">健康知识学习</text>
+        <view class="menu-item-content">
+          <text class="menu-text">科普宣教</text>
+          <text class="menu-hint">健康知识学习</text>
+        </view>
+        <text class="menu-arrow">›</text>
       </view>
     </view>
     
@@ -267,42 +276,44 @@ export default {
   opacity: 0.9;
 }
 
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding: 20px 16px;
 }
 
 .menu-item {
   background-color: #FFFFFF;
-  padding: 28px 16px;
+  padding: 18px 16px;
   border-radius: 16px;
-  text-align: center;
+  display: flex;
+  align-items: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
-.menu-item:active {
-  transform: scale(0.96);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+.menu-item-content {
+  flex: 1;
+}
+
+.menu-arrow {
+  font-size: 22px;
+  color: #C0C4CC;
+  margin-left: 12px;
 }
 
 .menu-icon-wrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
+  margin-right: 14px;
   transition: all 0.25s ease;
-}
-
-.menu-item:active .menu-icon-wrapper {
-  transform: scale(1.1);
 }
 
 .bg-orange {
@@ -329,13 +340,9 @@ export default {
   filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
 }
 
-.menu-icon {
-  font-size: 36px;
-}
-
 .menu-icon-img {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
 }
 
 .menu-text {
@@ -343,13 +350,22 @@ export default {
   font-size: 16px;
   font-weight: 600;
   color: #303133;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .menu-hint {
   display: block;
   font-size: 12px;
   color: #909399;
+}
+
+.menu-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.menu-item:active .menu-icon-wrapper {
+  transform: scale(1.05);
 }
 
 .organization-info {

@@ -9,7 +9,7 @@
       <text class="welcome-subtitle">您的健康管理助手</text>
     </view>
     
-    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.15s' }">
+    <!-- <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.15s' }">
       <view class="alert-card" :class="{ 'alert-normal': !hasAlert }" @click="handleAlertClick">
         <image 
           :src="hasAlert ? '/static/icons/png/filled/symbols/alert_triangle@2x.png' : '/static/icons/png/filled/symbols/info@2x.png'" 
@@ -36,6 +36,30 @@
           </view>
         </view>
         <view class="alert-arrow">›</view>
+      </view>
+    </view> -->
+
+    <view class="tips-section animate-fade-in" :style="{ animationDelay: '0.22s' }">
+      <view class="tips-header">
+        <view class="tips-title-wrap">
+          <image src="/static/icons/png/filled/symbols/info@2x.png" class="tips-icon" mode="aspectFit" />
+          <text class="tips-title">提示</text>
+        </view>
+      </view>
+      <view class="tips-list">
+        <view 
+          v-for="tip in tipCards" 
+          :key="tip.key" 
+          class="tips-item" 
+          @click="handleTipClick(tip)"
+        >
+          <view class="tip-dot"></view>
+          <view class="tip-content">
+            <text class="tip-text">{{ tip.title }}</text>
+            <text class="tip-desc">{{ tip.desc }}</text>
+          </view>
+          <text class="tip-arrow">›</text>
+        </view>
       </view>
     </view>
     
@@ -94,9 +118,9 @@
 
     <view class="notice-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
       <view class="section-header-wrap">
-        <text class="section-title">📢 最新公告</text>
-        <text class="section-more" @click="goToNotification">查看更多 ›</text>
-      </view>
+          <text class="section-title">📢 最新公告</text>
+          <text class="section-more" @click="goToNotification">查看更多 ›</text>
+        </view>
       <scroll-view class="notice-scroll" scroll-x>
         <view class="notice-list">
           <view 
@@ -127,6 +151,11 @@ export default {
         '定期记录生命体征数据',
         '按时查看用药提醒',
         '关注最新活动通知'
+      ],
+      tipCards: [
+        { key: 'alert', title: '异常指标数量', desc: '点击查看指标详情', action: 'indicator' },
+        { key: 'vital', title: '定期记录生命体征数据', desc: '点击进入生命体征页面', action: 'vital' },
+        { key: 'medication', title: '按时查看用药提醒', desc: '点击进入用药记录页面', action: 'medication' }
       ],
       isNavigating: false,
       hasAlert: false,
@@ -160,6 +189,8 @@ export default {
     },
     async fetchAbnormalIndicators() {
       try {
+        this.tipCards[0].title = '异常指标数量：--'
+        this.tipCards[0].desc = '点击查看指标详情'
         const user = uni.getStorageSync('user')
         let userId = ''
         if (user) {
@@ -172,6 +203,11 @@ export default {
         }
         if (!userId) {
           console.log('未获取到用户ID，跳过异常指标查询')
+          this.alertCount = 0
+          this.abnormalIndicators = []
+          this.hasAlert = false
+          this.tipCards[0].title = '异常指标数量：暂无'
+          this.tipCards[0].desc = '暂无异常指标'
           return
         }
         const res = await get(`/blood-test/latest/${userId}`)
@@ -206,9 +242,22 @@ export default {
           this.alertCount = count
           this.abnormalIndicators = abnormalList
           this.hasAlert = count > 0
+          this.tipCards[0].title = `异常指标数量：${count}项`
+          this.tipCards[0].desc = count > 0 ? '点击查看指标详情' : '暂无异常指标'
+        } else {
+          this.alertCount = 0
+          this.abnormalIndicators = []
+          this.hasAlert = false
+          this.tipCards[0].title = '异常指标数量：暂无'
+          this.tipCards[0].desc = '暂无异常指标'
         }
       } catch (err) {
         console.log('获取异常指标失败:', err)
+        this.alertCount = 0
+        this.abnormalIndicators = []
+        this.hasAlert = false
+        this.tipCards[0].title = '异常指标数量：暂无'
+        this.tipCards[0].desc = '暂无异常指标'
       }
     },
     formatDate(dateString) {
@@ -240,6 +289,25 @@ export default {
       uni.navigateTo({
         url: '/pages/core-indicator/core-indicator'
       })
+    },
+    handleTipClick(tip) {
+      if (tip.action === 'indicator') {
+        uni.navigateTo({
+          url: '/pages/core-indicator/core-indicator'
+        })
+        return
+      }
+      if (tip.action === 'vital') {
+        uni.navigateTo({
+          url: '/pages/vital-sign/vital-sign'
+        })
+        return
+      }
+      if (tip.action === 'medication') {
+        uni.navigateTo({
+          url: '/pages/medication/medication'
+        })
+      }
     },
     goToNotification() {
       uni.navigateTo({
@@ -599,6 +667,91 @@ export default {
 
 .alert-title-normal {
   color: #009D85;
+}
+
+.tips-section {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+
+.tips-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tips-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tips-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.tips-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.tips-list {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.tips-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #F0F2F5;
+}
+
+.tips-item:last-child {
+  border-bottom: none;
+}
+
+.tip-dot {
+  width: 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background-color: #009D85;
+  flex-shrink: 0;
+}
+
+.tip-content {
+  flex: 1;
+}
+
+.tip-text {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.tip-desc {
+  display: block;
+  font-size: 12px;
+  color: #909399;
+  line-height: 1.4;
+}
+
+.tip-arrow {
+  font-size: 20px;
+  color: #C0C4CC;
+  line-height: 1;
+  padding-top: 2px;
 }
 
 .notice-section {
