@@ -8,10 +8,44 @@
       </view>
     </view>
     
+    <view class="priority-section">
+      <view 
+        class="priority-item primary animate-fade-in-up" 
+        :style="{ animationDelay: '0.1s' }"
+        @click="handleItemClick('/pages/improvement-plan/improvement-plan', '指标提升方案')"
+      >
+        <view class="priority-badge">重要</view>
+        <view class="priority-icon-wrapper bg-cyan">
+          <image src="/static/icons/png/filled/symbols/risk_analysis@2x.png" class="priority-icon-img" mode="aspectFit" />
+        </view>
+        <view class="priority-content">
+          <text class="priority-title">指标提升方案</text>
+          <text class="priority-desc">个性化干预方案，针对性改善健康指标</text>
+        </view>
+        <text class="priority-arrow">›</text>
+      </view>
+      
+      <view 
+        class="priority-item secondary animate-fade-in-up" 
+        :style="{ animationDelay: '0.15s' }"
+        @click="handleItemClick('/pages/diagnosis/diagnosis', '透析评估')"
+      >
+        <view class="priority-badge secondary-badge">重要</view>
+        <view class="priority-icon-wrapper bg-purple">
+          <image src="/static/icons/png/filled/devices/stethoscope@2x.png" class="priority-icon-img" mode="aspectFit" />
+        </view>
+        <view class="priority-content">
+          <text class="priority-title">透析评估</text>
+          <text class="priority-desc">反馈当天透析情况，评估治疗效果</text>
+        </view>
+        <text class="priority-arrow">›</text>
+      </view>
+    </view>
+    
     <view class="menu-grid">
       <view 
         class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.1s' }"
+        :style="{ animationDelay: '0.2s' }"
         @click="handleItemClick('/pages/health-record/health-record', '健康档案')"
       >
         <view class="menu-icon-wrapper bg-green">
@@ -24,7 +58,7 @@
       
       <view 
         class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.15s' }"
+        :style="{ animationDelay: '0.25s' }"
         @click="handleItemClick('/pages/vital-sign/vital-sign', '生命体征')"
       >
         <view class="menu-icon-wrapper bg-red">
@@ -37,7 +71,7 @@
       
       <view 
         class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.2s' }"
+        :style="{ animationDelay: '0.3s' }"
         @click="handleItemClick('/pages/medication/medication', '用药记录')"
       >
         <view class="menu-icon-wrapper bg-blue">
@@ -50,20 +84,7 @@
       
       <view 
         class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.25s' }"
-        @click="handleItemClick('/pages/diagnosis/diagnosis', '诊断信息')"
-      >
-        <view class="menu-icon-wrapper bg-purple">
-          <image src="/static/icons/png/filled/devices/stethoscope@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
-        </view>
-        <text class="menu-text">诊断信息</text>
-        <text class="menu-hint">查看诊断报告结果</text>
-      </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.3s' }"
+        :style="{ animationDelay: '0.35s' }"
         @click="handleItemClick('/pages/core-indicator/core-indicator', '核心指标')"
       >
         <view class="menu-icon-wrapper bg-orange">
@@ -72,19 +93,6 @@
         </view>
         <text class="menu-text">核心指标</text>
         <text class="menu-hint">查血指标趋势追踪</text>
-      </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.35s' }"
-        @click="handleItemClick('/pages/improvement-plan/improvement-plan', '指标提升方案')"
-      >
-        <view class="menu-icon-wrapper bg-cyan">
-          <image src="/static/icons/png/filled/symbols/risk_analysis@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
-        </view>
-        <text class="menu-text">指标提升方案</text>
-        <text class="menu-hint">个性化干预方案</text>
       </view>
     </view>
     
@@ -188,11 +196,101 @@ export default {
   opacity: 0.9;
 }
 
+.priority-section {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.priority-item:active {
+  transform: scale(0.98);
+}
+
+.priority-item.primary {
+  border-left: 4px solid #06B6D4;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, #FFFFFF 100%);
+}
+
+.priority-item.secondary {
+  border-left: 4px solid #9333EA;
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, #FFFFFF 100%);
+}
+
+.priority-badge {
+  position: absolute;
+  top: 0;
+  right: 20px;
+  background-color: #06B6D4;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 0 0 8px 8px;
+}
+
+.priority-badge.secondary-badge {
+  background-color: #9333EA;
+}
+
+.priority-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.priority-icon-img {
+  width: 30px;
+  height: 30px;
+}
+
+.priority-content {
+  flex: 1;
+}
+
+.priority-title {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 4px;
+}
+
+.priority-desc {
+  display: block;
+  font-size: 13px;
+  color: #909399;
+  line-height: 1.4;
+}
+
+.priority-arrow {
+  font-size: 24px;
+  color: #C0C4CC;
+  margin-left: 8px;
+}
+
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  padding: 20px 16px;
+  padding: 0 16px;
 }
 
 .menu-item {

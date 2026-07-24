@@ -50,6 +50,23 @@
         </view>
         <text class="nav-arrow">›</text>
       </view>
+      
+      <view 
+        class="menu-item menu-item-wide animate-fade-in-up" 
+        :style="{ animationDelay: '0.25s' }"
+        @click="showFeedbackModal"
+      >
+        <view class="wide-content">
+          <view class="menu-icon-wrapper bg-green">
+            <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
+          </view>
+          <view class="wide-text">
+            <text class="menu-text">问题反馈及满意度调查</text>
+            <text class="menu-hint">反馈意见，帮助我们改进服务</text>
+          </view>
+        </view>
+        <text class="nav-arrow">›</text>
+      </view>
     </view>
     
     <view class="bottom-space"></view>
@@ -97,6 +114,14 @@ export default {
         fail: () => {
           this.isNavigating = false
         }
+      })
+    },
+    showFeedbackModal() {
+      uni.showModal({
+        title: '问题反馈及满意度调查',
+        content: '感谢您的反馈！我们非常重视您的意见。您可以通过以下方式联系我们：\n\n服务热线：400-888-8888\n服务时间：周一至周日 8:00-20:00\n\n您也可以在门诊大厅的意见箱中留下您的宝贵意见。',
+        showCancel: false,
+        confirmText: '知道了'
       })
     }
   }
@@ -265,6 +290,14 @@ export default {
 
 .bg-indigo .menu-icon-img {
   filter: brightness(0) saturate(100%) invert(32%) sepia(52%) saturate(1612%) hue-rotate(239deg) brightness(96%) contrast(99%);
+}
+
+.bg-green {
+  background-color: rgba(0, 157, 133, 0.1);
+}
+
+.bg-green .menu-icon-img {
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
 }
 
 .menu-icon {

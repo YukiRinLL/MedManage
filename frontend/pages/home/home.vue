@@ -5,14 +5,44 @@
         <image src="/static/logo.png" class="welcome-logo" mode="aspectFit" />
         <view class="logo-ring"></view>
       </view>
-      <text class="welcome-title">重庆圣通尚诺医疗管理™</text>
+      <text class="welcome-title">重庆圣通尚诺医疗管理</text>
       <text class="welcome-subtitle">您的健康管理助手</text>
+    </view>
+    
+    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.15s' }">
+      <view class="alert-card" :class="{ 'alert-normal': !hasAlert }" @click="handleAlertClick">
+        <image 
+          :src="hasAlert ? '/static/icons/png/filled/symbols/alert_triangle@2x.png' : '/static/icons/png/filled/symbols/info@2x.png'" 
+          class="alert-icon" 
+          mode="aspectFit" 
+        />
+        <view class="alert-content">
+          <text class="alert-title" :class="{ 'alert-title-normal': !hasAlert }">
+            {{ hasAlert ? ('共有 ' + alertCount + ' 项指标异常，请及时关注') : '指标状态正常' }}
+          </text>
+          <text class="alert-desc">
+            {{ hasAlert ? '以下为部分异常指标，完整详情请在“健康管理-核心指标”中查看' : '您的检查指标均在正常范围内，请继续保持' }}
+          </text>
+          <view v-if="hasAlert" class="alert-detail-list">
+            <view 
+              v-for="(item, index) in abnormalIndicators.slice(0, 4)" 
+              :key="item.key" 
+              class="alert-detail-item"
+            >
+              <text class="alert-detail-name">{{ item.label }}：</text>
+              <text class="alert-detail-value">{{ item.value }}</text>
+              <text class="alert-detail-range">（正常 {{ item.min }} - {{ item.max }}）</text>
+            </view>
+          </view>
+        </view>
+        <view class="alert-arrow">›</view>
+      </view>
     </view>
     
     <view class="quick-nav">
       <view 
         class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.1s' }"
+        :style="{ animationDelay: '0.2s' }"
         @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')"
       >
         <view class="nav-icon-wrapper bg-green">
@@ -29,7 +59,7 @@
       
       <view 
         class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.2s' }"
+        :style="{ animationDelay: '0.3s' }"
         @click="handleNavClick('/pages/service-center/service-center', '服务中心')"
       >
         <view class="nav-icon-wrapper bg-orange">
@@ -46,7 +76,7 @@
       
       <view 
         class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.3s' }"
+        :style="{ animationDelay: '0.4s' }"
         @click="handleNavClick('/pages/interaction/interaction', '互动中心')"
       >
         <view class="nav-icon-wrapper bg-pink">
@@ -58,37 +88,6 @@
         </view>
         <view class="nav-arrow-wrap">
           <text class="nav-arrow">›</text>
-        </view>
-      </view>
-    </view>
-    
-    <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.4s' }">
-      <view class="alert-card" :class="{ 'alert-normal': !hasAlert }" @click="handleAlertClick">
-        <image 
-          :src="hasAlert ? '/static/icons/png/filled/symbols/alert_triangle@2x.png' : '/static/icons/png/filled/symbols/info@2x.png'" 
-          class="alert-icon" 
-          mode="aspectFit" 
-        />
-        <view class="alert-content">
-          <text class="alert-title" :class="{ 'alert-title-normal': !hasAlert }">{{ hasAlert ? '指标异常提醒' : '指标状态正常' }}</text>
-          <text class="alert-desc">{{ hasAlert ? '您有 ' + alertCount + ' 项指标超出正常范围' : '您的检查指标均在正常范围内，请继续保持' }}</text>
-        </view>
-        <view class="alert-arrow">›</view>
-      </view>
-    </view>
-
-    <view class="tips-section animate-fade-in" :style="{ animationDelay: '0.4s' }">
-      <view class="tips-header">
-        <view class="tips-title-wrap">
-          <image src="/static/icons/png/filled/symbols/info@2x.png" class="tips-icon" mode="aspectFit" />
-          <text class="tips-title">使用提示</text>
-        </view>
-        <view class="tips-badge">3</view>
-      </view>
-      <view class="tips-list">
-        <view class="tips-item" v-for="(tip, index) in tips" :key="index">
-          <view class="tip-dot"></view>
-          <text class="tip-text">{{ tip }}</text>
         </view>
       </view>
     </view>
@@ -132,6 +131,7 @@ export default {
       isNavigating: false,
       hasAlert: false,
       alertCount: 0,
+      abnormalIndicators: [],
       notices: []
     }
   },
@@ -160,29 +160,51 @@ export default {
     },
     async fetchAbnormalIndicators() {
       try {
-        const userId = uni.getStorageSync('userId')
+        const user = uni.getStorageSync('user')
+        let userId = ''
+        if (user) {
+          try {
+            const parsed = typeof user === 'string' ? JSON.parse(user) : user
+            userId = parsed.id
+          } catch (e) {
+            console.log('解析用户信息失败', e)
+          }
+        }
+        if (!userId) {
+          console.log('未获取到用户ID，跳过异常指标查询')
+          return
+        }
         const res = await get(`/blood-test/latest/${userId}`)
         if (res.code === 200 && res.data) {
           const test = res.data
           let count = 0
           const indicators = [
-            { key: 'hemoglobin', min: 110, max: 130 },
-            { key: 'ureaNitrogen', min: 3.2, max: 7.1 },
-            { key: 'uricAcid', min: 208, max: 428 },
-            { key: 'potassium', min: 3.5, max: 5.5 },
-            { key: 'sodium', min: 135, max: 145 },
-            { key: 'calcium', min: 2.1, max: 2.6 },
-            { key: 'phosphorus', min: 0.8, max: 1.45 },
-            { key: 'albumin', min: 35, max: 50 },
-            { key: 'parathyroidHormone', min: 150, max: 300 }
+            { key: 'hemoglobin', label: '血红蛋白', min: 110, max: 130 },
+            { key: 'ureaNitrogen', label: '尿素氮', min: 3.2, max: 7.1 },
+            { key: 'uricAcid', label: '尿酸', min: 208, max: 428 },
+            { key: 'potassium', label: '钾', min: 3.5, max: 5.5 },
+            { key: 'sodium', label: '钠', min: 135, max: 145 },
+            { key: 'calcium', label: '钙', min: 2.1, max: 2.6 },
+            { key: 'phosphorus', label: '磷', min: 0.8, max: 1.45 },
+            { key: 'albumin', label: '白蛋白', min: 35, max: 50 },
+            { key: 'parathyroidHormone', label: '甲状旁腺激素', min: 150, max: 300 }
           ]
+          const abnormalList = []
           indicators.forEach(ind => {
             const value = test[ind.key]
             if (value !== null && value !== undefined && (value < ind.min || value > ind.max)) {
               count++
+              abnormalList.push({
+                key: ind.key,
+                label: ind.label,
+                value,
+                min: ind.min,
+                max: ind.max
+              })
             }
           })
           this.alertCount = count
+          this.abnormalIndicators = abnormalList
           this.hasAlert = count > 0
         }
       } catch (err) {
@@ -304,7 +326,7 @@ export default {
 }
 
 .welcome-section {
-  padding: 50px 20px 35px;
+  padding: 35px 20px 25px;
   text-align: center;
   background-color: #FFFFFF;
   margin-bottom: 16px;
@@ -314,26 +336,26 @@ export default {
 .logo-container {
   position: relative;
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .welcome-logo {
-  width: 160px;
-  height: 160px;
-  border-radius: 36px;
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
   background-color: #FFFFFF;
-  padding: 24px;
+  padding: 16px;
   border: 2px solid #EBEEF5;
   animation: float 3s ease-in-out infinite;
-  box-shadow: 0 8px 24px rgba(0, 157, 133, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 157, 133, 0.15);
 }
 
 .logo-ring {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 180px;
-  height: 180px;
+  width: 115px;
+  height: 115px;
   border: 2px solid rgba(0, 157, 133, 0.3);
   border-radius: 50%;
   transform: translate(-50%, -50%);
@@ -342,16 +364,15 @@ export default {
 
 .welcome-title {
   display: block;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: #303133;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  margin-bottom: 6px;
 }
 
 .welcome-subtitle {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   color: #009D85;
   font-weight: 500;
 }
@@ -530,6 +551,38 @@ export default {
   color: #909399;
 }
 
+.alert-detail-list {
+  margin-top: 10px;
+  padding: 10px 12px;
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+}
+
+.alert-detail-item {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+  color: #606266;
+}
+
+.alert-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.alert-detail-name {
+  font-weight: 600;
+  color: #303133;
+}
+
+.alert-detail-value {
+  color: #E6A23C;
+  font-weight: 600;
+}
+
+.alert-detail-range {
+  color: #909399;
+}
+
 .alert-arrow {
   font-size: 20px;
   color: #C0C4CC;
@@ -546,72 +599,6 @@ export default {
 
 .alert-title-normal {
   color: #009D85;
-}
-
-.tips-section {
-  margin-top: 16px;
-  padding: 0 16px;
-}
-
-.tips-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.tips-title-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.tips-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 6px;
-}
-
-.tips-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.tips-badge {
-  background-color: #009D85;
-  color: #FFFFFF;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 10px;
-  margin-left: 8px;
-}
-
-.tips-list {
-  background-color: #FFFFFF;
-  padding: 16px 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.tips-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.tip-dot {
-  width: 6px;
-  height: 6px;
-  background-color: #009D85;
-  border-radius: 50%;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-
-.tip-text {
-  font-size: 13px;
-  color: #606266;
-  line-height: 1.6;
 }
 
 .notice-section {

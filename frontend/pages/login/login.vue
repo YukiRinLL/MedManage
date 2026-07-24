@@ -81,6 +81,10 @@ export default {
         })
         uni.setStorageSync('token', res.data.token)
         uni.setStorageSync('user', JSON.stringify(res.data.user))
+        // 保存当前用户ID，供首页等页面请求使用
+        if (res.data.user && res.data.user.id) {
+          uni.setStorageSync('userId', res.data.user.id)
+        }
         uni.showToast({
           title: '登录成功',
           icon: 'success'

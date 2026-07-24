@@ -46,34 +46,10 @@
       </view>
     </view>
     
-    <view class="service-info animate-fade-in" :style="{ animationDelay: '0.25s' }">
-      <view class="info-card">
-        <image src="/static/icons/png/filled/objects/phone@2x.png" class="info-icon" mode="aspectFit" />
-        <view class="info-content">
-          <text class="info-title">服务热线</text>
-          <text class="info-value">400-888-8888</text>
-        </view>
-      </view>
-      <view class="info-card">
-        <image src="/static/icons/png/filled/objects/clock@2x.png" class="info-icon" mode="aspectFit" />
-        <view class="info-content">
-          <text class="info-title">服务时间</text>
-          <text class="info-value">周一至周日 8:00-20:00</text>
-        </view>
-      </view>
-      <view class="info-card">
-        <image src="/static/icons/png/filled/symbols/geo_location@2x.png" class="info-icon" mode="aspectFit" />
-        <view class="info-content">
-          <text class="info-title">机构地址</text>
-          <text class="info-value">北京市朝阳区健康路88号</text>
-        </view>
-      </view>
-    </view>
-
-    <view class="medical-staff-section animate-fade-in" :style="{ animationDelay: '0.3s' }">
+    <view class="medical-staff-section animate-fade-in" :style="{ animationDelay: '0.25s' }">
       <view class="section-title-wrap">
         <image src="/static/icons/png/filled/people/nurse@2x.png" class="section-icon" mode="aspectFit" />
-        <text class="section-label">专属医护团队</text>
+        <text class="section-label">您的专属医护</text>
       </view>
       
       <view class="staff-list">
@@ -110,6 +86,43 @@
         <view class="staff-card empty-staff" v-if="!nurse && !doctor">
           <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
           <text class="empty-text">暂无专属医护人员</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="organization-info animate-fade-in" :style="{ animationDelay: '0.3s' }">
+      <view class="section-title-wrap">
+        <image src="/static/icons/png/filled/places/home@2x.png" class="section-icon" mode="aspectFit" />
+        <text class="section-label">机构信息</text>
+      </view>
+      <view class="org-card">
+        <view class="org-intro">
+          <text class="org-intro-title">医院简介</text>
+          <text class="org-intro-content">重庆圣通尚诺医疗管理有限公司成立于2018年，专注于透析患者的综合管理服务。我们拥有专业的医疗团队和先进的透析设备，致力于为患者提供高质量的医疗服务和全方位的健康管理支持。</text>
+          <text class="org-intro-more" @click="showHospitalDetail">了解更多 ›</text>
+        </view>
+        <view class="org-contact">
+          <view class="org-contact-item">
+            <image src="/static/icons/png/filled/objects/phone@2x.png" class="org-contact-icon" mode="aspectFit" />
+            <view class="org-contact-info">
+              <text class="org-contact-title">服务热线</text>
+              <text class="org-contact-value">400-888-8888</text>
+            </view>
+          </view>
+          <view class="org-contact-item">
+            <image src="/static/icons/png/filled/objects/clock@2x.png" class="org-contact-icon" mode="aspectFit" />
+            <view class="org-contact-info">
+              <text class="org-contact-title">服务时间</text>
+              <text class="org-contact-value">周一至周日 8:00-20:00</text>
+            </view>
+          </view>
+          <view class="org-contact-item">
+            <image src="/static/icons/png/filled/symbols/geo_location@2x.png" class="org-contact-icon" mode="aspectFit" />
+            <view class="org-contact-info">
+              <text class="org-contact-title">机构地址</text>
+              <text class="org-contact-value">北京市朝阳区健康路88号</text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -184,6 +197,14 @@ export default {
           icon: 'none'
         })
       }
+    },
+    showHospitalDetail() {
+      uni.showModal({
+        title: '医院简介',
+        content: '重庆圣通尚诺医疗管理有限公司成立于2018年，专注于透析患者的综合管理服务。我们拥有专业的医疗团队和先进的透析设备，致力于为患者提供高质量的医疗服务和全方位的健康管理支持。\n\n服务理念：以患者为中心，提供专业、温馨、便捷的医疗服务。\n\n联系方式：400-888-8888',
+        showCancel: false,
+        confirmText: '知道了'
+      })
     }
   }
 }
@@ -331,47 +352,9 @@ export default {
   color: #909399;
 }
 
-.service-info {
+.organization-info {
   padding: 0 16px;
-}
-
-.info-card {
-  display: flex;
-  align-items: center;
-  background-color: #FFFFFF;
-  padding: 16px 20px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s ease;
-}
-
-.info-card:active {
-  background-color: #F5F7FA;
-}
-
-.info-icon {
-  width: 28px;
-  height: 28px;
-  margin-right: 16px;
-}
-
-.info-content {
-  flex: 1;
-}
-
-.info-title {
-  display: block;
-  font-size: 14px;
-  color: #909399;
-  margin-bottom: 4px;
-}
-
-.info-value {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
+  margin-top: 12px;
 }
 
 .medical-staff-section {
@@ -486,6 +469,76 @@ export default {
 .empty-text {
   font-size: 14px;
   color: #909399;
+}
+
+.org-card {
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.org-intro {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #EBEEF5;
+  margin-bottom: 16px;
+}
+
+.org-intro-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+  margin-bottom: 8px;
+}
+
+.org-intro-content {
+  font-size: 14px;
+  color: #606266;
+  line-height: 1.6;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.org-intro-more {
+  font-size: 14px;
+  color: #009D85;
+  font-weight: 500;
+}
+
+.org-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.org-contact-item {
+  display: flex;
+  align-items: center;
+}
+
+.org-contact-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 14px;
+}
+
+.org-contact-info {
+  flex: 1;
+}
+
+.org-contact-title {
+  display: block;
+  font-size: 13px;
+  color: #909399;
+  margin-bottom: 2px;
+}
+
+.org-contact-value {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
 }
 
 .bottom-space {
