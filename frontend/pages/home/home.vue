@@ -43,17 +43,21 @@
       <view class="tips-header">
         <view class="tips-title-wrap">
           <image src="/static/icons/png/filled/symbols/info@2x.png" class="tips-icon" mode="aspectFit" />
-          <text class="tips-title">提示</text>
+          <text class="tips-title">健康管理提示</text>
         </view>
+        <text class="tips-subtitle">快捷管理健康状态</text>
       </view>
       <view class="tips-list">
         <view 
           v-for="tip in tipCards" 
           :key="tip.key" 
           class="tips-item" 
+          :class="['tips-item-' + tip.key]"
           @click="handleTipClick(tip)"
         >
-          <view class="tip-dot"></view>
+          <view class="tip-icon-wrap" :class="'tip-icon-' + tip.key">
+            <image :src="tip.icon" class="tip-icon-img" mode="aspectFit" />
+          </view>
           <view class="tip-content">
             <text class="tip-text">{{ tip.title }}</text>
             <text class="tip-desc">{{ tip.desc }}</text>
@@ -153,9 +157,9 @@ export default {
         '关注最新活动通知'
       ],
       tipCards: [
-        { key: 'alert', title: '异常指标数量', desc: '点击查看指标详情', action: 'indicator' },
-        { key: 'vital', title: '定期记录生命体征数据', desc: '点击进入生命体征页面', action: 'vital' },
-        { key: 'medication', title: '按时查看用药提醒', desc: '点击进入用药记录页面', action: 'medication' }
+        { key: 'indicator', title: '健康指标提升方案', desc: '查看异常指标与干预建议', action: 'indicator', icon: '/static/icons/png/filled/symbols/risk_analysis@2x.png' },
+        { key: 'vital', title: '定期记录生命体征数据', desc: '点击进入生命体征页面', action: 'vital', icon: '/static/icons/png/filled/symbols/heart_cardiogram@2x.png' },
+        { key: 'medication', title: '按时查看用药提醒', desc: '点击进入用药记录页面', action: 'medication', icon: '/static/icons/png/filled/medications/pill_1@2x.png' }
       ],
       isNavigating: false,
       hasAlert: false,
@@ -293,7 +297,7 @@ export default {
     handleTipClick(tip) {
       if (tip.action === 'indicator') {
         uni.navigateTo({
-          url: '/pages/core-indicator/core-indicator'
+          url: '/pages/improvement-plan/improvement-plan'
         })
         return
       }
@@ -676,7 +680,7 @@ export default {
 
 .tips-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 12px;
 }
@@ -688,43 +692,69 @@ export default {
 }
 
 .tips-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
 .tips-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #303133;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1F2937;
+}
+
+.tips-subtitle {
+  font-size: 12px;
+  color: #6B7280;
 }
 
 .tips-list {
   background-color: #FFFFFF;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 18px;
+  border: 2px solid rgba(0, 157, 133, 0.38);
+  border-left: 8px solid #009D85;
+  border-top: 2px solid rgba(0, 157, 133, 0.28);
+  box-shadow: 0 10px 24px rgba(0, 157, 133, 0.14);
   overflow: hidden;
 }
 
 .tips-item {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid #F0F2F5;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 18px;
+  border-bottom: 1px solid #EEF2F7;
 }
 
 .tips-item:last-child {
   border-bottom: none;
 }
 
-.tip-dot {
-  width: 6px;
-  height: 6px;
-  margin-top: 7px;
-  border-radius: 50%;
-  background-color: #009D85;
+.tip-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+}
+
+.tip-icon-img {
+  width: 26px;
+  height: 26px;
+}
+
+.tip-icon-indicator {
+  background-color: rgba(6, 182, 212, 0.12);
+}
+
+.tip-icon-vital {
+  background-color: rgba(245, 108, 108, 0.12);
+}
+
+.tip-icon-medication {
+  background-color: rgba(59, 130, 246, 0.12);
 }
 
 .tip-content {
@@ -733,26 +763,28 @@ export default {
 
 .tip-text {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #303133;
-  line-height: 1.4;
-  margin-bottom: 2px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1F2937;
+  line-height: 1.45;
+  margin-bottom: 4px;
 }
 
 .tip-desc {
   display: block;
   font-size: 12px;
-  color: #909399;
-  line-height: 1.4;
+  color: #6B7280;
+  line-height: 1.45;
 }
 
 .tip-arrow {
-  font-size: 20px;
+  font-size: 24px;
   color: #C0C4CC;
   line-height: 1;
   padding-top: 2px;
 }
+
+
 
 .notice-section {
   margin-top: 20px;
