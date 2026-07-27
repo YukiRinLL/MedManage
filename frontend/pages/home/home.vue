@@ -5,12 +5,10 @@
         <image src="/static/logo.png" class="welcome-logo" mode="aspectFit" />
         <view class="logo-ring"></view>
       </view>
-      <!-- <text class="welcome-title">重庆圣通尚诺医疗管理</text> -->
-      <text class="welcome-subtitle">您的健康管理助手</text>
       <view class="days-protected">
-        <text class="days-text">圣通已经为您的健康护航</text>
+        <text class="days-prefix">为您健康护航第</text>
         <text class="days-number">{{ daysProtected }}</text>
-        <text class="days-unit">天</text>
+        <text class="days-suffix">天</text>
       </view>
     </view>
     
@@ -137,7 +135,6 @@
           :key="index"
           @click="goToNotificationDetail(item)"
         >
-          <view class="notification-dot" v-if="!item.isRead"></view>
           <text class="notification-content">{{ item.content }}</text>
           <text class="notification-time">{{ item.time }}</text>
         </view>
@@ -149,20 +146,20 @@
           <text class="section-title">📰 新闻资讯</text>
           <text class="section-more" @click="goToNews">查看更多 ›</text>
         </view>
-      <scroll-view class="news-scroll" scroll-x>
-        <view class="news-list">
-          <view 
-            class="news-item" 
-            v-for="(news, index) in newsList" 
-            :key="index"
-            @click="goToNewsDetail(news)"
-          >
+      <view class="news-list">
+        <view 
+          class="news-item" 
+          v-for="(news, index) in newsList" 
+          :key="index"
+          @click="goToNewsDetail(news)"
+        >
+          <view class="news-left">
             <text class="news-tag" v-if="news.isTop">置顶</text>
             <text class="news-title">{{ news.title }}</text>
-            <text class="news-time">{{ news.time }}</text>
           </view>
+          <text class="news-time">{{ news.time }}</text>
         </view>
-      </scroll-view>
+      </view>
     </view>
     
     <view class="bottom-space"></view>
@@ -235,7 +232,7 @@ export default {
           console.log('未获取到用户ID，跳过通知查询')
           return
         }
-        const res = await get(`/notification/list/${userId}?page=1&size=3`)
+        const res = await get(`/notification/list/${userId}?page=1&size=2`)
         if (res.code === 200) {
           let notifications = []
           const data = res.data
@@ -244,11 +241,11 @@ export default {
           } else if (data.list && data.list.length > 0) {
             notifications = data.list
           }
-          if (notifications.length > 0) {
-            this.notificationList = notifications.map(item => ({
+          const unreadNotifications = notifications.filter(item => !item.isRead).slice(0, 2)
+          if (unreadNotifications.length > 0) {
+            this.notificationList = unreadNotifications.map(item => ({
               content: item.content,
               time: this.formatDate(item.createdAt),
-              isRead: item.isRead || false,
               id: item.id
             }))
           }
@@ -561,43 +558,38 @@ export default {
   margin-bottom: 6px;
 }
 
-.welcome-subtitle {
-  display: block;
-  font-size: 14px;
-  color: #009D85;
-  font-weight: 500;
-  margin-bottom: 12px;
-}
-
 .days-protected {
-  display: inline-flex;
-  align-items: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
   gap: 4px;
-  background: linear-gradient(135deg, rgba(0, 157, 133, 0.08) 0%, rgba(0, 157, 133, 0.04) 100%);
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 157, 133, 0.15);
+  background-color: rgba(0, 157, 133, 0.06);
+  padding: 10px 20px;
+  border-radius: 24px;
+  border: 1px solid rgba(0, 157, 133, 0.2);
+  margin: 16px auto 0;
+  width: fit-content;
 }
 
-.days-icon {
+.days-prefix {
   font-size: 14px;
-}
-
-.days-text {
-  font-size: 13px;
   color: #606266;
+  font-weight: 500;
 }
 
 .days-number {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 30px;
+  font-weight: 800;
   color: #009D85;
+  line-height: 1;
+  min-width: 17px;
+  text-align: center;
 }
 
-.days-unit {
-  font-size: 13px;
+.days-suffix {
+  font-size: 16px;
   color: #009D85;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .quick-nav {
@@ -1011,25 +1003,36 @@ export default {
   color: #009D85;
 }
 
-.news-scroll {
-  white-space: nowrap;
+.news-section {
+  padding: 0 16px;
 }
 
 .news-list {
-  display: inline-flex;
-  gap: 12px;
-  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .news-item {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #FFFFFF;
-  padding: 12px 16px;
-  border-radius: 8px;
-  min-width: 200px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #EBEEF5;
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
 }
 
 .news-tag {
@@ -1038,23 +1041,24 @@ export default {
   background-color: #F56C6C;
   padding: 2px 6px;
   border-radius: 4px;
-  margin-bottom: 6px;
+  flex-shrink: 0;
 }
 
 .news-title {
   font-size: 14px;
   color: #303133;
   font-weight: 500;
-  margin-bottom: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 170px;
+  flex: 1;
 }
 
 .news-time {
   font-size: 12px;
   color: #909399;
+  flex-shrink: 0;
+  margin-left: 12px;
 }
 
 .bottom-space {

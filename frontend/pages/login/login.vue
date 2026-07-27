@@ -3,7 +3,10 @@
     <view class="logo">
       <image src="/static/logo.png" class="logo-icon" mode="aspectFit" />
       <text class="app-name">重庆圣通尚诺医疗管理™</text>
-      <text class="app-subtitle">健康管理系统</text>
+      <!-- <text class="app-subtitle">健康管理系统</text> -->
+      <view class="assistant-tag">
+        <text class="assistant-text">您的健康管理助手</text>
+      </view>
     </view>
     
     <view class="form">
@@ -147,6 +150,21 @@ export default {
   color: #009D85;
   margin-top: 12px;
   font-weight: 500;
+}
+
+.assistant-tag {
+  margin-top: 16px;
+  padding: 6px 16px;
+  background-color: rgba(0, 157, 133, 0.1);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 157, 133, 0.2);
+}
+
+.assistant-text {
+  font-size: 13px;
+  color: #009D85;
+  font-weight: 500;
+  letter-spacing: 1px;
 }
 
 .form {

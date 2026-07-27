@@ -370,28 +370,28 @@ export default {
 
 .organization-info {
   padding: 0 16px;
-  margin-top: 12px;
+  margin-top: 2px;
 }
 
 .medical-staff-section {
-  padding: 16px;
-  margin-top: 12px;
+  padding: 8px 16px;
+  margin-top: 2px;
 }
 
 .section-title-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 6px;
 }
 
 .section-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
 }
 
 .section-label {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #303133;
 }
@@ -399,32 +399,33 @@ export default {
 .staff-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
 }
 
 .staff-card {
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background-color: #F9FAFB;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #EBEEF5;
 }
 
 .staff-avatar {
-  width: 60px;
-  height: 60px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(0, 157, 133, 0.2) 0%, rgba(0, 157, 133, 0.05) 100%);
+  background-color: rgba(0, 157, 133, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 16px;
+  margin-right: 10px;
+  flex-shrink: 0;
 }
 
 .avatar-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 }
 
 .staff-info {
@@ -433,21 +434,21 @@ export default {
 
 .staff-name {
   display: block;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: #303133;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .staff-position {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   color: #009D85;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .staff-department {
-  font-size: 13px;
+  font-size: 12px;
   color: #909399;
 }
 
@@ -455,69 +456,72 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 16px;
-  background-color: rgba(0, 157, 133, 0.1);
-  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: #009D85;
+  border-radius: 6px;
 }
 
 .action-icon {
-  width: 18px;
-  height: 18px;
-  margin-bottom: 2px;
+  width: 16px;
+  height: 16px;
+  margin-bottom: 1px;
+  filter: brightness(0) invert(1);
 }
 
 .action-text {
-  font-size: 12px;
-  color: #009D85;
+  font-size: 11px;
+  color: #FFFFFF;
+  font-weight: 500;
 }
 
 .empty-staff {
   justify-content: center;
-  padding: 30px;
+  padding: 20px;
+  background-color: #F9FAFB;
 }
 
 .empty-icon {
-  width: 36px;
-  height: 36px;
-  margin-right: 12px;
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
 }
 
 .empty-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #909399;
 }
 
 .org-card {
-  background-color: #FFFFFF;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background-color: #F9FAFB;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #EBEEF5;
 }
 
 .org-intro {
-  padding-bottom: 16px;
+  padding-bottom: 10px;
   border-bottom: 1px solid #EBEEF5;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .org-intro-title {
   display: block;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: #303133;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .org-intro-content {
-  font-size: 14px;
+  font-size: 13px;
   color: #606266;
-  line-height: 1.6;
+  line-height: 1.5;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .org-intro-more {
-  font-size: 14px;
+  font-size: 13px;
   color: #009D85;
   font-weight: 500;
 }
@@ -525,7 +529,7 @@ export default {
 .org-contact {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
 }
 
 .org-contact-item {
@@ -534,9 +538,9 @@ export default {
 }
 
 .org-contact-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 14px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
 .org-contact-info {
