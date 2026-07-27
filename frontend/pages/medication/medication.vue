@@ -87,7 +87,7 @@ export default {
           })
           return
         }
-        const res = await get('/medication/list')
+        const res = await get('/medication/user/list')
         if (res.code === 200) {
           this.medications = res.data
         }
@@ -106,7 +106,7 @@ export default {
       med.taken = !med.taken
       try {
         const token = uni.getStorageSync('token')
-        await put(`/medication/update-taken/${med.id}`, { taken: med.taken })
+        await put(`/medication/update/taken/${med.id}?taken=${med.taken}`)
         uni.showToast({
           title: med.taken ? '已标记为服用' : '已标记为未服用',
           icon: 'none',

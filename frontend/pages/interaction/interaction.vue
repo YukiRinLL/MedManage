@@ -54,7 +54,7 @@
       <view 
         class="menu-item menu-item-wide animate-fade-in-up" 
         :style="{ animationDelay: '0.25s' }"
-        @click="showFeedbackModal"
+        @click="handleItemClick('/pages/feedback/feedback', '问题反馈')"
       >
         <view class="wide-content">
           <view class="menu-icon-wrapper bg-green">

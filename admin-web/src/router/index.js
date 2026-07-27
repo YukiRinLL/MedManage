@@ -118,6 +118,12 @@ const routes = [
         name: 'MedicalStaff',
         component: () => import('@/views/medical-staff/Index.vue'),
         meta: { title: '医护人员管理', icon: 'UserFilled', roles: [1, 2] }
+      },
+      {
+        path: '/feedback',
+        name: 'Feedback',
+        component: () => import('@/views/feedback/Index.vue'),
+        meta: { title: '反馈管理', icon: 'Message', roles: [1, 2] }
       }
     ]
   }

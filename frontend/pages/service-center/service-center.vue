@@ -9,7 +9,7 @@
     </view>
     
     <view class="menu-list">
-      <view 
+      <!-- <view 
         class="menu-item animate-fade-in-up" 
         :style="{ animationDelay: '0.1s' }"
         @click="handleItemClick('/pages/insurance/insurance', '参保信息')"
@@ -22,7 +22,7 @@
           <text class="menu-hint">查询医保参保状态</text>
         </view>
         <text class="menu-arrow">›</text>
-      </view>
+      </view> -->
       
       <view 
         class="menu-item animate-fade-in-up" 

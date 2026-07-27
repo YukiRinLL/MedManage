@@ -138,6 +138,22 @@
       }
     },
     {
+      "path": "pages/profile/settings",
+      "style": {
+        "navigationBarTitleText": "设置",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/profile/about",
+      "style": {
+        "navigationBarTitleText": "关于我们",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
       "path": "pages/news/list",
       "style": {
         "navigationBarTitleText": "新闻资讯",
@@ -206,6 +222,14 @@
       "path": "pages/improvement-plan/improvement-plan",
       "style": {
         "navigationBarTitleText": "指标提升方案",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/feedback/feedback",
+      "style": {
+        "navigationBarTitleText": "问题反馈",
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }

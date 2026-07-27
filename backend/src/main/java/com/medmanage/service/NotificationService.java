@@ -1,7 +1,9 @@
 package com.medmanage.service;
 
 import com.medmanage.entity.Notification;
+import com.medmanage.entity.User;
 import com.medmanage.repository.NotificationRepository;
+import com.medmanage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,9 @@ import java.util.Map;
 public class NotificationService {
     @Autowired
     private NotificationRepository notificationRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
     
     public Notification save(Notification notification) {
         return notificationRepository.save(notification);
@@ -43,9 +48,27 @@ public class NotificationService {
         return result;
     }
     
+    public Map<String, Object> listNotificationsByUserId(String userId, int page, int size) {
+        Map<String, Object> result = new HashMap<>();
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<Notification> notificationPage = notificationRepository.findByUserId(userId, pageable);
+        result.put("list", notificationPage.getContent());
+        result.put("total", notificationPage.getTotalElements());
+        return result;
+    }
+    
+    public List<Notification> findNotificationsByUserId(String userId) {
+        return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
+    }
+    
     public void createNotification(String phone, Integer type, String title, String content, String notifyTime) {
         Notification notification = new Notification();
-        notification.setUserId("1");
+        
+        User user = userRepository.findByPhone(phone);
+        if (user != null) {
+            notification.setUserId(user.getId());
+        }
+        
         notification.setType(type.toString());
         notification.setTitle(title);
         notification.setContent(content);

@@ -131,16 +131,14 @@ export default {
       })
     },
     navigateToSettings() {
-      uni.showToast({
-        title: '设置功能开发中',
-        icon: 'none'
+      uni.navigateTo({
+        url: '/pages/profile/settings'
       })
     },
 
     navigateToAbout() {
-      uni.showToast({
-        title: '关于我们功能开发中',
-        icon: 'none'
+      uni.navigateTo({
+        url: '/pages/profile/about'
       })
     },
     navigateToHelp() {

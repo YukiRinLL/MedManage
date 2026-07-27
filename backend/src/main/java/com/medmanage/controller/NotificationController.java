@@ -40,6 +40,21 @@ public class NotificationController {
         return result;
     }
     
+    @GetMapping("/list/{userId}")
+    public Map<String, Object> getNotificationsByUserId(@PathVariable String userId) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<Notification> notifications = notificationService.findNotificationsByUserId(userId);
+            result.put("code", 200);
+            result.put("message", "获取成功");
+            result.put("data", notifications);
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
+    
     @PostMapping("/create")
     public Map<String, Object> createNotification(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> params) {
         Map<String, Object> result = new HashMap<>();

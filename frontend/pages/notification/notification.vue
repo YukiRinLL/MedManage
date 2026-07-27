@@ -12,7 +12,7 @@
         <text class="card-title">消息通知</text>
         
         <view v-if="notifications.length > 0" class="notification-list">
-          <view v-for="notification in notifications" :key="notification.id" class="notification-item" :class="{ unread: !notification.read }">
+          <view v-for="notification in notifications" :key="notification.id" class="notification-item" :class="{ unread: !notification.isRead }">
             <view class="notification-icon" :class="'type-' + notification.type.toLowerCase()"></view>
             <view class="notification-body">
               <view class="notification-header">
@@ -21,7 +21,7 @@
               </view>
               <text class="notification-message">{{ notification.content }}</text>
             </view>
-            <button v-if="!notification.read" class="mark-read-btn" @click="markAsRead(notification.id)">
+            <button v-if="!notification.isRead" class="mark-read-btn" @click="markAsRead(notification.id)">
               标记已读
             </button>
           </view>
@@ -61,7 +61,8 @@ export default {
           })
           return
         }
-        const res = await get('/notification/list')
+        const userId = uni.getStorageSync('userId')
+        const res = await get(`/notification/list/${userId}`)
         if (res.code === 200) {
           this.notifications = res.data
         }

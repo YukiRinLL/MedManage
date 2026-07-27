@@ -68,6 +68,10 @@ public class UserService {
         if (!user.getPassword().equals(DigestUtils.md5DigestAsHex(password.getBytes()))) {
             throw new RuntimeException("密码错误");
         }
+        if (user.getCreatedAt() == null) {
+            user.setCreatedAt(java.time.LocalDateTime.now());
+            userRepository.save(user);
+        }
         return user;
     }
     

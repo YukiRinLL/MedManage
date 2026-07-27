@@ -5,8 +5,13 @@
         <image src="/static/logo.png" class="welcome-logo" mode="aspectFit" />
         <view class="logo-ring"></view>
       </view>
-      <text class="welcome-title">重庆圣通尚诺医疗管理</text>
+      <!-- <text class="welcome-title">重庆圣通尚诺医疗管理</text> -->
       <text class="welcome-subtitle">您的健康管理助手</text>
+      <view class="days-protected">
+        <text class="days-text">圣通已经为您的健康护航</text>
+        <text class="days-number">{{ daysProtected }}</text>
+        <text class="days-unit">天</text>
+      </view>
     </view>
     
     <!-- <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.15s' }">
@@ -67,7 +72,7 @@
       </view>
     </view>
     
-    <view class="quick-nav">
+    <!-- <view class="quick-nav">
       <view 
         class="nav-card animate-slide-in-right" 
         :style="{ animationDelay: '0.2s' }"
@@ -118,24 +123,43 @@
           <text class="nav-arrow">›</text>
         </view>
       </view>
-    </view>
+    </view> -->
 
-    <view class="notice-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
+    <view class="notification-section animate-fade-in" :style="{ animationDelay: '0.45s' }">
       <view class="section-header-wrap">
-          <text class="section-title">📢 最新公告</text>
+          <text class="section-title">🔔 通知消息</text>
           <text class="section-more" @click="goToNotification">查看更多 ›</text>
         </view>
-      <scroll-view class="notice-scroll" scroll-x>
-        <view class="notice-list">
+      <view class="notification-list">
+        <view 
+          class="notification-item" 
+          v-for="(item, index) in notificationList" 
+          :key="index"
+          @click="goToNotificationDetail(item)"
+        >
+          <view class="notification-dot" v-if="!item.isRead"></view>
+          <text class="notification-content">{{ item.content }}</text>
+          <text class="notification-time">{{ item.time }}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="news-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
+      <view class="section-header-wrap">
+          <text class="section-title">📰 新闻资讯</text>
+          <text class="section-more" @click="goToNews">查看更多 ›</text>
+        </view>
+      <scroll-view class="news-scroll" scroll-x>
+        <view class="news-list">
           <view 
-            class="notice-item" 
-            v-for="(notice, index) in notices" 
+            class="news-item" 
+            v-for="(news, index) in newsList" 
             :key="index"
-            @click="goToNotificationDetail(notice)"
+            @click="goToNewsDetail(news)"
           >
-            <text class="notice-tag" v-if="notice.isTop">置顶</text>
-            <text class="notice-title">{{ notice.title }}</text>
-            <text class="notice-time">{{ notice.time }}</text>
+            <text class="news-tag" v-if="news.isTop">置顶</text>
+            <text class="news-title">{{ news.title }}</text>
+            <text class="news-time">{{ news.time }}</text>
           </view>
         </view>
       </scroll-view>
@@ -165,21 +189,25 @@ export default {
       hasAlert: false,
       alertCount: 0,
       abnormalIndicators: [],
-      notices: []
+      newsList: [],
+      notificationList: [],
+      daysProtected: 0
     }
   },
   onLoad() {
-    this.fetchNotices()
+    this.fetchNews()
+    this.fetchNotifications()
     this.fetchAbnormalIndicators()
+    this.calculateDaysProtected()
   },
   methods: {
-    async fetchNotices() {
+    async fetchNews() {
       try {
         const res = await get('/news?page=1&size=5')
         if (res.code === 200) {
           const data = res.data
           if (data.list && data.list.length > 0) {
-            this.notices = data.list.map(item => ({
+            this.newsList = data.list.map(item => ({
               title: item.title,
               time: this.formatDate(item.createdAt),
               isTop: item.isTop || false,
@@ -188,7 +216,45 @@ export default {
           }
         }
       } catch (err) {
-        console.log('获取公告失败:', err)
+        console.log('获取新闻失败:', err)
+      }
+    },
+    async fetchNotifications() {
+      try {
+        const user = uni.getStorageSync('user')
+        let userId = ''
+        if (user) {
+          try {
+            const parsed = typeof user === 'string' ? JSON.parse(user) : user
+            userId = parsed.id
+          } catch (e) {
+            console.log('解析用户信息失败', e)
+          }
+        }
+        if (!userId) {
+          console.log('未获取到用户ID，跳过通知查询')
+          return
+        }
+        const res = await get(`/notification/list/${userId}?page=1&size=3`)
+        if (res.code === 200) {
+          let notifications = []
+          const data = res.data
+          if (Array.isArray(data)) {
+            notifications = data
+          } else if (data.list && data.list.length > 0) {
+            notifications = data.list
+          }
+          if (notifications.length > 0) {
+            this.notificationList = notifications.map(item => ({
+              content: item.content,
+              time: this.formatDate(item.createdAt),
+              isRead: item.isRead || false,
+              id: item.id
+            }))
+          }
+        }
+      } catch (err) {
+        console.log('获取通知失败:', err)
       }
     },
     async fetchAbnormalIndicators() {
@@ -313,15 +379,68 @@ export default {
         })
       }
     },
+    goToNews() {
+      uni.navigateTo({
+        url: '/pages/news/list'
+      })
+    },
+    goToNewsDetail(news) {
+      uni.navigateTo({
+        url: `/pages/news/detail?id=${news.id}`
+      })
+    },
     goToNotification() {
       uni.navigateTo({
         url: '/pages/notification/notification'
       })
     },
-    goToNotificationDetail(notice) {
+    goToNotificationDetail(item) {
       uni.navigateTo({
         url: '/pages/notification/notification'
       })
+    },
+    calculateDaysProtected() {
+      const userStr = uni.getStorageSync('user')
+      console.log('用户存储数据:', userStr)
+      if (!userStr) {
+        console.log('用户存储数据为空')
+        this.daysProtected = 0
+        return
+      }
+      let user = null
+      try {
+        user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr
+      } catch (e) {
+        console.log('解析用户信息失败', e)
+        this.daysProtected = 0
+        return
+      }
+      console.log('解析后的用户对象:', user)
+      console.log('用户对象的所有键:', Object.keys(user))
+      if (!user) {
+        this.daysProtected = 0
+        return
+      }
+      const createdAtStr = user.createdAt || user.created_at || ''
+      console.log('注册时间字符串:', createdAtStr)
+      if (!createdAtStr) {
+        console.log('用户注册时间为空')
+        this.daysProtected = 0
+        return
+      }
+      const createdAt = new Date(createdAtStr)
+      console.log('解析后的日期对象:', createdAt)
+      console.log('日期对象的时间戳:', createdAt.getTime())
+      if (isNaN(createdAt.getTime())) {
+        console.log('注册时间解析失败:', createdAtStr)
+        this.daysProtected = 0
+        return
+      }
+      const now = new Date()
+      const diffTime = Math.abs(now - createdAt)
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      console.log('计算出的天数:', diffDays)
+      this.daysProtected = diffDays > 0 ? diffDays : 1
     }
   }
 }
@@ -445,6 +564,38 @@ export default {
 .welcome-subtitle {
   display: block;
   font-size: 14px;
+  color: #009D85;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.days-protected {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, rgba(0, 157, 133, 0.08) 0%, rgba(0, 157, 133, 0.04) 100%);
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 157, 133, 0.15);
+}
+
+.days-icon {
+  font-size: 14px;
+}
+
+.days-text {
+  font-size: 13px;
+  color: #606266;
+}
+
+.days-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #009D85;
+}
+
+.days-unit {
+  font-size: 13px;
   color: #009D85;
   font-weight: 500;
 }
@@ -786,7 +937,58 @@ export default {
 
 
 
-.notice-section {
+.notification-section {
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+.notification-list {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #f4f4f5;
+  transition: background-color 0.2s;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item:active {
+  background-color: #f5f7fa;
+}
+
+.notification-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #F56C6C;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+  font-size: 14px;
+  color: #303133;
+  line-height: 1.5;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #909399;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.news-section {
   margin-top: 20px;
   padding: 0 16px;
 }
@@ -809,17 +1011,17 @@ export default {
   color: #009D85;
 }
 
-.notice-scroll {
+.news-scroll {
   white-space: nowrap;
 }
 
-.notice-list {
+.news-list {
   display: inline-flex;
   gap: 12px;
   padding-bottom: 8px;
 }
 
-.notice-item {
+.news-item {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
@@ -830,7 +1032,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.notice-tag {
+.news-tag {
   font-size: 11px;
   color: #FFFFFF;
   background-color: #F56C6C;
@@ -839,7 +1041,7 @@ export default {
   margin-bottom: 6px;
 }
 
-.notice-title {
+.news-title {
   font-size: 14px;
   color: #303133;
   font-weight: 500;
@@ -850,7 +1052,7 @@ export default {
   width: 170px;
 }
 
-.notice-time {
+.news-time {
   font-size: 12px;
   color: #909399;
 }
