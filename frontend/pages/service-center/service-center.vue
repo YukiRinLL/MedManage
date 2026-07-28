@@ -119,7 +119,7 @@
             </view>
           </view>
           <view class="org-contact-item">
-            <image src="/static/icons/png/filled/objects/clock@2x.png" class="org-contact-icon" mode="aspectFit" />
+            <image src="/static/icons/png/filled/objects/calendar@2x.png" class="org-contact-icon" mode="aspectFit" />
             <view class="org-contact-info">
               <text class="org-contact-title">服务时间</text>
               <text class="org-contact-value">周一至周日 8:00-20:00</text>
@@ -147,30 +147,21 @@ export default {
   data() {
     return {
       isNavigating: false,
-      nurse: null,
-      doctor: null
+      nurse: {
+        name: '黄玉遐',
+        phone: '15803698235',
+        department: '血液净化中心'
+      },
+      doctor: {
+        name: '罗珊珊',
+        phone: '13364021033',
+        department: '肾内科'
+      }
     }
   },
   onLoad() {
-    this.fetchMedicalStaff()
   },
   methods: {
-    async fetchMedicalStaff() {
-      try {
-        const userId = uni.getStorageSync('userId')
-        const nurseRes = await get(`/medical-staff/patient/${userId}/nurse`)
-        const doctorRes = await get(`/medical-staff/patient/${userId}/doctor`)
-        
-        if (nurseRes.code === 200) {
-          this.nurse = nurseRes.data
-        }
-        if (doctorRes.code === 200) {
-          this.doctor = doctorRes.data
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    },
     handleItemClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true

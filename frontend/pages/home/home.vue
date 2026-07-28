@@ -152,20 +152,18 @@
           </view>
           <text class="section-more" @click="goToNews">查看更多 ›</text>
         </view>
-      <scroll-view class="news-scroll" scroll-x>
-        <view class="news-list">
-          <view 
-            class="news-item" 
-            v-for="(news, index) in newsList" 
-            :key="index"
-            @click="goToNewsDetail(news)"
-          >
-            <text class="news-tag" v-if="news.isTop">置顶</text>
-            <text class="news-title">{{ news.title }}</text>
-            <text class="news-time">{{ news.time }}</text>
-          </view>
+      <view class="news-list">
+        <view 
+          class="news-item" 
+          v-for="(news, index) in newsList.slice(0, 2)" 
+          :key="index"
+          @click="goToNewsDetail(news)"
+        >
+          <text class="news-tag" v-if="news.isTop">置顶</text>
+          <text class="news-title">{{ news.title }}</text>
+          <text class="news-time">{{ news.time }}</text>
         </view>
-      </scroll-view>
+      </view>
     </view>
     
     <view class="bottom-space"></view>
@@ -206,7 +204,7 @@ export default {
   methods: {
     async fetchNews() {
       try {
-        const res = await get('/news?page=1&size=3')
+        const res = await get('/news?page=1&size=2')
         if (res.code === 200) {
           const data = res.data
           if (data.list && data.list.length > 0) {
@@ -1030,25 +1028,21 @@ export default {
   padding: 0 16px;
 }
 
-.news-scroll {
-  white-space: nowrap;
-}
-
 .news-list {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding-bottom: 8px;
 }
 
 .news-item {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   background-color: #FFFFFF;
-  padding: 12px 16px;
+  padding: 12px 14px;
   border-radius: 8px;
-  min-width: 200px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  min-height: 100px;
 }
 
 .news-tag {
@@ -1068,7 +1062,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 170px;
+  width: 100%;
 }
 
 .news-time {
