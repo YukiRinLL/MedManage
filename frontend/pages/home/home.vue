@@ -125,7 +125,10 @@
 
     <view class="notification-section animate-fade-in" :style="{ animationDelay: '0.45s' }">
       <view class="section-header-wrap">
-          <text class="section-title">🔔 通知消息</text>
+          <view class="section-title-wrap">
+            <image src="/static/icons/png/filled/symbols/alert@2x.png" class="section-title-icon" mode="aspectFit" />
+            <text class="section-title">通知消息</text>
+          </view>
           <text class="section-more" @click="goToNotification">查看更多 ›</text>
         </view>
       <view class="notification-list">
@@ -143,23 +146,26 @@
 
     <view class="news-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
       <view class="section-header-wrap">
-          <text class="section-title">📰 新闻资讯</text>
+          <view class="section-title-wrap">
+            <image src="/static/icons/png/filled/objects/laptop@2x.png" class="section-title-icon" mode="aspectFit" />
+            <text class="section-title">新闻资讯</text>
+          </view>
           <text class="section-more" @click="goToNews">查看更多 ›</text>
         </view>
-      <view class="news-list">
-        <view 
-          class="news-item" 
-          v-for="(news, index) in newsList" 
-          :key="index"
-          @click="goToNewsDetail(news)"
-        >
-          <view class="news-left">
+      <scroll-view class="news-scroll" scroll-x>
+        <view class="news-list">
+          <view 
+            class="news-item" 
+            v-for="(news, index) in newsList" 
+            :key="index"
+            @click="goToNewsDetail(news)"
+          >
             <text class="news-tag" v-if="news.isTop">置顶</text>
             <text class="news-title">{{ news.title }}</text>
+            <text class="news-time">{{ news.time }}</text>
           </view>
-          <text class="news-time">{{ news.time }}</text>
         </view>
-      </view>
+      </scroll-view>
     </view>
     
     <view class="bottom-space"></view>
@@ -200,7 +206,7 @@ export default {
   methods: {
     async fetchNews() {
       try {
-        const res = await get('/news?page=1&size=5')
+        const res = await get('/news?page=1&size=3')
         if (res.code === 200) {
           const data = res.data
           if (data.list && data.list.length > 0) {
@@ -947,6 +953,7 @@ export default {
   padding: 12px 16px;
   border-bottom: 1px solid #f4f4f5;
   transition: background-color 0.2s;
+  overflow: hidden;
 }
 
 .notification-item:last-child {
@@ -968,9 +975,13 @@ export default {
 
 .notification-content {
   flex: 1;
+  min-width: 0;
   font-size: 14px;
   color: #303133;
   line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notification-time {
@@ -992,6 +1003,18 @@ export default {
   margin-bottom: 12px;
 }
 
+.section-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-title-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
+}
+
 .section-title {
   font-size: 15px;
   font-weight: 600;
@@ -1007,32 +1030,25 @@ export default {
   padding: 0 16px;
 }
 
+.news-scroll {
+  white-space: nowrap;
+}
+
 .news-list {
-  display: flex;
-  flex-direction: column;
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  overflow: hidden;
+  display: inline-flex;
+  gap: 12px;
+  padding-bottom: 8px;
 }
 
 .news-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  border-bottom: 1px solid #EBEEF5;
-}
-
-.news-item:last-child {
-  border-bottom: none;
-}
-
-.news-left {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  overflow: hidden;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #FFFFFF;
+  padding: 12px 16px;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .news-tag {
@@ -1041,24 +1057,23 @@ export default {
   background-color: #F56C6C;
   padding: 2px 6px;
   border-radius: 4px;
-  flex-shrink: 0;
+  margin-bottom: 6px;
 }
 
 .news-title {
   font-size: 14px;
   color: #303133;
   font-weight: 500;
+  margin-bottom: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 1;
+  width: 170px;
 }
 
 .news-time {
   font-size: 12px;
   color: #909399;
-  flex-shrink: 0;
-  margin-left: 12px;
 }
 
 .bottom-space {
