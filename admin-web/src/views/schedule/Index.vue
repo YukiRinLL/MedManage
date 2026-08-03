@@ -4,6 +4,23 @@
     <el-card class="filter-card">
       <div class="filter-row">
         <el-form :inline="true" :model="filterForm" class="filter-form">
+          <el-form-item label="患者">
+            <el-select
+              v-model="filterForm.userId"
+              placeholder="请选择患者"
+              clearable
+              filterable
+              style="width: 220px"
+            >
+              <el-option
+                v-for="patient in patientOptions"
+                :key="patient.id"
+                :label="patient.name + ' (' + patient.phone + ')'"
+                :value="patient.id"
+              />
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="周次">
             <el-select v-model="filterForm.week" placeholder="请选择周次" clearable>
               <el-option label="本周" :value="'current'" />
@@ -207,7 +224,7 @@
     </el-card>
     
     <!-- 排班详情弹窗 -->
-    <el-dialog v-model="detailDialogVisible" title="排班详情" width="600px">
+    <el-dialog v-model="detailDialogVisible" title="排班详情" width="700px">
       <el-descriptions v-if="currentSchedule" :column="2" border>
         <el-descriptions-item label="患者姓名">{{ currentSchedule.name }}</el-descriptions-item>
         <el-descriptions-item label="透析号">{{ currentSchedule.number }}</el-descriptions-item>
@@ -222,14 +239,72 @@
             {{ getStatusText(currentSchedule.status) }}
           </el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="备注" :span="2">{{ currentSchedule.comment }}</el-descriptions-item>
+        <el-descriptions-item label="分区">{{ currentSchedule.zone }}区</el-descriptions-item>
+        <el-descriptions-item label="传染病标识">
+          <el-tag :type="currentSchedule.infectionMark === '阳性' ? 'danger' : 'success'">
+            {{ currentSchedule.infectionMark || '阴性' }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="治疗模式">{{ currentSchedule.treatmentMode || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="血透处方" :span="2">{{ currentSchedule.prescription || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="治疗计划" :span="2">{{ currentSchedule.treatmentPlan || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="备注" :span="2">{{ currentSchedule.comment || '-' }}</el-descriptions-item>
       </el-descriptions>
+      <template #footer>
+        <el-button @click="detailDialogVisible = false">关闭</el-button>
+        <el-button type="primary" @click="viewRatings(currentSchedule)">查看评价</el-button>
+      </template>
+    </el-dialog>
+    
+    <!-- 评价查看弹窗 -->
+    <el-dialog v-model="ratingDialogVisible" title="排班评价" width="800px">
+      <div v-if="ratingList.length > 0">
+        <el-table :data="ratingList" border>
+          <el-table-column prop="userName" label="评价用户" width="100" />
+          <el-table-column label="整体评分" width="100">
+            <template #default="{ row }">
+              <el-rate :model-value="row.overallRating" disabled />
+            </template>
+          </el-table-column>
+          <el-table-column label="护士评分" width="100">
+            <template #default="{ row }">
+              <el-rate :model-value="row.nurseRating" disabled />
+            </template>
+          </el-table-column>
+          <el-table-column label="环境评分" width="100">
+            <template #default="{ row }">
+              <el-rate :model-value="row.envRating" disabled />
+            </template>
+          </el-table-column>
+          <el-table-column label="设备评分" width="100">
+            <template #default="{ row }">
+              <el-rate :model-value="row.equipRating" disabled />
+            </template>
+          </el-table-column>
+          <el-table-column prop="comment" label="评价内容" show-overflow-tooltip />
+          <el-table-column prop="createdAt" label="评价时间" width="160">
+            <template #default="{ row }">
+              {{ formatDate(row.createdAt) }}
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-descriptions :column="4" border style="margin-top: 16px">
+          <el-descriptions-item label="评价总数">{{ ratingList.length }}</el-descriptions-item>
+          <el-descriptions-item label="平均评分">
+            {{ getAverageRating() }}
+          </el-descriptions-item>
+          <el-descriptions-item label="最高评分">{{ getMaxRating() }}</el-descriptions-item>
+          <el-descriptions-item label="最低评分">{{ getMinRating() }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <el-empty v-else description="暂无评价" />
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { ref, reactive, computed, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
 import request from '@/utils/request'
 
 export default {
@@ -238,21 +313,38 @@ export default {
     const loading = ref(false)
     const detailDialogVisible = ref(false)
     const currentSchedule = ref(null)
+    const ratingDialogVisible = ref(false)
+    const ratingList = ref([])
+    
+    const patientOptions = ref([])
     
     const filterForm = reactive({
       week: 'current',
       shift: null,
       date: '',
-      zone: null
+      zone: null,
+      userId: null
     })
     
-    // 从后端获取排班数据
     const fetchScheduleData = async () => {
       loading.value = true
       try {
-        const response = await request.get('/api/dialysis-schedule/list')
+        const params = new URLSearchParams()
+        if (filterForm.userId) params.append('userId', filterForm.userId)
+        if (filterForm.zone) params.append('zone', filterForm.zone)
+        if (filterForm.shift !== null) params.append('shift', filterForm.shift)
+        if (filterForm.date) params.append('date', filterForm.date)
+        
+        const response = await request.get(`/dialysis-schedule/list?${params.toString()}`)
         if (response.code === 200) {
-          scheduleData.value = transformScheduleData(response.data)
+          const data = response.data
+          if (data && data.content) {
+            scheduleData.value = transformScheduleData(data.content)
+          } else if (Array.isArray(data)) {
+            scheduleData.value = transformScheduleData(data)
+          } else {
+            scheduleData.value = transformScheduleData(data || [])
+          }
         }
       } catch (error) {
         console.error('获取排班数据失败:', error)
@@ -261,33 +353,38 @@ export default {
       }
     }
     
-    // 将后端数据转换为前端需要的格式
     const transformScheduleData = (backendData) => {
       return backendData.map(item => {
         const week = item.week || 0
-        const day = (week - 1 + 7) % 7 // 将周次转换为星期几（0-6）
+        const day = (week - 1 + 7) % 7
+        const deviceSeq = item.txDeviceSequence || 'A1-01'
+        const match = deviceSeq.match(/^([A-Za-z]\d+)-(\d+)$/)
         return {
-          zone: item.txTxq || 'A1', // 分区
-          machineNumber: item.txDeviceSequence || '1', // 机号
-          day: day, // 星期几（0-6，0=周一）
-          shift: item.txPdrqType || 0, // 班次（0=上午，1=下午，2=晚上）
-          name: item.name || '', // 姓名
-          device: item.txTxfsAlias || '', // 设备
-          number: item.number || '', // 透析号
-          status: item.txStatus || 1, // 状态
-          comment: item.txComment || '', // 备注
-          txTxjId: item.txTxjId || '', // 透析记录ID
-          txInfo: item.txInfo || '', // 透析信息
-          txXtcf: item.txXtcf || '', // 血透处方
-          txZljh: item.txZljh || '' // 治疗计划
+          id: item.id,
+          zone: match ? match[1] : 'A1',
+          machineNumber: match ? match[2] : (item.txDeviceSequence || '1'),
+          day: day,
+          shift: item.txPdrqType || 0,
+          name: item.name || '',
+          device: item.txTxq || '',
+          number: item.number || '',
+          status: item.txStatus || 1,
+          comment: item.txComment || '',
+          txTxjId: item.txTxjId || '',
+          txInfo: item.txInfo || '',
+          txXtcf: item.txXtcf || '',
+          txZljh: item.txZljh || '',
+          infectionMark: item.crb || '阴性',
+          treatmentMode: item.txZlms || '',
+          txTxfsAlias: item.txTxfsAlias || '血液透析',
+          userid: item.txUserid || ''
         }
       })
     }
     
-    // 计算本周日期范围
     const getWeekDays = () => {
       const today = new Date()
-      const dayOfWeek = today.getDay() || 7 // 周一为1，周日为7
+      const dayOfWeek = today.getDay() || 7
       const monday = new Date(today)
       monday.setDate(today.getDate() - dayOfWeek + 1)
       
@@ -315,7 +412,6 @@ export default {
       return ''
     })
     
-    // 组织排班数据为分组结构
     const scheduleGroups = computed(() => {
       const filteredData = scheduleData.value.filter(item => {
         if (filterForm.zone && item.zone !== filterForm.zone) return false
@@ -340,7 +436,7 @@ export default {
         machines: groups[zone].map(number => ({
           id: `${zone}-${number}`,
           number,
-          highlight: number === '1' && zone === 'A2', // 模拟高亮
+          highlight: number === '1' && zone === 'A2',
           totalCount: filteredData.filter(d => d.zone === zone && d.machineNumber === number).length,
           selectedShift: null
         }))
@@ -365,16 +461,22 @@ export default {
       if (!schedule) return null
       
       return {
+        id: schedule.id,
         name: schedule.name,
         device: schedule.device,
         number: schedule.number,
         shift: schedule.shift,
         date: weekDays.value[dayIndex]?.date || '',
-        txType: '血液透析',
-        dialyzer: 'FX80',
+        txType: schedule.txTxfsAlias || '血液透析',
+        dialyzer: schedule.device || 'FX80',
         access: '动静脉内瘘',
         status: schedule.status,
-        comment: schedule.comment
+        comment: schedule.comment,
+        zone: schedule.zone,
+        infectionMark: schedule.infectionMark,
+        treatmentMode: schedule.treatmentMode,
+        prescription: schedule.txXtcf,
+        treatmentPlan: schedule.txZljh
       }
     }
     
@@ -418,6 +520,30 @@ export default {
       filterForm.shift = null
       filterForm.date = ''
       filterForm.zone = null
+      filterForm.userId = null
+    }
+    
+    const fetchPatientList = async () => {
+      try {
+        const res = await request.get('/user/list')
+        if (res.code === 200) {
+          if (res.data && res.data.content) {
+            patientOptions.value = res.data.content
+          } else if (Array.isArray(res.data)) {
+            patientOptions.value = res.data
+          } else {
+            patientOptions.value = res.data || []
+          }
+        }
+      } catch (err) {
+        console.error('获取患者列表失败:', err)
+      }
+    }
+    
+    const getPatientName = (userId) => {
+      if (!userId) return '-'
+      const patient = patientOptions.value.find(p => p.id === userId)
+      return patient ? patient.name : userId
     }
     
     const handleCellClick = (machine, dayIndex, shift) => {
@@ -426,6 +552,45 @@ export default {
         currentSchedule.value = schedule
         detailDialogVisible.value = true
       }
+    }
+    
+    const viewRatings = async (schedule) => {
+      if (!schedule || !schedule.id) {
+        ElMessage.warning('无法查看评价')
+        return
+      }
+      try {
+        const res = await request.get(`/dialysis-schedule-rating/schedule/${schedule.id}`)
+        if (res.code === 200) {
+          ratingList.value = res.data || []
+        }
+        ratingDialogVisible.value = true
+        detailDialogVisible.value = false
+      } catch (error) {
+        console.error('获取评价失败:', error)
+        ElMessage.error('获取评价失败')
+      }
+    }
+    
+    const formatDate = (dateStr) => {
+      if (!dateStr) return ''
+      return new Date(dateStr).toLocaleString('zh-CN')
+    }
+    
+    const getAverageRating = () => {
+      if (ratingList.value.length === 0) return '-'
+      const sum = ratingList.value.reduce((acc, r) => acc + (r.overallRating || 0), 0)
+      return (sum / ratingList.value.length).toFixed(1)
+    }
+    
+    const getMaxRating = () => {
+      if (ratingList.value.length === 0) return '-'
+      return Math.max(...ratingList.value.map(r => r.overallRating || 0))
+    }
+    
+    const getMinRating = () => {
+      if (ratingList.value.length === 0) return '-'
+      return Math.min(...ratingList.value.map(r => r.overallRating || 5))
     }
     
     const getShiftText = (shift) => {
@@ -456,11 +621,13 @@ export default {
     }
     
     onMounted(() => {
+      fetchPatientList()
       fetchScheduleData()
     })
     
     return {
       loading,
+      patientOptions,
       filterForm,
       weekDays,
       weekDateRange,
@@ -469,15 +636,23 @@ export default {
       grandTotal,
       detailDialogVisible,
       currentSchedule,
+      ratingDialogVisible,
+      ratingList,
       getSchedule,
       getScheduleNote,
       getDayShiftCount,
       handleSearch,
       handleReset,
       handleCellClick,
+      viewRatings,
+      formatDate,
+      getAverageRating,
+      getMaxRating,
+      getMinRating,
       getShiftText,
       getStatusText,
-      getStatusType
+      getStatusType,
+      getPatientName
     }
   }
 }

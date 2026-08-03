@@ -147,12 +147,14 @@ export default {
   data() {
     return {
       isNavigating: false,
-      nurse: {
+      nurse: null,
+      doctor: null,
+      defaultNurse: {
         name: '黄玉遐',
         phone: '15803698235',
         department: '血液净化中心'
       },
-      doctor: {
+      defaultDoctor: {
         name: '罗珊珊',
         phone: '13364021033',
         department: '肾内科'
@@ -160,8 +162,61 @@ export default {
     }
   },
   onLoad() {
+    this.fetchMedicalStaff()
   },
   methods: {
+    async fetchMedicalStaff() {
+      try {
+        const user = uni.getStorageSync('user')
+        let userId = ''
+        if (user) {
+          try {
+            const parsed = typeof user === 'string' ? JSON.parse(user) : user
+            userId = parsed.id
+          } catch (e) {}
+        }
+        
+        if (!userId) {
+          this.nurse = this.defaultNurse
+          this.doctor = this.defaultDoctor
+          return
+        }
+        
+        try {
+          const nurseRes = await get(`/medical-staff/patient/${userId}/nurse`)
+          if (nurseRes.code === 200 && nurseRes.data) {
+            this.nurse = {
+              name: nurseRes.data.name,
+              phone: nurseRes.data.phone,
+              department: nurseRes.data.department
+            }
+          } else {
+            this.nurse = this.defaultNurse
+          }
+        } catch (e) {
+          this.nurse = this.defaultNurse
+        }
+        
+        try {
+          const doctorRes = await get(`/medical-staff/patient/${userId}/doctor`)
+          if (doctorRes.code === 200 && doctorRes.data) {
+            this.doctor = {
+              name: doctorRes.data.name,
+              phone: doctorRes.data.phone,
+              department: doctorRes.data.department
+            }
+          } else {
+            this.doctor = this.defaultDoctor
+          }
+        } catch (e) {
+          this.doctor = this.defaultDoctor
+        }
+      } catch (err) {
+        console.log(err)
+        this.nurse = this.defaultNurse
+        this.doctor = this.defaultDoctor
+      }
+    },
     handleItemClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true

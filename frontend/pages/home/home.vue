@@ -260,7 +260,7 @@ export default {
     },
     async fetchAbnormalIndicators() {
       try {
-        this.tipCards[0].title = '异常指标数量：--'
+        this.tipCards[0].title = '待提升指标数：--'
         this.tipCards[0].desc = '点击查看指标详情'
         const user = uni.getStorageSync('user')
         let userId = ''
@@ -277,7 +277,7 @@ export default {
           this.alertCount = 0
           this.abnormalIndicators = []
           this.hasAlert = false
-          this.tipCards[0].title = '异常指标数量：暂无'
+          this.tipCards[0].title = '待提升指标数：暂无'
           this.tipCards[0].desc = '暂无异常指标'
           return
         }
@@ -313,13 +313,13 @@ export default {
           this.alertCount = count
           this.abnormalIndicators = abnormalList
           this.hasAlert = count > 0
-          this.tipCards[0].title = `异常指标数量：${count}项`
+          this.tipCards[0].title = `待提升指标数：${count}项`
           this.tipCards[0].desc = count > 0 ? '点击查看指标详情' : '暂无异常指标'
         } else {
           this.alertCount = 0
           this.abnormalIndicators = []
           this.hasAlert = false
-          this.tipCards[0].title = '异常指标数量：暂无'
+          this.tipCards[0].title = '待提升指标数：暂无'
           this.tipCards[0].desc = '暂无异常指标'
         }
       } catch (err) {
@@ -327,7 +327,7 @@ export default {
         this.alertCount = 0
         this.abnormalIndicators = []
         this.hasAlert = false
-        this.tipCards[0].title = '异常指标数量：暂无'
+        this.tipCards[0].title = '待提升指标数：暂无'
         this.tipCards[0].desc = '暂无异常指标'
       }
     },

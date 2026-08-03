@@ -126,7 +126,7 @@
           </view>
           
           <view class="rating-item">
-            <text class="rating-label">设备状况</text>
+            <text class="rating-label">穿刺技术</text>
             <view class="star-rating">
               <text 
                 v-for="i in 5" 
@@ -159,55 +159,12 @@
 </template>
 
 <script>
+import request from '@/utils/request.js'
+
 export default {
   data() {
     return {
-      scheduleList: [
-        {
-          name: '罗璨雨',
-          number: '13032302510',
-          txTxfsAlias: '血液透析',
-          txTxq: 'FX60 聚砜膜',
-          txXgtlId: '左前臂内瘘',
-          txPdrq: '2026-07-29',
-          txPdrqType: 0,
-          txStatus: 1,
-          txComment: '透析器凝血风险较高，需密切监测'
-        },
-        {
-          name: '罗璨雨',
-          number: '13032302510',
-          txTxfsAlias: '血液透析滤过',
-          txTxq: 'FX80 聚砜膜',
-          txXgtlId: '左前臂内瘘',
-          txPdrq: '2026-08-01',
-          txPdrqType: 1,
-          txStatus: 1,
-          txComment: '高通量透析，关注电解质平衡'
-        },
-        {
-          name: '罗璨雨',
-          number: '13032302510',
-          txTxfsAlias: '血液透析',
-          txTxq: 'FX60 聚砜膜',
-          txXgtlId: '左前臂内瘘',
-          txPdrq: '2026-08-03',
-          txPdrqType: 2,
-          txStatus: 2,
-          txComment: '临时调整时间，因医生会诊'
-        },
-        {
-          name: '罗璨雨',
-          number: '13032302510',
-          txTxfsAlias: '血液透析',
-          txTxq: 'APS-650 聚丙烯腈',
-          txXgtlId: '左前臂内瘘',
-          txPdrq: '2026-08-06',
-          txPdrqType: 0,
-          txStatus: 1,
-          txComment: '常规透析，干体重监测'
-        }
-      ],
+      scheduleList: [],
       weekOptions: ['全部', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       selectedWeekIndex: 0,
       selectedDate: '',
@@ -217,8 +174,17 @@ export default {
       nurseRating: 0,
       envRating: 0,
       equipRating: 0,
-      comment: ''
+      comment: '',
+      ratedSchedules: []
     }
+  },
+  
+  onLoad() {
+    this.fetchScheduleList()
+  },
+  
+  onShow() {
+    this.fetchScheduleList()
   },
   
   computed: {
@@ -239,12 +205,83 @@ export default {
   },
   
   methods: {
+    async fetchScheduleList() {
+      try {
+        const user = uni.getStorageSync('user')
+        let userId = ''
+        if (user) {
+          try {
+            const parsed = typeof user === 'string' ? JSON.parse(user) : user
+            userId = parsed.id
+          } catch (e) {}
+        }
+        
+        let url = '/dialysis-schedule/list'
+        if (this.selectedWeekIndex > 0) {
+          url = `/dialysis-schedule/week/${this.selectedWeekIndex}`
+        } else if (this.selectedDate) {
+          url = `/dialysis-schedule/date/${this.selectedDate}`
+        } else if (userId) {
+          url = `/dialysis-schedule/user/${userId}`
+        }
+        
+        const response = await request.get(url)
+        
+        if (response.code === 200) {
+          let data = response.data
+          if (data && data.content) {
+            data = data.content
+          } else if (data && Array.isArray(data)) {
+            // already an array
+          } else if (data && data.list) {
+            data = data.list
+          }
+          
+          this.scheduleList = Array.isArray(data) ? data.map(item => ({
+            ...item,
+            name: item.name || item.patientName || '',
+            number: item.number || item.phone || '',
+            txTxfsAlias: item.txTxfsAlias || item.txTxfsId ? '血液透析' : '-',
+            txTxq: item.txTxq || '-',
+            txXgtlId: item.txXgtlId || '-',
+            txPdrq: item.txPdrq || '',
+            txPdrqType: item.txPdrqType ?? 0,
+            txStatus: item.txStatus ?? 1,
+            txComment: item.txComment || '',
+            id: item.id
+          })) : []
+          
+          if (userId) {
+            this.fetchRatedStatus(userId)
+          }
+        } else {
+          uni.showToast({
+            title: response.message || '获取排班数据失败',
+            icon: 'none'
+          })
+        }
+      } catch (error) {
+        console.error('获取排班数据失败:', error)
+      }
+    },
+    
+    async fetchRatedStatus(userId) {
+      try {
+        const response = await request.get(`/dialysis-schedule-rating/user/${userId}`)
+        if (response.code === 200 && Array.isArray(response.data)) {
+          this.ratedSchedules = response.data.map(r => r.scheduleId)
+        }
+      } catch (e) {}
+    },
+    
     onWeekChange(e) {
       this.selectedWeekIndex = parseInt(e.detail.value)
+      this.fetchScheduleList()
     },
     
     onDateChange(e) {
       this.selectedDate = e.detail.value
+      this.fetchScheduleList()
     },
     
     getShiftText(type) {
@@ -274,7 +311,18 @@ export default {
       return classMap[status] || ''
     },
     
+    isRated(item) {
+      return item.id && this.ratedSchedules.includes(item.id)
+    },
+    
     openRatingModal(item) {
+      if (this.isRated(item)) {
+        uni.showToast({
+          title: '您已评价过该排班',
+          icon: 'none'
+        })
+        return
+      }
       this.currentItem = item
       this.showRatingModal = true
       this.rating = 0
@@ -289,7 +337,7 @@ export default {
       this.currentItem = null
     },
     
-    submitRating() {
+    async submitRating() {
       if (this.rating === 0) {
         uni.showToast({
           title: '请至少选择一项评分',
@@ -298,21 +346,51 @@ export default {
         return
       }
       
-      uni.showModal({
-        title: '提交评价',
-        content: `您的综合评分：${this.rating}星\n医护态度：${this.nurseRating}星\n透析环境：${this.envRating}星\n设备状况：${this.equipRating}星`,
-        confirmText: '确认提交',
-        cancelText: '再想想',
-        success: (res) => {
-          if (res.confirm) {
-            uni.showToast({
-              title: '评价提交成功',
-              icon: 'success'
-            })
-            this.closeRatingModal()
+      const user = uni.getStorageSync('user')
+      let userId = ''
+      let userName = ''
+      if (user) {
+        try {
+          const parsed = typeof user === 'string' ? JSON.parse(user) : user
+          userId = parsed.id
+          userName = parsed.name || ''
+        } catch (e) {}
+      }
+      
+      try {
+        const response = await request.post('/dialysis-schedule-rating/create', {
+          scheduleId: this.currentItem.id,
+          userId: userId,
+          userName: userName,
+          overallRating: this.rating,
+          nurseRating: this.nurseRating,
+          envRating: this.envRating,
+          equipRating: this.equipRating,
+          comment: this.comment
+        })
+        
+        if (response.code === 200) {
+          uni.showToast({
+            title: '评价提交成功',
+            icon: 'success'
+          })
+          this.closeRatingModal()
+          if (this.currentItem.id) {
+            this.ratedSchedules.push(this.currentItem.id)
           }
+        } else {
+          uni.showToast({
+            title: response.message || '提交失败',
+            icon: 'none'
+          })
         }
-      })
+      } catch (error) {
+        console.error('提交评价失败:', error)
+        uni.showToast({
+          title: '提交失败，请重试',
+          icon: 'none'
+        })
+      }
     }
   }
 }

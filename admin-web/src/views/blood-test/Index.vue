@@ -2,7 +2,7 @@
   <div class="blood-test-container">
     <div class="page-header">
       <h2 class="page-title">核心指标管理</h2>
-      <el-button type="primary" @click="showAddDialog = true">
+      <el-button type="primary" @click="handleAdd">
         <el-icon><Plus /></el-icon>
         添加检查记录
       </el-button>
@@ -10,22 +10,59 @@
 
     <el-card class="search-card">
       <el-form :inline="true" :model="searchForm" class="search-form">
-        <el-form-item label="患者ID">
-          <el-input v-model="searchForm.userId" placeholder="请输入患者ID" clearable />
+        <el-form-item label="患者">
+          <el-select
+            v-model="searchForm.userId"
+            placeholder="请选择患者"
+            clearable
+            filterable
+            style="width: 220px"
+          >
+            <el-option
+              v-for="patient in patientOptions"
+              :key="patient.id"
+              :label="patient.name + ' (' + patient.phone + ')'"
+              :value="patient.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="检查类型">
+          <el-input
+            v-model="searchForm.testType"
+            placeholder="请输入检查类型"
+            clearable
+            style="width: 150px"
+          />
         </el-form-item>
         <el-form-item label="检查日期">
-          <el-date-picker v-model="searchForm.testDate" type="date" placeholder="选择日期" />
+          <el-date-picker
+            v-model="searchForm.testDate"
+            type="date"
+            placeholder="选择日期"
+            value-format="YYYY-MM-DD"
+            style="width: 150px"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">搜索</el-button>
-          <el-button @click="resetSearch">重置</el-button>
+          <el-button type="primary" @click="handleSearch">
+            <el-icon><Search /></el-icon>
+            搜索
+          </el-button>
+          <el-button @click="resetSearch">
+            <el-icon><Refresh /></el-icon>
+            重置
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
     <el-card class="table-card">
-      <el-table :data="tableData" v-loading="loading" border>
-        <el-table-column prop="userId" label="患者ID" width="150" />
+      <el-table :data="tableData" v-loading="loading" border stripe>
+        <el-table-column label="患者姓名" width="120" fixed>
+          <template #default="{ row }">
+            {{ getPatientName(row.userId) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="testDate" label="检查日期" width="120">
           <template #default="{ row }">
             {{ formatDate(row.testDate) }}
@@ -40,11 +77,11 @@
         <el-table-column prop="phosphorus" label="磷(mmol/L)" width="100" />
         <el-table-column prop="albumin" label="白蛋白(g/L)" width="120" />
         <el-table-column prop="parathyroidHormone" label="甲状旁腺激素(pg/mL)" width="180" />
-        <el-table-column prop="notes" label="备注" min-width="150" />
+        <el-table-column prop="notes" label="备注" min-width="150" show-overflow-tooltip />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
-            <el-button size="small" type="primary" @click="editRow(row)">编辑</el-button>
-            <el-button size="small" type="danger" @click="deleteRow(row)">删除</el-button>
+            <el-button size="small" type="primary" link @click="editRow(row)">编辑</el-button>
+            <el-button size="small" type="danger" link @click="deleteRow(row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -54,7 +91,7 @@
           v-model:current-page="pagination.page"
           v-model:page-size="pagination.size"
           :total="pagination.total"
-          :page-sizes="[10, 20, 50]"
+          :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -66,13 +103,30 @@
       <el-form :model="formData" label-width="140px">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="患者ID" required>
-              <el-input v-model="formData.userId" placeholder="请输入患者ID" />
+            <el-form-item label="患者" required>
+              <el-select
+                v-model="formData.userId"
+                placeholder="请选择患者"
+                filterable
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="patient in patientOptions"
+                  :key="patient.id"
+                  :label="patient.name + ' (' + patient.phone + ')'"
+                  :value="patient.id"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="检查日期" required>
-              <el-date-picker v-model="formData.testDate" type="date" style="width: 100%" />
+              <el-date-picker
+                v-model="formData.testDate"
+                type="date"
+                value-format="YYYY-MM-DD"
+                style="width: 100%"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -161,17 +215,19 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
+import { ref, reactive, onMounted } from 'vue'
+import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
 
 const loading = ref(false)
 const showAddDialog = ref(false)
 const dialogTitle = ref('添加检查记录')
+const patientOptions = ref([])
 
 const searchForm = reactive({
   userId: '',
+  testType: '',
   testDate: ''
 })
 
@@ -209,12 +265,28 @@ const pagination = reactive({
 const fetchData = async () => {
   loading.value = true
   try {
-    const res = await request.get(`/blood-test/list/${searchForm.userId || 'all'}`)
+    const params = new URLSearchParams()
+    params.append('page', pagination.page)
+    params.append('size', pagination.size)
+    if (searchForm.userId) params.append('userId', searchForm.userId)
+    if (searchForm.testType) params.append('testType', searchForm.testType)
+    if (searchForm.testDate) params.append('testDate', searchForm.testDate)
+
+    const res = await request.get(`/blood-test/list?${params.toString()}`)
     if (res.code === 200) {
-      tableData.value = res.data || []
-      pagination.total = tableData.value.length
+      if (res.data && res.data.content) {
+        tableData.value = res.data.content
+        pagination.total = res.data.totalElements || 0
+      } else if (Array.isArray(res.data)) {
+        tableData.value = res.data
+        pagination.total = res.data.length
+      } else {
+        tableData.value = res.data || []
+        pagination.total = tableData.value.length
+      }
     }
   } catch (err) {
+    console.error('获取数据失败:', err)
     ElMessage.error('获取数据失败')
   } finally {
     loading.value = false
@@ -228,6 +300,7 @@ const handleSearch = () => {
 
 const resetSearch = () => {
   searchForm.userId = ''
+  searchForm.testType = ''
   searchForm.testDate = ''
   pagination.page = 1
   fetchData()
@@ -242,6 +315,33 @@ const handleSizeChange = (size) => {
 const handleCurrentChange = (page) => {
   pagination.page = page
   fetchData()
+}
+
+const handleAdd = () => {
+  dialogTitle.value = '添加检查记录'
+  Object.assign(formData, {
+    id: '',
+    userId: '',
+    testDate: '',
+    testType: '',
+    hemoglobin: '',
+    serumCreatinine: '',
+    ureaNitrogen: '',
+    uricAcid: '',
+    potassium: '',
+    sodium: '',
+    chloride: '',
+    calcium: '',
+    phosphorus: '',
+    albumin: '',
+    totalCholesterol: '',
+    triglycerides: '',
+    hdlCholesterol: '',
+    ldlCholesterol: '',
+    parathyroidHormone: '',
+    notes: ''
+  })
+  showAddDialog.value = true
 }
 
 const handleSave = async () => {
@@ -285,7 +385,33 @@ const formatDate = (dateStr) => {
   return new Date(dateStr).toLocaleDateString('zh-CN')
 }
 
-fetchData()
+const fetchPatientList = async () => {
+  try {
+    const res = await request.get('/user/list')
+    if (res.code === 200) {
+      if (res.data && res.data.content) {
+        patientOptions.value = res.data.content
+      } else if (Array.isArray(res.data)) {
+        patientOptions.value = res.data
+      } else {
+        patientOptions.value = res.data || []
+      }
+    }
+  } catch (err) {
+    console.error('获取患者列表失败:', err)
+  }
+}
+
+const getPatientName = (userId) => {
+  if (!userId) return '-'
+  const patient = patientOptions.value.find(p => p.id === userId)
+  return patient ? patient.name : userId
+}
+
+onMounted(() => {
+  fetchPatientList()
+  fetchData()
+})
 </script>
 
 <style scoped>
@@ -304,6 +430,7 @@ fetchData()
   font-size: 20px;
   font-weight: 600;
   color: #303133;
+  margin: 0;
 }
 
 .search-card {
@@ -313,6 +440,8 @@ fetchData()
 .search-form {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .table-card {

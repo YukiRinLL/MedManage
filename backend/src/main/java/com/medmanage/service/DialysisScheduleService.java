@@ -30,6 +30,10 @@ public class DialysisScheduleService {
         return dialysisScheduleRepository.findByTxTxjId(txTxjId);
     }
     
+    public List<DialysisSchedule> getSchedulesByUserId(String txUserid) {
+        return dialysisScheduleRepository.findByTxUserid(txUserid);
+    }
+    
     public List<DialysisSchedule> getSchedulesByPatientNumber(String number) {
         return dialysisScheduleRepository.findByNumber(number);
     }

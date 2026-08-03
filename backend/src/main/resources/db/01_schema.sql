@@ -302,7 +302,81 @@ CREATE TABLE IF NOT EXISTS patient_staff_relation (
     CONSTRAINT fk_relation_staff FOREIGN KEY (staff_id) REFERENCES medical_staff(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='患者医护关系表';
 
+-- 17. 创建dialysis_schedule表（透析排班表）
+CREATE TABLE IF NOT EXISTS dialysis_schedule (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+    tx_txj_id VARCHAR(100) COMMENT '透析体检ID',
+    tx_pdrq VARCHAR(50) COMMENT '排班日期',
+    tx_pdrq_type INT COMMENT '排班日期类型(0=上午,1=下午,2=晚上)',
+    number VARCHAR(50) COMMENT '透析号',
+    tx_txfs_id INT COMMENT '透析方式ID',
+    tx_is_permanent INT DEFAULT 0 COMMENT '是否长期透析',
+    tx_is_pause INT DEFAULT 0 COMMENT '是否暂停',
+    tx_txfs_alias VARCHAR(100) COMMENT '透析方式别名',
+    tx_txfsbm VARCHAR(100) COMMENT '透析方式编码',
+    week INT COMMENT '周次(1-7)',
+    name VARCHAR(50) COMMENT '患者姓名',
+    tx_info TEXT COMMENT '透析信息',
+    tx_xtcf TEXT COMMENT '血透处方',
+    tx_zljh TEXT COMMENT '治疗计划',
+    tx_txq_id VARCHAR(100) COMMENT '透析器ID',
+    tx_jhq_id VARCHAR(100) COMMENT '监护器ID',
+    tx_glq_id VARCHAR(100) COMMENT '管路器ID',
+    tx_xgtl_id VARCHAR(100) COMMENT '血管通路ID',
+    tx_txq VARCHAR(100) COMMENT '透析器',
+    tx_device_sequence VARCHAR(100) COMMENT '设备编号/机号',
+    tx_status INT DEFAULT 1 COMMENT '状态(0=已取消,1=已确认,2=待确认)',
+    tx_crbxx TEXT COMMENT '传染信息',
+    tx_jtstatus VARCHAR(50) COMMENT '集团状态',
+    tx_zlms VARCHAR(50) COMMENT '治疗模式',
+    tx_userid VARCHAR(100) COMMENT '用户ID',
+    hz_status INT DEFAULT 0 COMMENT '患者状态',
+    tx_zyid VARCHAR(100) COMMENT '住院ID',
+    tx_mzid VARCHAR(100) COMMENT '门诊ID',
+    tx_comment TEXT COMMENT '备注',
+    count_fs_id VARCHAR(100) COMMENT '计费ID',
+    tx_txqj_names_q VARCHAR(500) COMMENT '透析器件名称',
+    tx_pg_nlid VARCHAR(100) COMMENT '评估治疗ID',
+    tx_pg_dgid VARCHAR(100) COMMENT '评估导管ID',
+    tx_pg_zznames VARCHAR(500) COMMENT '评估症状名称',
+    tx_pg_bfznames VARCHAR(500) COMMENT '评估并发症名称',
+    tx_pg_th_nlid VARCHAR(100) COMMENT '术后评估治疗ID',
+    tx_pg_th_dgid VARCHAR(100) COMMENT '术后评估导管ID',
+    tx_pg_th_zznames VARCHAR(500) COMMENT '术后评估症状名称',
+    tx_pg_th_bfznames VARCHAR(500) COMMENT '术后评估并发症名称',
+    tx_nx_id_h VARCHAR(100) COMMENT '凝血ID',
+    crb VARCHAR(100) COMMENT '传染性标识',
+    tx_txj_ms VARCHAR(100) COMMENT '透析体检描述',
+    tx_bf_type VARCHAR(50) COMMENT '并发症类型',
+    tx_zjno VARCHAR(50) COMMENT '专家编号',
+    tx_txpl VARCHAR(50) COMMENT '透析频率',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    INDEX idx_tx_userid (tx_userid),
+    INDEX idx_tx_pdrq (tx_pdrq),
+    INDEX idx_tx_status (tx_status),
+    INDEX idx_week (week),
+    INDEX idx_tx_device_sequence (tx_device_sequence)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='透析排班表';
+
+-- 18. 创建dialysis_schedule_rating表（排班评价表）
+CREATE TABLE IF NOT EXISTS dialysis_schedule_rating (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+    schedule_id BIGINT NOT NULL COMMENT '排班ID',
+    user_id VARCHAR(100) NOT NULL COMMENT '用户ID',
+    user_name VARCHAR(50) COMMENT '用户名',
+    overall_rating INT COMMENT '整体评分(1-5)',
+    nurse_rating INT COMMENT '护士评分(1-5)',
+    env_rating INT COMMENT '环境评分(1-5)',
+    equip_rating INT COMMENT '设备评分(1-5)',
+    comment TEXT COMMENT '评价内容',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    INDEX idx_schedule_id (schedule_id),
+    INDEX idx_user_id (user_id),
+    UNIQUE KEY uk_schedule_user (schedule_id, user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='排班评价表';
+
 -- 表结构创建完成
 SELECT '数据库表结构创建完成！' AS message;
 SELECT '数据库名：yukirinllmedmanage' AS info;
-SELECT '共创建16个表：users, admins, health_records, vital_signs, medication_records, notifications, device_tokens, activities, activity_participants, news, user_tags, health_education, blood_tests, improvement_plans, medical_staff, patient_staff_relation' AS info;
+SELECT '共创建18个表：users, admins, health_records, vital_signs, medication_records, notifications, device_tokens, activities, activity_participants, news, user_tags, health_education, blood_tests, improvement_plans, medical_staff, patient_staff_relation, dialysis_schedule, dialysis_schedule_rating' AS info;

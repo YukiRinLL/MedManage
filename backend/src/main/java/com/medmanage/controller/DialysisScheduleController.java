@@ -37,6 +37,16 @@ public class DialysisScheduleController {
         }
     }
     
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Map<String, Object>> getSchedulesByUserId(@PathVariable String userId) {
+        try {
+            List<DialysisSchedule> schedules = dialysisScheduleService.getSchedulesByUserId(userId);
+            return ResponseUtil.success(schedules);
+        } catch (Exception e) {
+            return ResponseUtil.badRequest("获取用户排班数据失败: " + e.getMessage());
+        }
+    }
+    
     @GetMapping("/number/{number}")
     public ResponseEntity<Map<String, Object>> getSchedulesByPatientNumber(@PathVariable String number) {
         try {

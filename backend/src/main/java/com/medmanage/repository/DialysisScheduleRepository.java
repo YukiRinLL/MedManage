@@ -12,6 +12,8 @@ public interface DialysisScheduleRepository extends JpaRepository<DialysisSchedu
     
     List<DialysisSchedule> findByTxTxjId(String txTxjId);
     
+    List<DialysisSchedule> findByTxUserid(String txUserid);
+    
     List<DialysisSchedule> findByNumber(String number);
     
     List<DialysisSchedule> findByWeek(Integer week);
