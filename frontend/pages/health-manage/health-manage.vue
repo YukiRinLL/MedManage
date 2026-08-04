@@ -1,11 +1,8 @@
 <template>
   <view class="health-manage-container">
-    <view class="section-header animate-fade-in">
-      <view class="header-bg"></view>
-      <view class="header-content">
-        <text class="section-title">健康管理</text>
-        <text class="section-desc">管理您的健康数据</text>
-      </view>
+    <view class="section-header animate-slide-down">
+      <text class="section-title">健康管理</text>
+      <text class="section-desc">管理您的健康数据</text>
     </view>
     
     <view class="priority-section">
@@ -176,24 +173,36 @@ export default {
   animation: fadeInUp 0.4s ease-out both;
 }
 
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .section-header {
-  padding: 30px 20px 20px;
-  background-color: #009D85;
-  color: #FFFFFF;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: calc(var(--status-bar-height, 20px) + 20px) 20px 20px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #EBEEF5;
 }
 
 .section-title {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: 2px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #009D85;
+  letter-spacing: 1px;
+  white-space: nowrap;
 }
 
 .section-desc {
-  display: block;
-  font-size: 15px;
-  opacity: 0.9;
+  font-size: 14px;
+  color: #909399;
+  white-space: nowrap;
 }
 
 .priority-section {
@@ -221,12 +230,12 @@ export default {
 
 .priority-item.primary {
   border-left: 4px solid #06B6D4;
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, #FFFFFF 100%);
+  background: #F0F9FA;
 }
 
 .priority-item.secondary {
   border-left: 4px solid #9333EA;
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.05) 0%, #FFFFFF 100%);
+  background: #F5F0FA;
 }
 
 .priority-badge {

@@ -518,7 +518,7 @@ export default {
 }
 
 .welcome-section {
-  padding: 35px 20px 25px;
+  padding: calc(var(--status-bar-height, 20px) + 15px) 20px 25px;
   text-align: center;
   background-color: #FFFFFF;
   margin-bottom: 16px;
@@ -528,15 +528,15 @@ export default {
 .logo-container {
   position: relative;
   display: inline-block;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .welcome-logo {
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   border-radius: 24px;
   background-color: #FFFFFF;
-  padding: 16px;
+  padding: 10px;
   border: 2px solid #EBEEF5;
   animation: float 3s ease-in-out infinite;
   box-shadow: 0 6px 16px rgba(0, 157, 133, 0.15);
@@ -546,8 +546,8 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 115px;
-  height: 115px;
+  width: 155px;
+  height: 155px;
   border: 2px solid rgba(0, 157, 133, 0.3);
   border-radius: 50%;
   transform: translate(-50%, -50%);

@@ -29,7 +29,8 @@
       "style": {
         "navigationBarTitleText": "首页",
         "navigationBarBackgroundColor": "#009D85",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
       }
     },
     {
@@ -37,7 +38,8 @@
       "style": {
         "navigationBarTitleText": "健康管理",
         "navigationBarBackgroundColor": "#009D85",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
       }
     },
     {
@@ -45,7 +47,8 @@
       "style": {
         "navigationBarTitleText": "服务中心",
         "navigationBarBackgroundColor": "#009D85",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
       }
     },
     {
@@ -53,7 +56,8 @@
       "style": {
         "navigationBarTitleText": "互动中心",
         "navigationBarBackgroundColor": "#009D85",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
       }
     },
     {
@@ -118,7 +122,8 @@
       "style": {
         "navigationBarTitleText": "我的",
         "navigationBarBackgroundColor": "#009D85",
-        "navigationBarTextStyle": "white"
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
       }
     },
     {

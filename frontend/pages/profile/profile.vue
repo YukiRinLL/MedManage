@@ -8,7 +8,7 @@
     
     <!-- 用户信息卡片 -->
     <view v-else>
-      <view class="user-info-card" v-if="userInfo">
+      <view class="user-info-card animate-slide-down" v-if="userInfo">
       <view class="user-avatar">
         <text class="avatar-icon">{{ getUserInitial(userInfo.name) }}</text>
       </view>
@@ -22,7 +22,7 @@
     </view>
     
     <!-- 功能菜单 -->
-    <view class="menu-section">
+    <view class="menu-section animate-slide-down" :style="{ animationDelay: '0.1s' }">
       <view class="menu-card">
         <view class="menu-item" @click="navigateToPersonalInfo">
           <image src="/static/icons/png/filled/people/person@2x.png" class="menu-icon-img" mode="aspectFit" />
@@ -159,6 +159,15 @@ export default {
 </script>
 
 <style scoped>
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out both;
+}
+
 .profile-container {
   padding: 0;
   min-height: 100vh;
@@ -196,7 +205,7 @@ export default {
 /* 用户信息卡片 */
 .user-info-card {
   background-color: #009D85;
-  padding: 30px 20px;
+  padding: calc(var(--status-bar-height, 20px) + 30px) 20px 30px;
   display: flex;
   align-items: center;
   color: #FFFFFF;

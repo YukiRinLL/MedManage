@@ -1,11 +1,8 @@
 <template>
   <view class="interaction-container">
-    <view class="section-header animate-fade-in">
-      <view class="header-bg"></view>
-      <view class="header-content">
-        <text class="section-title">互动中心</text>
-        <text class="section-desc">获取最新资讯与活动</text>
-      </view>
+    <view class="section-header animate-slide-down">
+      <text class="section-title">互动中心</text>
+      <text class="section-desc">获取最新资讯与活动</text>
     </view>
     
     <view class="menu-grid">
@@ -165,24 +162,36 @@ export default {
   animation: fadeInUp 0.4s ease-out both;
 }
 
+.animate-slide-down {
+  animation: slideDown 0.4s ease-out both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .section-header {
-  padding: 30px 20px 20px;
-  background-color: #009D85;
-  color: #FFFFFF;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: calc(var(--status-bar-height, 20px) + 20px) 20px 20px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #EBEEF5;
 }
 
 .section-title {
-  display: block;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: 2px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #009D85;
+  letter-spacing: 1px;
+  white-space: nowrap;
 }
 
 .section-desc {
-  display: block;
-  font-size: 15px;
-  opacity: 0.9;
+  font-size: 14px;
+  color: #909399;
+  white-space: nowrap;
 }
 
 .menu-grid {
