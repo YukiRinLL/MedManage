@@ -1,0 +1,292 @@
+
+=== shapePath ALL keys (first 3) ===
+
+--- ShapePath 0: Rectangle 3465233 ---
+ALL keys: [
+  '_class',                'booleanOperation',
+  'do_objectID',           'edited',
+  'exportOptions',         'frame',
+  'isClosed',              'isFixedToViewport',
+  'isFlippedHorizontal',   'isFlippedVertical',
+  'isLocked',              'isVisible',
+  'layerListExpandedType', 'name',
+  'nameIsFixed',           'pointRadiusBehaviour',
+  'points',                'resizingConstraint',
+  'resizingType',          'rotation',
+  'shouldBreakMaskChain',  'style',
+  'hasClippingMask',       'clippingMaskMode',
+  'isTemplate'
+]
+  _class (string): "shapePath"
+  edited (boolean): false
+  isClosed (boolean): true
+  isFixedToViewport (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{0, 0}","curveMode":1,"curveTo":"{0, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 0}"},{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{1, 0}","curveMode":1,"curveTo":"{1, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 0}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1, 1}","curveMode":1,"curveTo":"{1, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 1}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0, 1}","curveMode":1,"curveTo":"{0, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 1}"}]
+  isTemplate (boolean): false
+
+--- ShapePath 1: 矩形 933 ---
+ALL keys: [
+  '_class',                'booleanOperation',
+  'do_objectID',           'edited',
+  'exportOptions',         'frame',
+  'isClosed',              'isFixedToViewport',
+  'isFlippedHorizontal',   'isFlippedVertical',
+  'isLocked',              'isVisible',
+  'layerListExpandedType', 'name',
+  'nameIsFixed',           'pointRadiusBehaviour',
+  'points',                'resizingConstraint',
+  'resizingType',          'rotation',
+  'shouldBreakMaskChain',  'style',
+  'hasClippingMask',       'clippingMaskMode',
+  'isTemplate'
+]
+  _class (string): "shapePath"
+  edited (boolean): false
+  isClosed (boolean): true
+  isFixedToViewport (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0, 0}","curveMode":4,"curveTo":"{0, 0}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0, 0}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1, 0}","curveMode":4,"curveTo":"{1, 0}","hasCurveFrom":true,"hasCurveTo":true,"point":"{1, 0}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1, 1}","curveMode":4,"curveTo":"{1, 1}","hasCurveFrom":true,"hasCurveTo":true,"point":"{1, 1}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0, 1}","curveMode":4,"curveTo":"{0, 1}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0, 1}"}]
+  isTemplate (boolean): false
+
+--- ShapePath 2: Vector 441 ---
+ALL keys: [
+  '_class',                'booleanOperation',
+  'do_objectID',           'edited',
+  'exportOptions',         'frame',
+  'isClosed',              'isFixedToViewport',
+  'isFlippedHorizontal',   'isFlippedVertical',
+  'isLocked',              'isVisible',
+  'layerListExpandedType', 'name',
+  'nameIsFixed',           'pointRadiusBehaviour',
+  'points',                'resizingConstraint',
+  'resizingType',          'rotation',
+  'shouldBreakMaskChain',  'style',
+  'hasClippingMask',       'clippingMaskMode',
+  'isTemplate'
+]
+  _class (string): "shapePath"
+  edited (boolean): false
+  isClosed (boolean): true
+  isFixedToViewport (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2
+    content: [{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.3531306431075458, 1.019265610968432}","curveMode":4,"curveTo":"{-0.15217729064637067, 0.7381222628015566}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.1766287204844747, 0.9958370035863615}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1.3295849122794672, -0.4254986896720033}","curveMode":4,"curveTo":"{0.7176398630583097, 0.9503382590988909}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.8641321820139645, 0.6209793450552635}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.03998206650801948, 0.4725981351778023}","curveMode":4,"curveTo":"{0.4670028438948915, 0.1289785602407686}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.25349246334623077, 0.3007883477092855}"}]
+  isTemplate (boolean): false
+
+=== oval ALL keys (first 2) ===
+
+--- Oval 0: Ellipse 6178 ---
+ALL keys: [
+  '_class',                'booleanOperation',
+  'do_objectID',           'edited',
+  'exportOptions',         'frame',
+  'isClosed',              'isFixedToViewport',
+  'isFlippedHorizontal',   'isFlippedVertical',
+  'isLocked',              'isVisible',
+  'layerListExpandedType', 'name',
+  'nameIsFixed',           'pointRadiusBehaviour',
+  'points',                'resizingConstraint',
+  'resizingType',          'rotation',
+  'shouldBreakMaskChain',  'style',
+  'hasClippingMask',       'clippingMaskMode',
+  'isTemplate'
+]
+  _class (string): "oval"
+  edited (boolean): false
+  isClosed (boolean): true
+  isFixedToViewport (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.77614237490000004, 1}","curveMode":2,"curveTo":"{0.22385762510000001, 1}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.5, 1}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1, 0.22385762510000001}","curveMode":2,"curveTo":"{1, 0.77614237490000004}","hasCurveFrom":true,"hasCurveTo":true,"point":"{1, 0.5}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.22385762510000001, 0}","curveMode":2,"curveTo":"{0.77614237490000004, 0}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.5, 0}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0, 0.77614237490000004}","curveMode":2,"curveTo":"{0, 0.22385762510000001}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0, 0.5}"}]
+  isTemplate (boolean): false
+
+--- Oval 1: Ellipse 6179 ---
+ALL keys: [
+  '_class',                'booleanOperation',
+  'do_objectID',           'edited',
+  'exportOptions',         'frame',
+  'isClosed',              'isFixedToViewport',
+  'isFlippedHorizontal',   'isFlippedVertical',
+  'isLocked',              'isVisible',
+  'layerListExpandedType', 'name',
+  'nameIsFixed',           'pointRadiusBehaviour',
+  'points',                'resizingConstraint',
+  'resizingType',          'rotation',
+  'shouldBreakMaskChain',  'style',
+  'hasClippingMask',       'clippingMaskMode',
+  'isTemplate'
+]
+  _class (string): "oval"
+  edited (boolean): false
+  isClosed (boolean): true
+  isFixedToViewport (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.77614237490000004, 1}","curveMode":2,"curveTo":"{0.22385762510000001, 1}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.5, 1}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{1, 0.22385762510000001}","curveMode":2,"curveTo":"{1, 0.77614237490000004}","hasCurveFrom":true,"hasCurveTo":true,"point":"{1, 0.5}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0.22385762510000001, 0}","curveMode":2,"curveTo":"{0.77614237490000004, 0}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0.5, 0}"},{"_class":"curvePoint","cornerRadius":0,"cornerStyle":0,"curveFrom":"{0, 0.77614237490000004}","curveMode":2,"curveTo":"{0, 0.22385762510000001}","hasCurveFrom":true,"hasCurveTo":true,"point":"{0, 0.5}"}]
+  isTemplate (boolean): false
+
+=== rectangle ALL keys (first 2) ===
+
+--- Rectangle 0: Rectangle 3465231 ---
+ALL keys: [
+  'do_objectID',
+  'booleanOperation',
+  'exportOptions',
+  'frame',
+  'isFixedToViewport',
+  'isFlippedHorizontal',
+  'isFlippedVertical',
+  'isLocked',
+  'isVisible',
+  'layerListExpandedType',
+  'name',
+  'nameIsFixed',
+  'resizingConstraint',
+  'resizingType',
+  'rotation',
+  'shouldBreakMaskChain',
+  'hasClippingMask',
+  'clippingMaskMode',
+  'style',
+  '_class',
+  'edited',
+  'fixedRadius',
+  'hasConvertedToNewRoundCorners',
+  'isClosed',
+  'needsConvertionToNewRoundCorners',
+  'pointRadiusBehaviour',
+  'points'
+]
+  isFixedToViewport (boolean): false
+  _class (string): "rectangle"
+  edited (boolean): false
+  fixedRadius (number): 0
+  hasConvertedToNewRoundCorners (boolean): false
+  isClosed (boolean): true
+  needsConvertionToNewRoundCorners (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{0, 0}","curveMode":1,"curveTo":"{0, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 0}"},{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{1, 0}","curveMode":1,"curveTo":"{1, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 0}"},{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{1, 1}","curveMode":1,"curveTo":"{1, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 1}"},{"_class":"curvePoint","cornerRadius":14,"cornerStyle":0,"curveFrom":"{0, 1}","curveMode":1,"curveTo":"{0, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 1}"}]
+
+--- Rectangle 1: Rectangle 3465239 ---
+ALL keys: [
+  'do_objectID',
+  'booleanOperation',
+  'exportOptions',
+  'frame',
+  'isFixedToViewport',
+  'isFlippedHorizontal',
+  'isFlippedVertical',
+  'isLocked',
+  'isVisible',
+  'layerListExpandedType',
+  'name',
+  'nameIsFixed',
+  'resizingConstraint',
+  'resizingType',
+  'rotation',
+  'shouldBreakMaskChain',
+  'hasClippingMask',
+  'clippingMaskMode',
+  'style',
+  '_class',
+  'edited',
+  'fixedRadius',
+  'hasConvertedToNewRoundCorners',
+  'isClosed',
+  'needsConvertionToNewRoundCorners',
+  'pointRadiusBehaviour',
+  'points'
+]
+  isFixedToViewport (boolean): false
+  _class (string): "rectangle"
+  edited (boolean): false
+  fixedRadius (number): 0
+  hasConvertedToNewRoundCorners (boolean): false
+  isClosed (boolean): true
+  needsConvertionToNewRoundCorners (boolean): false
+  pointRadiusBehaviour (number): 1
+  points (object): keys=0,1,2,3
+    content: [{"_class":"curvePoint","cornerRadius":6,"cornerStyle":0,"curveFrom":"{0, 0}","curveMode":1,"curveTo":"{0, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 0}"},{"_class":"curvePoint","cornerRadius":6,"cornerStyle":0,"curveFrom":"{1, 0}","curveMode":1,"curveTo":"{1, 0}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 0}"},{"_class":"curvePoint","cornerRadius":6,"cornerStyle":0,"curveFrom":"{1, 1}","curveMode":1,"curveTo":"{1, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{1, 1}"},{"_class":"curvePoint","cornerRadius":6,"cornerStyle":0,"curveFrom":"{0, 1}","curveMode":1,"curveTo":"{0, 1}","hasCurveFrom":false,"hasCurveTo":false,"point":"{0, 1}"}]
+
+=== text attributedString.attributes (first 3) ===
+
+--- Text 0: name=✏️ Placeholder string="为您健康护航\n第1天" ---
+attributes array length: 2
+  attr[0]: location=0 length=7
+    attributes keys: [
+  'kerning',
+  'textStyleVerticalAlignmentKey',
+  'MSAttributedStringFontAttribute',
+  'MSAttributedStringColorAttribute',
+  'paragraphStyle'
+]
+    font: {"_class":"fontDescriptor","attributes":{"name":"AlimamaShuHeiTi-Bold","size":26}}
+    color: {"_class":"color","alpha":1,"blue":0,"green":0,"red":0}
+    paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+    alignment: 0, minLineHeight: 38, maxLineHeight: 38
+  attr[1]: location=7 length=3
+    attributes keys: [
+  'kerning',
+  'textStyleVerticalAlignmentKey',
+  'MSAttributedStringFontAttribute',
+  'MSAttributedStringColorAttribute',
+  'paragraphStyle'
+]
+    font: {"_class":"fontDescriptor","attributes":{"name":"AlimamaShuHeiTi-Bold","size":26}}
+    color: {"_class":"color","alpha":1,"blue":0,"green":0,"red":0}
+    paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+    alignment: 0, minLineHeight: 38, maxLineHeight: 38
+encodedAttributes:
+  font attr: {"_class":"fontDescriptor","attributes":{"name":"AlimamaShuHeiTi-Bold","size":26}}
+  color attr: {"_class":"color","alpha":0,"blue":1,"green":1,"red":1}
+  paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+
+--- Text 1: name=上传文件打印 string="健康管理提示" ---
+attributes array length: 1
+  attr[0]: location=0 length=6
+    attributes keys: [
+  'kerning',
+  'textStyleVerticalAlignmentKey',
+  'MSAttributedStringFontAttribute',
+  'MSAttributedStringColorAttribute',
+  'paragraphStyle'
+]
+    font: {"_class":"fontDescriptor","attributes":{"name":"MiSans-Medium","size":18}}
+    color: {"_class":"color","alpha":1,"blue":1,"green":1,"red":1}
+    paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+    alignment: 0, minLineHeight: 18, maxLineHeight: 18
+encodedAttributes:
+  font attr: {"_class":"fontDescriptor","attributes":{"name":"MiSans-Medium","size":18}}
+  color attr: {"_class":"color","alpha":1,"blue":1,"green":1,"red":1}
+  paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+
+--- Text 2: name=传单画册 string="定期记录生命\n体征数据" ---
+attributes array length: 1
+  attr[0]: location=0 length=11
+    attributes keys: [
+  'kerning',
+  'textStyleVerticalAlignmentKey',
+  'MSAttributedStringFontAttribute',
+  'MSAttributedStringColorAttribute',
+  'paragraphStyle'
+]
+    font: {"_class":"fontDescriptor","attributes":{"name":"MiSans-Regular","size":14}}
+    color: {"_class":"color","alpha":1,"blue":0.20000000298023224,"green":0.20000000298023224,"red":0.20000000298023224}
+    paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+    alignment: 0, minLineHeight: 20, maxLineHeight: 20
+encodedAttributes:
+  font attr: {"_class":"fontDescriptor","attributes":{"name":"MiSans-Regular","size":14}}
+  color attr: {"_class":"color","alpha":1,"blue":0.20000000298023224,"green":0.20000000298023224,"red":0.20000000298023224}
+  paragraphStyle keys: _class,alignment,maximumLineHeight,minimumLineHeight,paragraphSpacing
+
+=== Fills with image (sample 3) ===
+
+=== Images in output/images/ === (total: 4 )
+ - 2ed2195ef2a1ff1bf13a1e782b0780d4.png
+ - 997ff6bc0cedf819f9b9c600ba303a29.png
+ - cf156a4c682ea6dcd7e216a0c3631fbd.png
+ - f8c697b73e59b4a2b3da77427a2e0f82.png

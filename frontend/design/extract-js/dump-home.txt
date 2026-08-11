@@ -1,0 +1,329 @@
+
+=== 首页 顶层图层结构 (depth first, max depth 5) ===
+
+- [shapePath] Rectangle 3465233 [375x304 @ (0,508)] gradient border shapePath(rect-4pts) radius:14,14,0,0 boolOp:-1
+- [group] Group 1000007255 [375x355.4228515625 @ (0,0)] group[children:7] boolOp:-1
+  - [group] Group 1000007250 [375x355.4228515625 @ (0,0)] group[children:1] boolOp:-1
+    - [group] 组 45200 [375x355.4228515625 @ (0,0)] group[children:1] boolOp:-1
+      - [shapePath] 矩形 933 [375x355.4228515625 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+  - [shapePath] Vector 441 [117.09031677246094x64.0242919921875 @ (256,148)] gradient shapePath(3pts) boolOp:-1
+  - [group] Simple 3D [104.04761505126953x119.31887817382812 @ (238,92)] group[children:2] boolOp:-1
+    - [group] Object 2 [104.04761505126953x119.31887817382812 @ (0,0)] group[children:2] boolOp:-1
+      - [group] Vector [71.75717163085938x118.69220733642578 @ (32,1)] group[children:11] boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [71.75717163085938x118.69220733642578 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [96.97906494140625x116.43372344970703 @ (0,0)] gradient border shapePath(18pts) boolOp:-1
+    - [group] Object 3 [87.87725830078125x103.614013671875 @ (4,6)] group[children:3] boolOp:-1
+      - [group] Vector [59.61759948730469x103.08079528808594 @ (28,1)] group[children:11] boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(5pts) boolOp:-1
+        - [shapePath] Vector [59.61759948730469x103.08079528808594 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [85.04008483886719x102.45877075195312 @ (0,0)] gradient border shapePath(18pts) boolOp:-1
+      - [bitmap] 121 1 [46.795372009277344x41.51202392578125 @ (17,27)] BITMAP boolOp:-1
+  - [group] Vector [256.2685852050781x154.45144653320312 @ (-4,75)] group[children:4] boolOp:-1
+    - [shapePath] Vector [256.2685852050781x154.45144653320312 @ (0,0)] gradient shapePath(9pts) boolOp:-1
+    - [shapePath] Vector [256.2685852050781x154.45144653320312 @ (0,0)] gradient shapePath(9pts) boolOp:-1
+    - [shapePath] Vector [256.2685852050781x154.45144653320312 @ (0,0)] gradient shapePath(9pts) boolOp:-1
+    - [shapePath] Vector [256.2685852050781x154.45144653320312 @ (0,0)] gradient shapePath(9pts) boolOp:-1
+  - [text] ✏️ Placeholder [166x76 @ (29,93)] text boolOp:-1
+  - [oval] Ellipse 6178 [126.1148681640625x60.929500579833984 @ (223,122)] border oval boolOp:-1
+  - [oval] Ellipse 6179 [130.21495056152344x60.929500579833984 @ (227,106)] border oval boolOp:-1
+- [rectangle] Rectangle 3465231 [343x86 @ (16,184)] fill:rgb(255,238,229,0.20000000298023224) border rectangle boolOp:-1
+- [shapePath] Rectangle 3465227 [342x71 @ (16,184)] gradient border shapePath(6pts) boolOp:-1
+- [shapePath] Rectangle 3465230 [343x156 @ (16,232)] fill:rgb(255,255,255,0.30000001192092896) border shapePath(rect-4pts) radius:9.942028999328613,9.942028999328613,9.942028999328613,9.942028999328613 boolOp:-1
+- [text] 上传文件打印 [110x18 @ (29,199)] fill:rgb(255,255,255,1) text boolOp:-1
+- [rectangle] Rectangle 3465239 [160x66 @ (24,240)] fill:rgb(255,255,255,1) rectangle boolOp:-1
+- [group] 组 45202 [50x50 @ (32,247)] group[children:2] boolOp:-1
+  - [rectangle] Rectangle 3465240 [50x50 @ (0,0)] fill:rgb(223,247,241,1) rectangle boolOp:-1
+  - [group] Frame [26x26 @ (12,12)] group[children:2] boolOp:-1
+    - [rectangle] Frame [26x26 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+    - [shapeGroup] Vector [23.981826782226562x25.977453231811523 @ (1,0)] gradient shapeGroup[children:5] boolOp:-1
+      - [shapePath] Vector [23.981826782226562x25.977453231811523 @ (0,0)] gradient shapePath(6pts) boolOp:-1
+      - [shapePath] Vector [23.981826782226562x25.977453231811523 @ (0,0)] gradient shapePath(15pts) boolOp:-1
+      - [shapePath] Vector [23.981826782226562x25.977453231811523 @ (0,0)] gradient shapePath(6pts) boolOp:-1
+      - [shapePath] Vector [23.981826782226562x25.977453231811523 @ (0,0)] gradient shapePath(7pts) boolOp:-1
+      - [shapePath] Vector [23.981826782226562x25.977453231811523 @ (0,0)] gradient shapePath(7pts) boolOp:-1
+- [text] 传单画册 [86x40 @ (89,252)] fill:rgb(51,51,51,1) text boolOp:-1
+- [rectangle] Rectangle 3465239 [160x66 @ (24,314)] fill:rgb(255,255,255,1) rectangle boolOp:-1
+- [group] 组 45201 [50x50 @ (32,322)] group[children:1] boolOp:-1
+  - [group] 组 45203 [50x50 @ (0,0)] group[children:2] boolOp:-1
+    - [rectangle] Rectangle 3465240 [50x50 @ (0,0)] fill:rgb(235,249,255,1) rectangle boolOp:-1
+    - [group] Frame [26x26 @ (12,12)] group[children:2] boolOp:-1
+      - [rectangle] Frame [26x26 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] Frame [26x26 @ (0,0)] group[children:2] boolOp:-1
+        - [rectangle] Frame [26x26 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [shapeGroup] Vector [25.998374938964844x26.00014877319336 @ (0,0)] gradient shapeGroup[children:4] boolOp:-1
+          - [shapePath] Vector [25.998374938964844x26.00014877319336 @ (0,0)] gradient shapePath(6pts) boolOp:-1
+          - [shapePath] Vector [25.998374938964844x26.00014877319336 @ (0,0)] gradient shapePath(14pts) boolOp:-1
+          - [shapePath] Vector [25.998374938964844x26.00014877319336 @ (0,0)] gradient shapePath(9pts) boolOp:-1
+          - [shapePath] Vector [25.998374938964844x26.00014877319336 @ (0,0)] gradient shapePath(11pts) boolOp:-1
+- [text] 传单画册 [86x40 @ (89,327)] fill:rgb(51,51,51,1) text boolOp:-1
+- [group] Frame 1739330128 [160x140 @ (191,240)] group[children:3] boolOp:-1
+  - [rectangle] Frame 1739330128 [160x140 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+  - [group] Group 1000007190 [226x155.613037109375 @ (-28,-15)] group[children:10] boolOp:-1
+    - [rectangle] Rectangle 3465239 [160x140 @ (28,16)] fill:rgb(255,255,255,1) rectangle boolOp:-1
+    - [shapeGroup] Vector [91x91 @ (62,40)] border shapeGroup[children:100] boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+      - [shapePath] Vector [91x91 @ (0,0)] border shapePath(2pts) boolOp:-1
+    - [oval] Ellipse 6180 [72x72 @ (72,49)] fill:rgb(244,249,255,1) oval boolOp:-1
+    - [oval] Ellipse 6181 [96x96 @ (0,0)] fill:rgb(224,251,254,1) oval boolOp:-1
+    - [oval] Ellipse 6182 [96x96 @ (130,0)] fill:rgb(240,242,255,1) oval boolOp:-1
+    - [text] 传单画册 [67x19 @ (75,69)] fill:rgb(51,51,51,1) text boolOp:-1
+    - [group] Frame 1739330124 [57x20 @ (39,38)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1739330124 [57x20 @ (0,0)] fill:rgb(221,240,249,1) rectangle boolOp:-1
+      - [text] 血红蛋白 [51x12 @ (3,4)] fill:rgb(136,159,188,1) text boolOp:-1
+    - [group] Frame 1739330125 [33x20 @ (127,110)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1739330125 [33x20 @ (0,0)] fill:rgb(221,240,249,1) rectangle boolOp:-1
+      - [text] 尿酸 [27x12 @ (3,4)] fill:rgb(136,159,188,1) text boolOp:-1
+    - [group] Frame 1739330126 [20x20 @ (140,42)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1739330126 [20x20 @ (0,0)] fill:rgb(221,240,249,1) rectangle boolOp:-1
+      - [text] 钾 [14x12 @ (3,4)] fill:rgb(136,159,188,1) text boolOp:-1
+    - [group] Frame 1739330127 [20x20 @ (56,101)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1739330127 [20x20 @ (0,0)] fill:rgb(221,240,249,1) rectangle boolOp:-1
+      - [text] 钠 [14x12 @ (3,4)] fill:rgb(136,159,188,1) text boolOp:-1
+  - [text] 查看详情 [51x12 @ (55,74)] fill:rgb(154,201,223,1) text boolOp:-1
+- [text] 快捷管理健康状态 [98x12 @ (234,193)] fill:rgb(20,82,72,1) text boolOp:-1
+- [shapePath] Rectangle 3463952 [343x70 @ (16,558)] fill:rgb(255,255,255,1) border shapePath(4pts) radius:8,8,8,8 boolOp:-1
+- [shapePath] Rectangle 3463952 [343x70 @ (16,638)] fill:rgb(255,255,255,1) border shapePath(4pts) radius:8,8,8,8 boolOp:-1
+- [shapePath] Rectangle 3463952 [166x96 @ (16,400)] gradient border shadow shapePath(4pts) radius:8,8,8,8 boolOp:-1
+- [shapePath] Rectangle 3463952 [166x96 @ (193,400)] gradient border shadow shapePath(4pts) radius:8,8,8,8 boolOp:-1
+- [group] 组 45206 [98x28 @ (16,520)] group[children:2] boolOp:-1
+  - [bitmap] image 2875 [28x28 @ (0,0)] BITMAP boolOp:-1
+  - [text] 表单页 [66x16 @ (33,6)] fill:rgb(51,51,51,1) text boolOp:-1
+- [text] 医护人员将在本周内进行电话随访，请保持手机畅通。 [321x20 @ (27,570)] fill:rgb(51,51,51,1) text boolOp:-1
+- [text] 医护人员将在本周内进行电话随访，请保持手机畅通。 [268x20 @ (27,650)] fill:rgb(51,51,51,1) text boolOp:-1
+- [text] 07-27 [34x12 @ (47,604)] fill:rgb(153,153,153,1) text boolOp:-1
+- [text] 07-27 [35x12 @ (47,684)] fill:rgb(153,153,153,1) text boolOp:-1
+- [text] 07-27 [26x12 @ (322,604)] fill:rgb(123,146,164,1) text boolOp:-1
+- [text] 07-27 [26x12 @ (322,684)] fill:rgb(123,146,164,1) text boolOp:-1
+- [group] 组 45205 [375x88 @ (0,724)] group[children:7] boolOp:-1
+  - [rectangle] 矩形 2425 [375x88 @ (0,0)] fill:rgb(255,255,255,1) rectangle boolOp:-1
+  - [rectangle] 矩形 2424 [135x4 @ (120,76)] fill:rgb(0,0,0,1) rectangle boolOp:-1
+  - [group] Tab Bar [75x58 @ (0,0)] group[children:3] boolOp:-1
+    - [rectangle] Tab Bar [75x58 @ (0,0)] fill:rgb(255,255,255,0) rectangle boolOp:-1
+    - [group] Frame 1000006734 [40x40 @ (18,0)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1000006734 [40x40 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] Frame [32x32 @ (5,4)] group[children:2] boolOp:-1
+        - [rectangle] Frame [32x32 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [shapePath] Vector [21.334091186523438x21.799148559570312 @ (5,4)] fill:rgb(0,198,137,1) shapePath(25pts) boolOp:-1
+    - [text] ✏️ Label [27x18 @ (24,40)] fill:rgb(0,198,137,1) text boolOp:-1
+  - [group] Tab Bar [75x58 @ (75,0)] group[children:3] boolOp:-1
+    - [rectangle] Tab Bar [75x58 @ (0,0)] rectangle boolOp:-1
+    - [group] Frame 1000006736 [40x40 @ (18,0)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1000006736 [40x40 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] Frame [34x34 @ (3,3)] group[children:2] boolOp:-1
+        - [rectangle] Frame [34x34 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [group] Frame [34x34 @ (0,0)] group[children:2] boolOp:-1
+          - [rectangle] Frame [34x34 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+          - [shapeGroup] Vector [22x22 @ (4,5)] fill:rgb(222,222,222,1) shapeGroup[children:6] boolOp:-1
+    - [text] ✏️ Label [51x18 @ (12,40)] fill:rgb(162,162,162,1) text boolOp:-1
+  - [group] Tab Bar [75x58 @ (150,0)] group[children:3] boolOp:-1
+    - [rectangle] Tab Bar [75x58 @ (0,0)] rectangle boolOp:-1
+    - [group] Frame 1000006736 [40x40 @ (18,0)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1000006736 [40x40 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] Frame [26x26 @ (8,7)] group[children:2] boolOp:-1
+        - [rectangle] Frame [26x26 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [shapeGroup] Vector [21.125x22.65605354309082 @ (2,1)] fill:rgb(222,222,222,1) shapeGroup[children:3] boolOp:-1
+          - [shapePath] Vector [21.125x22.65605354309082 @ (0,0)] fill:rgb(222,222,222,1) shapePath(15pts) boolOp:-1
+          - [shapePath] Vector [21.125x22.65605354309082 @ (0,0)] fill:rgb(222,222,222,1) shapePath(5pts) boolOp:-1
+          - [shapePath] Vector [21.125x22.65605354309082 @ (0,0)] fill:rgb(222,222,222,1) shapePath(11pts) boolOp:-1
+    - [text] ✏️ Label [51x18 @ (12,40)] fill:rgb(162,162,162,1) text boolOp:-1
+  - [group] Tab Bar [75x58 @ (225,0)] group[children:3] boolOp:-1
+    - [rectangle] Tab Bar [75x58 @ (0,0)] rectangle boolOp:-1
+    - [group] Frame 1000006737 [40x40 @ (18,0)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1000006737 [40x40 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] 我的 [30x30 @ (5,5)] group[children:4] boolOp:-1
+        - [rectangle] 我的 [30x30 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [shapePath] Ellipse 1941 [16.875x3.75 @ (6,22)] fill:rgb(254,131,61,1) shapePath(4pts) [INVISIBLE] boolOp:-1
+        - [shapePath] Icon [16.875x7.5 @ (6,18)] fill:rgb(255,255,255,0.10000000149011612) shapePath(14pts) [INVISIBLE] boolOp:-1
+        - [shapeGroup] Vector [21x21 @ (5,4)] fill:rgb(222,222,222,1) shapeGroup[children:2] boolOp:-1
+          - [shapePath] Vector [21x21 @ (0,0)] fill:rgb(222,222,222,1) shapePath(20pts) boolOp:-1
+          - [shapePath] Vector [21x21 @ (0,0)] fill:rgb(222,222,222,1) shapePath(13pts) boolOp:-1
+    - [text] ✏️ Label [51x18 @ (12,40)] fill:rgb(162,162,162,1) text boolOp:-1
+  - [group] Tab Bar [75x58 @ (300,0)] group[children:3] boolOp:-1
+    - [rectangle] Tab Bar [75x58 @ (0,0)] rectangle boolOp:-1
+    - [group] Frame 1000006737 [40x40 @ (18,0)] group[children:2] boolOp:-1
+      - [rectangle] Frame 1000006737 [40x40 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+      - [group] 我的 [30x30 @ (5,5)] group[children:5] boolOp:-1
+        - [rectangle] 我的 [30x30 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [shapePath] Ellipse 1941 [16.875x3.75 @ (6,22)] fill:rgb(254,131,61,1) shapePath(4pts) [INVISIBLE] boolOp:-1
+        - [shapePath] Icon [16.875x7.5 @ (6,18)] fill:rgb(255,255,255,0.10000000149011612) shapePath(14pts) [INVISIBLE] boolOp:-1
+        - [shapeGroup] Vector [20.78118324279785x21.875 @ (4,3)] fill:rgb(222,222,222,1) shapeGroup[children:2] boolOp:-1
+          - [shapePath] Vector [20.78118324279785x21.875 @ (0,0)] fill:rgb(222,222,222,1) shapePath(7pts) boolOp:-1
+          - [shapePath] Vector [20.78118324279785x21.875 @ (0,0)] fill:rgb(222,222,222,1) shapePath(17pts) boolOp:-1
+        - [shapePath] Vector [2.187500238418579x4.375 @ (14,8)] fill:rgb(255,255,255,1) shapePath(4pts) radius:9,9,9,9 boolOp:-1
+    - [text] ✏️ Label [27x18 @ (24,40)] fill:rgb(162,162,162,1) text boolOp:-1
+- [group] Frame 1739330063 [14x14 @ (28,603)] group[children:2] boolOp:-1
+  - [rectangle] Frame 1739330063 [14x14 @ (0,0)] rectangle boolOp:-1
+  - [group] Frame [12x12 @ (1,1)] group[children:2] boolOp:-1
+    - [rectangle] Frame [12x12 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+    - [shapeGroup] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapeGroup[children:3] boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(10pts) boolOp:-1
+- [group] Frame 1739330063 [14x14 @ (28,683)] group[children:2] boolOp:-1
+  - [rectangle] Frame 1739330063 [14x14 @ (0,0)] rectangle boolOp:-1
+  - [group] Frame [12x12 @ (1,1)] group[children:2] boolOp:-1
+    - [rectangle] Frame [12x12 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+    - [shapeGroup] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapeGroup[children:3] boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(4pts) boolOp:-1
+      - [shapePath] Vector [12x12 @ (0,0)] fill:rgb(153,153,153,1) shapePath(10pts) boolOp:-1
+- [text] 07-27 [50x12 @ (300,528)] fill:rgb(52,151,228,1) text boolOp:-1
+- [shapeGroup] 路径 1 [4x8 @ (355,530)] border shapeGroup[children:2] boolOp:-1
+  - [shapePath] 路径 1 [4x8 @ (0,0)] border shapePath(2pts) boolOp:-1
+  - [shapePath] 路径 1 [4x8 @ (0,0)] border shapePath(2pts) boolOp:-1
+- [text] 透析排班查询 [86x14 @ (29,416)] fill:rgb(38,38,38,1) text boolOp:-1
+- [text] 最新透析状态查询 [114x14 @ (206,416)] fill:rgb(38,38,38,1) text boolOp:-1
+- [shapeGroup] 路径 [30x36 @ (138,446)] gradient shapeGroup[children:3] boolOp:-1
+  - [shapePath] 路径 [30x36 @ (0,0)] gradient shapePath(16pts) boolOp:-1
+  - [shapePath] 路径 [30x36 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+  - [shapePath] 路径 [30x36 @ (0,0)] gradient shapePath(4pts) boolOp:-1
+- [text] 07-27 [86x12 @ (29,442)] fill:rgb(123,146,164,1) text boolOp:-1
+- [text] 07-27 [98x12 @ (206,442)] fill:rgb(123,146,164,1) text boolOp:-1
+- [shapeGroup] 联集 1 [30x30 @ (315,452)] gradient shapeGroup[children:2] boolOp:-1
+  - [shapeGroup] 路径 [12.776396751403809x13.431072235107422 @ (17,16)] fill:rgb(0,0,0,1) shapeGroup[children:2] boolOp:0
+    - [shapePath] 路径 [12.776396751403809x13.431072235107422 @ (0,0)] fill:rgb(0,0,0,1) shapePath(11pts) boolOp:-1
+    - [shapePath] 路径 [12.776396751403809x13.431072235107422 @ (0,0)] fill:rgb(0,0,0,1) shapePath(4pts) boolOp:-1
+  - [shapeGroup] 路径 [30x30 @ (0,0)] fill:rgb(0,0,0,1) shapeGroup[children:2] boolOp:0
+    - [shapePath] 路径 [30x30 @ (0,0)] fill:rgb(0,0,0,1) shapePath(17pts) boolOp:-1
+    - [shapePath] 路径 [30x30 @ (0,0)] fill:rgb(0,0,0,1) shapePath(24pts) boolOp:-1
+- [group] Frame 1739330102 [375x89 @ (0,0)] group[children:3] boolOp:-1
+  - [rectangle] Frame 1739330102 [375x89 @ (0,0)] rectangle boolOp:-1
+  - [group] Frame 164078 [375x45 @ (0,44)] group[children:4] boolOp:-1
+    - [rectangle] Frame 164078 [375x45 @ (0,0)] rectangle boolOp:-1
+    - [group] Frame 164076 [83.66633605957031x29.33315658569336 @ (279,8)] group[children:4] boolOp:-1
+      - [rectangle] Frame 164076 [83.66633605957031x29.33315658569336 @ (0,0)] fill:rgb(255,255,255,0.15000000596046448) border rectangle boolOp:-1
+      - [group] Frame [20.999835968017578x20.999828338623047 @ (12,4)] group[children:4] boolOp:-1
+        - [rectangle] Frame [20.999835968017578x20.999828338623047 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [oval] Ellipse 2313 [3.4999725818634033x3.499971389770508 @ (2,9)] fill:rgb(0,0,0,1) oval boolOp:-1
+        - [oval] Ellipse 2315 [3.4999725818634033x3.499971389770508 @ (16,9)] fill:rgb(0,0,0,1) oval boolOp:-1
+        - [oval] Ellipse 2314 [6.12495231628418x6.124949932098389 @ (7,7)] fill:rgb(0,0,0,1) oval boolOp:-1
+      - [shapePath] Line 70 [0x16.66666030883789 @ (42,6)] border shapePath(2pts) boolOp:-1
+      - [group] Frame 164077 [20.999835968017578x20.999828338623047 @ (50,4)] group[children:2] boolOp:-1
+        - [rectangle] Frame 164077 [20.999835968017578x20.999828338623047 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+        - [group] Frame 164073 [18.374895095825195x18.374847412109375 @ (1,1)] group[children:3] boolOp:-1
+          - [rectangle] Frame 164073 [18.374895095825195x18.374847412109375 @ (0,0)] rectangle [HAS-CLIP-MASK] boolOp:-1
+          - [oval] Ellipse 2311 [5.742122173309326x5.742108345031738 @ (6,7)] fill:rgb(0,0,0,1) oval boolOp:-1
+          - [oval] Ellipse 2312 [15.312322616577148x15.312286376953125 @ (2,2)] border oval boolOp:-1
+    - [bitmap] 图层 0 4 [105x32 @ (13,6)] BITMAP boolOp:-1
+    - [text] ✏️ [38x22 @ (168,10)] fill:rgb(51,51,51,1) text boolOp:-1
+  - [symbolInstance] Status Bar [360x42 @ (8,0)] boolOp:-1
+
+
+=== 首页 artboard size: 375 x 812

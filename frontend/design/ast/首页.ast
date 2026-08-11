@@ -1,0 +1,3552 @@
+{
+  "id": "3:0037",
+  "name": "首页",
+  "role": "container",
+  "sourceType": "FRAME",
+  "visible": true,
+  "geometry": {
+    "x": 2845,
+    "y": 23,
+    "width": 375,
+    "height": 812,
+    "rotation": 0
+  },
+  "layout": {
+    "mode": "none",
+    "positioning": "auto",
+    "alignSelf": "auto"
+  },
+  "box": {
+    "fills": [
+      {
+        "type": "solid",
+        "color": "#F5F5F5FF",
+        "opacity": 1
+      }
+    ],
+    "clip": true
+  },
+  "children": [
+    {
+      "id": "3:5547",
+      "name": "Rectangle 3465233",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 0,
+        "y": 508,
+        "width": 375,
+        "height": 304,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": {},
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#E8ECF7FF",
+                "position": 0
+              },
+              {
+                "color": "#FBFBFDFF",
+                "position": 0.10000000149011612
+              }
+            ]
+          }
+        ],
+        "border": {
+          "width": 1,
+          "color": "#FFFFFFFF",
+          "style": "solid",
+          "align": "INSIDE"
+        },
+        "blur": {
+          "type": "background",
+          "radius": 100
+        }
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:5547"
+      }
+    },
+    {
+      "id": "3:0039",
+      "name": "Group 1000007255",
+      "role": "container",
+      "sourceType": "GROUP",
+      "visible": true,
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 355.4228515625,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:0040",
+          "name": "Group 1000007250",
+          "role": "vector",
+          "sourceType": "GROUP",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 355.4228515625,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": [],
+          "vector": {
+            "exportId": "3:0040"
+          }
+        },
+        {
+          "id": "3:0044",
+          "name": "Vector 441",
+          "role": "vector",
+          "sourceType": "PEN",
+          "visible": true,
+          "geometry": {
+            "x": 255.8184814453125,
+            "y": 148.1651611328125,
+            "width": 117.09031677246094,
+            "height": 64.0242919921875,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "gradient",
+                "gradientType": "linear",
+                "stops": [
+                  {
+                    "color": "#209D8700",
+                    "position": 0
+                  },
+                  {
+                    "color": "#209D87FF",
+                    "position": 1
+                  }
+                ]
+              }
+            ],
+            "blur": {
+              "type": "layer",
+              "radius": 10.5
+            }
+          },
+          "children": [],
+          "vector": {
+            "exportId": "3:0044"
+          }
+        },
+        {
+          "id": "3:0045",
+          "name": "Simple 3D",
+          "role": "container",
+          "sourceType": "GROUP",
+          "visible": true,
+          "geometry": {
+            "x": 238,
+            "y": 92.4228515625,
+            "width": 104.04761505126953,
+            "height": 119.31887817382812,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:0046",
+              "name": "Object 2",
+              "role": "vector",
+              "sourceType": "GROUP",
+              "visible": true,
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 104.04761505126953,
+                "height": 119.31887817382812,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {},
+              "children": [],
+              "vector": {
+                "exportId": "3:0046"
+              }
+            },
+            {
+              "id": "3:0049",
+              "name": "Object 3",
+              "role": "container",
+              "sourceType": "GROUP",
+              "visible": true,
+              "geometry": {
+                "x": 3.8512604236602783,
+                "y": 5.656167507171631,
+                "width": 87.87725830078125,
+                "height": 103.614013671875,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {},
+              "children": [
+                {
+                  "id": "3:0050",
+                  "name": "Vector",
+                  "role": "vector",
+                  "sourceType": "PEN",
+                  "visible": true,
+                  "geometry": {
+                    "x": 28.259654998779297,
+                    "y": 0.5332154035568237,
+                    "width": 59.61759948730469,
+                    "height": 103.08079528808594,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "stops": [
+                          {
+                            "color": "#5CE2BCFF",
+                            "position": 0
+                          },
+                          {
+                            "color": "#1DCC9BFF",
+                            "position": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "vector": {
+                    "exportId": "3:0050"
+                  }
+                },
+                {
+                  "id": "3:0051",
+                  "name": "Vector",
+                  "role": "vector",
+                  "sourceType": "PEN",
+                  "visible": true,
+                  "geometry": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 85.04008483886719,
+                    "height": 102.45877075195312,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "gradient",
+                        "gradientType": "linear",
+                        "stops": [
+                          {
+                            "color": "#D5F0FDFF",
+                            "position": 0
+                          },
+                          {
+                            "color": "#E2FCFBFF",
+                            "position": 0.5961538553237915
+                          },
+                          {
+                            "color": "#8EEDE9FF",
+                            "position": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "vector": {
+                    "exportId": "3:0051"
+                  }
+                },
+                {
+                  "id": "3:0052",
+                  "name": "121 1",
+                  "role": "image",
+                  "sourceType": "RECTANGLE",
+                  "visible": true,
+                  "geometry": {
+                    "x": 19.389404296875,
+                    "y": 24.74053955078125,
+                    "width": 46.795372009277344,
+                    "height": 41.51202392578125,
+                    "rotation": 6
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "image",
+                        "imageRef": "201335023191414/201335023191416/f8c697b73e59b4a2b3da77427a2e0f82.png",
+                        "scaleMode": "FILL"
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "image": {
+                    "imageRef": "201335023191414/201335023191416/f8c697b73e59b4a2b3da77427a2e0f82.png",
+                    "scaleMode": "FILL"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3:0053",
+          "name": "Vector",
+          "role": "vector",
+          "sourceType": "PEN",
+          "visible": true,
+          "geometry": {
+            "x": 8,
+            "y": 56.4228515625,
+            "width": 256.2685852050781,
+            "height": 154.45144653320312,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "opacity": 0.6000000238418579,
+            "fills": [
+              {
+                "type": "gradient",
+                "gradientType": "linear",
+                "stops": [
+                  {
+                    "color": "#FFFFFFFF",
+                    "position": 0
+                  },
+                  {
+                    "color": "#FFFFFF00",
+                    "position": 1
+                  }
+                ]
+              }
+            ],
+            "blur": {
+              "type": "layer",
+              "radius": 10.300000190734863
+            }
+          },
+          "children": [],
+          "vector": {
+            "exportId": "3:0053"
+          }
+        },
+        {
+          "id": "3:0054",
+          "name": "✏️ Placeholder",
+          "role": "text",
+          "sourceType": "TEXT",
+          "visible": true,
+          "geometry": {
+            "x": 30,
+            "y": 93.4228515625,
+            "width": 164,
+            "height": 76,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "gradient",
+                "gradientType": "linear",
+                "stops": [
+                  {
+                    "color": "#19A280FF",
+                    "position": 0
+                  },
+                  {
+                    "color": "#00A17DFF",
+                    "position": 1
+                  }
+                ]
+              }
+            ]
+          },
+          "children": [],
+          "text": {
+            "characters": "为您健康护航\n第1天",
+            "align": "left",
+            "verticalAlign": "center",
+            "fontFamily": "Alimama ShuHeiTi",
+            "fontSize": 26,
+            "fontWeight": 700,
+            "lineHeight": 38,
+            "letterSpacing": "6%"
+          }
+        },
+        {
+          "id": "3:0060",
+          "name": "Ellipse 6178",
+          "role": "shape",
+          "sourceType": "ELLIPSE",
+          "visible": true,
+          "geometry": {
+            "x": 217,
+            "y": 142.049072265625,
+            "width": 126.1148681640625,
+            "height": 60.929500579833984,
+            "rotation": -17.358484268188477
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": []
+        },
+        {
+          "id": "3:0061",
+          "name": "Ellipse 6179",
+          "role": "shape",
+          "sourceType": "ELLIPSE",
+          "visible": true,
+          "geometry": {
+            "x": 253.21337890625,
+            "y": 75.892822265625,
+            "width": 130.21495056152344,
+            "height": 60.929500579833984,
+            "rotation": 32.26103973388672
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "3:0067",
+      "name": "Rectangle 3465231",
+      "role": "shape",
+      "sourceType": "RECTANGLE",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 184,
+        "width": 343,
+        "height": 86,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": 14,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFEEE533",
+            "opacity": 0.20000000298023224
+          }
+        ],
+        "border": {
+          "width": 0.49710145592689514,
+          "color": "#FFFFFFFF",
+          "style": "solid",
+          "align": "INSIDE"
+        },
+        "blur": {
+          "type": "background",
+          "radius": 49.71014404296875
+        }
+      },
+      "children": []
+    },
+    {
+      "id": "3:0068",
+      "name": "Rectangle 3465227",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 184,
+        "width": 342,
+        "height": 71,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": {},
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#19A280FF",
+                "position": 0
+              },
+              {
+                "color": "#77EBCEFF",
+                "position": 1
+              }
+            ]
+          }
+        ],
+        "border": {
+          "width": 0.49710145592689514,
+          "color": "#FFFFFFFF",
+          "style": "solid",
+          "align": "INSIDE"
+        }
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:0068"
+      }
+    },
+    {
+      "id": "3:1554",
+      "name": "Rectangle 3465230",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 232,
+        "width": 343,
+        "height": 156,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": 9.942028999328613,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFF4D",
+            "opacity": 0.30000001192092896
+          }
+        ],
+        "border": {
+          "width": 0.49710145592689514,
+          "color": "#FFFFFFFF",
+          "style": "solid",
+          "align": "INSIDE"
+        },
+        "blur": {
+          "type": "background",
+          "radius": 49.71014404296875
+        }
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:1554"
+      }
+    },
+    {
+      "id": "3:0070",
+      "name": "上传文件打印",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 29.87255859375,
+        "y": 199,
+        "width": 108,
+        "height": 18,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFFFF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "健康管理提示",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 18,
+        "fontWeight": 500,
+        "lineHeight": 18,
+        "color": "#FFFFFFFF"
+      }
+    },
+    {
+      "id": "3:0075",
+      "name": "Rectangle 3465239",
+      "role": "shape",
+      "sourceType": "RECTANGLE",
+      "visible": true,
+      "geometry": {
+        "x": 24,
+        "y": 240,
+        "width": 160,
+        "height": 66,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "opacity": 0.8999999761581421,
+        "radius": 6,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFFFF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": []
+    },
+    {
+      "id": "3:1006",
+      "name": "组 45202",
+      "role": "container",
+      "sourceType": "GROUP",
+      "visible": true,
+      "geometry": {
+        "x": 32,
+        "y": 247,
+        "width": 50,
+        "height": 50,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:0076",
+          "name": "Rectangle 3465240",
+          "role": "shape",
+          "sourceType": "RECTANGLE",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 50,
+            "height": 50,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "opacity": 0.8999999761581421,
+            "radius": 5.965217590332031,
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#DFF7F1FF",
+                "opacity": 1
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "id": "3:0077",
+          "name": "Frame",
+          "role": "vector",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 12,
+            "y": 12,
+            "width": 26,
+            "height": 26,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "clip": true
+          },
+          "children": [],
+          "vector": {
+            "exportId": "3:0077"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3:0079",
+      "name": "传单画册",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 90,
+        "y": 252,
+        "width": 84,
+        "height": 40,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#333333FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "定期记录生命\n体征数据",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 400,
+        "lineHeight": 20,
+        "color": "#333333FF"
+      }
+    },
+    {
+      "id": "3:0084",
+      "name": "Rectangle 3465239",
+      "role": "shape",
+      "sourceType": "RECTANGLE",
+      "visible": true,
+      "geometry": {
+        "x": 24,
+        "y": 314,
+        "width": 160,
+        "height": 66,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "opacity": 0.8999999761581421,
+        "radius": 6,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFFFF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": []
+    },
+    {
+      "id": "3:1002",
+      "name": "组 45201",
+      "role": "container",
+      "sourceType": "GROUP",
+      "visible": true,
+      "geometry": {
+        "x": 32,
+        "y": 322,
+        "width": 50,
+        "height": 50,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:1007",
+          "name": "组 45203",
+          "role": "container",
+          "sourceType": "GROUP",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 50,
+            "height": 50,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:0085",
+              "name": "Rectangle 3465240",
+              "role": "shape",
+              "sourceType": "RECTANGLE",
+              "visible": true,
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 50,
+                "height": 50,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "opacity": 0.8999999761581421,
+                "radius": 5.965217590332031,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#EBF9FFFF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": []
+            },
+            {
+              "id": "3:0086",
+              "name": "Frame",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 12,
+                "y": 12,
+                "width": 26,
+                "height": 26,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:0086"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3:0089",
+      "name": "传单画册",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 90,
+        "y": 327,
+        "width": 84,
+        "height": 40,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#333333FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "按时查看用药\n提醒",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 400,
+        "lineHeight": 20,
+        "color": "#333333FF"
+      }
+    },
+    {
+      "id": "3:0093",
+      "name": "Frame 1739330128",
+      "role": "container",
+      "sourceType": "FRAME",
+      "visible": true,
+      "geometry": {
+        "x": 191,
+        "y": 240,
+        "width": 160,
+        "height": 140,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": 6,
+        "clip": true
+      },
+      "children": [
+        {
+          "id": "3:0094",
+          "name": "Group 1000007190",
+          "role": "container",
+          "sourceType": "GROUP",
+          "visible": true,
+          "geometry": {
+            "x": -27.530517578125,
+            "y": -15.386962890625,
+            "width": 226,
+            "height": 155.613037109375,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:0095",
+              "name": "Rectangle 3465239",
+              "role": "shape",
+              "sourceType": "RECTANGLE",
+              "visible": true,
+              "geometry": {
+                "x": 27.530517578125,
+                "y": 15.613037109375,
+                "width": 160,
+                "height": 140,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "opacity": 0.8999999761581421,
+                "radius": 6,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#FFFFFFFF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": []
+            },
+            {
+              "id": "3:0096",
+              "name": "Vector",
+              "role": "vector",
+              "sourceType": "PEN",
+              "visible": true,
+              "geometry": {
+                "x": 62,
+                "y": 40,
+                "width": 91,
+                "height": 91,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "border": {
+                  "width": 1,
+                  "color": "#C9EBF8FF",
+                  "style": "solid",
+                  "align": "CENTER"
+                }
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:0096"
+              }
+            },
+            {
+              "id": "3:0097",
+              "name": "Ellipse 6180",
+              "role": "shape",
+              "sourceType": "ELLIPSE",
+              "visible": true,
+              "geometry": {
+                "x": 72,
+                "y": 49,
+                "width": 72,
+                "height": 72,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#F4F9FFFF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": []
+            },
+            {
+              "id": "3:0098",
+              "name": "Ellipse 6181",
+              "role": "shape",
+              "sourceType": "ELLIPSE",
+              "visible": true,
+              "geometry": {
+                "x": 0,
+                "y": 0,
+                "width": 96,
+                "height": 96,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#E0FBFEFF",
+                    "opacity": 1
+                  }
+                ],
+                "blur": {
+                  "type": "layer",
+                  "radius": 55.099998474121094
+                }
+              },
+              "children": []
+            },
+            {
+              "id": "3:0099",
+              "name": "Ellipse 6182",
+              "role": "shape",
+              "sourceType": "ELLIPSE",
+              "visible": true,
+              "geometry": {
+                "x": 130,
+                "y": 0,
+                "width": 96,
+                "height": 96,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#F0F2FFFF",
+                    "opacity": 1
+                  }
+                ],
+                "blur": {
+                  "type": "layer",
+                  "radius": 55.099998474121094
+                }
+              },
+              "children": []
+            },
+            {
+              "id": "3:0100",
+              "name": "传单画册",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 76,
+                "y": 69,
+                "width": 65,
+                "height": 19,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#333333FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "待提升指标",
+                "align": "left",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 13,
+                "fontWeight": 500,
+                "lineHeight": 18,
+                "color": "#333333FF"
+              }
+            },
+            {
+              "id": "3:0104",
+              "name": "Frame 1739330124",
+              "role": "container",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 38.530517578125,
+                "y": 38.386962890625,
+                "width": 57,
+                "height": 20,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "flex",
+                "positioning": "auto",
+                "alignSelf": "auto",
+                "direction": "row",
+                "wrap": false,
+                "gap": 10,
+                "crossGap": 0,
+                "justify": "center",
+                "align": "center",
+                "padding": {
+                  "top": 4,
+                  "right": 4,
+                  "bottom": 4,
+                  "left": 4
+                },
+                "sizing": {
+                  "width": "hug",
+                  "height": "hug"
+                }
+              },
+              "box": {
+                "radius": 32,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#DDF0F9FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "id": "3:0105",
+                  "name": "血红蛋白",
+                  "role": "text",
+                  "sourceType": "TEXT",
+                  "visible": true,
+                  "geometry": {
+                    "x": 4,
+                    "y": 4,
+                    "width": 49,
+                    "height": 12,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#889FBCFF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "text": {
+                    "characters": "血红蛋白",
+                    "align": "left",
+                    "verticalAlign": "top",
+                    "fontFamily": "PingFang SC",
+                    "fontSize": 12,
+                    "fontWeight": 400,
+                    "lineHeight": 12,
+                    "letterSpacing": "2%",
+                    "color": "#889FBCFF"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "3:0109",
+              "name": "Frame 1739330125",
+              "role": "container",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 126.530517578125,
+                "y": 110.386962890625,
+                "width": 33,
+                "height": 20,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "flex",
+                "positioning": "auto",
+                "alignSelf": "auto",
+                "direction": "row",
+                "wrap": false,
+                "gap": 10,
+                "crossGap": 0,
+                "justify": "center",
+                "align": "center",
+                "padding": {
+                  "top": 4,
+                  "right": 4,
+                  "bottom": 4,
+                  "left": 4
+                },
+                "sizing": {
+                  "width": "hug",
+                  "height": "hug"
+                }
+              },
+              "box": {
+                "radius": 32,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#DDF0F9FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "id": "3:0110",
+                  "name": "尿酸",
+                  "role": "text",
+                  "sourceType": "TEXT",
+                  "visible": true,
+                  "geometry": {
+                    "x": 4,
+                    "y": 4,
+                    "width": 25,
+                    "height": 12,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#889FBCFF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "text": {
+                    "characters": "尿酸",
+                    "align": "left",
+                    "verticalAlign": "top",
+                    "fontFamily": "PingFang SC",
+                    "fontSize": 12,
+                    "fontWeight": 400,
+                    "lineHeight": 12,
+                    "letterSpacing": "2%",
+                    "color": "#889FBCFF"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "3:0114",
+              "name": "Frame 1739330126",
+              "role": "container",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 139.530517578125,
+                "y": 42.386962890625,
+                "width": 20,
+                "height": 20,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "flex",
+                "positioning": "auto",
+                "alignSelf": "auto",
+                "direction": "row",
+                "wrap": false,
+                "gap": 10,
+                "crossGap": 0,
+                "justify": "center",
+                "align": "center",
+                "padding": {
+                  "top": 4,
+                  "right": 4,
+                  "bottom": 4,
+                  "left": 4
+                },
+                "sizing": {
+                  "width": "hug",
+                  "height": "hug"
+                }
+              },
+              "box": {
+                "radius": 32,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#DDF0F9FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "id": "3:0115",
+                  "name": "钾",
+                  "role": "text",
+                  "sourceType": "TEXT",
+                  "visible": true,
+                  "geometry": {
+                    "x": 4,
+                    "y": 4,
+                    "width": 12,
+                    "height": 12,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#889FBCFF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "text": {
+                    "characters": "钾",
+                    "align": "left",
+                    "verticalAlign": "top",
+                    "fontFamily": "PingFang SC",
+                    "fontSize": 12,
+                    "fontWeight": 400,
+                    "lineHeight": 12,
+                    "letterSpacing": "2%",
+                    "color": "#889FBCFF"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "3:0119",
+              "name": "Frame 1739330127",
+              "role": "container",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 55.530517578125,
+                "y": 101.386962890625,
+                "width": 20,
+                "height": 20,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "flex",
+                "positioning": "auto",
+                "alignSelf": "auto",
+                "direction": "row",
+                "wrap": false,
+                "gap": 10,
+                "crossGap": 0,
+                "justify": "center",
+                "align": "center",
+                "padding": {
+                  "top": 4,
+                  "right": 4,
+                  "bottom": 4,
+                  "left": 4
+                },
+                "sizing": {
+                  "width": "hug",
+                  "height": "hug"
+                }
+              },
+              "box": {
+                "radius": 32,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#DDF0F9FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "id": "3:0120",
+                  "name": "钠",
+                  "role": "text",
+                  "sourceType": "TEXT",
+                  "visible": true,
+                  "geometry": {
+                    "x": 4,
+                    "y": 4,
+                    "width": 12,
+                    "height": 12,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#889FBCFF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "text": {
+                    "characters": "钠",
+                    "align": "left",
+                    "verticalAlign": "top",
+                    "fontFamily": "PingFang SC",
+                    "fontSize": 12,
+                    "fontWeight": 400,
+                    "lineHeight": 12,
+                    "letterSpacing": "2%",
+                    "color": "#889FBCFF"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3:0124",
+          "name": "查看详情",
+          "role": "text",
+          "sourceType": "TEXT",
+          "visible": true,
+          "geometry": {
+            "x": 56,
+            "y": 74,
+            "width": 49,
+            "height": 12,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#9AC9DFFF",
+                "opacity": 1
+              }
+            ]
+          },
+          "children": [],
+          "text": {
+            "characters": "查看详情",
+            "align": "left",
+            "verticalAlign": "top",
+            "fontFamily": "PingFang SC",
+            "fontSize": 12,
+            "fontWeight": 400,
+            "lineHeight": 12,
+            "letterSpacing": "2%",
+            "color": "#9AC9DFFF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3:0128",
+      "name": "快捷管理健康状态",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 235,
+        "y": 193,
+        "width": 96,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#145248FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "快捷管理健康状态",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#145248FF"
+      }
+    },
+    {
+      "id": "3:0133",
+      "name": "Rectangle 3463952",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 558,
+        "width": 343,
+        "height": 70,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": 8,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFFFF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:0133"
+      }
+    },
+    {
+      "id": "3:5552",
+      "name": "Rectangle 3463952",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 638,
+        "width": 343,
+        "height": 70,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "radius": 8,
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#FFFFFFFF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:5552"
+      }
+    },
+    {
+      "id": "3:5486",
+      "name": "Rectangle 3463952",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 400,
+        "width": 166,
+        "height": 96,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "opacity": 0.8999999761581421,
+        "radius": 8,
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#FFFFFFFF",
+                "position": 0.49855104088783264
+              },
+              {
+                "color": "#F6FFFBFF",
+                "position": 1
+              }
+            ]
+          }
+        ],
+        "shadows": [
+          {
+            "x": 0,
+            "y": 4,
+            "blur": 10,
+            "spread": 0,
+            "color": "#ADB5D44D",
+            "inset": false
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:5486"
+      }
+    },
+    {
+      "id": "3:5690",
+      "name": "Rectangle 3463952",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 193,
+        "y": 400,
+        "width": 166,
+        "height": 96,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "opacity": 0.8999999761581421,
+        "radius": 8,
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#FFFFFFFF",
+                "position": 0.49855104088783264
+              },
+              {
+                "color": "#F6FAFFFF",
+                "position": 1
+              }
+            ]
+          }
+        ],
+        "shadows": [
+          {
+            "x": 0,
+            "y": 4,
+            "blur": 10,
+            "spread": 0,
+            "color": "#ADB5D44D",
+            "inset": false
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:5690"
+      }
+    },
+    {
+      "id": "3:2311",
+      "name": "组 45206",
+      "role": "container",
+      "sourceType": "GROUP",
+      "visible": true,
+      "geometry": {
+        "x": 16,
+        "y": 520,
+        "width": 98,
+        "height": 28,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:0134",
+          "name": "image 2875",
+          "role": "image",
+          "sourceType": "RECTANGLE",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 28,
+            "height": 28,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "image",
+                "imageRef": "201335023191414/201335023191416/997ff6bc0cedf819f9b9c600ba303a29.png",
+                "scaleMode": "FILL"
+              }
+            ]
+          },
+          "children": [],
+          "image": {
+            "imageRef": "201335023191414/201335023191416/997ff6bc0cedf819f9b9c600ba303a29.png",
+            "scaleMode": "FILL"
+          }
+        },
+        {
+          "id": "3:0135",
+          "name": "表单页",
+          "role": "text",
+          "sourceType": "TEXT",
+          "visible": true,
+          "geometry": {
+            "x": 34,
+            "y": 6,
+            "width": 64,
+            "height": 16,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#333333FF",
+                "opacity": 1
+              }
+            ]
+          },
+          "children": [],
+          "text": {
+            "characters": "通知消息",
+            "align": "left",
+            "verticalAlign": "top",
+            "fontFamily": "MiSans",
+            "fontSize": 16,
+            "fontWeight": 500,
+            "lineHeight": 16,
+            "color": "#333333FF"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3:0139",
+      "name": "医护人员将在本周内进行电话随访，请保持手机畅通。",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 28,
+        "y": 570,
+        "width": 319,
+        "height": 20,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#333333FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "医护人员将在本周内进行电话随访，请保持手机畅...",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 400,
+        "lineHeight": 20,
+        "color": "#333333FF"
+      }
+    },
+    {
+      "id": "3:5553",
+      "name": "医护人员将在本周内进行电话随访，请保持手机畅通。",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 28,
+        "y": 650,
+        "width": 266,
+        "height": 20,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#333333FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "这是通知消息，消息为文本内容，保持一行",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 400,
+        "lineHeight": 20,
+        "color": "#333333FF"
+      }
+    },
+    {
+      "id": "3:0143",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 48,
+        "y": 604,
+        "width": 32,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#999999FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "07-27",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#999999FF"
+      }
+    },
+    {
+      "id": "3:5557",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 48,
+        "y": 684,
+        "width": 33,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#999999FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "07-26",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#999999FF"
+      }
+    },
+    {
+      "id": "3:2698",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 323,
+        "y": 604,
+        "width": 24,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#7B92A4FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "查看",
+        "align": "justify",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#7B92A4FF"
+      }
+    },
+    {
+      "id": "3:5561",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 323,
+        "y": 684,
+        "width": 24,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#7B92A4FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "查看",
+        "align": "justify",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#7B92A4FF"
+      }
+    },
+    {
+      "id": "3:2243",
+      "name": "组 45205",
+      "role": "container",
+      "sourceType": "GROUP",
+      "visible": true,
+      "geometry": {
+        "x": 0,
+        "y": 724,
+        "width": 375,
+        "height": 88,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:2224",
+          "name": "矩形 2425",
+          "role": "shape",
+          "sourceType": "RECTANGLE",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 375,
+            "height": 88,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#FFFFFFFF",
+                "opacity": 1
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "id": "3:2125",
+          "name": "矩形 2424",
+          "role": "shape",
+          "sourceType": "RECTANGLE",
+          "visible": true,
+          "geometry": {
+            "x": 120,
+            "y": 76,
+            "width": 135,
+            "height": 4,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "radius": 3,
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#000000FF",
+                "opacity": 1
+              }
+            ]
+          },
+          "children": []
+        },
+        {
+          "id": "3:2205",
+          "name": "Tab Bar",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 0,
+            "width": 75,
+            "height": 58,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "flex",
+            "positioning": "auto",
+            "alignSelf": "auto",
+            "direction": "column",
+            "wrap": false,
+            "gap": 0,
+            "crossGap": 0,
+            "justify": "start",
+            "align": "center",
+            "padding": {
+              "top": 0,
+              "right": 24,
+              "bottom": 0,
+              "left": 24
+            },
+            "sizing": {
+              "width": "fixed",
+              "height": "hug"
+            }
+          },
+          "box": {
+            "fills": [
+              {
+                "type": "solid",
+                "color": "#FFFFFF00",
+                "opacity": 0
+              }
+            ]
+          },
+          "children": [
+            {
+              "id": "3:2211",
+              "name": "Frame 1000006734",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 17.5,
+                "y": 0,
+                "width": 40,
+                "height": 40,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:2211"
+              }
+            },
+            {
+              "id": "3:2206",
+              "name": "✏️ Label",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 25,
+                "y": 40,
+                "width": 25,
+                "height": 18,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#00C689FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "首页",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 12,
+                "fontWeight": 500,
+                "lineHeight": 18,
+                "letterSpacing": "2%",
+                "color": "#00C689FF"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3:2163",
+          "name": "Tab Bar",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 75,
+            "y": 0,
+            "width": 75,
+            "height": 58,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "flex",
+            "positioning": "auto",
+            "alignSelf": "auto",
+            "direction": "column",
+            "wrap": false,
+            "gap": 0,
+            "crossGap": 0,
+            "justify": "start",
+            "align": "center",
+            "padding": {
+              "top": 0,
+              "right": 24,
+              "bottom": 0,
+              "left": 24
+            },
+            "sizing": {
+              "width": "fixed",
+              "height": "hug"
+            }
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:2169",
+              "name": "Frame 1000006736",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 17.5,
+                "y": 0,
+                "width": 40,
+                "height": 40,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:2169"
+              }
+            },
+            {
+              "id": "3:2164",
+              "name": "✏️ Label",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 13,
+                "y": 40,
+                "width": 49,
+                "height": 18,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#A2A2A2FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "健康管理",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 12,
+                "fontWeight": 400,
+                "lineHeight": 18,
+                "letterSpacing": "2%",
+                "color": "#A2A2A2FF"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3:2173",
+          "name": "Tab Bar",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 150,
+            "y": 0,
+            "width": 75,
+            "height": 58,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "flex",
+            "positioning": "auto",
+            "alignSelf": "auto",
+            "direction": "column",
+            "wrap": false,
+            "gap": 0,
+            "crossGap": 0,
+            "justify": "start",
+            "align": "center",
+            "padding": {
+              "top": 0,
+              "right": 24,
+              "bottom": 0,
+              "left": 24
+            },
+            "sizing": {
+              "width": "fixed",
+              "height": "hug"
+            }
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:2174",
+              "name": "Frame 1000006736",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 17.5,
+                "y": 0,
+                "width": 40,
+                "height": 40,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:2174"
+              }
+            },
+            {
+              "id": "3:2177",
+              "name": "✏️ Label",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 13,
+                "y": 40,
+                "width": 49,
+                "height": 18,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#A2A2A2FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "服务中心",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 12,
+                "fontWeight": 400,
+                "lineHeight": 18,
+                "letterSpacing": "2%",
+                "color": "#A2A2A2FF"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3:2194",
+          "name": "Tab Bar",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 225,
+            "y": 0,
+            "width": 75,
+            "height": 58,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "flex",
+            "positioning": "auto",
+            "alignSelf": "auto",
+            "direction": "column",
+            "wrap": false,
+            "gap": 0,
+            "crossGap": 0,
+            "justify": "start",
+            "align": "center",
+            "padding": {
+              "top": 0,
+              "right": 24,
+              "bottom": 0,
+              "left": 24
+            },
+            "sizing": {
+              "width": "fixed",
+              "height": "hug"
+            }
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:2195",
+              "name": "Frame 1000006737",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 17.5,
+                "y": 0,
+                "width": 40,
+                "height": 40,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:2195"
+              }
+            },
+            {
+              "id": "3:2200",
+              "name": "✏️ Label",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 13,
+                "y": 40,
+                "width": 49,
+                "height": 18,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#A2A2A2FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "互动中心",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 12,
+                "fontWeight": 400,
+                "lineHeight": 18,
+                "letterSpacing": "2%",
+                "color": "#A2A2A2FF"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3:2182",
+          "name": "Tab Bar",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 300,
+            "y": 0,
+            "width": 75,
+            "height": 58,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "flex",
+            "positioning": "auto",
+            "alignSelf": "auto",
+            "direction": "column",
+            "wrap": false,
+            "gap": 0,
+            "crossGap": 0,
+            "justify": "start",
+            "align": "center",
+            "padding": {
+              "top": 0,
+              "right": 24,
+              "bottom": 0,
+              "left": 24
+            },
+            "sizing": {
+              "width": "fixed",
+              "height": "hug"
+            }
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:2183",
+              "name": "Frame 1000006737",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 17.5,
+                "y": 0,
+                "width": 40,
+                "height": 40,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "clip": true
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:2183"
+              }
+            },
+            {
+              "id": "3:2189",
+              "name": "✏️ Label",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 25,
+                "y": 40,
+                "width": 25,
+                "height": 18,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#A2A2A2FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "我的",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 12,
+                "fontWeight": 400,
+                "lineHeight": 18,
+                "letterSpacing": "2%",
+                "color": "#A2A2A2FF"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3:5530",
+      "name": "Frame 1739330063",
+      "role": "vector",
+      "sourceType": "FRAME",
+      "visible": true,
+      "geometry": {
+        "x": 28,
+        "y": 603,
+        "width": 14,
+        "height": 14,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [],
+      "vector": {
+        "exportId": "3:5530"
+      }
+    },
+    {
+      "id": "3:5565",
+      "name": "Frame 1739330063",
+      "role": "vector",
+      "sourceType": "FRAME",
+      "visible": true,
+      "geometry": {
+        "x": 28,
+        "y": 683,
+        "width": 14,
+        "height": 14,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [],
+      "vector": {
+        "exportId": "3:5565"
+      }
+    },
+    {
+      "id": "3:5607",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 301,
+        "y": 528,
+        "width": 48,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#3497E4FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "查看更多",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#3497E4FF"
+      }
+    },
+    {
+      "id": "3:5665",
+      "name": "路径 1",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 355,
+        "y": 530,
+        "width": 4,
+        "height": 8,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "border": {
+          "width": 1,
+          "color": "#3497E4FF",
+          "style": "solid",
+          "align": "CENTER"
+        }
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:5665"
+      }
+    },
+    {
+      "id": "3:0828",
+      "name": "透析排班查询",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 30,
+        "y": 416,
+        "width": 84,
+        "height": 14,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#262626FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "透析排班查询",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 500,
+        "lineHeight": 14,
+        "color": "#262626FF"
+      }
+    },
+    {
+      "id": "3:6258",
+      "name": "最新透析状态查询",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 207,
+        "y": 416,
+        "width": 112,
+        "height": 14,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#262626FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "最新透析状态查询",
+        "align": "left",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 14,
+        "fontWeight": 500,
+        "lineHeight": 14,
+        "color": "#262626FF"
+      }
+    },
+    {
+      "id": "3:0690",
+      "name": "路径",
+      "role": "vector",
+      "sourceType": "PEN",
+      "visible": true,
+      "geometry": {
+        "x": 138,
+        "y": 446,
+        "width": 30,
+        "height": 36,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#38DCA2FF",
+                "position": 0
+              },
+              {
+                "color": "#6FDFA5FF",
+                "position": 1
+              }
+            ]
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:0690"
+      }
+    },
+    {
+      "id": "3:6507",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 30,
+        "y": 442,
+        "width": 84,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#7B92A4FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "一键查透析排班",
+        "align": "justify",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#7B92A4FF"
+      }
+    },
+    {
+      "id": "3:6874",
+      "name": "07-27",
+      "role": "text",
+      "sourceType": "TEXT",
+      "visible": true,
+      "geometry": {
+        "x": 207,
+        "y": 442,
+        "width": 96,
+        "height": 12,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "solid",
+            "color": "#7B92A4FF",
+            "opacity": 1
+          }
+        ]
+      },
+      "children": [],
+      "text": {
+        "characters": "精准查询透析状态",
+        "align": "justify",
+        "verticalAlign": "top",
+        "fontFamily": "MiSans",
+        "fontSize": 12,
+        "fontWeight": 400,
+        "lineHeight": 12,
+        "color": "#7B92A4FF"
+      }
+    },
+    {
+      "id": "3:2046",
+      "name": "联集 1",
+      "role": "vector",
+      "sourceType": "BOOLEAN_OPERATION",
+      "visible": true,
+      "geometry": {
+        "x": 315,
+        "y": 452,
+        "width": 30,
+        "height": 30,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {
+        "fills": [
+          {
+            "type": "gradient",
+            "gradientType": "linear",
+            "stops": [
+              {
+                "color": "#84B1FFFF",
+                "position": 0
+              },
+              {
+                "color": "#4A81FFFF",
+                "position": 1
+              }
+            ]
+          }
+        ]
+      },
+      "children": [],
+      "vector": {
+        "exportId": "3:2046"
+      }
+    },
+    {
+      "id": "3:0243",
+      "name": "Frame 1739330102",
+      "role": "container",
+      "sourceType": "FRAME",
+      "visible": true,
+      "geometry": {
+        "x": 0,
+        "y": 0,
+        "width": 375,
+        "height": 89,
+        "rotation": 0
+      },
+      "layout": {
+        "mode": "none",
+        "positioning": "auto",
+        "alignSelf": "auto"
+      },
+      "box": {},
+      "children": [
+        {
+          "id": "3:0244",
+          "name": "Frame 164078",
+          "role": "container",
+          "sourceType": "FRAME",
+          "visible": true,
+          "geometry": {
+            "x": 0,
+            "y": 44,
+            "width": 375,
+            "height": 45,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {},
+          "children": [
+            {
+              "id": "3:0245",
+              "name": "Frame 164076",
+              "role": "vector",
+              "sourceType": "FRAME",
+              "visible": true,
+              "geometry": {
+                "x": 279.1333312988281,
+                "y": 8,
+                "width": 83.66633605957031,
+                "height": 29.33315658569336,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "flex",
+                "positioning": "auto",
+                "alignSelf": "auto",
+                "direction": "row",
+                "wrap": false,
+                "gap": 8.333331108093262,
+                "crossGap": 0,
+                "justify": "start",
+                "align": "center",
+                "padding": {
+                  "top": 4.166665554046631,
+                  "right": 12.499998092651367,
+                  "bottom": 4.166665554046631,
+                  "left": 12.499998092651367
+                },
+                "sizing": {
+                  "width": "hug",
+                  "height": "hug"
+                }
+              },
+              "box": {
+                "radius": 18.749996185302734,
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#FFFFFF26",
+                    "opacity": 0.15000000596046448
+                  }
+                ],
+                "border": {
+                  "width": 1.0416663885116577,
+                  "color": "#000000FF",
+                  "style": "solid",
+                  "align": "INSIDE"
+                }
+              },
+              "children": [],
+              "vector": {
+                "exportId": "3:0245"
+              }
+            },
+            {
+              "id": "3:0255",
+              "name": "图层 0 4",
+              "role": "image",
+              "sourceType": "RECTANGLE",
+              "visible": true,
+              "geometry": {
+                "x": 13,
+                "y": 6,
+                "width": 105,
+                "height": 32,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "image",
+                    "imageRef": "201335023191414/201335023191416/2ed2195ef2a1ff1bf13a1e782b0780d4.png",
+                    "scaleMode": "FILL"
+                  }
+                ]
+              },
+              "children": [],
+              "image": {
+                "imageRef": "201335023191414/201335023191416/2ed2195ef2a1ff1bf13a1e782b0780d4.png",
+                "scaleMode": "FILL"
+              }
+            },
+            {
+              "id": "3:0256",
+              "name": "✏️",
+              "role": "text",
+              "sourceType": "TEXT",
+              "visible": true,
+              "geometry": {
+                "x": 169,
+                "y": 10,
+                "width": 36,
+                "height": 22,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {
+                "fills": [
+                  {
+                    "type": "solid",
+                    "color": "#333333FF",
+                    "opacity": 1
+                  }
+                ]
+              },
+              "children": [],
+              "text": {
+                "characters": "首页",
+                "align": "center",
+                "verticalAlign": "top",
+                "fontFamily": "PingFang SC",
+                "fontSize": 18,
+                "fontWeight": 600,
+                "lineHeight": 21.60000144,
+                "color": "#333333FF"
+              }
+            }
+          ]
+        },
+        {
+          "id": "3:0260",
+          "name": "Status Bar",
+          "role": "container",
+          "sourceType": "INSTANCE",
+          "visible": true,
+          "geometry": {
+            "x": 8,
+            "y": 0,
+            "width": 360,
+            "height": 42,
+            "rotation": 0
+          },
+          "layout": {
+            "mode": "none",
+            "positioning": "auto",
+            "alignSelf": "auto"
+          },
+          "box": {
+            "blur": {
+              "type": "background",
+              "radius": 10
+            },
+            "clip": true
+          },
+          "children": [
+            {
+              "id": "3:0260/0:21",
+              "name": "Notch",
+              "role": "container",
+              "sourceType": "GROUP",
+              "visible": true,
+              "geometry": {
+                "x": 74.87913513183594,
+                "y": -1.9200780391693115,
+                "width": 1,
+                "height": 1,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {},
+              "children": [
+                {
+                  "id": "3:0260/0:22",
+                  "name": "BG",
+                  "role": "shape",
+                  "sourceType": "RECTANGLE",
+                  "visible": false,
+                  "geometry": {
+                    "x": -74.880126953125,
+                    "y": 1.9199999570846558,
+                    "width": 360,
+                    "height": 42.2400016784668,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#000000FF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": []
+                },
+                {
+                  "id": "3:0260/0:25",
+                  "name": "Exclude",
+                  "role": "vector",
+                  "sourceType": "BOOLEAN_OPERATION",
+                  "visible": false,
+                  "geometry": {
+                    "x": -74.87999725341797,
+                    "y": 1.9199999570846558,
+                    "width": 360,
+                    "height": 42.2400016784668,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#24262BFF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "vector": {
+                    "exportId": "3:0260/0:25"
+                  }
+                },
+                {
+                  "id": "3:0260/0:27",
+                  "name": "Notch",
+                  "role": "vector",
+                  "sourceType": "PEN",
+                  "visible": false,
+                  "geometry": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 210.24000549316406,
+                    "height": 28.799999237060547,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "fills": [
+                      {
+                        "type": "solid",
+                        "color": "#000000FF",
+                        "opacity": 1
+                      }
+                    ]
+                  },
+                  "children": [],
+                  "vector": {
+                    "exportId": "3:0260/0:27"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "3:0260/0:28",
+              "name": "Right Side",
+              "role": "vector",
+              "sourceType": "GROUP",
+              "visible": true,
+              "geometry": {
+                "x": 281.9188232421875,
+                "y": 16.637237548828125,
+                "width": 63.99482727050781,
+                "height": 10.882607460021973,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {},
+              "children": [],
+              "vector": {
+                "exportId": "3:0260/0:28"
+              }
+            },
+            {
+              "id": "3:0260/0:35",
+              "name": "Left Side",
+              "role": "container",
+              "sourceType": "GROUP",
+              "visible": true,
+              "geometry": {
+                "x": 23.040939331054688,
+                "y": 11.519981384277344,
+                "width": 51.84000015258789,
+                "height": 20.15999984741211,
+                "rotation": 0
+              },
+              "layout": {
+                "mode": "none",
+                "positioning": "auto",
+                "alignSelf": "auto"
+              },
+              "box": {},
+              "children": [
+                {
+                  "id": "3:0260/0:36",
+                  "name": "_Time",
+                  "role": "container",
+                  "sourceType": "FRAME",
+                  "visible": true,
+                  "geometry": {
+                    "x": 0,
+                    "y": 0,
+                    "width": 51.84000015258789,
+                    "height": 20.15999984741211,
+                    "rotation": 0
+                  },
+                  "layout": {
+                    "mode": "none",
+                    "positioning": "auto",
+                    "alignSelf": "auto"
+                  },
+                  "box": {
+                    "radius": 23.03999900817871
+                  },
+                  "children": [
+                    {
+                      "id": "3:0260/0:37",
+                      "name": "9:41",
+                      "role": "text",
+                      "sourceType": "TEXT",
+                      "visible": true,
+                      "geometry": {
+                        "x": 0,
+                        "y": 0.9599999785423279,
+                        "width": 51.84000015258789,
+                        "height": 19.19999885559082,
+                        "rotation": 0
+                      },
+                      "layout": {
+                        "mode": "none",
+                        "positioning": "auto",
+                        "alignSelf": "auto"
+                      },
+                      "box": {
+                        "fills": [
+                          {
+                            "type": "solid",
+                            "color": "#000000FF",
+                            "opacity": 1
+                          }
+                        ]
+                      },
+                      "children": [],
+                      "text": {
+                        "characters": "9:41",
+                        "align": "center",
+                        "verticalAlign": "top",
+                        "fontFamily": "SF Pro Text",
+                        "fontSize": 14.399999618530273,
+                        "fontWeight": 600,
+                        "lineHeight": 19.199999,
+                        "letterSpacing": -0.47999998927116394,
+                        "color": "#000000FF"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "designTokens": {
+    "theme": "light",
+    "baseFontFamily": "MiSans",
+    "baseFontSize": 12,
+    "primaryColor": "#333333FF"
+  }
+}
