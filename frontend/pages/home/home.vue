@@ -5,22 +5,8 @@
       <!-- Header -->
       <view class="status-bar">
         <view class="status-content">
-          <view class="logo-wrap">
-            <image src="/static/logo.png" class="logo-img" mode="aspectFit" />
-            <view class="logo-text-group">
-              <text class="logo-cn">圣通尚诺</text>
-              <text class="logo-en">For Better Life</text>
-            </view>
-          </view>
+          <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
           <text class="header-title">首页</text>
-          <view class="header-right">
-            <view class="header-btn">
-              <text class="btn-dots">···</text>
-            </view>
-            <view class="header-btn">
-              <text class="btn-circle">○</text>
-            </view>
-          </view>
         </view>
       </view>
 
@@ -233,26 +219,26 @@
     <view class="tips-card">
       <!-- 绿色头部（提醒/梯形形状：左上方大矩形+右侧凸起梯形，中间圆角弧过渡） -->
       <view class="tips-green-header">
+        <view class="tips-header-backplate"></view>
         <svg class="green-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
           <defs>
             <!-- 原型渐变方向1.18°近似垂直：底部浅绿→顶部深绿，向下延伸渐变淡出 -->
-            <linearGradient id="greenGradFinal" x1="0.5" y1="1" x2="0.5" y2="0">
+            <linearGradient id="greenGradFinal" x1="1.5" y1="1" x2="0.5" y2="0">
               <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
               <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
               <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
             </linearGradient>
           </defs>
-          <!-- 原型path的圆角改造版：左上方起点→平走到x=172→圆角过渡到凸起底部→平走到右边→圆角到底部→回到左下角
-               x=172之前是上半段（y=0），x=185之后是凸起底部（y=29），中间13px圆角弧过渡 -->
+          
           <path d="
-            M 0 8
-            Q 0 0, 8 0
-            L 172 0
-            Q 178 0, 181 5
-            Q 183 12, 188 23
-            Q 191 29, 198 29
-            L 334 29
-            Q 342 29, 342 37
+            M 0 18
+            Q 0 0, 18 0
+            L 153 0
+            Q 162 0, 168 5
+            Q 175 14, 183 22
+            Q 188 28, 196 29
+            L 324 29
+            Q 342 29, 342 47
             L 342 77
             Q 342 85, 334 85
             L 8 85
@@ -529,7 +515,7 @@ export default {
 .home-container {
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, #C8E6D5 0%, #DDF0E8 25%, #E8F5EF 50%, #F4FAF8 100%);
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
   position: relative;
   overflow: visible;
 }
@@ -553,7 +539,7 @@ export default {
 .status-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 
 .logo-wrap {
@@ -563,10 +549,13 @@ export default {
   flex: 1;
 }
 
-.logo-img {
-  width: 44px;
-  height: 44px;
+
+.logo-layer-img {
+  width: 120px;
+  height: 32px;
+  display: block;
 }
+
 
 .logo-text-group {
   display: flex;
@@ -590,9 +579,14 @@ export default {
   font-size: 17px;
   font-weight: 700;
   color: #0A2540;
-  flex: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
+  white-space: nowrap;
 }
+
+
 
 .header-right {
   display: flex;
@@ -631,7 +625,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 8px 16px 16px;
+  padding: 8px 26px 0px;
   position: relative;
   z-index: 2;
 }
@@ -645,7 +639,7 @@ export default {
 .greeting-main {
   font-size: 32px;
   font-weight: 700;
-  color: #0A2540;
+  color: #009D85;
   letter-spacing: 1px;
   line-height: 1.25;
 }
@@ -653,7 +647,7 @@ export default {
 .greeting-days {
   font-size: 32px;
   font-weight: 700;
-  color: #19A280;
+  color: #ABCD07;
   line-height: 1.25;
 }
 
@@ -711,6 +705,23 @@ export default {
   z-index: 2;
 }
 
+/* 绿色头部的磨砂半透明背板，覆盖标题与快捷状态 */
+.tips-header-backplate {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  height: 66px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.06) inset;
+  z-index: 0;
+  border: 0.5px solid #FFFFFF;
+}
+
 /* 绿色头部（提醒/梯形形状：左上方大矩形+右侧凸起梯形，中间圆角弧过渡） */
 .tips-green-header {
   position: relative;
@@ -726,13 +737,14 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+  z-index: 1;
 }
 
 /* 健康管理提示 - 绿色部分靠左下角（避免被下方托盘遮挡） */
 .tips-title {
   position: absolute;
   left: 20px;
-  bottom: 20px;
+  top: 10px;
   font-size: 17px;
   font-weight: 700;
   color: #FFFFFF;
@@ -740,33 +752,42 @@ export default {
   letter-spacing: 0.5px;
 }
 
+
 /* 快捷管理健康状态 - 梯形(凸起)内部靠右上角 */
 .tips-subtitle {
   position: absolute;
   right: 20px;
   top: 10px;
+  width: 96px;
+  height: 12px;
+  font-family: MiSans, sans-serif;
   font-size: 12px;
-  color: #FFFFFF;
-  font-weight: 600;
+  font-weight: 400;
+  line-height: 12px;
+  letter-spacing: normal;
+  color: #145248;
   z-index: 4;
-  opacity: 0.92;
+  text-align: center;
+  white-space: nowrap;
 }
+
 
 /* 磨砂半透明托盘：放在绿色下方，部分重叠在绿色底部渐变淡出区域 */
 .tips-frosted-tray {
   position: relative;
-  margin-top: -16px;
+  margin-top: -40px;
   z-index: 3;
   background: rgba(255, 255, 255, 0.24);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 18px 12px 16px;
-  margin-left: 6px;
-  margin-right: 6px;
+  margin-left: 0;
+  margin-right: 0;
   border: 1px solid rgba(255, 255, 255, 0.58);
   box-shadow: 0 6px 20px rgba(25, 162, 128, 0.10);
 }
+
 
 .tips-content {
   display: flex;
