@@ -1,171 +1,364 @@
 <template>
   <view class="home-container">
-    <view class="welcome-section animate-fade-in-up">
-      <view class="logo-container">
-        <image src="/static/logo.png" class="welcome-logo" mode="aspectFit" />
-        <view class="logo-ring"></view>
-      </view>
-      <view class="days-protected">
-        <text class="days-prefix">为您健康护航第</text>
-        <text class="days-number">{{ daysProtected }}</text>
-        <text class="days-suffix">天</text>
-      </view>
-    </view>
-    
-    <!-- <view class="alert-section animate-fade-in" :style="{ animationDelay: '0.15s' }">
-      <view class="alert-card" :class="{ 'alert-normal': !hasAlert }" @click="handleAlertClick">
-        <image 
-          :src="hasAlert ? '/static/icons/png/filled/symbols/alert_triangle@2x.png' : '/static/icons/png/filled/symbols/info@2x.png'" 
-          class="alert-icon" 
-          mode="aspectFit" 
-        />
-        <view class="alert-content">
-          <text class="alert-title" :class="{ 'alert-title-normal': !hasAlert }">
-            {{ hasAlert ? ('共有 ' + alertCount + ' 项指标异常，请及时关注') : '指标状态正常' }}
-          </text>
-          <text class="alert-desc">
-            {{ hasAlert ? '以下为部分异常指标，完整详情请在“健康管理-核心指标”中查看' : '您的检查指标均在正常范围内，请继续保持' }}
-          </text>
-          <view v-if="hasAlert" class="alert-detail-list">
-            <view 
-              v-for="(item, index) in abnormalIndicators.slice(0, 4)" 
-              :key="item.key" 
-              class="alert-detail-item"
-            >
-              <text class="alert-detail-name">{{ item.label }}：</text>
-              <text class="alert-detail-value">{{ item.value }}</text>
-              <text class="alert-detail-range">（正常 {{ item.min }} - {{ item.max }}）</text>
+    <!-- Sticky Top: Header + Greeting (fixed on scroll, covered by content) -->
+    <view class="sticky-top">
+      <!-- Header -->
+      <view class="status-bar">
+        <view class="status-content">
+          <view class="logo-wrap">
+            <image src="/static/logo.png" class="logo-img" mode="aspectFit" />
+            <view class="logo-text-group">
+              <text class="logo-cn">圣通尚诺</text>
+              <text class="logo-en">For Better Life</text>
+            </view>
+          </view>
+          <text class="header-title">首页</text>
+          <view class="header-right">
+            <view class="header-btn">
+              <text class="btn-dots">···</text>
+            </view>
+            <view class="header-btn">
+              <text class="btn-circle">○</text>
             </view>
           </view>
         </view>
-        <view class="alert-arrow">›</view>
       </view>
-    </view> -->
 
-    <view class="tips-section animate-fade-in" :style="{ animationDelay: '0.22s' }">
-      <view class="tips-header">
-        <view class="tips-title-wrap">
-          <image src="/static/icons/png/filled/symbols/info@2x.png" class="tips-icon" mode="aspectFit" />
-          <text class="tips-title">健康管理提示</text>
+      <!-- Greeting Section with Shield Decoration -->
+      <view class="greeting-section">
+        <view class="greeting-text">
+          <text class="greeting-main">为您健康护航</text>
+          <text class="greeting-days">第{{ daysProtected }}天</text>
         </view>
-        <text class="tips-subtitle">快捷管理健康状态</text>
-      </view>
-      <view class="tips-list">
-        <view 
-          v-for="tip in tipCards" 
-          :key="tip.key" 
-          class="tips-item" 
-          :class="['tips-item-' + tip.key]"
-          @click="handleTipClick(tip)"
-        >
-          <view class="tip-icon-wrap" :class="'tip-icon-' + tip.key">
-            <image :src="tip.icon" class="tip-icon-img" mode="aspectFit" />
-          </view>
-          <view class="tip-content">
-            <text class="tip-text">{{ tip.title }}</text>
-            <text class="tip-desc">{{ tip.desc }}</text>
-          </view>
-          <text class="tip-arrow">›</text>
+      <view class="shield-wrap">
+        <!-- 光环 - 后半部分（盾牌后面，z-index:1） -->
+        <view class="shield-ring-back">
+          <svg class="ring-svg" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <!-- 环1（白色）渐变：178度≈从上到下微偏右（透明23%→白79%） -->
+              <linearGradient id="ring1GradBack" x1="0.482" y1="0" x2="0.518" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="23%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="79%" stop-color="#FFFFFF" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1"/>
+              </linearGradient>
+              <!-- 环2（蓝色）渐变：182度（蓝实3%→透明80%） -->
+              <linearGradient id="ring2GradBack" x1="0.518" y1="0" x2="0.482" y2="1">
+                <stop offset="0%" stop-color="#5DD9F4" stop-opacity="1"/>
+                <stop offset="3%" stop-color="#5DD9F4" stop-opacity="1"/>
+                <stop offset="80%" stop-color="#5DD9F4" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#5DD9F4" stop-opacity="0"/>
+              </linearGradient>
+              <!-- 辉光滤镜：不同强度用于三层淡出 -->
+              <filter id="gBackCore" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="gBackMid" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="gBackOut" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wBackCore" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wBackMid" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wBackOut" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <!-- 白色环：后半部分裁剪上半 -->
+              <clipPath id="backClipWhite"><rect x="0" y="0" width="160" height="80"/></clipPath>
+              <!-- 蓝色环：后半部分裁剪下半 -->
+              <clipPath id="backClipBlue"><rect x="0" y="80" width="160" height="80"/></clipPath>
+            </defs>
+            <!-- ========== 环1（白色）底环 ========== -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="url(#ring1GradBack)" stroke-width="3"
+              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"/>
+            <!-- ========== 环1 高亮（绿色三层淡出） ========== -->
+            <!-- 外层淡出（最长，最淡，强辉光） -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3"
+              stroke-dasharray="30 290" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
+              filter="url(#gBackOut)" opacity="0.3">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- 中层淡出 -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3"
+              stroke-dasharray="22 298" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
+              filter="url(#gBackMid)" opacity="0.6">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- 核心亮段（最短，最实） -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="14 306" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
+              filter="url(#gBackCore)" opacity="1">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- ========== 环2（蓝色）底环 ========== -->
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="url(#ring2GradBack)" stroke-width="3"
+              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"/>
+            <!-- ========== 环2 高亮（白色三层淡出） ========== -->
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3"
+              stroke-dasharray="28 283" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
+              filter="url(#wBackOut)" opacity="0.25">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3"
+              stroke-dasharray="20 291" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
+              filter="url(#wBackMid)" opacity="0.55">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="12 299" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
+              filter="url(#wBackCore)" opacity="1">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+          </svg>
+        </view>
+        <!-- 盾牌图片 -->
+        <image src="/static/design/home/Simple 3D.svg" class="deco-shield" mode="aspectFit" />
+        <!-- 光环 - 前半部分（盾牌前面，z-index:3） -->
+        <view class="shield-ring-front">
+          <svg class="ring-svg" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="ring1GradFront" x1="0.482" y1="0" x2="0.518" y2="1">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="23%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="79%" stop-color="#FFFFFF" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1"/>
+              </linearGradient>
+              <linearGradient id="ring2GradFront" x1="0.518" y1="0" x2="0.482" y2="1">
+                <stop offset="0%" stop-color="#5DD9F4" stop-opacity="1"/>
+                <stop offset="3%" stop-color="#5DD9F4" stop-opacity="1"/>
+                <stop offset="80%" stop-color="#5DD9F4" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#5DD9F4" stop-opacity="0"/>
+              </linearGradient>
+              <!-- 绿色高亮三层辉光 -->
+              <filter id="gFrontCore" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="gFrontMid" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="gFrontOut" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <!-- 白色高亮三层辉光 -->
+              <filter id="wFrontCore" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wFrontMid" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="wFrontOut" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <clipPath id="frontClipWhite"><rect x="0" y="80" width="160" height="80"/></clipPath>
+              <clipPath id="frontClipBlue"><rect x="0" y="0" width="160" height="80"/></clipPath>
+            </defs>
+            <!-- ========== 环1（白色）底环前半 ========== -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="url(#ring1GradFront)" stroke-width="3"
+              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"/>
+            <!-- ========== 环1 高亮（绿色三层淡出） ========== -->
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3"
+              stroke-dasharray="35 285" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
+              filter="url(#gFrontOut)" opacity="0.35">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3"
+              stroke-dasharray="26 294" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
+              filter="url(#gFrontMid)" opacity="0.65">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
+              stroke="#9FF9E0" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="16 304" stroke-dashoffset="0"
+              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
+              filter="url(#gFrontCore)" opacity="1">
+              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- ========== 环2（蓝色）底环前半 ========== -->
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="url(#ring2GradFront)" stroke-width="3"
+              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"/>
+            <!-- ========== 环2 高亮（白色三层淡出） ========== -->
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3"
+              stroke-dasharray="32 279" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
+              filter="url(#wFrontOut)" opacity="0.3">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3"
+              stroke-dasharray="24 287" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
+              filter="url(#wFrontMid)" opacity="0.6">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
+              stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
+              stroke-dasharray="14 297" stroke-dashoffset="0"
+              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
+              filter="url(#wFrontCore)" opacity="1">
+              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+          </svg>
         </view>
       </view>
     </view>
-    
-    <!-- <view class="quick-nav">
-      <view 
-        class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.2s' }"
-        @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')"
-      >
-        <view class="nav-icon-wrapper bg-green">
-          <image src="/static/icons/png/filled/symbols/heart_cardiogram@2x.png" class="nav-icon-img" mode="aspectFit" />
-        </view>
-        <view class="nav-content">
-          <text class="nav-title">健康管理</text>
-          <text class="nav-desc">查看健康档案、生命体征等</text>
-        </view>
-        <view class="nav-arrow-wrap">
-          <text class="nav-arrow">›</text>
-        </view>
-      </view>
-      
-      <view 
-        class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.3s' }"
-        @click="handleNavClick('/pages/service-center/service-center', '服务中心')"
-      >
-        <view class="nav-icon-wrapper bg-orange">
-          <image src="/static/icons/png/filled/objects/insurance_card@2x.png" class="nav-icon-img" mode="aspectFit" />
-        </view>
-        <view class="nav-content">
-          <text class="nav-title">服务中心</text>
-          <text class="nav-desc">参保信息、透析排班</text>
-        </view>
-        <view class="nav-arrow-wrap">
-          <text class="nav-arrow">›</text>
-        </view>
-      </view>
-      
-      <view 
-        class="nav-card animate-slide-in-right" 
-        :style="{ animationDelay: '0.4s' }"
-        @click="handleNavClick('/pages/interaction/interaction', '互动中心')"
-      >
-        <view class="nav-icon-wrapper bg-pink">
-          <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="nav-icon-img" mode="aspectFit" />
-        </view>
-        <view class="nav-content">
-          <text class="nav-title">互动中心</text>
-          <text class="nav-desc">活动、新闻、通知</text>
-        </view>
-        <view class="nav-arrow-wrap">
-          <text class="nav-arrow">›</text>
-        </view>
-      </view>
-    </view> -->
+    </view>
 
-    <view class="notification-section animate-fade-in" :style="{ animationDelay: '0.45s' }">
-      <view class="section-header-wrap">
-          <view class="section-title-wrap">
-            <image src="/static/icons/png/filled/symbols/alert@2x.png" class="section-title-icon" mode="aspectFit" />
-            <text class="section-title">通知消息</text>
+    <!-- Health Management Tips Card -->
+    <view class="tips-card">
+      <!-- 绿色头部（提醒/梯形形状：左上方大矩形+右侧凸起梯形，中间圆角弧过渡） -->
+      <view class="tips-green-header">
+        <svg class="green-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
+          <defs>
+            <!-- 原型渐变方向1.18°近似垂直：底部浅绿→顶部深绿，向下延伸渐变淡出 -->
+            <linearGradient id="greenGradFinal" x1="0.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <!-- 原型path的圆角改造版：左上方起点→平走到x=172→圆角过渡到凸起底部→平走到右边→圆角到底部→回到左下角
+               x=172之前是上半段（y=0），x=185之后是凸起底部（y=29），中间13px圆角弧过渡 -->
+          <path d="
+            M 0 8
+            Q 0 0, 8 0
+            L 172 0
+            Q 178 0, 181 5
+            Q 183 12, 188 23
+            Q 191 29, 198 29
+            L 334 29
+            Q 342 29, 342 37
+            L 342 77
+            Q 342 85, 334 85
+            L 8 85
+            Q 0 85, 0 77
+            Z" fill="url(#greenGradFinal)"/>
+        </svg>
+        <!-- 健康管理提示：绿色部分靠左下角 -->
+        <text class="tips-title">健康管理提示</text>
+        <!-- 快捷管理健康状态：梯形（凸起）内部靠右上角 -->
+        <text class="tips-subtitle">快捷管理健康状态</text>
+      </view>
+      <!-- 磨砂半透明托盘：放在绿色下方，部分重叠在绿色凸起底部凹陷处 -->
+      <view class="tips-frosted-tray">
+        <view class="tips-content">
+          <view class="tips-left-column">
+            <view class="tip-item" @click="handleTipClick(tipCards[0])">
+              <view class="tip-icon-wrap">
+                <image src="/static/design/home/Frame.svg" class="tip-icon" mode="aspectFit" />
+              </view>
+              <text class="tip-label">定期记录生命体征数据</text>
+            </view>
+            <view class="tip-item" @click="handleTipClick(tipCards[1])">
+              <view class="tip-icon-wrap">
+                <image src="/static/design/home/Frame-2.svg" class="tip-icon" mode="aspectFit" />
+              </view>
+              <text class="tip-label">按时查看用药提醒</text>
+            </view>
           </view>
-          <text class="section-more" @click="goToNotification">查看更多 ›</text>
+          <view class="tips-right-column">
+            <view class="indicator-chart" @click="goToIndicator">
+              <view class="chart-circles">
+                <view class="chart-circle circle-cyan"></view>
+                <view class="chart-circle circle-light"></view>
+                <view class="chart-circle circle-purple"></view>
+              </view>
+              <view class="chart-ring-draw"></view>
+              <view class="chart-text-area">
+                <text class="chart-title">待提升指标</text>
+                <text class="chart-link">查看详情</text>
+              </view>
+              <view class="indicator-tags">
+                <text class="indicator-tag tag-top">血红蛋白</text>
+                <text class="indicator-tag tag-right">钾</text>
+                <text class="indicator-tag tag-bottom">钠</text>
+                <text class="indicator-tag tag-left">尿酸</text>
+              </view>
+            </view>
+          </view>
         </view>
-      <view class="notification-list">
-        <view 
-          class="notification-item" 
-          v-for="(item, index) in notificationList" 
+      </view>
+    </view>
+
+    <!-- Quick Feature Cards -->
+    <view class="feature-row">
+      <view class="feature-card" @click="handleNavClick('/pages/schedule/schedule', '透析排班')">
+        <view class="feature-info">
+          <text class="feature-title">透析排班查询</text>
+          <text class="feature-desc">一键查透析排班</text>
+        </view>
+        <image src="/static/design/home/Rectangle 3463952-2.svg" class="feature-icon" mode="aspectFit" />
+      </view>
+      <view class="feature-card" @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')">
+        <view class="feature-info">
+          <text class="feature-title">最新透析状态查询</text>
+          <text class="feature-desc">精准查询透析状态</text>
+        </view>
+        <image src="/static/design/home/Rectangle 3463952.svg" class="feature-icon" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- Notification Section -->
+    <view class="notification-section">
+      <!-- 顶部淡蓝色渐变 -->
+      <view class="notification-top-gradient"></view>
+      <view class="notification-header">
+        <view class="notification-title-wrap">
+          <image src="/static/design/home/Frame 164073.svg" class="notification-icon" mode="aspectFit" />
+          <text class="notification-title">通知消息</text>
+        </view>
+        <view class="notification-more-wrap" @click="goToNotification">
+          <text class="notification-more">查看更多</text>
+          <view class="notification-arrow"></view>
+        </view>
+      </view>
+      <view class="notification-list" v-if="notificationList.length > 0">
+        <view
+          class="notification-item"
+          v-for="(item, index) in notificationList"
           :key="index"
           @click="goToNotificationDetail(item)"
         >
-          <text class="notification-content">{{ item.content }}</text>
-          <text class="notification-time">{{ item.time }}</text>
+          <view class="notification-dot"></view>
+          <view class="notification-body">
+            <text class="notification-text">{{ item.content }}</text>
+            <view class="notification-meta">
+              <text class="notification-time">{{ item.time }}</text>
+              <text class="notification-view">查看</text>
+            </view>
+          </view>
         </view>
+      </view>
+      <view v-else class="notification-empty">
+        <text class="empty-text">暂无通知消息</text>
       </view>
     </view>
 
-    <view class="news-section animate-fade-in" :style="{ animationDelay: '0.5s' }">
-      <view class="section-header-wrap">
-          <view class="section-title-wrap">
-            <image src="/static/icons/png/filled/objects/laptop@2x.png" class="section-title-icon" mode="aspectFit" />
-            <text class="section-title">新闻资讯</text>
-          </view>
-          <text class="section-more" @click="goToNews">查看更多 ›</text>
-        </view>
-      <view class="news-list">
-        <view 
-          class="news-item" 
-          v-for="(news, index) in newsList.slice(0, 2)" 
-          :key="index"
-          @click="goToNewsDetail(news)"
-        >
-          <text class="news-tag" v-if="news.isTop">置顶</text>
-          <text class="news-title">{{ news.title }}</text>
-          <text class="news-time">{{ news.time }}</text>
-        </view>
-      </view>
-    </view>
-    
     <view class="bottom-space"></view>
   </view>
 </template>
@@ -176,30 +369,23 @@ import { get } from '../../utils/request.js'
 export default {
   data() {
     return {
-      tips: [
-        '定期记录生命体征数据',
-        '按时查看用药提醒',
-        '关注最新活动通知'
-      ],
       tipCards: [
-        { key: 'indicator', title: '健康指标提升方案', desc: '查看异常指标与干预建议', action: 'indicator', icon: '/static/icons/png/filled/symbols/risk_analysis@2x.png' },
-        { key: 'vital', title: '定期记录生命体征数据', desc: '点击进入生命体征页面', action: 'vital', icon: '/static/icons/png/filled/symbols/heart_cardiogram@2x.png' },
-        { key: 'medication', title: '按时查看用药提醒', desc: '点击进入用药记录页面', action: 'medication', icon: '/static/icons/png/filled/medications/pill_1@2x.png' }
+        { key: 'vital', title: '定期记录生命体征数据', action: 'vital' },
+        { key: 'medication', title: '按时查看用药提醒', action: 'medication' }
       ],
       isNavigating: false,
-      hasAlert: false,
-      alertCount: 0,
-      abnormalIndicators: [],
       newsList: [],
       notificationList: [],
-      daysProtected: 0
+      daysProtected: 1
     }
   },
   onLoad() {
     this.fetchNews()
     this.fetchNotifications()
-    this.fetchAbnormalIndicators()
     this.calculateDaysProtected()
+  },
+  onShow() {
+    this.fetchNotifications()
   },
   methods: {
     async fetchNews() {
@@ -258,189 +444,81 @@ export default {
         console.log('获取通知失败:', err)
       }
     },
-    async fetchAbnormalIndicators() {
-      try {
-        this.tipCards[0].title = '待提升指标数：--'
-        this.tipCards[0].desc = '点击查看指标详情'
-        const user = uni.getStorageSync('user')
-        let userId = ''
-        if (user) {
-          try {
-            const parsed = typeof user === 'string' ? JSON.parse(user) : user
-            userId = parsed.id
-          } catch (e) {
-            console.log('解析用户信息失败', e)
-          }
-        }
-        if (!userId) {
-          console.log('未获取到用户ID，跳过异常指标查询')
-          this.alertCount = 0
-          this.abnormalIndicators = []
-          this.hasAlert = false
-          this.tipCards[0].title = '待提升指标数：暂无'
-          this.tipCards[0].desc = '暂无异常指标'
-          return
-        }
-        const res = await get(`/blood-test/latest/${userId}`)
-        if (res.code === 200 && res.data) {
-          const test = res.data
-          let count = 0
-          const indicators = [
-            { key: 'hemoglobin', label: '血红蛋白', min: 110, max: 130 },
-            { key: 'ureaNitrogen', label: '尿素氮', min: 3.2, max: 7.1 },
-            { key: 'uricAcid', label: '尿酸', min: 208, max: 428 },
-            { key: 'potassium', label: '钾', min: 3.5, max: 5.5 },
-            { key: 'sodium', label: '钠', min: 135, max: 145 },
-            { key: 'calcium', label: '钙', min: 2.1, max: 2.6 },
-            { key: 'phosphorus', label: '磷', min: 0.8, max: 1.45 },
-            { key: 'albumin', label: '白蛋白', min: 35, max: 50 },
-            { key: 'parathyroidHormone', label: '甲状旁腺激素', min: 150, max: 300 }
-          ]
-          const abnormalList = []
-          indicators.forEach(ind => {
-            const value = test[ind.key]
-            if (value !== null && value !== undefined && (value < ind.min || value > ind.max)) {
-              count++
-              abnormalList.push({
-                key: ind.key,
-                label: ind.label,
-                value,
-                min: ind.min,
-                max: ind.max
-              })
-            }
-          })
-          this.alertCount = count
-          this.abnormalIndicators = abnormalList
-          this.hasAlert = count > 0
-          this.tipCards[0].title = `待提升指标数：${count}项`
-          this.tipCards[0].desc = count > 0 ? '点击查看指标详情' : '暂无异常指标'
-        } else {
-          this.alertCount = 0
-          this.abnormalIndicators = []
-          this.hasAlert = false
-          this.tipCards[0].title = '待提升指标数：暂无'
-          this.tipCards[0].desc = '暂无异常指标'
-        }
-      } catch (err) {
-        console.log('获取异常指标失败:', err)
-        this.alertCount = 0
-        this.abnormalIndicators = []
-        this.hasAlert = false
-        this.tipCards[0].title = '待提升指标数：暂无'
-        this.tipCards[0].desc = '暂无异常指标'
-      }
-    },
     formatDate(dateString) {
       if (!dateString) return ''
       const date = new Date(dateString)
-      return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      const now = new Date()
+      const m = date.getMonth() + 1
+      const d = date.getDate()
+      const nowM = now.getMonth() + 1
+      const nowD = now.getDate()
+      if (m === nowM && d === nowD) return '今天'
+      return `${m}-${String(d).padStart(2, '0')}`
     },
-    handleNavClick(url, title) {
+    handleNavClick(url) {
       if (this.isNavigating) return
       this.isNavigating = true
-      
-      uni.vibrateShort({
-        success: () => {}
-      })
-      
-      uni.switchTab({ 
+      uni.vibrateShort({})
+      uni.switchTab({
         url,
         success: () => {
-          setTimeout(() => {
-            this.isNavigating = false
-          }, 300)
+          setTimeout(() => { this.isNavigating = false }, 300)
         },
-        fail: () => {
-          this.isNavigating = false
-        }
-      })
-    },
-    handleAlertClick() {
-      uni.navigateTo({
-        url: '/pages/core-indicator/core-indicator'
+        fail: () => { this.isNavigating = false }
       })
     },
     handleTipClick(tip) {
-      if (tip.action === 'indicator') {
-        uni.navigateTo({
-          url: '/pages/improvement-plan/improvement-plan'
-        })
-        return
-      }
       if (tip.action === 'vital') {
-        uni.navigateTo({
-          url: '/pages/vital-sign/vital-sign'
-        })
-        return
+        uni.navigateTo({ url: '/pages/vital-sign/vital-sign' })
+      } else if (tip.action === 'medication') {
+        uni.navigateTo({ url: '/pages/medication/medication' })
       }
-      if (tip.action === 'medication') {
-        uni.navigateTo({
-          url: '/pages/medication/medication'
-        })
-      }
+    },
+    goToIndicator() {
+      uni.navigateTo({ url: '/pages/improvement-plan/improvement-plan' })
     },
     goToNews() {
-      uni.navigateTo({
-        url: '/pages/news/list'
-      })
+      uni.navigateTo({ url: '/pages/news/list' })
     },
     goToNewsDetail(news) {
-      uni.navigateTo({
-        url: `/pages/news/detail?id=${news.id}`
-      })
+      uni.navigateTo({ url: `/pages/news/detail?id=${news.id}` })
     },
     goToNotification() {
-      uni.navigateTo({
-        url: '/pages/notification/notification'
-      })
+      uni.navigateTo({ url: '/pages/notification/notification' })
     },
     goToNotificationDetail(item) {
-      uni.navigateTo({
-        url: '/pages/notification/notification'
-      })
+      uni.navigateTo({ url: '/pages/notification/notification' })
     },
     calculateDaysProtected() {
       const userStr = uni.getStorageSync('user')
-      console.log('用户存储数据:', userStr)
       if (!userStr) {
-        console.log('用户存储数据为空')
-        this.daysProtected = 0
+        this.daysProtected = 1
         return
       }
       let user = null
       try {
         user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr
       } catch (e) {
-        console.log('解析用户信息失败', e)
-        this.daysProtected = 0
+        this.daysProtected = 1
         return
       }
-      console.log('解析后的用户对象:', user)
-      console.log('用户对象的所有键:', Object.keys(user))
       if (!user) {
-        this.daysProtected = 0
+        this.daysProtected = 1
         return
       }
       const createdAtStr = user.createdAt || user.created_at || ''
-      console.log('注册时间字符串:', createdAtStr)
       if (!createdAtStr) {
-        console.log('用户注册时间为空')
-        this.daysProtected = 0
+        this.daysProtected = 1
         return
       }
       const createdAt = new Date(createdAtStr)
-      console.log('解析后的日期对象:', createdAt)
-      console.log('日期对象的时间戳:', createdAt.getTime())
       if (isNaN(createdAt.getTime())) {
-        console.log('注册时间解析失败:', createdAtStr)
-        this.daysProtected = 0
+        this.daysProtected = 1
         return
       }
       const now = new Date()
       const diffTime = Math.abs(now - createdAt)
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-      console.log('计算出的天数:', diffDays)
       this.daysProtected = diffDays > 0 ? diffDays : 1
     }
   }
@@ -451,623 +529,623 @@ export default {
 .home-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #F5F7FA;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-5px);
-  }
-}
-
-@keyframes ringPulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out both;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.4s ease-out both;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out both;
-}
-
-.welcome-section {
-  padding: calc(var(--status-bar-height, 20px) + 15px) 20px 25px;
-  text-align: center;
-  background-color: #FFFFFF;
-  margin-bottom: 16px;
+  background: linear-gradient(180deg, #C8E6D5 0%, #DDF0E8 25%, #E8F5EF 50%, #F4FAF8 100%);
   position: relative;
+  overflow: visible;
 }
 
-.logo-container {
+/* Sticky Top Section - fixed on scroll, covered by content below */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+}
+
+/* Status Bar / Header */
+.status-bar {
+  padding: calc(var(--status-bar-height, 20px) + 8px) 16px 8px;
+  background: transparent;
   position: relative;
-  display: inline-block;
-  margin-bottom: 0;
+  z-index: 2;
 }
 
-.welcome-logo {
-  width: 140px;
-  height: 140px;
-  border-radius: 24px;
-  background-color: #FFFFFF;
-  padding: 10px;
-  border: 2px solid #EBEEF5;
-  animation: float 3s ease-in-out infinite;
-  box-shadow: 0 6px 16px rgba(0, 157, 133, 0.15);
-}
-
-.logo-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 155px;
-  height: 155px;
-  border: 2px solid rgba(0, 157, 133, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  animation: ringPulse 2s ease-out infinite;
-}
-
-.welcome-title {
-  display: block;
-  font-size: 20px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 6px;
-}
-
-.days-protected {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 4px;
-  background-color: rgba(0, 157, 133, 0.06);
-  padding: 10px 20px;
-  border-radius: 24px;
-  border: 1px solid rgba(0, 157, 133, 0.2);
-  margin: 16px auto 0;
-  width: fit-content;
-}
-
-.days-prefix {
-  font-size: 14px;
-  color: #606266;
-  font-weight: 500;
-}
-
-.days-number {
-  font-size: 30px;
-  font-weight: 800;
-  color: #009D85;
-  line-height: 1;
-  min-width: 17px;
-  text-align: center;
-}
-
-.days-suffix {
-  font-size: 16px;
-  color: #009D85;
-  font-weight: 600;
-}
-
-.quick-nav {
-  padding: 0 16px;
-}
-
-.nav-card {
+.status-content {
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  justify-content: space-between;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.logo-img {
+  width: 44px;
+  height: 44px;
+}
+
+.logo-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-cn {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.logo-en {
+  font-size: 10px;
+  color: #7A8BA4;
+  letter-spacing: 0.5px;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0A2540;
+  flex: 1;
+  text-align: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.header-btn {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid #0A2540;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.btn-dots {
+  font-size: 14px;
+  color: #0A2540;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.btn-circle {
+  font-size: 14px;
+  color: #0A2540;
+  line-height: 1;
+}
+
+/* Greeting Section */
+.greeting-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 8px 16px 16px;
   position: relative;
+  z-index: 2;
+}
+
+.greeting-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.greeting-main {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0A2540;
+  letter-spacing: 1px;
+  line-height: 1.25;
+}
+
+.greeting-days {
+  font-size: 32px;
+  font-weight: 700;
+  color: #19A280;
+  line-height: 1.25;
+}
+
+.shield-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deco-shield {
+  width: 104.05px;
+  height: 119.32px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 椭圆光圈 - 后半部分（盾牌后面） */
+.shield-ring-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 椭圆光圈 - 前半部分（盾牌前面，只显示下半部分） */
+.shield-ring-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.ring-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Tips Card - 容器透明，仅做布局 */
+.tips-card {
+  margin: 0 16px 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* 绿色头部（提醒/梯形形状：左上方大矩形+右侧凸起梯形，中间圆角弧过渡） */
+.tips-green-header {
+  position: relative;
+  height: 88px;
+  overflow: visible;
+  z-index: 1;
+}
+
+.green-header-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 健康管理提示 - 绿色部分靠左下角（避免被下方托盘遮挡） */
+.tips-title {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  z-index: 4;
+  letter-spacing: 0.5px;
+}
+
+/* 快捷管理健康状态 - 梯形(凸起)内部靠右上角 */
+.tips-subtitle {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 12px;
+  color: #FFFFFF;
+  font-weight: 600;
+  z-index: 4;
+  opacity: 0.92;
+}
+
+/* 磨砂半透明托盘：放在绿色下方，部分重叠在绿色底部渐变淡出区域 */
+.tips-frosted-tray {
+  position: relative;
+  margin-top: -16px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  padding: 18px 12px 16px;
+  margin-left: 6px;
+  margin-right: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.10);
+}
+
+.tips-content {
+  display: flex;
+  gap: 12px;
+}
+
+.tips-left-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tip-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.tip-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #F0FBF7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tip-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.tip-label {
+  font-size: 13px;
+  color: #333333;
+  font-weight: 500;
+  flex: 1;
+}
+
+.tips-right-column {
+  width: 120px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.indicator-chart {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: #F9F9F9;
+  border-radius: 8px;
   overflow: hidden;
 }
 
-.nav-card::before {
-  content: '';
+/* 三个重叠光圈 */
+.chart-circles {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  z-index: 1;
+}
+
+.chart-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.circle-cyan {
+  width: 96px;
+  height: 96px;
   left: 0;
   top: 0;
-  bottom: 0;
-  width: 4px;
-  border-radius: 0 2px 2px 0;
-  background-color: #E4E7ED;
+  background: #E0FBFE;
+  animation: circleBreathe 4s ease-in-out infinite;
 }
 
-.nav-card:active {
-  transform: scale(0.98);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+.circle-light {
+  width: 72px;
+  height: 72px;
+  left: 12px;
+  top: 12px;
+  background: #F3F9FF;
+  animation: circleBreathe 4s ease-in-out infinite;
+  animation-delay: 0.8s;
 }
 
-.nav-card:nth-child(1)::before {
-  background-color: #009D85;
+.circle-purple {
+  width: 96px;
+  height: 96px;
+  left: 24px;
+  top: 0;
+  background: #F0F2FF;
+  animation: circleBreathe 4s ease-in-out infinite;
+  animation-delay: 1.6s;
 }
 
-.nav-card:nth-child(2)::before {
-  background-color: #FAA31A;
+@keyframes circleBreathe {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
-.nav-card:nth-child(3)::before {
-  background-color: #EC4899;
+/* 旋转环 */
+.chart-ring-draw {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  border: 2px solid #C8EAF8;
+  border-top-color: transparent;
+  border-radius: 50%;
+  z-index: 2;
+  animation: ringSpin 6s linear infinite;
 }
 
-.nav-icon-wrapper {
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
+@keyframes ringSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.chart-text-area {
+  position: absolute;
+  top: 28px;
+  left: 24px;
+  width: 72px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-right: 16px;
-  transition: transform 0.2s ease;
+  gap: 4px;
+  z-index: 3;
 }
 
-.nav-card:active .nav-icon-wrapper {
-  transform: scale(1.1);
-}
-
-.bg-green {
-  background-color: rgba(0, 157, 133, 0.1);
-}
-
-.bg-green .nav-icon-img {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
-}
-
-.bg-orange {
-  background-color: rgba(250, 173, 20, 0.1);
-}
-
-.bg-orange .nav-icon-img {
-  filter: brightness(0) saturate(100%) invert(64%) sepia(56%) saturate(694%) hue-rotate(356deg) brightness(103%) contrast(101%);
-}
-
-.bg-pink {
-  background-color: rgba(236, 72, 153, 0.1);
-}
-
-.bg-pink .nav-icon-img {
-  filter: brightness(0) saturate(100%) invert(37%) sepia(64%) saturate(726%) hue-rotate(290deg) brightness(95%) contrast(95%);
-}
-
-.nav-icon {
-  font-size: 28px;
-}
-
-.nav-icon-img {
-  width: 28px;
-  height: 28px;
-}
-
-.nav-content {
-  flex: 1;
-}
-
-.nav-title {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 4px;
-}
-
-.nav-desc {
-  display: block;
+.chart-title {
   font-size: 13px;
-  color: #909399;
+  font-weight: 700;
+  color: #333333;
+  text-align: center;
 }
 
-.nav-arrow-wrap {
-  padding: 8px;
-  border-radius: 8px;
-  background-color: #F5F7FA;
-  transition: all 0.2s ease;
+.chart-link {
+  font-size: 11px;
+  color: #99C8DE;
 }
 
-.nav-card:active .nav-arrow-wrap {
-  background-color: rgba(0, 157, 133, 0.1);
+.indicator-tags {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
 }
 
-.nav-arrow {
-  font-size: 24px;
-  color: #C0C4CC;
-  transition: transform 0.2s ease;
-}
-
-.nav-card:active .nav-arrow {
-  transform: translateX(4px);
-  color: #009D85;
-}
-
-.alert-section {
-  padding: 0 16px;
-  margin-bottom: 16px;
-}
-
-.alert-card {
-  display: flex;
-  align-items: center;
-  background-color: rgba(250, 173, 20, 0.08);
-  padding: 16px 20px;
-  border-radius: 12px;
-  border-left: 4px solid #E6A23C;
-}
-
-.alert-card .alert-icon {
-  filter: brightness(0) saturate(100%) invert(64%) sepia(56%) saturate(694%) hue-rotate(356deg) brightness(103%) contrast(101%);
-}
-
-.alert-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 12px;
-}
-
-.alert-content {
-  flex: 1;
-}
-
-.alert-title {
-  display: block;
-  font-size: 15px;
-  font-weight: 600;
-  color: #E6A23C;
-  margin-bottom: 4px;
-}
-
-.alert-desc {
-  font-size: 13px;
-  color: #909399;
-}
-
-.alert-detail-list {
-  margin-top: 10px;
-  padding: 10px 12px;
-  background-color: rgba(255, 255, 255, 0.65);
+.indicator-tag {
+  position: absolute;
+  font-size: 10px;
+  color: #879FBB;
+  background: #DCF0F9;
+  padding: 3px 6px;
   border-radius: 10px;
+  white-space: nowrap;
+  font-weight: 500;
+  z-index: 4;
 }
 
-.alert-detail-item {
-  font-size: 12px;
-  line-height: 1.5;
-  margin-bottom: 6px;
-  color: #606266;
-}
+.tag-top { top: 0; left: 50%; transform: translateX(-50%); }
+.tag-right { top: 16px; right: -4px; }
+.tag-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+.tag-left { bottom: 16px; left: -4px; }
 
-.alert-detail-item:last-child {
-  margin-bottom: 0;
-}
-
-.alert-detail-name {
-  font-weight: 600;
-  color: #303133;
-}
-
-.alert-detail-value {
-  color: #E6A23C;
-  font-weight: 600;
-}
-
-.alert-detail-range {
-  color: #909399;
-}
-
-.alert-arrow {
-  font-size: 20px;
-  color: #C0C4CC;
-}
-
-.alert-normal {
-  background-color: rgba(0, 157, 133, 0.08);
-  border-left-color: #009D85;
-}
-
-.alert-normal .alert-icon {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
-}
-
-.alert-title-normal {
-  color: #009D85;
-}
-
-.tips-section {
-  padding: 0 16px;
-  margin-bottom: 16px;
-}
-
-.tips-header {
+/* Feature Cards */
+.feature-row {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin: 0 16px 16px;
+  position: relative;
+  z-index: 2;
 }
 
-.tips-title-wrap {
+.feature-card {
+  flex: 1;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(173, 180, 212, 0.15);
+  border: none;
+  opacity: 1;
+}
+
+.feature-card:first-child {
+  background: linear-gradient(0deg, rgba(245, 255, 251, 1) 0%, rgba(255, 255, 255, 1) 50%);
+}
+
+.feature-card:last-child {
+  background: linear-gradient(0deg, rgba(246, 250, 255, 1) 0%, rgba(255, 255, 255, 1) 50%);
+}
+
+.feature-info {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1A2B44;
+  display: block;
+}
+
+.feature-desc {
+  font-size: 12px;
+  color: #7A8BA4;
+  margin-top: 4px;
+  display: block;
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+/* Notification Section */
+.notification-section {
+  margin: 0 16px;
+  background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 12px rgba(13, 66, 49, 0.05);
+  border: 1px solid rgba(255, 255, 255, 1);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* 顶部淡蓝色渐变 */
+.notification-top-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(180deg, rgba(224, 232, 248, 0.6) 0%, rgba(232, 236, 247, 0.3) 40%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.notification-title-wrap {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.tips-icon {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
+.notification-icon {
+  width: 20px;
+  height: 20px;
 }
 
-.tips-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #1F2937;
-}
-
-.tips-subtitle {
-  font-size: 12px;
-  color: #6B7280;
-}
-
-.tips-list {
-  background-color: #FFFFFF;
-  border-radius: 18px;
-  border: 2px solid rgba(0, 157, 133, 0.38);
-  border-left: 8px solid #009D85;
-  border-top: 2px solid rgba(0, 157, 133, 0.28);
-  box-shadow: 0 10px 24px rgba(0, 157, 133, 0.14);
-  overflow: hidden;
-}
-
-.tips-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 20px 18px;
-  border-bottom: 1px solid #EEF2F7;
-}
-
-.tips-item:last-child {
-  border-bottom: none;
-}
-
-.tip-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.tip-icon-img {
-  width: 26px;
-  height: 26px;
-}
-
-.tip-icon-indicator {
-  background-color: rgba(6, 182, 212, 0.12);
-}
-
-.tip-icon-vital {
-  background-color: rgba(245, 108, 108, 0.12);
-}
-
-.tip-icon-medication {
-  background-color: rgba(59, 130, 246, 0.12);
-}
-
-.tip-content {
-  flex: 1;
-}
-
-.tip-text {
-  display: block;
+.notification-title {
   font-size: 16px;
   font-weight: 700;
-  color: #1F2937;
-  line-height: 1.45;
-  margin-bottom: 4px;
+  color: #1A2B44;
 }
 
-.tip-desc {
-  display: block;
-  font-size: 12px;
-  color: #6B7280;
-  line-height: 1.45;
+.notification-more-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.tip-arrow {
-  font-size: 24px;
-  color: #C0C4CC;
-  line-height: 1;
-  padding-top: 2px;
+.notification-more {
+  font-size: 13px;
+  color: #3497E3;
 }
 
-
-
-.notification-section {
-  margin-top: 16px;
-  padding: 0 16px;
+.notification-arrow {
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #3497E3;
+  border-right: 1.5px solid #3497E3;
+  transform: rotate(45deg);
+  flex-shrink: 0;
 }
 
 .notification-list {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  padding: 8px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
 }
 
 .notification-item {
   display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #f4f4f5;
-  transition: background-color 0.2s;
-  overflow: hidden;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F2F3F5;
 }
 
 .notification-item:last-child {
   border-bottom: none;
 }
 
-.notification-item:active {
-  background-color: #f5f7fa;
-}
-
 .notification-dot {
   width: 8px;
   height: 8px;
-  background-color: #F56C6C;
   border-radius: 50%;
-  margin-right: 12px;
+  background: #19A280;
   flex-shrink: 0;
+  margin-top: 6px;
 }
 
-.notification-content {
+.notification-body {
   flex: 1;
-  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notification-text {
   font-size: 14px;
-  color: #303133;
+  color: #4A5568;
   line-height: 1.5;
-  white-space: nowrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.notification-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .notification-time {
   font-size: 12px;
-  color: #909399;
-  margin-left: 12px;
-  flex-shrink: 0;
+  color: #97A2B5;
 }
 
-.news-section {
-  margin-top: 20px;
-  padding: 0 16px;
-}
-
-.section-header-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.section-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.section-title-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
-}
-
-.section-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.section-more {
-  font-size: 13px;
-  color: #009D85;
-}
-
-.news-section {
-  padding: 0 16px;
-}
-
-.news-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.news-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #FFFFFF;
-  padding: 12px 14px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  min-height: 100px;
-}
-
-.news-tag {
-  font-size: 11px;
-  color: #FFFFFF;
-  background-color: #F56C6C;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-bottom: 6px;
-}
-
-.news-title {
-  font-size: 14px;
-  color: #303133;
-  font-weight: 500;
-  margin-bottom: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
-
-.news-time {
+.notification-view {
   font-size: 12px;
-  color: #909399;
+  color: #2D9CDB;
+}
+
+.notification-empty {
+  padding: 20px 0;
+  text-align: center;
+}
+
+.empty-text {
+  font-size: 14px;
+  color: #C0C4CC;
 }
 
 .bottom-space {

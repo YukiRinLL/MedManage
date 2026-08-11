@@ -1,98 +1,120 @@
 <template>
   <view class="health-manage-container">
-    <view class="section-header animate-slide-down">
-      <text class="section-title">健康管理</text>
-      <text class="section-desc">管理您的健康数据</text>
-    </view>
-    
-    <view class="priority-section">
-      <view 
-        class="priority-item primary animate-fade-in-up" 
-        :style="{ animationDelay: '0.1s' }"
-        @click="handleItemClick('/pages/improvement-plan/improvement-plan', '指标提升方案')"
-      >
-        <view class="priority-badge">重要</view>
-        <view class="priority-icon-wrapper bg-cyan">
-          <image src="/static/icons/png/filled/symbols/risk_analysis@2x.png" class="priority-icon-img" mode="aspectFit" />
+    <!-- Header with Green Gradient -->
+    <view class="header-bg">
+      <view class="status-bar">
+        <view class="status-content">
+          <view class="logo-wrap">
+            <image src="/static/logo.png" class="logo-img" mode="aspectFit" />
+            <view class="logo-text-group">
+              <text class="logo-cn">圣通尚诺</text>
+              <text class="logo-en">For Better Life</text>
+            </view>
+          </view>
+          <text class="header-title">健康管理</text>
+          <view class="header-right">
+            <view class="header-btn">
+              <text class="btn-dots">···</text>
+            </view>
+            <view class="header-btn">
+              <text class="btn-circle">○</text>
+            </view>
+          </view>
         </view>
-        <view class="priority-content">
-          <text class="priority-title">指标提升方案</text>
-          <text class="priority-desc">个性化干预方案，针对性改善健康指标</text>
-        </view>
-        <text class="priority-arrow">›</text>
       </view>
-      
-      <view 
-        class="priority-item secondary animate-fade-in-up" 
-        :style="{ animationDelay: '0.15s' }"
-        @click="handleItemClick('/pages/diagnosis/diagnosis', '透析评估')"
-      >
-        <view class="priority-badge secondary-badge">重要</view>
-        <view class="priority-icon-wrapper bg-purple">
-          <image src="/static/icons/png/filled/devices/stethoscope@2x.png" class="priority-icon-img" mode="aspectFit" />
+
+      <!-- Greeting -->
+      <view class="greeting-section">
+        <view class="avatar-wrap">
+          <image src="/static/design/health/Frame 1739330068.svg" class="avatar-img" mode="aspectFit" />
         </view>
-        <view class="priority-content">
-          <text class="priority-title">透析评估</text>
-          <text class="priority-desc">反馈当天透析情况，评估治疗效果</text>
-        </view>
-        <text class="priority-arrow">›</text>
+        <text class="greeting-line">早上好，{{ userName }}～</text>
       </view>
     </view>
-    
+
+    <!-- Health Advice Card -->
+    <view class="advice-card">
+      <view class="advice-header">
+        <text class="advice-title">健康建议</text>
+        <image src="/static/design/home/Frame.svg" class="advice-deco" mode="aspectFit" />
+      </view>
+      <view class="advice-body">
+        <text class="advice-text">{{ healthAdvice }}</text>
+      </view>
+
+      <!-- Feature Cards Row -->
+      <view class="feature-row">
+        <view class="feature-card feature-blue" @click="handleItemClick('/pages/improvement-plan/improvement-plan')">
+          <view class="priority-badge">重要</view>
+          <view class="feature-icon-wrap">
+            <image src="/static/design/home/Frame-3.svg" class="feature-icon" mode="aspectFit" />
+          </view>
+          <view class="feature-info">
+            <text class="feature-title">指标提升方案</text>
+            <text class="feature-desc">个性化干预方案针对性改善健康指标</text>
+          </view>
+        </view>
+
+        <view class="feature-card feature-green" @click="handleItemClick('/pages/diagnosis/diagnosis')">
+          <view class="priority-badge">重要</view>
+          <view class="feature-icon-wrap">
+            <image src="/static/design/home/Frame-4.svg" class="feature-icon" mode="aspectFit" />
+          </view>
+          <view class="feature-info">
+            <text class="feature-title">透析评估</text>
+            <text class="feature-desc">反馈当天透析情况，评估治疗效果</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Menu Grid 2x2 -->
     <view class="menu-grid">
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.2s' }"
-        @click="handleItemClick('/pages/health-record/health-record', '健康档案')"
-      >
-        <view class="menu-icon-wrapper bg-green">
-          <image src="/static/icons/png/filled/symbols/i_note_action@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
+      <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
+        <view class="menu-info">
+          <text class="menu-title">健康档案</text>
+          <text class="menu-desc">查看个人健康信息</text>
         </view>
-        <text class="menu-text">健康档案</text>
-        <text class="menu-hint">查看个人健康信息</text>
+        <view class="menu-bottom">
+          <view class="menu-view-btn">查看</view>
+          <image src="/static/design/home/Frame-5.svg" class="menu-icon icon-blue" mode="aspectFit" />
+        </view>
       </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.25s' }"
-        @click="handleItemClick('/pages/vital-sign/vital-sign', '生命体征')"
-      >
-        <view class="menu-icon-wrapper bg-red">
-          <image src="/static/icons/png/filled/symbols/heart_cardiogram@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
+
+      <view class="menu-item" @click="handleItemClick('/pages/vital-sign/vital-sign')">
+        <view class="menu-info">
+          <text class="menu-title">生命体征</text>
+          <text class="menu-desc">记录体温血压血糖</text>
         </view>
-        <text class="menu-text">生命体征</text>
-        <text class="menu-hint">记录体温血压血糖</text>
+        <view class="menu-bottom">
+          <view class="menu-view-btn">查看</view>
+          <image src="/static/design/home/Frame-6.svg" class="menu-icon icon-red" mode="aspectFit" />
+        </view>
       </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.3s' }"
-        @click="handleItemClick('/pages/medication/medication', '用药记录')"
-      >
-        <view class="menu-icon-wrapper bg-blue">
-          <image src="/static/icons/png/filled/medications/pill_1@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
+
+      <view class="menu-item" @click="handleItemClick('/pages/medication/medication')">
+        <view class="menu-info">
+          <text class="menu-title">用药记录</text>
+          <text class="menu-desc">管理每日用药提醒</text>
         </view>
-        <text class="menu-text">用药记录</text>
-        <text class="menu-hint">管理每日用药提醒</text>
+        <view class="menu-bottom">
+          <view class="menu-view-btn">查看</view>
+          <image src="/static/design/home/Frame-7.svg" class="menu-icon icon-purple" mode="aspectFit" />
+        </view>
       </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.35s' }"
-        @click="handleItemClick('/pages/core-indicator/core-indicator', '核心指标')"
-      >
-        <view class="menu-icon-wrapper bg-orange">
-          <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <view class="ripple-effect"></view>
+
+      <view class="menu-item" @click="handleItemClick('/pages/core-indicator/core-indicator')">
+        <view class="menu-info">
+          <text class="menu-title">核心指标</text>
+          <text class="menu-desc">查血指标趋势追踪</text>
         </view>
-        <text class="menu-text">核心指标</text>
-        <text class="menu-hint">查血指标趋势追踪</text>
+        <view class="menu-bottom">
+          <view class="menu-view-btn">查看</view>
+          <image src="/static/design/home/Frame-8.svg" class="menu-icon icon-green" mode="aspectFit" />
+        </view>
       </view>
     </view>
-    
+
     <view class="bottom-space"></view>
   </view>
 </template>
@@ -101,26 +123,43 @@
 export default {
   data() {
     return {
-      isNavigating: false
+      isNavigating: false,
+      userName: '何先生',
+      healthAdvice: '"健康身体指标"是减少并发症重要因素，最终成效依赖于我们双方的紧密配合，医疗团队的专业处置与您对饮食、用药、自我管理等方案的严格执行同等重要。'
     }
   },
+  onLoad() {
+    this.loadUserInfo()
+  },
+  onShow() {
+    this.loadUserInfo()
+  },
   methods: {
-    handleItemClick(url, title) {
+    loadUserInfo() {
+      const userStr = uni.getStorageSync('user')
+      if (userStr) {
+        try {
+          const user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr
+          if (user && user.name) {
+            this.userName = user.name
+          } else if (user && user.nickname) {
+            this.userName = user.nickname
+          }
+        } catch (e) {
+          console.log('解析用户信息失败', e)
+        }
+      }
+    },
+    handleItemClick(url) {
       if (this.isNavigating) return
       this.isNavigating = true
-      
       uni.vibrateShort({})
-      
-      uni.navigateTo({ 
+      uni.navigateTo({
         url,
         success: () => {
-          setTimeout(() => {
-            this.isNavigating = false
-          }, 300)
+          setTimeout(() => { this.isNavigating = false }, 300)
         },
-        fail: () => {
-          this.isNavigating = false
-        }
+        fail: () => { this.isNavigating = false }
       })
     }
   }
@@ -131,282 +170,337 @@ export default {
 .health-manage-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #F5F7FA;
+  background: #F4FAF8;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Header Background with Gradient */
+.header-bg {
+  background: linear-gradient(180deg, #D0F3E8 0%, #A9EBD1 30%, #74DFB8 70%, #4ADBB0 100%);
+  padding-bottom: 20px;
+  position: relative;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Status Bar */
+.status-bar {
+  padding: calc(var(--status-bar-height, 20px) + 12px) 16px 8px;
 }
 
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out both;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.4s ease-out both;
-}
-
-.animate-slide-down {
-  animation: slideDown 0.4s ease-out both;
-}
-
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: calc(var(--status-bar-height, 20px) + 20px) 20px 20px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EBEEF5;
-}
-
-.section-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: #009D85;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.section-desc {
-  font-size: 14px;
-  color: #909399;
-  white-space: nowrap;
-}
-
-.priority-section {
-  padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.priority-item {
+.status-content {
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  position: relative;
+  justify-content: space-between;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-cn {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.logo-en {
+  font-size: 9px;
+  color: #5A7A99;
+  letter-spacing: 0.5px;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0A2540;
+  flex: 1;
+  text-align: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.header-btn {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid #0A2540;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.btn-dots {
+  font-size: 14px;
+  color: #0A2540;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.btn-circle {
+  font-size: 14px;
+  color: #0A2540;
+  line-height: 1;
+}
+
+/* Greeting Section */
+.greeting-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px 0;
+}
+
+.avatar-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(25, 162, 128, 0.2);
   overflow: hidden;
-  transition: all 0.25s ease;
 }
 
-.priority-item:active {
-  transform: scale(0.98);
+.avatar-img {
+  width: 44px;
+  height: 44px;
 }
 
-.priority-item.primary {
-  border-left: 4px solid #06B6D4;
-  background: #F0F9FA;
+.greeting-line {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0A2540;
 }
 
-.priority-item.secondary {
-  border-left: 4px solid #9333EA;
-  background: #F5F0FA;
+/* Advice Card */
+.advice-card {
+  margin: 16px 16px 0;
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.08);
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.advice-header {
+  background: linear-gradient(180deg, #19A280 0%, #3FCBA5 100%);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.advice-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: #FFFFFF;
+  border-radius: 12px 12px 0 0;
+}
+
+.advice-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.advice-deco {
+  width: 28px;
+  height: 28px;
+}
+
+.advice-body {
+  padding: 14px 16px 16px;
+}
+
+.advice-text {
+  font-size: 13px;
+  color: #4A5568;
+  line-height: 1.7;
+}
+
+/* Feature Cards */
+.feature-row {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+
+.feature-card {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(13, 66, 49, 0.06);
+}
+
+.feature-blue {
+  border-top: 3px solid #0083FF;
+}
+
+.feature-green {
+  border-top: 3px solid #00C67C;
 }
 
 .priority-badge {
   position: absolute;
   top: 0;
-  right: 20px;
-  background-color: #06B6D4;
+  right: 12px;
+  background: #19A280;
   color: #FFFFFF;
   font-size: 11px;
   font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 0 0 8px 8px;
+  padding: 3px 10px;
+  border-radius: 0 0 6px 6px;
 }
 
-.priority-badge.secondary-badge {
-  background-color: #9333EA;
-}
-
-.priority-icon-wrapper {
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
+.feature-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 16px;
-  flex-shrink: 0;
 }
 
-.priority-icon-img {
-  width: 30px;
-  height: 30px;
+.feature-blue .feature-icon-wrap {
+  background: #E6F0FF;
 }
 
-.priority-content {
-  flex: 1;
+.feature-green .feature-icon-wrap {
+  background: #E6FFF5;
 }
 
-.priority-title {
-  display: block;
-  font-size: 17px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 4px;
+.feature-icon {
+  width: 22px;
+  height: 22px;
 }
 
-.priority-desc {
-  display: block;
+.feature-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.feature-title {
   font-size: 13px;
-  color: #909399;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.feature-desc {
+  font-size: 11px;
+  color: #7A8BA4;
   line-height: 1.4;
-}
-
-.priority-arrow {
-  font-size: 24px;
-  color: #C0C4CC;
-  margin-left: 8px;
-}
-
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 0 16px;
-}
-
-.menu-item {
-  background-color: #FFFFFF;
-  padding: 28px 16px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 }
 
-.menu-item:active {
-  transform: scale(0.96);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+/* Menu Grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 16px;
 }
 
-.menu-icon-wrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
+.menu-item {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 14px 12px;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(13, 66, 49, 0.06);
+}
+
+.menu-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0A2540;
+}
+
+.menu-desc {
+  font-size: 12px;
+  color: #7A8BA4;
+}
+
+.menu-bottom {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto 14px;
-  transition: all 0.25s ease;
-  position: relative;
 }
 
-.menu-item:active .menu-icon-wrapper {
-  transform: scale(1.1);
-}
-
-.bg-green {
-  background-color: rgba(0, 157, 133, 0.1);
-}
-
-.bg-green .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
-}
-
-.bg-red {
-  background-color: rgba(245, 108, 108, 0.1);
-}
-
-.bg-red .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(66%) saturate(654%) hue-rotate(349deg) brightness(100%) contrast(99%);
-}
-
-.bg-blue {
-  background-color: rgba(59, 130, 246, 0.1);
-}
-
-.bg-blue .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(37%) sepia(98%) saturate(2963%) hue-rotate(212deg) brightness(97%) contrast(104%);
-}
-
-.bg-purple {
-  background-color: rgba(147, 51, 234, 0.1);
-}
-
-.bg-purple .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(28%) sepia(96%) saturate(3882%) hue-rotate(271deg) brightness(91%) contrast(100%);
-}
-
-.bg-orange {
-  background-color: rgba(251, 146, 60, 0.1);
-}
-
-.bg-orange .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(54%) sepia(96%) saturate(1288%) hue-rotate(11deg) brightness(99%) contrast(99%);
-}
-
-.bg-cyan {
-  background-color: rgba(6, 182, 212, 0.1);
-}
-
-.bg-cyan .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(53%) sepia(90%) saturate(383%) hue-rotate(141deg) brightness(95%) contrast(105%);
+.menu-view-btn {
+  font-size: 12px;
+  color: #19A280;
+  font-weight: 600;
+  background: #E8F9F0;
+  padding: 4px 14px;
+  border-radius: 12px;
 }
 
 .menu-icon {
-  font-size: 36px;
-  position: relative;
-  z-index: 1;
+  width: 52px;
+  height: 52px;
 }
 
-.menu-icon-img {
-  width: 36px;
-  height: 36px;
-  position: relative;
-  z-index: 1;
+.icon-blue {
+  background: linear-gradient(135deg, #0083FF 0%, #6CB7FF 100%);
+  border-radius: 12px;
 }
 
-.menu-text {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #303133;
-  margin-bottom: 6px;
+.icon-red {
+  background: linear-gradient(135deg, #FF373A 0%, #FF6B6E 100%);
+  border-radius: 12px;
 }
 
-.menu-hint {
-  display: block;
-  font-size: 12px;
-  color: #909399;
+.icon-purple {
+  background: linear-gradient(135deg, #DD7AD8 0%, #FF97F2 100%);
+  border-radius: 12px;
+}
+
+.icon-green {
+  background: linear-gradient(135deg, #1ACF90 0%, #3EE4B8 100%);
+  border-radius: 12px;
 }
 
 .bottom-space {
