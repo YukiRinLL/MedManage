@@ -118,6 +118,8 @@
         </view>
         <!-- 盾牌图片 -->
         <image src="/static/design/home/Simple 3D.svg" class="deco-shield" mode="aspectFit" />
+        <!-- Shield shadow -->
+        <view class="shield-shadow"></view>
         <!-- 光环 - 前半部分（盾牌前面，z-index:3） -->
         <view class="shield-ring-front">
           <svg class="ring-svg" viewBox="0 0 160 160" preserveAspectRatio="xMidYMid meet">
@@ -280,10 +282,7 @@
                 <text class="chart-link">查看详情</text>
               </view>
               <view class="indicator-tags">
-                <text class="indicator-tag tag-top">血红蛋白</text>
-                <text class="indicator-tag tag-right">钾</text>
-                <text class="indicator-tag tag-bottom">钠</text>
-                <text class="indicator-tag tag-left">尿酸</text>
+                <text class="indicator-tag" v-for="(tag, i) in indicatorTags" :key="i" :style="tagStyles[i]">{{ tag.label }}</text>
               </view>
             </view>
           </view>
@@ -362,18 +361,63 @@ export default {
       isNavigating: false,
       newsList: [],
       notificationList: [],
-      daysProtected: 1
+      daysProtected: 1,
+      indicatorTags: [],
+      tagAnimOffset: 720
+    }
+  },
+  computed: {
+    tagStyles() {
+      return this.indicatorTags.map(tag => {
+        const angle = (tag.angle + this.tagAnimOffset) * Math.PI / 180
+        const x = tag.radius * Math.cos(angle)
+        const y = tag.radius * Math.sin(angle)
+        return {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: `translate(calc(-50% + ${x.toFixed(1)}px), calc(-50% + ${y.toFixed(1)}px))`
+        }
+      })
     }
   },
   onLoad() {
     this.fetchNews()
     this.fetchNotifications()
     this.calculateDaysProtected()
+    this.initIndicatorTags()
+  },
+  onReady() {
+    this.animateIndicatorTags()
   },
   onShow() {
     this.fetchNotifications()
   },
   methods: {
+    initIndicatorTags() {
+      const labels = ['血红蛋白', '钾', '钠', '尿酸']
+      const angles = [-40, 0, 90, 180]
+      this.indicatorTags = labels.map((label, i) => ({
+        label,
+        angle: angles[i],
+        radius: 45 + Math.floor(Math.random() * 15)
+      }))
+    },
+    animateIndicatorTags() {
+      const duration = 3000
+      const start = Date.now()
+      const initialOffset = 270
+      const step = () => {
+        const elapsed = Date.now() - start
+        const progress = Math.min(elapsed / duration, 1)
+        const eased = 1 - Math.pow(1 - progress, 3)
+        this.tagAnimOffset = initialOffset * (1 - eased)
+        if (progress < 1) {
+          requestAnimationFrame(step)
+        }
+      }
+      requestAnimationFrame(step)
+    },
     async fetchNews() {
       try {
         const res = await get('/news?page=1&size=2')
@@ -668,6 +712,21 @@ export default {
   z-index: 2;
 }
 
+/* Shield shadow below the shield */
+.shield-shadow {
+  position: absolute;
+  bottom: 25px;
+  left: 60%;
+  transform: translateX(-50%);
+  width: 80.00px;
+  height: 34.00px;
+  background: linear-gradient(197deg, rgba(32, 157, 135, 0) 14%, rgba(32, 157, 135, 1) 84%);
+  filter: blur(10.5px);
+  -webkit-filter: blur(10.5px);
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* 椭圆光圈 - 后半部分（盾牌后面） */
 .shield-ring-back {
   position: absolute;
@@ -785,7 +844,7 @@ export default {
   margin-left: 0;
   margin-right: 0;
   border: 1px solid rgba(255, 255, 255, 0.58);
-  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.10);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
 }
 
 
@@ -836,18 +895,21 @@ export default {
 }
 
 .tips-right-column {
-  width: 120px;
-  flex-shrink: 0;
+  flex: 1;
   position: relative;
 }
 
 .indicator-chart {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
+  min-height: 120px;
   background: #F9F9F9;
   border-radius: 8px;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 三个重叠光圈 */
@@ -856,8 +918,8 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   z-index: 1;
 }
 
@@ -867,8 +929,8 @@ export default {
 }
 
 .circle-cyan {
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   left: 0;
   top: 0;
   background: #E0FBFE;
@@ -876,19 +938,19 @@ export default {
 }
 
 .circle-light {
-  width: 72px;
-  height: 72px;
-  left: 12px;
-  top: 12px;
+  width: 60px;
+  height: 60px;
+  left: 10px;
+  top: 10px;
   background: #F3F9FF;
   animation: circleBreathe 4s ease-in-out infinite;
   animation-delay: 0.8s;
 }
 
 .circle-purple {
-  width: 96px;
-  height: 96px;
-  left: 24px;
+  width: 80px;
+  height: 80px;
+  left: 20px;
   top: 0;
   background: #F0F2FF;
   animation: circleBreathe 4s ease-in-out infinite;
@@ -929,9 +991,9 @@ export default {
 
 .chart-text-area {
   position: absolute;
-  top: 28px;
-  left: 24px;
-  width: 72px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -951,17 +1013,17 @@ export default {
   color: #99C8DE;
 }
 
+/* Tags container: centered on circle */
 .indicator-tags {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 3;
+  z-index: 4;
 }
 
 .indicator-tag {
-  position: absolute;
   font-size: 10px;
   color: #879FBB;
   background: #DCF0F9;
@@ -969,13 +1031,7 @@ export default {
   border-radius: 10px;
   white-space: nowrap;
   font-weight: 500;
-  z-index: 4;
 }
-
-.tag-top { top: 0; left: 50%; transform: translateX(-50%); }
-.tag-right { top: 16px; right: -4px; }
-.tag-bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
-.tag-left { bottom: 16px; left: -4px; }
 
 /* Feature Cards */
 .feature-row {
@@ -991,11 +1047,14 @@ export default {
   border-radius: 14px;
   padding: 16px;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 4px 12px rgba(173, 180, 212, 0.15);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
   border: none;
   opacity: 1;
+  position: relative;
+  min-height: 80px;
 }
 
 .feature-card:first-child {
@@ -1008,6 +1067,10 @@ export default {
 
 .feature-info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
 }
 
 .feature-title {
@@ -1015,19 +1078,23 @@ export default {
   font-weight: 700;
   color: #1A2B44;
   display: block;
+  white-space: nowrap;
 }
 
 .feature-desc {
   font-size: 12px;
   color: #7A8BA4;
-  margin-top: 4px;
   display: block;
+  white-space: nowrap;
 }
 
 .feature-icon {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
 }
 
 /* Notification Section */
@@ -1036,7 +1103,7 @@ export default {
   background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
   border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 2px 12px rgba(13, 66, 49, 0.05);
+  box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
   border: 1px solid rgba(255, 255, 255, 1);
   position: relative;
   z-index: 2;

@@ -1,70 +1,100 @@
 <template>
   <view class="health-manage-container">
-    <!-- Header with Green Gradient -->
-    <view class="header-bg">
-      <view class="status-bar">
-        <view class="status-content">
-          <view class="logo-wrap">
-            <image src="/static/logo.png" class="logo-img" mode="aspectFit" />
-            <view class="logo-text-group">
-              <text class="logo-cn">圣通尚诺</text>
-              <text class="logo-en">For Better Life</text>
-            </view>
-          </view>
-          <text class="header-title">健康管理</text>
-          <view class="header-right">
-            <view class="header-btn">
-              <text class="btn-dots">···</text>
-            </view>
-            <view class="header-btn">
-              <text class="btn-circle">○</text>
-            </view>
-          </view>
-        </view>
-      </view>
+    <!-- Top Background (same as homepage: #009D85 top 40%) -->
+    <view class="top-bg"></view>
 
-      <!-- Greeting -->
-      <view class="greeting-section">
-        <view class="avatar-wrap">
-          <image src="/static/design/health/Frame 1739330068.svg" class="avatar-img" mode="aspectFit" />
-        </view>
-        <text class="greeting-line">早上好，{{ userName }}～</text>
+    <!-- Header -->
+    <view class="status-bar">
+      <view class="status-content">
+        <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
+        <text class="header-title">健康管理</text>
       </view>
     </view>
 
-    <!-- Health Advice Card -->
-    <view class="advice-card">
-      <view class="advice-header">
-        <text class="advice-title">健康建议</text>
-        <image src="/static/design/home/Frame.svg" class="advice-deco" mode="aspectFit" />
+    <!-- Greeting -->
+    <view class="greeting-section">
+      <view class="avatar-wrap">
+        <image src="/static/design/health/Frame 1739330068.svg" class="avatar-img" mode="aspectFit" />
       </view>
-      <view class="advice-body">
+      <text class="greeting-line">{{ greeting }}{{ userName ? '，' + userName : '' }}～</text>
+    </view>
+
+    <!-- Health Advice Section -->
+    <view class="advice-section">
+      <!-- Green Trapezoid Banner with rounded corners + dip -->
+      <view class="advice-banner">
+        <svg class="banner-svg" viewBox="0 0 343 92" preserveAspectRatio="none">
+          <defs>
+            <!-- 110deg: dark green (upper-left) → light green (lower-right) -->
+            <linearGradient id="adviceBannerGrad" x1="0" y1="0" x2="1" y2="0.36">
+              <stop offset="4%" stop-color="#19a280"/>
+              <stop offset="107%" stop-color="#77ebce"/>
+            </linearGradient>
+          </defs>
+          <!-- Rounded rectangle with smooth dip in top middle -->
+          <path d="M 0 8
+            Q 0 0, 8 0
+
+            L 128 0
+            Q 140 0, 159 9
+            Q 165 12, 171 12
+            Q 177 12, 183 9
+            Q 202 0, 214 0
+
+            L 335 0
+            Q 343 0, 343 8
+            L 343 84
+            Q 343 92, 335 92
+            L 8 92
+            Q 0 92, 0 84
+            Z" fill="url(#adviceBannerGrad)"/>
+        </svg>
+        <!-- Inverted obtuse isosceles triangle in the dip (with rounded corners + gradient) -->
+        <view class="banner-triangle">
+          <svg viewBox="0 0 25.11 6.75" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
+            <defs>
+              <!-- 106deg: dark green → light green -->
+              <linearGradient id="triangleGrad" x1="0" y1="0" x2="1" y2="0.29">
+                <stop offset="3%" stop-color="#19a280"/>
+                <stop offset="104%" stop-color="#77ebce"/>
+              </linearGradient>
+            </defs>
+            <!-- Downward obtuse isosceles triangle with rounded corners (r=1) -->
+            <path d="M 1.4 0 Q 12.65 -0.9, 24.11 0 Q 24.95 0.42, 23.85 0.95 Q 17.2 4.4, 12.4 6.5 Q 11.6 6.65, 10.9 6.2 Q 4.8 3.9, 0.85 0.92 Q 0.15 0.4, 1.4 0 Z"
+             fill="url(#triangleGrad)"/>
+          </svg>
+        </view>
+        <text class="banner-title">健康建议</text>
+        <!-- Right side decorative icon -->
+        <view class="banner-icon">
+          <image src="/static/design/home/Frame.svg" mode="aspectFit" style="width:100%;height:100%;opacity:0.4;"/>
+        </view>
+      </view>
+
+      <!-- Frosted Translucent Tray (overlaps banner bottom) -->
+      <view class="advice-tray">
         <text class="advice-text">{{ healthAdvice }}</text>
       </view>
+    </view>
 
-      <!-- Feature Cards Row -->
-      <view class="feature-row">
-        <view class="feature-card feature-blue" @click="handleItemClick('/pages/improvement-plan/improvement-plan')">
-          <view class="priority-badge">重要</view>
-          <view class="feature-icon-wrap">
-            <image src="/static/design/home/Frame-3.svg" class="feature-icon" mode="aspectFit" />
-          </view>
-          <view class="feature-info">
-            <text class="feature-title">指标提升方案</text>
-            <text class="feature-desc">个性化干预方案针对性改善健康指标</text>
-          </view>
+    <!-- Feature Cards Row -->
+    <view class="feature-row">
+      <view class="feature-card feature-blue" @click="handleItemClick('/pages/improvement-plan/improvement-plan')">
+        <view class="feature-icon-wrap">
+          <image src="/static/design/home/Frame-3.svg" class="feature-icon" mode="aspectFit" />
         </view>
+        <view class="priority-badge">重要</view>
+        <text class="feature-title">指标提升方案</text>
+        <text class="feature-desc">个性化干预方案针对性改善健康指标</text>
+      </view>
 
-        <view class="feature-card feature-green" @click="handleItemClick('/pages/diagnosis/diagnosis')">
-          <view class="priority-badge">重要</view>
-          <view class="feature-icon-wrap">
-            <image src="/static/design/home/Frame-4.svg" class="feature-icon" mode="aspectFit" />
-          </view>
-          <view class="feature-info">
-            <text class="feature-title">透析评估</text>
-            <text class="feature-desc">反馈当天透析情况，评估治疗效果</text>
-          </view>
+      <view class="feature-card feature-green" @click="handleItemClick('/pages/diagnosis/diagnosis')">
+        <view class="feature-icon-wrap">
+          <image src="/static/design/home/Frame-4.svg" class="feature-icon" mode="aspectFit" />
         </view>
+        <view class="priority-badge">重要</view>
+        <text class="feature-title">透析评估</text>
+        <text class="feature-desc">反馈当天透析情况，评估治疗效果</text>
       </view>
     </view>
 
@@ -77,7 +107,7 @@
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-5.svg" class="menu-icon icon-blue" mode="aspectFit" />
+          <image src="/static/design/home/Frame-5.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
@@ -88,7 +118,7 @@
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-6.svg" class="menu-icon icon-red" mode="aspectFit" />
+          <image src="/static/design/home/Frame-6.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
@@ -99,7 +129,7 @@
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-7.svg" class="menu-icon icon-purple" mode="aspectFit" />
+          <image src="/static/design/home/Frame-7.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
@@ -110,7 +140,7 @@
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-8.svg" class="menu-icon icon-green" mode="aspectFit" />
+          <image src="/static/design/home/Frame-8.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
     </view>
@@ -124,8 +154,19 @@ export default {
   data() {
     return {
       isNavigating: false,
-      userName: '何先生',
+      userName: '',
       healthAdvice: '"健康身体指标"是减少并发症重要因素，最终成效依赖于我们双方的紧密配合，医疗团队的专业处置与您对饮食、用药、自我管理等方案的严格执行同等重要。'
+    }
+  },
+  computed: {
+    greeting() {
+      const hour = new Date().getHours()
+      if (hour < 6) return '凌晨好'
+      if (hour < 9) return '早上好'
+      if (hour < 12) return '上午好'
+      if (hour < 14) return '中午好'
+      if (hour < 18) return '下午好'
+      return '晚上好'
     }
   },
   onLoad() {
@@ -140,10 +181,8 @@ export default {
       if (userStr) {
         try {
           const user = typeof userStr === 'string' ? JSON.parse(userStr) : userStr
-          if (user && user.name) {
-            this.userName = user.name
-          } else if (user && user.nickname) {
-            this.userName = user.nickname
+          if (user) {
+            this.userName = user.name || user.realName || user.nickname || user.username || '用户'
           }
         } catch (e) {
           console.log('解析用户信息失败', e)
@@ -170,280 +209,256 @@ export default {
 .health-manage-container {
   padding: 0;
   min-height: 100vh;
-  background: #F4FAF8;
+  background: #FFFFFF;
+  position: relative;
 }
 
-/* Header Background with Gradient */
-.header-bg {
-  background: linear-gradient(180deg, #D0F3E8 0%, #A9EBD1 30%, #74DFB8 70%, #4ADBB0 100%);
-  padding-bottom: 20px;
-  position: relative;
+/* Top Background: #009D85 theme color, top 40% (same as homepage) */
+.top-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40vh;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  z-index: 0;
 }
 
 /* Status Bar */
 .status-bar {
-  padding: calc(var(--status-bar-height, 20px) + 12px) 16px 8px;
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--status-bar-height, 20px) + 8px) 16px 8px;
 }
 
 .status-content {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-}
-
-.logo-img {
-  width: 40px;
-  height: 40px;
-}
-
-.logo-text-group {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.logo-cn {
-  font-size: 14px;
-  font-weight: 700;
-  color: #0A2540;
-}
-
-.logo-en {
-  font-size: 9px;
-  color: #5A7A99;
-  letter-spacing: 0.5px;
+.logo-layer-img {
+  width: 120px;
+  height: 32px;
+  display: block;
 }
 
 .header-title {
   font-size: 17px;
   font-weight: 700;
-  color: #0A2540;
-  flex: 1;
+  color: #000000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  justify-content: flex-end;
-}
-
-.header-btn {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid #0A2540;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-}
-
-.btn-dots {
-  font-size: 14px;
-  color: #0A2540;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.btn-circle {
-  font-size: 14px;
-  color: #0A2540;
-  line-height: 1;
+  white-space: nowrap;
 }
 
 /* Greeting Section */
 .greeting-section {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 8px 16px 0;
 }
 
 .avatar-wrap {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: #FFFFFF;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 8px rgba(45, 174, 133, 0.25);
+  overflow: hidden;
+  background: #23B357;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 2px 8px rgba(25, 162, 128, 0.2);
-  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .avatar-img {
-  width: 44px;
-  height: 44px;
+  width: 100%;
+  height: 100%;
 }
 
 .greeting-line {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: #0A2540;
+  color: #000000;
+  white-space: nowrap;
 }
 
-/* Advice Card */
-.advice-card {
-  margin: 16px 16px 0;
-  background: #FFFFFF;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.08);
+/* Advice Section */
+.advice-section {
   position: relative;
-  z-index: 2;
-  overflow: hidden;
+  z-index: 1;
+  margin: 20px 16px 0;
 }
 
-.advice-header {
-  background: linear-gradient(180deg, #19A280 0%, #3FCBA5 100%);
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* Green Trapezoid Banner */
+.advice-banner {
   position: relative;
+  width: 100%;
+  height: 92px;
+  overflow: visible;
+  z-index: 1;
 }
 
-.advice-header::after {
-  content: '';
+.banner-svg {
   position: absolute;
-  bottom: -1px;
+  top: 0;
   left: 0;
-  right: 0;
-  height: 12px;
-  background: #FFFFFF;
-  border-radius: 12px 12px 0 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-.advice-title {
+/* Small inverted triangle in the dip */
+.banner-triangle {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25.11px;
+  height: 6.75px;
+  z-index: 2;
+}
+
+.banner-title {
+  position: absolute;
+  left: 20px;
+  top: 10px;
   font-size: 17px;
   font-weight: 700;
   color: #FFFFFF;
+  z-index: 4;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.advice-deco {
+/* Right side decorative icon */
+.banner-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 28px;
   height: 28px;
+  z-index: 3;
 }
 
-.advice-body {
-  padding: 14px 16px 16px;
+/* Frosted Translucent Tray */
+.advice-tray {
+  position: relative;
+  margin-top: -50px;
+  z-index: 2;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  padding: 12px 12px 16px;
+  box-sizing: border-box;
 }
 
 .advice-text {
-  font-size: 13px;
-  color: #4A5568;
-  line-height: 1.7;
+  font-size: 14px;
+  color: #333333;
+  line-height: 20px;
 }
 
-/* Feature Cards */
+/* Feature Cards Row */
 .feature-row {
+  position: relative;
+  z-index: 1;
   display: flex;
-  gap: 10px;
-  padding: 0 16px 16px;
+  gap: 12px;
+  margin: 16px 16px 0;
 }
 
 .feature-card {
   flex: 1;
-  background: #FFFFFF;
-  border-radius: 12px;
-  padding: 14px 12px;
+  border-radius: 8px;
+  padding: 12px;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  box-shadow: 0 4px 12px rgba(13, 66, 49, 0.06);
+  gap: 6px;
+  min-height: 110px;
+  box-shadow: 0 4px 0px rgba(173, 180, 212, 0.3);
 }
 
 .feature-blue {
-  border-top: 3px solid #0083FF;
+  background: linear-gradient(180deg, #F6FAFF 0%, #FFFFFF 50%);
 }
 
 .feature-green {
-  border-top: 3px solid #00C67C;
-}
-
-.priority-badge {
-  position: absolute;
-  top: 0;
-  right: 12px;
-  background: #19A280;
-  color: #FFFFFF;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 0 0 6px 6px;
+  background: linear-gradient(180deg, #F5FFFB 0%, #FFFFFF 50%);
 }
 
 .feature-icon-wrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.feature-blue .feature-icon-wrap {
-  background: #E6F0FF;
-}
-
-.feature-green .feature-icon-wrap {
-  background: #E6FFF5;
-}
-
 .feature-icon {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
 }
 
-.feature-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* Important badge: left dark, right light gradient */
+.priority-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: linear-gradient(90deg, #19A280 0%, #2DAE85 50%, #3FCBA5 100%);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 0 8px 0 6px;
 }
 
 .feature-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  color: #0A2540;
+  color: #333333;
+  margin-top: 4px;
 }
 
 .feature-desc {
-  font-size: 11px;
-  color: #7A8BA4;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  font-size: 12px;
+  color: #7A91A3;
+  line-height: 18px;
 }
 
-/* Menu Grid */
+/* Menu Grid 2x2 */
 .menu-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 16px;
+  margin: 16px 16px 0;
 }
 
 .menu-item {
   background: #FFFFFF;
-  border-radius: 12px;
-  padding: 14px 12px;
+  border-radius: 14px;
+  padding: 16px 14px;
+  box-shadow: 0 2px 12px rgba(13, 66, 49, 0.05);
+  border: 1px solid rgba(13, 66, 49, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  box-shadow: 0 4px 12px rgba(13, 66, 49, 0.06);
+  justify-content: space-between;
+  min-height: 112px;
+  gap: 12px;
 }
 
 .menu-info {
@@ -453,9 +468,9 @@ export default {
 }
 
 .menu-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  color: #0A2540;
+  color: #1A2B44;
 }
 
 .menu-desc {
@@ -465,42 +480,22 @@ export default {
 
 .menu-bottom {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
 .menu-view-btn {
   font-size: 12px;
-  color: #19A280;
+  color: #2DAE85;
   font-weight: 600;
-  background: #E8F9F0;
-  padding: 4px 14px;
-  border-radius: 12px;
+  background: rgba(45, 174, 133, 0.08);
+  padding: 3px 14px;
+  border-radius: 16px;
 }
 
 .menu-icon {
-  width: 52px;
-  height: 52px;
-}
-
-.icon-blue {
-  background: linear-gradient(135deg, #0083FF 0%, #6CB7FF 100%);
-  border-radius: 12px;
-}
-
-.icon-red {
-  background: linear-gradient(135deg, #FF373A 0%, #FF6B6E 100%);
-  border-radius: 12px;
-}
-
-.icon-purple {
-  background: linear-gradient(135deg, #DD7AD8 0%, #FF97F2 100%);
-  border-radius: 12px;
-}
-
-.icon-green {
-  background: linear-gradient(135deg, #1ACF90 0%, #3EE4B8 100%);
-  border-radius: 12px;
+  width: 32px;
+  height: 32px;
 }
 
 .bottom-space {
