@@ -3,24 +3,27 @@
     <!-- Top Background (same as homepage: #009D85 top 40%) -->
     <view class="top-bg"></view>
 
-    <!-- Header -->
-    <view class="status-bar">
-      <view class="status-content">
-        <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
-        <text class="header-title">健康管理</text>
+    <!-- Sticky Top: Header + Greeting -->
+    <view class="sticky-top" :class="{ 'frost-visible': pageVisible }">
+      <!-- Header -->
+      <view class="status-bar">
+        <view class="status-content">
+          <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
+          <text class="header-title">健康管理</text>
+        </view>
       </view>
-    </view>
 
-    <!-- Greeting -->
-    <view class="greeting-section">
-      <view class="avatar-wrap">
-        <image src="/static/design/health/Frame 1739330068.svg" class="avatar-img" mode="aspectFit" />
+      <!-- Greeting -->
+      <view class="greeting-section animate-fade-in" :style="{ animationDelay: '0.1s' }">
+        <view class="avatar-wrap">
+          <image src="/static/design/health/Frame 1739330068.svg" class="avatar-img" mode="aspectFit" />
+        </view>
+        <text class="greeting-line">{{ greeting }}{{ userName ? '，' + userName : '' }}～</text>
       </view>
-      <text class="greeting-line">{{ greeting }}{{ userName ? '，' + userName : '' }}～</text>
     </view>
 
     <!-- Health Advice Section -->
-    <view class="advice-section">
+    <view class="advice-section" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.2s;">
       <!-- Green Trapezoid Banner with rounded corners + dip -->
       <view class="advice-banner">
         <svg class="banner-svg" viewBox="0 0 343 92" preserveAspectRatio="none">
@@ -67,7 +70,7 @@
         <text class="banner-title">健康建议</text>
         <!-- Right side decorative icon -->
         <view class="banner-icon">
-          <image src="/static/design/home/Frame.svg" mode="aspectFit" style="width:100%;height:100%;opacity:0.4;"/>
+          <image src="/static/design/health/健康建议右侧.svg" mode="aspectFit" style="width:100%;height:100%;opacity:1;"/>
         </view>
       </view>
 
@@ -79,18 +82,18 @@
 
     <!-- Feature Cards Row -->
     <view class="feature-row">
-      <view class="feature-card feature-blue" @click="handleItemClick('/pages/improvement-plan/improvement-plan')">
+      <view class="feature-card feature-blue animate-fade-in-up" :style="{ animationDelay: '0.3s' }" @click="handleItemClick('/pages/improvement-plan/improvement-plan')">
         <view class="feature-icon-wrap">
-          <image src="/static/design/home/Frame-3.svg" class="feature-icon" mode="aspectFit" />
+          <image src="/static/design/health/Vector-3.svg" class="feature-icon" mode="aspectFit" />
         </view>
         <view class="priority-badge">重要</view>
         <text class="feature-title">指标提升方案</text>
         <text class="feature-desc">个性化干预方案针对性改善健康指标</text>
       </view>
 
-      <view class="feature-card feature-green" @click="handleItemClick('/pages/diagnosis/diagnosis')">
+      <view class="feature-card feature-green animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="handleItemClick('/pages/diagnosis/diagnosis')">
         <view class="feature-icon-wrap">
-          <image src="/static/design/home/Frame-4.svg" class="feature-icon" mode="aspectFit" />
+          <image src="/static/design/health/Vector-2.svg" class="feature-icon" mode="aspectFit" />
         </view>
         <view class="priority-badge">重要</view>
         <text class="feature-title">透析评估</text>
@@ -100,47 +103,47 @@
 
     <!-- Menu Grid 2x2 -->
     <view class="menu-grid">
-      <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
+      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.5s' }" @click="handleItemClick('/pages/health-record/health-record')">
         <view class="menu-info">
           <text class="menu-title">健康档案</text>
           <text class="menu-desc">查看个人健康信息</text>
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-5.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/static/design/home/Group 1000007254.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
-      <view class="menu-item" @click="handleItemClick('/pages/vital-sign/vital-sign')">
+      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.6s' }" @click="handleItemClick('/pages/vital-sign/vital-sign')">
         <view class="menu-info">
           <text class="menu-title">生命体征</text>
           <text class="menu-desc">记录体温血压血糖</text>
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-6.svg" class="menu-icon" mode="aspectFit" />
+         <image src="/static/design/home/Group 1000007257.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
-      <view class="menu-item" @click="handleItemClick('/pages/medication/medication')">
+      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.7s' }" @click="handleItemClick('/pages/medication/medication')">
         <view class="menu-info">
           <text class="menu-title">用药记录</text>
           <text class="menu-desc">管理每日用药提醒</text>
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-7.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/static/design/home/Group 1000007258.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
 
-      <view class="menu-item" @click="handleItemClick('/pages/core-indicator/core-indicator')">
+      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.8s' }" @click="handleItemClick('/pages/core-indicator/core-indicator')">
         <view class="menu-info">
           <text class="menu-title">核心指标</text>
           <text class="menu-desc">查血指标趋势追踪</text>
         </view>
         <view class="menu-bottom">
           <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Frame-8.svg" class="menu-icon" mode="aspectFit" />
+          <image src="/static/design/health/核心指标.svg" class="menu-icon" mode="aspectFit" />
         </view>
       </view>
     </view>
@@ -155,6 +158,7 @@ export default {
     return {
       isNavigating: false,
       userName: '',
+      pageVisible: true,
       healthAdvice: '"健康身体指标"是减少并发症重要因素，最终成效依赖于我们双方的紧密配合，医疗团队的专业处置与您对饮食、用药、自我管理等方案的严格执行同等重要。'
     }
   },
@@ -174,6 +178,10 @@ export default {
   },
   onShow() {
     this.loadUserInfo()
+    this.pageVisible = false
+    this.$nextTick(() => {
+      this.pageVisible = true
+    })
   },
   methods: {
     loadUserInfo() {
@@ -206,6 +214,49 @@ export default {
 </script>
 
 <style scoped>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+@keyframes fadeInOnly {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in-only {
+  animation: fadeInOnly 0.4s ease-out both;
+}
+
+.frost-visible {
+  opacity: 1 !important;
+}
+
 .health-manage-container {
   padding: 0;
   min-height: 100vh;
@@ -222,6 +273,16 @@ export default {
   height: 40vh;
   background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
   z-index: 0;
+}
+
+/* Sticky Top Section - fixed on scroll, covered by content below */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
 
 /* Status Bar */
@@ -295,6 +356,8 @@ export default {
   position: relative;
   z-index: 1;
   margin: 20px 16px 0;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
 
 /* Green Trapezoid Banner */
@@ -341,11 +404,11 @@ export default {
 /* Right side decorative icon */
 .banner-icon {
   position: absolute;
-  right: 16px;
-  top: 50%;
+  right: 10px;
+  top: 20%;
   transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
+  width: 25px;
+  height: 25px;
   z-index: 3;
 }
 

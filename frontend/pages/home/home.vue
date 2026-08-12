@@ -1,7 +1,7 @@
 <template>
   <view class="home-container">
     <!-- Sticky Top: Header + Greeting (fixed on scroll, covered by content) -->
-    <view class="sticky-top">
+    <view class="sticky-top" :class="{ 'frost-visible': pageVisible }">
       <!-- Header -->
       <view class="status-bar">
         <view class="status-content">
@@ -11,7 +11,7 @@
       </view>
 
       <!-- Greeting Section with Shield Decoration -->
-      <view class="greeting-section">
+      <view class="greeting-section animate-fade-in" :style="{ animationDelay: '0.1s' }">
         <view class="greeting-text">
           <text class="greeting-main">为您健康护航</text>
           <text class="greeting-days">第{{ daysProtected }}天</text>
@@ -218,7 +218,7 @@
     </view>
 
     <!-- Health Management Tips Card -->
-    <view class="tips-card">
+    <view class="tips-card" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.2s;">
       <!-- 绿色头部（提醒/梯形形状：左上方大矩形+右侧凸起梯形，中间圆角弧过渡） -->
       <view class="tips-green-header">
         <view class="tips-header-backplate"></view>
@@ -258,15 +258,21 @@
           <view class="tips-left-column">
             <view class="tip-item" @click="handleTipClick(tipCards[0])">
               <view class="tip-icon-wrap">
-                <image src="/static/design/home/Frame.svg" class="tip-icon" mode="aspectFit" />
+                <image src="/static/design/home/Frame-7.svg" class="tip-icon" mode="aspectFit" />
               </view>
-              <text class="tip-label">定期记录生命体征数据</text>
+              <view class="tip-text-wrap">
+                <text class="tip-label">定期记录</text>
+                <text class="tip-label">生命体征数据</text>
+              </view>
             </view>
             <view class="tip-item" @click="handleTipClick(tipCards[1])">
               <view class="tip-icon-wrap">
-                <image src="/static/design/home/Frame-2.svg" class="tip-icon" mode="aspectFit" />
+                <image src="/static/design/home/Frame-6.svg" class="tip-icon" mode="aspectFit" />
               </view>
-              <text class="tip-label">按时查看用药提醒</text>
+              <view class="tip-text-wrap">
+                <text class="tip-label">按时查看</text>
+                <text class="tip-label">用药提醒</text>
+              </view>
             </view>
           </view>
           <view class="tips-right-column">
@@ -276,7 +282,7 @@
                 <view class="chart-circle circle-light"></view>
                 <view class="chart-circle circle-purple"></view>
               </view>
-              <view class="chart-ring-draw"></view>
+              <image src="/static/design/home/Vector.svg" class="chart-ring-icon" mode="aspectFit" />
               <view class="chart-text-area">
                 <text class="chart-title">待提升指标</text>
                 <text class="chart-link">查看详情</text>
@@ -292,29 +298,29 @@
 
     <!-- Quick Feature Cards -->
     <view class="feature-row">
-      <view class="feature-card" @click="handleNavClick('/pages/schedule/schedule', '透析排班')">
+      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.3s' }" @click="handleNavClick('/pages/schedule/schedule', '透析排班')">
         <view class="feature-info">
           <text class="feature-title">透析排班查询</text>
           <text class="feature-desc">一键查透析排班</text>
         </view>
-        <image src="/static/design/home/Rectangle 3463952-2.svg" class="feature-icon" mode="aspectFit" />
+        <image src="/static/design/home/路径.svg" class="feature-icon" mode="aspectFit" />
       </view>
-      <view class="feature-card" @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')">
+      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')">
         <view class="feature-info">
           <text class="feature-title">最新透析状态查询</text>
           <text class="feature-desc">精准查询透析状态</text>
         </view>
-        <image src="/static/design/home/Rectangle 3463952.svg" class="feature-icon" mode="aspectFit" />
+        <image src="/static/design/home/联集 1.svg" class="feature-icon" mode="aspectFit" />
       </view>
     </view>
 
     <!-- Notification Section -->
-    <view class="notification-section">
+    <view class="notification-section animate-fade-in-up" :style="{ animationDelay: '0.5s' }">
       <!-- 顶部淡蓝色渐变 -->
       <view class="notification-top-gradient"></view>
       <view class="notification-header">
         <view class="notification-title-wrap">
-          <image src="/static/design/home/Frame 164073.svg" class="notification-icon" mode="aspectFit" />
+          <image src="/static/design/home/image 2875.png" class="notification-icon" mode="aspectFit" />
           <text class="notification-title">通知消息</text>
         </view>
         <view class="notification-more-wrap" @click="goToNotification">
@@ -363,7 +369,8 @@ export default {
       notificationList: [],
       daysProtected: 1,
       indicatorTags: [],
-      tagAnimOffset: 720
+      tagAnimOffset: 720,
+      pageVisible: true
     }
   },
   computed: {
@@ -392,6 +399,11 @@ export default {
   },
   onShow() {
     this.fetchNotifications()
+    this.animateIndicatorTags()
+    this.pageVisible = false
+    this.$nextTick(() => {
+      this.pageVisible = true
+    })
   },
   methods: {
     initIndicatorTags() {
@@ -555,7 +567,60 @@ export default {
 }
 </script>
 
+<style>
+@font-face {
+  font-family: 'Alimama ShuHeiTi';
+  src: url('/static/fonts/AlimamaShuHeiTi-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+</style>
+
 <style scoped>
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+@keyframes fadeInOnly {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in-only {
+  animation: fadeInOnly 0.4s ease-out both;
+}
+
+.frost-visible {
+  opacity: 1 !important;
+}
+
 .home-container {
   padding: 0;
   min-height: 100vh;
@@ -570,6 +635,8 @@ export default {
   top: 0;
   z-index: 1;
   background: transparent;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
 
 /* Status Bar / Header */
@@ -681,18 +748,33 @@ export default {
 }
 
 .greeting-main {
+  font-family: 'Alimama ShuHeiTi', sans-serif;
   font-size: 32px;
-  font-weight: 700;
-  color: #009D85;
-  letter-spacing: 1px;
-  line-height: 1.25;
+  font-weight: bold;
+  line-height: 38px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  background: linear-gradient(90deg, #19a280 0%, #00a17d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: flex;
+  align-items: center;
 }
 
 .greeting-days {
+  font-family: 'Alimama ShuHeiTi', sans-serif;
   font-size: 32px;
-  font-weight: 700;
-  color: #ABCD07;
-  line-height: 1.25;
+  font-weight: bold;
+  line-height: 38px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  background: linear-gradient(90deg, #a2bc1b 0%, #bfda41 52%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: flex;
+  align-items: center;
 }
 
 .shield-wrap {
@@ -762,6 +844,8 @@ export default {
   margin: 0 16px 16px;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
 }
 
 /* 绿色头部的磨砂半透明背板，覆盖标题与快捷状态 */
@@ -851,6 +935,7 @@ export default {
 .tips-content {
   display: flex;
   gap: 12px;
+  align-items: stretch;
 }
 
 .tips-left-column {
@@ -869,6 +954,16 @@ export default {
   -webkit-backdrop-filter: blur(6px);
   border-radius: 10px;
   padding: 10px 12px;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tip-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
 }
 
 .tip-icon-wrap {
@@ -891,25 +986,30 @@ export default {
   font-size: 13px;
   color: #333333;
   font-weight: 500;
-  flex: 1;
+  line-height: 1.3;
 }
 
 .tips-right-column {
   flex: 1;
+  width: 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .indicator-chart {
   position: relative;
   width: 100%;
-  height: 100%;
-  min-height: 120px;
-  background: #F9F9F9;
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 /* 三个重叠光圈 */
@@ -968,8 +1068,8 @@ export default {
   }
 }
 
-/* 旋转环 */
-.chart-ring-draw {
+/* 圆环图标 */
+.chart-ring-icon {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -977,16 +1077,7 @@ export default {
   height: 80px;
   margin-top: -40px;
   margin-left: -40px;
-  border: 2px solid #C8EAF8;
-  border-top-color: transparent;
-  border-radius: 50%;
   z-index: 2;
-  animation: ringSpin 6s linear infinite;
-}
-
-@keyframes ringSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
 .chart-text-area {
@@ -1089,8 +1180,8 @@ export default {
 }
 
 .feature-icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
   position: absolute;
   right: 12px;
@@ -1099,7 +1190,7 @@ export default {
 
 /* Notification Section */
 .notification-section {
-  margin: 0 16px;
+  margin: 0 0;
   background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
   border-radius: 14px;
   padding: 16px;

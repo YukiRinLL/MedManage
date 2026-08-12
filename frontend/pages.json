@@ -255,32 +255,32 @@
       {
         "pagePath": "pages/home/home",
         "text": "首页",
-        "iconPath": "static/icons/png/filled/places/home@2x.png",
-        "selectedIconPath": "static/icons/png/filled/places/home@2x.png"
+        "iconPath": "static/design/health/Frame-3.svg",
+        "selectedIconPath": "static/design/home/首页(选中).svg"
       },
       {
         "pagePath": "pages/health-manage/health-manage",
         "text": "健康管理",
-        "iconPath": "static/icons/png/filled/symbols/heart_cardiogram@2x.png",
-        "selectedIconPath": "static/icons/png/filled/symbols/heart_cardiogram@2x.png"
+        "iconPath": "static/design/health/健康管理(未选中).svg",
+        "selectedIconPath": "static/design/home/Frame.svg"
       },
       {
         "pagePath": "pages/service-center/service-center",
         "text": "服务中心",
-        "iconPath": "static/icons/png/filled/objects/insurance_card@2x.png",
-        "selectedIconPath": "static/icons/png/filled/objects/insurance_card@2x.png"
+        "iconPath": "static/design/health/Frame-4.svg",
+        "selectedIconPath": "static/design/health/Frame-4.svg"
       },
       {
         "pagePath": "pages/interaction/interaction",
         "text": "互动中心",
-        "iconPath": "static/icons/png/filled/objects/megaphone@2x.png",
-        "selectedIconPath": "static/icons/png/filled/objects/megaphone@2x.png"
+        "iconPath": "static/design/home/我的-2.svg",
+        "selectedIconPath": "static/design/home/我的-2.svg"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "static/icons/png/filled/people/person@2x.png",
-        "selectedIconPath": "static/icons/png/filled/people/person@2x.png"
+        "iconPath": "static/design/home/我的.svg",
+        "selectedIconPath": "static/design/home/我的.svg"
       }
     ]
   },
