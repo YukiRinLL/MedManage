@@ -330,7 +330,7 @@
       </view>
       <view class="notification-list" v-if="notificationList.length > 0">
         <view
-          class="notification-item"
+          class="notification-card"
           v-for="(item, index) in notificationList"
           :key="index"
           @click="goToNotificationDetail(item)"
@@ -339,7 +339,10 @@
           <view class="notification-body">
             <text class="notification-text">{{ item.content }}</text>
             <view class="notification-meta">
-              <text class="notification-time">{{ item.time }}</text>
+              <view class="notification-time-wrap">
+                <image src="/static/design/home/Frame-4.svg" class="notification-time-icon" mode="aspectFit" />
+                <text class="notification-time">{{ item.time }}</text>
+              </view>
               <text class="notification-view">查看</text>
             </view>
           </view>
@@ -1264,15 +1267,19 @@ export default {
   flex-direction: column;
 }
 
-.notification-item {
+.notification-card {
   display: flex;
   gap: 8px;
-  padding: 12px 0;
-  border-bottom: 1px solid #F2F3F5;
+  padding: 14px 12px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
+  border: 1px solid rgba(255, 255, 255, 1);
 }
 
-.notification-item:last-child {
-  border-bottom: none;
+.notification-card:last-child {
+  margin-bottom: 0;
 }
 
 .notification-dot {
@@ -1305,6 +1312,17 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.notification-time-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.notification-time-icon {
+  width: 14px;
+  height: 14px;
 }
 
 .notification-time {
