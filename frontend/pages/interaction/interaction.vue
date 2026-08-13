@@ -1,72 +1,103 @@
 <template>
   <view class="interaction-container">
-    <view class="section-header animate-slide-down">
-      <text class="section-title">互动中心</text>
-      <text class="section-desc">获取最新资讯与活动</text>
-    </view>
-    
-    <view class="menu-grid">
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.1s' }"
-        @click="handleItemClick('/pages/activities/list', '活动中心')"
-      >
-        <view class="menu-icon-wrapper bg-pink">
-          <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="menu-icon-img" mode="aspectFit" />
+    <!-- Top Background -->
+    <view class="top-bg"></view>
+
+    <!-- Sticky Top: Header -->
+    <view class="sticky-top" :class="{ 'frost-visible': pageVisible }">
+      <view class="status-bar">
+        <view class="status-content">
+          <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
+          <text class="header-title">互动中心</text>
         </view>
-        <text class="menu-text">活动中心</text>
-        <text class="menu-hint">参与健康互动活动</text>
-      </view>
-      
-      <view 
-        class="menu-item animate-fade-in-up" 
-        :style="{ animationDelay: '0.15s' }"
-        @click="handleItemClick('/pages/news/list', '新闻资讯')"
-      >
-        <view class="menu-icon-wrapper bg-yellow">
-          <image src="/static/icons/png/filled/objects/spreadsheets@2x.png" class="menu-icon-img" mode="aspectFit" />
-        </view>
-        <text class="menu-text">新闻资讯</text>
-        <text class="menu-hint">了解医疗健康动态</text>
-      </view>
-      
-      <view 
-        class="menu-item menu-item-wide animate-fade-in-up" 
-        :style="{ animationDelay: '0.2s' }"
-        @click="handleItemClick('/pages/notification/notification', '通知中心')"
-      >
-        <view class="wide-content">
-          <view class="menu-icon-wrapper bg-indigo">
-            <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="menu-icon-img" mode="aspectFit" />
-            <view class="notification-badge" v-if="unreadCount > 0">{{ unreadCount }}</view>
-          </view>
-          <view class="wide-text">
-            <text class="menu-text">通知中心</text>
-            <text class="menu-hint">查看系统通知消息</text>
-          </view>
-        </view>
-        <text class="nav-arrow">›</text>
-      </view>
-      
-      <view 
-        class="menu-item menu-item-wide animate-fade-in-up" 
-        :style="{ animationDelay: '0.25s' }"
-        @click="handleItemClick('/pages/feedback/feedback', '问题反馈')"
-      >
-        <view class="wide-content">
-          <view class="menu-icon-wrapper bg-green">
-            <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
-          </view>
-          <view class="wide-text">
-            <text class="menu-text">问题反馈及满意度调查</text>
-            <text class="menu-hint">反馈意见，帮助我们改进服务</text>
-          </view>
-        </view>
-        <text class="nav-arrow">›</text>
       </view>
     </view>
-    
-    <view class="bottom-space"></view>
+
+    <!-- Main Content -->
+    <view class="main-content" :class="{ 'frost-visible': pageVisible }">
+      <!-- Section 1: Activities & News -->
+      <view class="content-section" :style="{ animationDelay: '0.1s' }">
+        <view class="section-green-header animate-fade-in">
+          <view class="section-title-row-section">
+            <!-- <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="section-icon" mode="aspectFit" /> -->
+            <text class="section-title-text">活动与资讯</text>
+          </view>
+        </view>
+        <view class="section-frosted-tray">
+          <view class="menu-list">
+            <view
+              class="menu-item-row animate-fade-in-up"
+              @click="handleItemClick('/pages/activities/list', '活动中心')"
+            >
+              <view class="menu-icon-wrap bg-teal">
+                <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">活动中心</text>
+                <text class="menu-desc">参与健康互动活动</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+
+            <view
+              class="menu-item-row animate-fade-in-up"
+              @click="handleItemClick('/pages/news/list', '新闻资讯')"
+            >
+              <view class="menu-icon-wrap bg-blue">
+                <image src="/static/icons/png/filled/objects/spreadsheets@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">新闻资讯</text>
+                <text class="menu-desc">了解医疗健康动态</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- Section 2: Messages & Feedback -->
+      <view class="content-section" :style="{ animationDelay: '0.2s' }">
+        <view class="section-green-header animate-fade-in">
+          <view class="section-title-row-section">
+            <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="section-icon" mode="aspectFit" />
+            <text class="section-title-text">消息与反馈</text>
+          </view>
+        </view>
+        <view class="section-frosted-tray">
+          <view class="menu-list">
+            <view
+              class="menu-item-row animate-fade-in-up"
+              @click="handleItemClick('/pages/notification/notification', '通知中心')"
+            >
+              <view class="menu-icon-wrap bg-cyan">
+                <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="menu-icon-img" mode="aspectFit" />
+                <view class="red-dot" v-if="unreadCount > 0"></view>
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">通知中心</text>
+                <text class="menu-desc">查看系统通知消息</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+
+            <view
+              class="menu-item-row animate-fade-in-up"
+              @click="showFeedbackModal"
+            >
+              <view class="menu-icon-wrap bg-green">
+                <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">问题反馈</text>
+                <text class="menu-desc">反馈意见，帮助我们改进服务</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -77,11 +108,18 @@ export default {
   data() {
     return {
       isNavigating: false,
+      pageVisible: false,
       unreadCount: 0
     }
   },
   onLoad() {
     this.fetchUnreadCount()
+  },
+  onShow() {
+    this.pageVisible = true
+  },
+  onHide() {
+    this.pageVisible = false
   },
   methods: {
     async fetchUnreadCount() {
@@ -98,10 +136,8 @@ export default {
     handleItemClick(url, title) {
       if (this.isNavigating) return
       this.isNavigating = true
-      
       uni.vibrateShort({})
-      
-      uni.navigateTo({ 
+      uni.navigateTo({
         url,
         success: () => {
           setTimeout(() => {
@@ -129,20 +165,129 @@ export default {
 .interaction-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #F5F7FA;
+  background: #FFFFFF;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Top Background */
+.top-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45vh;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  z-index: 0;
 }
 
+/* Sticky Top Section */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.sticky-top.frost-visible {
+  opacity: 1;
+}
+
+/* Status Bar */
+.status-bar {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--status-bar-height, 20px) + 8px) 16px 8px;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.logo-layer-img {
+  width: 120px;
+  height: 32px;
+  display: block;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #000000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Main Content - fixed below header */
+.main-content {
+  position: fixed;
+  top: calc(var(--status-bar-height, 20px) + 56px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 12px 16px 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+  overflow: hidden;
+}
+
+.main-content.frost-visible {
+  opacity: 1;
+}
+
+/* Content Section - green header + frosted tray */
+.content-section {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.content-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Green Header */
+.section-green-header {
+  background: linear-gradient(330deg, rgba(119, 234, 206, 1) 0%, rgb(83, 204, 174) 35%, rgba(25, 162, 128, 1) 100%);
+  border-radius: 16px;
+  padding: 14px 18px 36px;
+  box-shadow: 0 4px 20px rgba(25, 162, 128, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.section-title-row-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+/* Section Frosted Tray */
+.section-frosted-tray {
+  position: relative;
+  margin-top: -26px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+}
+
+/* Animation */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -154,190 +299,107 @@ export default {
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out both;
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.4s ease-out both;
 }
 
-.animate-slide-down {
-  animation: slideDown 0.4s ease-out both;
+.section-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-header {
+/* Menu List */
+.menu-list {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: calc(var(--status-bar-height, 20px) + 20px) 20px 20px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EBEEF5;
+  flex-direction: column;
 }
 
-.section-title {
-  font-size: 22px;
-  font-weight: 600;
-  color: #009D85;
-  letter-spacing: 1px;
-  white-space: nowrap;
-}
-
-.section-desc {
-  font-size: 14px;
-  color: #909399;
-  white-space: nowrap;
-}
-
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 20px 16px;
-}
-
-.menu-item {
-  background-color: #FFFFFF;
-  padding: 28px 16px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+.menu-item-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
   position: relative;
-  overflow: hidden;
+  background: #FFFFFF;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(255, 255, 255, 1);
 }
 
-.menu-item:active {
-  transform: scale(0.96);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+.menu-item-row:last-child {
+  margin-bottom: 0;
 }
 
-.menu-item-wide {
-  grid-column: span 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
+.menu-item-row + .menu-item-row {
+  margin-top: 6px;
+  border-top: none;
 }
 
-.wide-content {
-  display: flex;
-  align-items: center;
-}
-
-.wide-text {
-  text-align: left;
-  margin-left: 16px;
-}
-
-.menu-icon-wrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
+.menu-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 14px;
-  transition: all 0.25s ease;
+  margin-right: 12px;
   position: relative;
-}
-
-.menu-item-wide .menu-icon-wrapper {
-  margin: 0;
-}
-
-.menu-item:active .menu-icon-wrapper {
-  transform: scale(1.1);
-}
-
-.notification-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background-color: #F56C6C;
-  color: #FFFFFF;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 10px;
-  animation: badgePulse 2s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-.bg-pink {
-  background-color: rgba(236, 72, 153, 0.1);
-}
-
-.bg-pink .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(37%) sepia(64%) saturate(726%) hue-rotate(290deg) brightness(95%) contrast(95%);
-}
-
-.bg-yellow {
-  background-color: rgba(234, 179, 8, 0.1);
-}
-
-.bg-yellow .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(71%) sepia(94%) saturate(443%) hue-rotate(36deg) brightness(99%) contrast(103%);
-}
-
-.bg-indigo {
-  background-color: rgba(99, 102, 241, 0.1);
-}
-
-.bg-indigo .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(32%) sepia(52%) saturate(1612%) hue-rotate(239deg) brightness(96%) contrast(99%);
-}
-
-.bg-green {
-  background-color: rgba(0, 157, 133, 0.1);
-}
-
-.bg-green .menu-icon-img {
-  filter: brightness(0) saturate(100%) invert(42%) sepia(93%) saturate(389%) hue-rotate(131deg) brightness(93%) contrast(94%);
-}
-
-.menu-icon {
-  font-size: 36px;
+  flex-shrink: 0;
 }
 
 .menu-icon-img {
-  width: 36px;
-  height: 36px;
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
-.menu-text {
+.bg-teal {
+  background: rgba(25, 162, 128, 0.12);
+}
+
+.bg-blue {
+  background: rgba(52, 151, 227, 0.12);
+}
+
+.bg-cyan {
+  background: rgba(0, 188, 212, 0.12);
+}
+
+.bg-green {
+  background: rgba(25, 162, 128, 0.12);
+}
+
+.menu-item-main {
+  flex: 1;
+}
+
+.menu-title {
   display: block;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  color: #303133;
-  margin-bottom: 6px;
+  color: #1A2B44;
+  margin-bottom: 2px;
 }
 
-.menu-hint {
+.menu-desc {
   display: block;
   font-size: 12px;
   color: #909399;
 }
 
-.nav-arrow {
-  font-size: 24px;
+.menu-arrow {
+  font-size: 20px;
   color: #C0C4CC;
 }
 
-.bottom-space {
-  height: 100px;
+.red-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F56C6C;
 }
 </style>

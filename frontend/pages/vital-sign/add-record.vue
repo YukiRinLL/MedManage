@@ -191,14 +191,17 @@ export default {
 .add-record-container {
   padding: 16px;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 .form {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-item {
@@ -216,10 +219,10 @@ export default {
   width: 100%;
   height: 48px;
   padding: 0 14px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid rgba(25, 162, 128, 0.15);
   border-radius: 8px;
   font-size: 14px;
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.6);
   box-sizing: border-box;
   line-height: 48px;
 }
@@ -232,9 +235,10 @@ export default {
   width: 100%;
   min-height: 100px;
   padding: 12px;
-  border: 1px solid #E5E5E5;
+  border: 1px solid rgba(25, 162, 128, 0.15);
   border-radius: 8px;
   font-size: 14px;
+  background: rgba(255, 255, 255, 0.6);
   resize: none;
   font-family: inherit;
   box-sizing: border-box;
@@ -254,17 +258,17 @@ export default {
 
 .btn-cancel {
   flex: 1;
-  background-color: #F5F7FA;
+  background: rgba(255, 255, 255, 0.6);
   color: #606266;
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
   text-align: center;
-  border: 1px solid #DCDFE6;
+  border: 1px solid rgba(25, 162, 128, 0.15);
 }
 
 .btn-cancel:active {
-  background-color: #EBEEF5;
+  background: rgba(25, 162, 128, 0.08);
 }
 
 .btn-save {

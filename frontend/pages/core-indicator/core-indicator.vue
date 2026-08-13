@@ -290,7 +290,7 @@ export default {
 .indicator-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #F5F7FA;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 @keyframes fadeIn {
@@ -310,8 +310,11 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background-color: #009D85;
-  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
+  color: #009D85;
 }
 
 .section-title {
@@ -320,18 +323,22 @@ export default {
   font-weight: 700;
   margin-bottom: 8px;
   letter-spacing: 2px;
+  color: #009D85;
 }
 
 .section-desc {
   display: block;
   font-size: 15px;
+  color: #606266;
   opacity: 0.9;
 }
 
 .tab-bar {
   display: flex;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #EBEEF5;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
 }
 
 .tab-item {
@@ -365,10 +372,13 @@ export default {
 }
 
 .latest-test-card {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .test-header {
@@ -377,7 +387,7 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
 }
 
 .test-date {
@@ -455,8 +465,12 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 60px 20px;
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .empty-icon {
@@ -471,10 +485,14 @@ export default {
 }
 
 .trend-selector, .year-filter {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .picker-item {
@@ -491,10 +509,14 @@ export default {
 }
 
 .chart-container {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .chart-placeholder {
@@ -524,9 +546,13 @@ export default {
 
 .trend-summary {
   display: flex;
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 16px;
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .summary-item {
@@ -555,12 +581,16 @@ export default {
 }
 
 .quarter-card {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .quarter-header {

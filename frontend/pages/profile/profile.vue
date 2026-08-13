@@ -1,72 +1,136 @@
 <template>
   <view class="profile-container">
-    <!-- 加载状态 -->
+    <!-- Top Background -->
+    <view class="top-bg"></view>
+
+    <!-- Sticky Top: Header -->
+    <view class="sticky-top" :class="{ 'frost-visible': pageVisible }">
+      <view class="status-bar">
+        <view class="status-content">
+          <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
+          <text class="header-title">我的</text>
+        </view>
+      </view>
+    </view>
+
     <view v-if="isLoading" class="loading-container">
       <view class="loading-spinner"></view>
       <text class="loading-text">加载中...</text>
     </view>
-    
-    <!-- 用户信息卡片 -->
-    <view v-else>
-      <view class="user-info-card animate-slide-down" v-if="userInfo">
-      <view class="user-avatar">
-        <text class="avatar-icon">{{ getUserInitial(userInfo.name) }}</text>
-      </view>
-      <view class="user-details">
-        <text class="user-name">{{ userInfo.name }}</text>
-        <text class="user-phone">{{ userInfo.phone }}</text>
-      </view>
-      <view class="user-arrow" @click="navigateToPersonalInfo">
-        <text>›</text>
-      </view>
-    </view>
-    
-    <!-- 功能菜单 -->
-    <view class="menu-section animate-slide-down" :style="{ animationDelay: '0.1s' }">
-      <view class="menu-card">
-        <view class="menu-item" @click="navigateToPersonalInfo">
-          <image src="/static/icons/png/filled/people/person@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <text class="menu-text">个人信息</text>
-          <text class="menu-arrow">›</text>
-        </view>
-        
-        <view class="menu-item" @click="navigateToInsurance">
-          <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <text class="menu-text">参保信息</text>
-          <text class="menu-arrow">›</text>
-        </view>
-        
-        <view class="menu-item" @click="navigateToSettings">
-          <image src="/static/icons/png/filled/symbols/ui_settings@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <text class="menu-text">设置</text>
-          <text class="menu-arrow">›</text>
+
+    <view v-else class="page-content" :class="{ 'frost-visible': pageVisible }">
+      <!-- User Card -->
+      <view class="user-card-section" v-if="userInfo">
+        <!-- <view class="user-green-header animate-fade-in-up" :style="{ animationDelay: '0.05s' }">
+          <text class="user-header-title">个人信息</text>
+        </view> -->
+        <view class="user-frosted-tray">
+          <view class="user-info-inner">
+            <view class="user-avatar">
+              <text class="avatar-icon">{{ getUserInitial(userInfo.name) }}</text>
+            </view>
+            <view class="user-details">
+              <text class="user-name">{{ userInfo.name }}</text>
+              <text class="user-phone">{{ userInfo.phone }}</text>
+            </view>
+            <view class="user-arrow" @click="navigateToPersonalInfo">
+              <text>›</text>
+            </view>
+          </view>
         </view>
       </view>
-      
-      <view class="menu-card">
-        <view class="menu-item" @click="navigateToAbout">
-          <image src="/static/icons/png/filled/symbols/info@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <text class="menu-text">关于我们</text>
-          <text class="menu-arrow">›</text>
+
+      <!-- Section 1: Account & Services -->
+      <view class="content-section">
+        <view class="section-green-header animate-fade-in-up" :style="{ animationDelay: '0.1s' }">
+          <view class="section-title-row-section">
+            <image src="/static/icons/png/filled/people/person@2x.png" class="section-icon" mode="aspectFit" />
+            <text class="section-title-text">账户与服务</text>
+          </view>
         </view>
-        
-        <view class="menu-item" @click="navigateToHelp">
-          <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
-          <text class="menu-text">帮助中心</text>
-          <text class="menu-arrow">›</text>
+        <view class="section-frosted-tray">
+          <view class="menu-list">
+            <view class="menu-item-row animate-fade-in-up" :style="{ animationDelay: '0.15s' }" @click="navigateToPersonalInfo">
+              <view class="menu-icon-wrap bg-teal">
+                <image src="/static/icons/png/filled/people/person@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">个人信息</text>
+                <text class="menu-desc">查看和编辑个人资料</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+
+            <view class="menu-item-row animate-fade-in-up" :style="{ animationDelay: '0.2s' }" @click="navigateToInsurance">
+              <view class="menu-icon-wrap bg-blue">
+                <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">参保信息</text>
+                <text class="menu-desc">医保参保状态查询</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+
+            <view class="menu-item-row animate-fade-in-up" :style="{ animationDelay: '0.25s' }" @click="navigateToSettings">
+              <view class="menu-icon-wrap bg-cyan">
+                <image src="/static/icons/png/filled/symbols/ui_settings@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">设置</text>
+                <text class="menu-desc">通知、隐私与通用设置</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+          </view>
         </view>
       </view>
-    </view>
-    
-    <!-- 退出登录按钮 -->
-    <view class="logout-section">
-      <button class="btn-logout" @click="logout">退出登录</button>
-    </view>
-    
-    <!-- 版本信息 -->
-    <view class="version-info">
-      <text class="version-text">版本 1.0.0</text>
-    </view>
+
+      <!-- Section 2: About & Help -->
+      <view class="content-section">
+        <view class="section-green-header animate-fade-in-up" :style="{ animationDelay: '0.3s' }">
+          <view class="section-title-row-section">
+            <image src="/static/icons/png/filled/symbols/info@2x.png" class="section-icon" mode="aspectFit" />
+            <text class="section-title-text">关于与帮助</text>
+          </view>
+        </view>
+        <view class="section-frosted-tray">
+          <view class="menu-list">
+            <view class="menu-item-row animate-fade-in-up" :style="{ animationDelay: '0.35s' }" @click="navigateToAbout">
+              <view class="menu-icon-wrap bg-green">
+                <image src="/static/icons/png/filled/symbols/info@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">关于我们</text>
+                <text class="menu-desc">了解圣通尚诺医疗</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+
+            <view class="menu-item-row animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="navigateToHelp">
+              <view class="menu-icon-wrap bg-teal">
+                <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">帮助中心</text>
+                <text class="menu-desc">常见问题解答</text>
+              </view>
+              <text class="menu-arrow">›</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- Logout -->
+      <view class="logout-section">
+        <view class="logout-btn" @click="logout">
+          <text class="logout-text">退出登录</text>
+        </view>
+      </view>
+
+      <view class="version-info">
+        <text class="version-text">版本 1.0.0</text>
+      </view>
     </view>
   </view>
 </template>
@@ -78,11 +142,18 @@ export default {
   data() {
     return {
       userInfo: null,
-      isLoading: true
+      isLoading: true,
+      pageVisible: false
     }
   },
   onLoad() {
     this.getUserInfo()
+  },
+  onShow() {
+    this.pageVisible = true
+  },
+  onHide() {
+    this.pageVisible = false
   },
   methods: {
     async getUserInfo() {
@@ -95,12 +166,10 @@ export default {
           })
           return
         }
-        // 先尝试从本地存储获取
         let userInfo = getUserInfo()
         if (userInfo) {
           this.userInfo = userInfo
         } else {
-          // 本地没有则从API获取
           userInfo = await fetchUserInfo()
           if (userInfo) {
             this.userInfo = userInfo
@@ -135,7 +204,6 @@ export default {
         url: '/pages/profile/settings'
       })
     },
-
     navigateToAbout() {
       uni.navigateTo({
         url: '/pages/profile/about'
@@ -148,10 +216,18 @@ export default {
       })
     },
     logout() {
-      uni.removeStorageSync('token')
-      uni.removeStorageSync('user')
-      uni.navigateTo({
-        url: '/pages/login/login'
+      uni.showModal({
+        title: '提示',
+        content: '确定要退出登录吗？',
+        success: (res) => {
+          if (res.confirm) {
+            uni.removeStorageSync('token')
+            uni.removeStorageSync('user')
+            uni.navigateTo({
+              url: '/pages/login/login'
+            })
+          }
+        }
       })
     }
   }
@@ -159,38 +235,88 @@ export default {
 </script>
 
 <style scoped>
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-slide-down {
-  animation: slideDown 0.4s ease-out both;
-}
-
 .profile-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: #FFFFFF;
 }
 
+/* Top Background */
+.top-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 45vh;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  z-index: 0;
+}
+
+/* Sticky Top Section */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.sticky-top.frost-visible {
+  opacity: 1;
+}
+
+/* Status Bar */
+.status-bar {
+  position: relative;
+  z-index: 1;
+  padding: calc(var(--status-bar-height, 20px) + 8px) 16px 8px;
+}
+
+.status-content {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.logo-layer-img {
+  width: 120px;
+  height: 32px;
+  display: block;
+}
+
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #000000;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Loading */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
 }
 
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(0, 157, 133, 0.2);
+  border: 4px solid rgba(25, 162, 128, 0.15);
   border-radius: 50%;
-  border-top-color: #009D85;
+  border-top-color: #19A280;
   animation: spin 1s ease-in-out infinite;
   margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .loading-text {
@@ -198,33 +324,89 @@ export default {
   color: #606266;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* Page Content */
+.page-content {
+  position: relative;
+  z-index: 2;
+  padding: 12px 16px 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
 }
 
-/* 用户信息卡片 */
-.user-info-card {
-  background-color: #009D85;
-  padding: calc(var(--status-bar-height, 20px) + 30px) 20px 30px;
-  display: flex;
-  align-items: center;
+.page-content.frost-visible {
+  opacity: 1;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out both;
+}
+
+/* User Card Section */
+.user-card-section {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.user-green-header {
+  background: linear-gradient(330deg, rgba(119, 234, 206, 1) 0%, rgb(83, 204, 174) 35%, rgba(25, 162, 128, 1) 100%);
+  border-radius: 16px;
+  padding: 14px 18px 36px;
+  box-shadow: 0 4px 20px rgba(25, 162, 128, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.user-header-title {
+  font-size: 16px;
+  font-weight: 700;
   color: #FFFFFF;
 }
 
+.user-frosted-tray {
+  position: relative;
+  margin-top: 0px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+}
+
+.user-info-inner {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
 .user-avatar {
-  width: 70px;
-  height: 70px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(25, 162, 128, 0.15) 0%, rgba(52, 151, 227, 0.15) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 16px;
+  margin-right: 14px;
+  flex-shrink: 0;
 }
 
 .avatar-icon {
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 24px;
+  font-weight: 700;
+  color: #19A280;
 }
 
 .user-details {
@@ -232,98 +414,187 @@ export default {
 }
 
 .user-name {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 4px;
   display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A2B44;
+  margin-bottom: 3px;
 }
 
 .user-phone {
-  font-size: 14px;
-  opacity: 0.9;
+  display: block;
+  font-size: 13px;
+  color: #909399;
 }
 
 .user-arrow {
-  font-size: 24px;
-  opacity: 0.8;
+  font-size: 22px;
+  color: #C0C4CC;
 }
 
-/* 功能菜单 */
-.menu-section {
-  padding: 16px;
-  margin-top: 16px;
-}
-
-.menu-card {
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Content Section - green header + frosted tray */
+.content-section {
+  position: relative;
   margin-bottom: 16px;
 }
 
-.menu-item {
+/* Section Green Header */
+.section-green-header {
+  background: linear-gradient(330deg, rgba(119, 234, 206, 1) 0%, rgb(83, 204, 174) 35%, rgba(25, 162, 128, 1) 100%);
+  border-radius: 16px;
+  padding: 14px 18px 36px;
+  box-shadow: 0 4px 20px rgba(25, 162, 128, 0.15);
+  position: relative;
+  z-index: 2;
+}
+
+.section-title-row-section {
   display: flex;
   align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 8px;
 }
 
-.menu-item:last-child {
-  border-bottom: none;
+.section-title-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
 }
 
-.menu-icon {
-  font-size: 20px;
+/* Section Frosted Tray */
+.section-frosted-tray {
+  position: relative;
+  margin-top: -26px;
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+}
+
+.section-icon {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
+/* Menu List */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px;
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 10px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.menu-item-row:last-child {
+  margin-bottom: 0;
+}
+
+.menu-item-row + .menu-item-row {
+  margin-top: 6px;
+  border-top: none;
+}
+
+.menu-icon-wrap {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 12px;
+  position: relative;
+  flex-shrink: 0;
 }
 
 .menu-icon-img {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
-.menu-text {
+.bg-teal {
+  background: rgba(25, 162, 128, 0.12);
+}
+
+.bg-blue {
+  background: rgba(52, 151, 227, 0.12);
+}
+
+.bg-cyan {
+  background: rgba(0, 188, 212, 0.12);
+}
+
+.bg-green {
+  background: rgba(25, 162, 128, 0.12);
+}
+
+.menu-item-main {
   flex: 1;
-  font-size: 16px;
-  color: #333;
+}
+
+.menu-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1A2B44;
+  margin-bottom: 2px;
+}
+
+.menu-desc {
+  display: block;
+  font-size: 12px;
+  color: #909399;
 }
 
 .menu-arrow {
   font-size: 20px;
-  color: #999;
+  color: #C0C4CC;
 }
 
-/* 退出登录按钮 */
+/* Logout */
 .logout-section {
-  padding: 0 16px;
-  margin-top: 24px;
+  padding: 8px 0 0;
+  margin-top: 8px;
 }
 
-.btn-logout {
-  background-color: #FFFFFF;
-  color: #F56C6C;
-  border: 1px solid #F56C6C;
-  border-radius: 8px;
+.logout-btn {
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
   padding: 14px;
-  font-size: 16px;
-  font-weight: 500;
   text-align: center;
-  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
 }
 
-.btn-logout:active {
-  background-color: #FEF0F0;
+.logout-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #F56C6C;
 }
 
-/* 版本信息 */
+/* Version Info */
 .version-info {
-  padding: 24px;
+  padding: 20px;
   text-align: center;
 }
 
 .version-text {
   font-size: 12px;
-  color: #999;
+  color: #909399;
 }
 </style>

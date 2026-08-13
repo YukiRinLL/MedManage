@@ -24,56 +24,57 @@
 
     <!-- Health Advice Section -->
     <view class="advice-section" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.2s;">
-      <!-- Green Trapezoid Banner with rounded corners + dip -->
-      <view class="advice-banner">
-        <svg class="banner-svg" viewBox="0 0 343 92" preserveAspectRatio="none">
-          <defs>
-            <!-- 110deg: dark green (upper-left) → light green (lower-right) -->
-            <linearGradient id="adviceBannerGrad" x1="0" y1="0" x2="1" y2="0.36">
-              <stop offset="4%" stop-color="#19a280"/>
-              <stop offset="107%" stop-color="#77ebce"/>
-            </linearGradient>
-          </defs>
-          <!-- Rounded rectangle with smooth dip in top middle -->
-          <path d="M 0 8
-            Q 0 0, 8 0
-
-            L 128 0
-            Q 140 0, 159 9
-            Q 165 12, 171 12
-            Q 177 12, 183 9
-            Q 202 0, 214 0
-
-            L 335 0
-            Q 343 0, 343 8
-            L 343 84
-            Q 343 92, 335 92
-            L 8 92
-            Q 0 92, 0 84
-            Z" fill="url(#adviceBannerGrad)"/>
-        </svg>
-        <!-- Inverted obtuse isosceles triangle in the dip (with rounded corners + gradient) -->
-        <view class="banner-triangle">
-          <svg viewBox="0 0 25.11 6.75" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
+      <view class="tips-frosted-tray">
+        <!-- Green Trapezoid Banner with rounded corners + dip -->
+        <view class="advice-banner">
+          <svg class="banner-svg" viewBox="0 0 343 92" preserveAspectRatio="none">
             <defs>
-              <!-- 106deg: dark green → light green -->
-              <linearGradient id="triangleGrad" x1="0" y1="0" x2="1" y2="0.29">
-                <stop offset="3%" stop-color="#19a280"/>
-                <stop offset="104%" stop-color="#77ebce"/>
+              <!-- 110deg: dark green (upper-left) → light green (lower-right) -->
+              <linearGradient id="adviceBannerGrad" x1="0" y1="0" x2="1" y2="0.36">
+                <stop offset="4%" stop-color="#19a280"/>
+                <stop offset="107%" stop-color="#77ebce"/>
               </linearGradient>
             </defs>
-            <!-- Downward obtuse isosceles triangle with rounded corners (r=1) -->
-            <path d="M 1.4 0 Q 12.65 -0.9, 24.11 0 Q 24.95 0.42, 23.85 0.95 Q 17.2 4.4, 12.4 6.5 Q 11.6 6.65, 10.9 6.2 Q 4.8 3.9, 0.85 0.92 Q 0.15 0.4, 1.4 0 Z"
-             fill="url(#triangleGrad)"/>
+            <!-- Rounded rectangle with smooth dip in top middle -->
+            <path d="M 0 8
+              Q 0 0, 8 0
+
+              L 128 0
+              Q 140 0, 159 9
+              Q 165 12, 171 12
+              Q 177 12, 183 9
+              Q 202 0, 214 0
+
+              L 335 0
+              Q 343 0, 343 8
+              L 343 84
+              Q 343 92, 335 92
+              L 8 92
+              Q 0 92, 0 84
+              Z" fill="url(#adviceBannerGrad)"/>
           </svg>
-        </view>
-        <text class="banner-title">健康建议</text>
-        <!-- Right side decorative icon -->
-        <view class="banner-icon">
-          <image src="/static/design/health/健康建议右侧.svg" mode="aspectFit" style="width:100%;height:100%;opacity:1;"/>
+          <!-- Inverted obtuse isosceles triangle in the dip (with rounded corners + gradient) -->
+          <view class="banner-triangle">
+            <svg viewBox="0 0 25.11 6.75" preserveAspectRatio="none" style="width:100%;height:100%;display:block;">
+              <defs>
+                <!-- 106deg: dark green → light green -->
+                <linearGradient id="triangleGrad" x1="0" y1="0" x2="1" y2="0.29">
+                  <stop offset="3%" stop-color="#19a280"/>
+                  <stop offset="104%" stop-color="#77ebce"/>
+                </linearGradient>
+              </defs>
+              <!-- Downward obtuse isosceles triangle with rounded corners (r=1) -->
+              <path d="M 1.4 0 Q 12.65 -0.9, 24.11 0 Q 24.95 0.42, 23.85 0.95 Q 17.2 4.4, 12.4 6.5 Q 11.6 6.65, 10.9 6.2 Q 4.8 3.9, 0.85 0.92 Q 0.15 0.4, 1.4 0 Z"
+              fill="url(#triangleGrad)"/>
+            </svg>
+          </view>
+          <text class="banner-title">健康建议</text>
+          <!-- Right side decorative icon -->
+          <view class="banner-icon">
+            <image src="/static/design/health/健康建议右侧.svg" mode="aspectFit" style="width:100%;height:100%;opacity:1;"/>
+          </view>
         </view>
       </view>
-
       <!-- Frosted Translucent Tray (overlaps banner bottom) -->
       <view class="advice-tray">
         <text class="advice-text">{{ healthAdvice }}</text>
@@ -360,6 +361,19 @@ export default {
   transition: opacity 0.4s ease-out;
 }
 
+/* 磨砂半透明托盘：放在绿色下方，部分重叠在绿色底部渐变淡出区域 */
+.tips-frosted-tray {
+  position: relative;
+  background: rgba(255, 255, 255, 0);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  margin-left: 0;
+  margin-right: 0;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+}
+
 /* Green Trapezoid Banner */
 .advice-banner {
   position: relative;
@@ -381,12 +395,11 @@ export default {
 /* Small inverted triangle in the dip */
 .banner-triangle {
   position: absolute;
-  top: 1px;
+  top: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 25.11px;
   height: 6.75px;
-  z-index: 2;
 }
 
 .banner-title {

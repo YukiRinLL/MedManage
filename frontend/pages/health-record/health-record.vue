@@ -257,7 +257,7 @@ export default {
 .health-record-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 /* 加载状态样式 */
@@ -267,7 +267,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 .loading-spinner {
@@ -337,10 +337,13 @@ export default {
 
 
 .record-card {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
 }
 
 .card-title {
@@ -350,7 +353,7 @@ export default {
   color: #333;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
 }
 
 /* 查看模式样式 */
@@ -359,7 +362,7 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   padding: 12px 0;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
 }
 
 .record-item:last-child {

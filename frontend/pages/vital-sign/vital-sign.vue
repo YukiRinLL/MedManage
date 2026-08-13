@@ -152,7 +152,7 @@ export default {
 .vital-sign-container {
   padding: 0;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 /* 加载状态样式 */
@@ -162,7 +162,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
 .loading-spinner {
@@ -218,10 +218,13 @@ export default {
 }
 
 .vital-card {
-  background-color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
@@ -231,7 +234,7 @@ export default {
   color: #333;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
 }
 
 .vital-list {
@@ -243,8 +246,8 @@ export default {
 .vital-item {
   padding: 16px;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  border: 1px solid #f0f0f0;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(25, 162, 128, 0.08);
 }
 
 .vital-header {
@@ -300,7 +303,7 @@ export default {
   font-size: 12px;
   color: #666;
   padding-top: 8px;
-  border-top: 1px dashed #f0f0f0;
+  border-top: 1px dashed rgba(25, 162, 128, 0.08);
 }
 
 @keyframes fadeInUp {
@@ -321,8 +324,8 @@ export default {
 .vital-item {
   padding: 16px;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  border: 1px solid #f0f0f0;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(25, 162, 128, 0.08);
   transition: all 0.2s ease;
   position: relative;
 }
@@ -330,7 +333,7 @@ export default {
 .vital-item:active {
   background-color: #FFFFFF;
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(25, 162, 128, 0.12);
 }
 
 .vital-status {
