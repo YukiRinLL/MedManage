@@ -33,25 +33,40 @@
                 </view>
               </view>
               <view class="vital-details">
-                <view class="vital-detail-item">
+                <view class="vital-detail-item" v-if="sign.temperature">
                   <text class="detail-label">体温</text>
                   <text class="detail-value" :class="{ abnormal: !isTempNormal(sign.temperature) }">{{ sign.temperature }}℃</text>
                 </view>
-                <view class="vital-detail-item">
-                  <text class="detail-label">血压</text>
-                  <text class="detail-value" :class="{ abnormal: !isPressureNormal(sign.systolicPressure, sign.diastolicPressure) }">{{ sign.systolicPressure }}/{{ sign.diastolicPressure }}mmHg</text>
+                <view class="vital-detail-item" v-if="sign.weight">
+                  <text class="detail-label">体重</text>
+                  <text class="detail-value">{{ sign.weight }}kg</text>
                 </view>
-                <view class="vital-detail-item">
+                <view class="vital-detail-item" v-if="sign.morningSystolicPressure">
+                  <text class="detail-label">早血压</text>
+                  <text class="detail-value">{{ sign.morningSystolicPressure }}/{{ sign.morningDiastolicPressure }}</text>
+                </view>
+                <view class="vital-detail-item" v-if="sign.eveningSystolicPressure">
+                  <text class="detail-label">晚血压</text>
+                  <text class="detail-value">{{ sign.eveningSystolicPressure }}/{{ sign.eveningDiastolicPressure }}</text>
+                </view>
+                <view class="vital-detail-item" v-if="sign.bloodSugar">
                   <text class="detail-label">血糖</text>
                   <text class="detail-value" :class="{ abnormal: !isSugarNormal(sign.bloodSugar) }">{{ sign.bloodSugar }}mmol/L</text>
                 </view>
-                <view class="vital-detail-item">
+                <view class="vital-detail-item" v-if="sign.heartRate">
                   <text class="detail-label">心率</text>
                   <text class="detail-value" :class="{ abnormal: !isHeartRateNormal(sign.heartRate) }">{{ sign.heartRate }}bpm</text>
                 </view>
+                <view class="vital-detail-item" v-if="sign.waterIntake">
+                  <text class="detail-label">饮水量</text>
+                  <text class="detail-value">{{ sign.waterIntake }}ml</text>
+                </view>
+              </view>
+              <view v-if="sign.dietRecord" class="vital-notes">
+                饮食: {{ sign.dietRecord }}
               </view>
               <view v-if="sign.notes" class="vital-notes">
-                {{ sign.notes }}
+                备注: {{ sign.notes }}
               </view>
               <text class="vital-arrow">›</text>
             </view>
@@ -112,10 +127,13 @@ export default {
       return date.toLocaleString()
     },
     isNormal(sign) {
-      return this.isTempNormal(sign.temperature) &&
-             this.isPressureNormal(sign.systolicPressure, sign.diastolicPressure) &&
-             this.isSugarNormal(sign.bloodSugar) &&
-             this.isHeartRateNormal(sign.heartRate)
+      let normal = true
+      if (sign.temperature) normal = normal && this.isTempNormal(sign.temperature)
+      if (sign.morningSystolicPressure) normal = normal && this.isPressureNormal(sign.morningSystolicPressure, sign.morningDiastolicPressure)
+      if (sign.eveningSystolicPressure) normal = normal && this.isPressureNormal(sign.eveningSystolicPressure, sign.eveningDiastolicPressure)
+      if (sign.bloodSugar) normal = normal && this.isSugarNormal(sign.bloodSugar)
+      if (sign.heartRate) normal = normal && this.isHeartRateNormal(sign.heartRate)
+      return normal
     },
     isTempNormal(temp) {
       return temp >= 36.0 && temp <= 37.3
@@ -131,9 +149,19 @@ export default {
     },
     handleItemClick(sign) {
       uni.vibrateShort({})
+      let content = ''
+      if (sign.temperature) content += `体温: ${sign.temperature}℃\n`
+      if (sign.weight) content += `体重: ${sign.weight}kg\n`
+      if (sign.morningSystolicPressure) content += `早上血压: ${sign.morningSystolicPressure}/${sign.morningDiastolicPressure}mmHg\n`
+      if (sign.eveningSystolicPressure) content += `晚上血压: ${sign.eveningSystolicPressure}/${sign.eveningDiastolicPressure}mmHg\n`
+      if (sign.bloodSugar) content += `血糖: ${sign.bloodSugar}mmol/L\n`
+      if (sign.heartRate) content += `心率: ${sign.heartRate}bpm\n`
+      if (sign.waterIntake) content += `饮水量: ${sign.waterIntake}ml\n`
+      if (sign.dietRecord) content += `饮食: ${sign.dietRecord}\n`
+      if (sign.notes) content += `备注: ${sign.notes}\n`
       uni.showModal({
         title: '记录详情',
-        content: `体温: ${sign.temperature}℃\n血压: ${sign.systolicPressure}/${sign.diastolicPressure}mmHg\n血糖: ${sign.bloodSugar}mmol/L\n心率: ${sign.heartRate}bpm${sign.notes ? '\n备注: ' + sign.notes : ''}`,
+        content: content.trim(),
         showCancel: false,
         confirmText: '知道了'
       })

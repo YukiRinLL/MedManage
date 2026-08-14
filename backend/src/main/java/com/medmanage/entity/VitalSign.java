@@ -19,6 +19,8 @@ public class VitalSign {
     @Column(name = "user_id", columnDefinition = "VARCHAR(36)")
     private String userId;
 
+    private Double temperature;
+
     private Double weight;
 
     @Column(name = "morning_systolic_pressure")
@@ -36,11 +38,16 @@ public class VitalSign {
     @Column(name = "blood_sugar")
     private Double bloodSugar;
 
+    private Integer heartRate;
+
     @Column(name = "water_intake")
     private Integer waterIntake;
 
     @Column(name = "diet_record", columnDefinition = "TEXT")
     private String dietRecord;
+
+    @Column(name = "notes", columnDefinition = "TEXT")
+    private String notes;
 
     @Column(name = "record_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
