@@ -305,7 +305,7 @@
         </view>
         <image src="/static/design/home/路径.svg" class="feature-icon" mode="aspectFit" />
       </view>
-      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="handleNavClick('/pages/health-manage/health-manage', '健康管理')">
+      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="handleItemClick('/pages/diagnosis/diagnosis')">
         <view class="feature-info">
           <text class="feature-title">最新透析状态查询</text>
           <text class="feature-desc">精准查询透析状态</text>
@@ -364,7 +364,7 @@ export default {
   data() {
     return {
       tipCards: [
-        { key: 'vital', title: '定期记录生命体征数据', action: 'vital' },
+        { key: 'vital', title: '居家生命体征记录', action: 'vital' },
         { key: 'medication', title: '按时查看用药提醒', action: 'medication' }
       ],
       isNavigating: false,
@@ -410,7 +410,7 @@ export default {
   },
   methods: {
     initIndicatorTags() {
-      const labels = ['血红蛋白', '钾', '钠', '尿酸']
+      const labels = ['钾', '钙', '血红蛋白', '磷']
       const angles = [-40, 0, 90, 180]
       this.indicatorTags = labels.map((label, i) => ({
         label,
@@ -505,6 +505,18 @@ export default {
       this.isNavigating = true
       uni.vibrateShort({})
       uni.switchTab({
+        url,
+        success: () => {
+          setTimeout(() => { this.isNavigating = false }, 300)
+        },
+        fail: () => { this.isNavigating = false }
+      })
+    },
+    handleItemClick(url) {
+      if (this.isNavigating) return
+      this.isNavigating = true
+      uni.vibrateShort({})
+      uni.navigateTo({
         url,
         success: () => {
           setTimeout(() => { this.isNavigating = false }, 300)
@@ -679,7 +691,7 @@ export default {
 
 .logo-cn {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   color: #0A2540;
 }
 
@@ -691,7 +703,7 @@ export default {
 
 .header-title {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 500;
   color: #0A2540;
   position: absolute;
   left: 50%;
@@ -724,7 +736,7 @@ export default {
 .btn-dots {
   font-size: 14px;
   color: #0A2540;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
 }
 
@@ -957,6 +969,8 @@ export default {
   -webkit-backdrop-filter: blur(6px);
   border-radius: 10px;
   padding: 10px 12px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   flex: 1 1 0;
   min-height: 0;
   overflow: hidden;
@@ -1097,7 +1111,7 @@ export default {
 
 .chart-title {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
   color: #333333;
   text-align: center;
 }
@@ -1169,7 +1183,7 @@ export default {
 
 .feature-title {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   color: #1A2B44;
   display: block;
   white-space: nowrap;
@@ -1238,7 +1252,7 @@ export default {
 
 .notification-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   color: #1A2B44;
 }
 

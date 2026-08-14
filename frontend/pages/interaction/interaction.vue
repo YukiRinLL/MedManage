@@ -24,9 +24,9 @@
           </view>
         </view>
         <view class="section-frosted-tray">
-          <view class="menu-list">
+          <view class="menu-list menu-list-row">
             <view
-              class="menu-item-row animate-fade-in-up"
+              class="menu-item-row menu-card animate-fade-in-up"
               @click="handleItemClick('/pages/activities/list', '活动中心')"
             >
               <view class="menu-icon-wrap bg-teal">
@@ -34,13 +34,12 @@
               </view>
               <view class="menu-item-main">
                 <text class="menu-title">活动中心</text>
-                <text class="menu-desc">参与健康互动活动</text>
+                <text class="menu-desc">参与健康互动</text>
               </view>
-              <text class="menu-arrow">›</text>
             </view>
 
             <view
-              class="menu-item-row animate-fade-in-up"
+              class="menu-item-row menu-card animate-fade-in-up"
               @click="handleItemClick('/pages/news/list', '新闻资讯')"
             >
               <view class="menu-icon-wrap bg-blue">
@@ -48,9 +47,8 @@
               </view>
               <view class="menu-item-main">
                 <text class="menu-title">新闻资讯</text>
-                <text class="menu-desc">了解医疗健康动态</text>
+                <text class="menu-desc">了解医疗动态</text>
               </view>
-              <text class="menu-arrow">›</text>
             </view>
           </view>
         </view>
@@ -60,7 +58,7 @@
       <view class="content-section" :style="{ animationDelay: '0.2s' }">
         <view class="section-green-header animate-fade-in">
           <view class="section-title-row-section">
-            <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="section-icon" mode="aspectFit" />
+            <!-- <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="section-icon" mode="aspectFit" /> -->
             <text class="section-title-text">消息与反馈</text>
           </view>
         </view>
@@ -214,8 +212,8 @@ export default {
 
 .header-title {
   font-size: 17px;
-  font-weight: 700;
-  color: #000000;
+  font-weight: 500;
+  color: #0A2540;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -315,6 +313,29 @@ export default {
   flex-direction: column;
 }
 
+.menu-list.menu-list-row {
+  flex-direction: row;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.menu-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 14px 8px;
+  margin-bottom: 0;
+  min-height: 100px;
+}
+
+.menu-card .menu-icon-wrap {
+  margin-right: 0;
+  margin-bottom: 6px;
+}
+
 .menu-item-row {
   display: flex;
   align-items: center;
@@ -327,6 +348,15 @@ export default {
   border: 1px solid rgba(255, 255, 255, 1);
 }
 
+.menu-card.menu-item-row {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
 .menu-item-row:last-child {
   margin-bottom: 0;
 }
@@ -334,6 +364,10 @@ export default {
 .menu-item-row + .menu-item-row {
   margin-top: 6px;
   border-top: none;
+}
+
+.menu-card.menu-item-row + .menu-card.menu-item-row {
+  margin-top: 0;
 }
 
 .menu-icon-wrap {
@@ -372,6 +406,14 @@ export default {
 
 .menu-item-main {
   flex: 1;
+}
+
+.menu-card .menu-item-main {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .menu-title {

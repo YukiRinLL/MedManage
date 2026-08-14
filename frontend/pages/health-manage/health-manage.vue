@@ -102,49 +102,57 @@
       </view>
     </view>
 
-    <!-- Menu Grid 2x2 -->
-    <view class="menu-grid">
-      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.5s' }" @click="handleItemClick('/pages/health-record/health-record')">
-        <view class="menu-info">
-          <text class="menu-title">健康档案</text>
-          <text class="menu-desc">查看个人健康信息</text>
+    <!-- Menu Section with frosted tray -->
+    <view class="menu-section animate-fade-in-up" :style="{ animationDelay: '0.5s' }">
+      <!-- 顶部淡蓝色渐变 -->
+      <view class="menu-top-gradient"></view>
+      <!-- <view class="menu-header">
+        <text class="menu-section-title">健康管理</text>
+      </view> -->
+      <!-- Menu Grid 2x2 -->
+      <view class="menu-grid">
+        <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
+          <view class="menu-info">
+            <text class="menu-title">健康档案</text>
+            <text class="menu-desc">查看个人健康信息</text>
+          </view>
+          <view class="menu-bottom">
+            <view class="menu-view-btn">查看</view>
+            <image src="/static/design/home/Group 1000007254.svg" class="menu-icon" mode="aspectFit" />
+          </view>
         </view>
-        <view class="menu-bottom">
-          <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Group 1000007254.svg" class="menu-icon" mode="aspectFit" />
-        </view>
-      </view>
 
-      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.6s' }" @click="handleItemClick('/pages/vital-sign/vital-sign')">
-        <view class="menu-info">
-          <text class="menu-title">生命体征</text>
-          <text class="menu-desc">记录体温血压血糖</text>
+        <view class="menu-item" @click="handleItemClick('/pages/vital-sign/vital-sign')">
+          <view class="menu-info">
+            <text class="menu-title">居家生命体征记录</text>
+            <text class="menu-desc">记录日常体征指数</text>
+          </view>
+          <view class="menu-bottom">
+            <view class="menu-view-btn">查看</view>
+           <image src="/static/design/home/Group 1000007257.svg" class="menu-icon" mode="aspectFit" />
+          </view>
         </view>
-        <view class="menu-bottom">
-          <view class="menu-view-btn">查看</view>
-         <image src="/static/design/home/Group 1000007257.svg" class="menu-icon" mode="aspectFit" />
-        </view>
-      </view>
 
-      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.7s' }" @click="handleItemClick('/pages/medication/medication')">
-        <view class="menu-info">
-          <text class="menu-title">用药记录</text>
-          <text class="menu-desc">管理每日用药提醒</text>
+        <view class="menu-item" @click="handleItemClick('/pages/medication/medication')">
+          <view class="menu-info">
+            <text class="menu-title">用药记录</text>
+            <text class="menu-desc">管理每日用药提醒</text>
+          </view>
+          <view class="menu-bottom">
+            <view class="menu-view-btn">查看</view>
+            <image src="/static/design/home/Group 1000007258.svg" class="menu-icon" mode="aspectFit" />
+          </view>
         </view>
-        <view class="menu-bottom">
-          <view class="menu-view-btn">查看</view>
-          <image src="/static/design/home/Group 1000007258.svg" class="menu-icon" mode="aspectFit" />
-        </view>
-      </view>
 
-      <view class="menu-item animate-fade-in-up" :style="{ animationDelay: '0.8s' }" @click="handleItemClick('/pages/core-indicator/core-indicator')">
-        <view class="menu-info">
-          <text class="menu-title">核心指标</text>
-          <text class="menu-desc">查血指标趋势追踪</text>
-        </view>
-        <view class="menu-bottom">
-          <view class="menu-view-btn">查看</view>
-          <image src="/static/design/health/核心指标.svg" class="menu-icon" mode="aspectFit" />
+        <view class="menu-item" @click="handleItemClick('/pages/core-indicator/core-indicator')">
+          <view class="menu-info">
+            <text class="menu-title">核心指标</text>
+            <text class="menu-desc">查血指标趋势追踪</text>
+          </view>
+          <view class="menu-bottom">
+            <view class="menu-view-btn">查看</view>
+            <image src="/static/design/health/核心指标.svg" class="menu-icon" mode="aspectFit" />
+          </view>
         </view>
       </view>
     </view>
@@ -307,8 +315,8 @@ export default {
 
 .header-title {
   font-size: 17px;
-  font-weight: 700;
-  color: #000000;
+  font-weight: 500;
+  color: #0A2540;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -347,8 +355,8 @@ export default {
 
 .greeting-line {
   font-size: 16px;
-  font-weight: 700;
-  color: #000000;
+  font-weight: 400;
+  color: #1A2B44;
   white-space: nowrap;
 }
 
@@ -464,7 +472,7 @@ export default {
   flex-direction: column;
   gap: 6px;
   min-height: 110px;
-  box-shadow: 0 4px 0px rgba(173, 180, 212, 0.3);
+  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
 }
 
 .feature-blue {
@@ -503,7 +511,7 @@ export default {
 
 .feature-title {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   color: #333333;
   margin-top: 4px;
 }
@@ -514,6 +522,42 @@ export default {
   line-height: 18px;
 }
 
+/* Menu Section - frosted tray backplate */
+.menu-section {
+  position: relative;
+  z-index: 1;
+  margin: 16px 0px 0;
+  background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(255, 255, 255, 1);
+  overflow: hidden;
+}
+
+.menu-top-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(180deg, rgba(224, 232, 248, 0.6) 0%, rgba(232, 236, 247, 0.3) 40%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 12px;
+}
+
+.menu-section-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A2B44;
+}
+
 /* Menu Grid 2x2 */
 .menu-grid {
   position: relative;
@@ -521,7 +565,6 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 16px 16px 0;
 }
 
 .menu-item {
@@ -545,7 +588,7 @@ export default {
 
 .menu-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 500;
   color: #1A2B44;
 }
 
@@ -567,6 +610,7 @@ export default {
   background: rgba(45, 174, 133, 0.08);
   padding: 3px 14px;
   border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(45, 174, 133, 0.1);
 }
 
 .menu-icon {

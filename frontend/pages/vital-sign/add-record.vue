@@ -2,88 +2,90 @@
   <view class="add-record-container">
     <view class="form">
       <view class="form-item">
-        <text class="form-label">体温 (℃)</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="formData.temperature" 
-          placeholder="请输入体温"
+        <text class="form-label">今日体重 (kg)</text>
+        <input
+          class="form-input"
+          type="digit"
+          v-model="formData.weight"
+          placeholder="请输入今日体重"
           placeholder-class="form-input-placeholder"
-          :focus="temperatureFocus"
-          @focus="temperatureFocus = true"
-          @blur="temperatureFocus = false"
         />
       </view>
-      
+
       <view class="form-item">
-        <text class="form-label">收缩压 (mmHg)</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="formData.systolicPressure" 
-          placeholder="请输入收缩压"
+        <text class="form-label">早上血压 (mmHg)</text>
+        <view class="bp-row">
+          <input
+            class="form-input bp-input"
+            type="number"
+            v-model="formData.morningSystolicPressure"
+            placeholder="收缩压"
+            placeholder-class="form-input-placeholder"
+          />
+          <text class="bp-separator">/</text>
+          <input
+            class="form-input bp-input"
+            type="number"
+            v-model="formData.morningDiastolicPressure"
+            placeholder="舒张压"
+            placeholder-class="form-input-placeholder"
+          />
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">晚上血压 (mmHg)</text>
+        <view class="bp-row">
+          <input
+            class="form-input bp-input"
+            type="number"
+            v-model="formData.eveningSystolicPressure"
+            placeholder="收缩压"
+            placeholder-class="form-input-placeholder"
+          />
+          <text class="bp-separator">/</text>
+          <input
+            class="form-input bp-input"
+            type="number"
+            v-model="formData.eveningDiastolicPressure"
+            placeholder="舒张压"
+            placeholder-class="form-input-placeholder"
+          />
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">血糖记录 (mmol/L)</text>
+        <input
+          class="form-input"
+          type="digit"
+          v-model="formData.bloodSugar"
+          placeholder="请输入血糖值"
           placeholder-class="form-input-placeholder"
-          :focus="systolicFocus"
-          @focus="systolicFocus = true"
-          @blur="systolicFocus = false"
         />
       </view>
-      
+
       <view class="form-item">
-        <text class="form-label">舒张压 (mmHg)</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="formData.diastolicPressure" 
-          placeholder="请输入舒张压"
+        <text class="form-label">今日饮水量 (ml)</text>
+        <input
+          class="form-input"
+          type="number"
+          v-model="formData.waterIntake"
+          placeholder="请输入今日饮水量"
           placeholder-class="form-input-placeholder"
-          :focus="diastolicFocus"
-          @focus="diastolicFocus = true"
-          @blur="diastolicFocus = false"
         />
       </view>
-      
+
       <view class="form-item">
-        <text class="form-label">血糖 (mmol/L)</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="formData.bloodSugar" 
-          placeholder="请输入血糖"
-          placeholder-class="form-input-placeholder"
-          :focus="sugarFocus"
-          @focus="sugarFocus = true"
-          @blur="sugarFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">心率 (bpm)</text>
-        <input 
-          class="form-input" 
-          type="number" 
-          v-model="formData.heartRate" 
-          placeholder="请输入心率"
-          placeholder-class="form-input-placeholder"
-          :focus="heartRateFocus"
-          @focus="heartRateFocus = true"
-          @blur="heartRateFocus = false"
-        />
-      </view>
-      
-      <view class="form-item">
-        <text class="form-label">备注</text>
-        <textarea 
-          class="form-textarea" 
-          v-model="formData.notes" 
-          placeholder="请输入备注信息（可选）"
+        <text class="form-label">饮食记录</text>
+        <textarea
+          class="form-textarea"
+          v-model="formData.dietRecord"
+          placeholder="请输入今日饮食记录（可选）"
           placeholder-class="form-textarea-placeholder"
-          :focus="notesFocus"
-          @focus="notesFocus = true"
-          @blur="notesFocus = false"
         ></textarea>
       </view>
-      
+
       <view class="form-actions">
         <button class="btn-cancel" @click="cancel">取消</button>
         <button class="btn-save" @click="saveRecord">保存记录</button>
@@ -99,85 +101,62 @@ export default {
   data() {
     return {
       formData: {
-        temperature: '',
-        systolicPressure: '',
-        diastolicPressure: '',
+        weight: '',
+        morningSystolicPressure: '',
+        morningDiastolicPressure: '',
+        eveningSystolicPressure: '',
+        eveningDiastolicPressure: '',
         bloodSugar: '',
-        heartRate: '',
-        notes: ''
-      },
-      temperatureFocus: false,
-      systolicFocus: false,
-      diastolicFocus: false,
-      sugarFocus: false,
-      heartRateFocus: false,
-      notesFocus: false
+        waterIntake: '',
+        dietRecord: ''
+      }
     }
   },
   methods: {
     async saveRecord() {
-      // 表单验证
-      if (!this.formData.temperature) {
-        uni.showToast({
-          title: '请输入体温',
-          icon: 'none'
-        })
+      if (!this.formData.weight) {
+        uni.showToast({ title: '请输入今日体重', icon: 'none' })
         return
       }
-      if (!this.formData.systolicPressure || !this.formData.diastolicPressure) {
-        uni.showToast({
-          title: '请输入血压',
-          icon: 'none'
-        })
+      if (!this.formData.morningSystolicPressure || !this.formData.morningDiastolicPressure) {
+        uni.showToast({ title: '请输入早上血压', icon: 'none' })
+        return
+      }
+      if (!this.formData.eveningSystolicPressure || !this.formData.eveningDiastolicPressure) {
+        uni.showToast({ title: '请输入晚上血压', icon: 'none' })
         return
       }
       if (!this.formData.bloodSugar) {
-        uni.showToast({
-          title: '请输入血糖',
-          icon: 'none'
-        })
+        uni.showToast({ title: '请输入血糖值', icon: 'none' })
         return
       }
-      if (!this.formData.heartRate) {
-        uni.showToast({
-          title: '请输入心率',
-          icon: 'none'
-        })
-        return
-      }
-      
+
       try {
         const token = uni.getStorageSync('token')
         if (!token) {
-          uni.navigateTo({
-            url: '/pages/login/login'
-          })
+          uni.navigateTo({ url: '/pages/login/login' })
           return
         }
-        
+
         const recordData = {
-          temperature: parseFloat(this.formData.temperature),
-          systolicPressure: parseInt(this.formData.systolicPressure),
-          diastolicPressure: parseInt(this.formData.diastolicPressure),
+          weight: parseFloat(this.formData.weight),
+          morningSystolicPressure: parseInt(this.formData.morningSystolicPressure),
+          morningDiastolicPressure: parseInt(this.formData.morningDiastolicPressure),
+          eveningSystolicPressure: parseInt(this.formData.eveningSystolicPressure),
+          eveningDiastolicPressure: parseInt(this.formData.eveningDiastolicPressure),
           bloodSugar: parseFloat(this.formData.bloodSugar),
-          heartRate: parseInt(this.formData.heartRate),
-          notes: this.formData.notes
+          waterIntake: this.formData.waterIntake ? parseInt(this.formData.waterIntake) : null,
+          dietRecord: this.formData.dietRecord || null
         }
-        
+
         await post('/vital-sign/add', recordData)
-        uni.showToast({
-          title: '记录保存成功',
-          icon: 'success'
-        })
+        uni.showToast({ title: '记录保存成功', icon: 'success' })
         setTimeout(() => {
           uni.navigateBack()
         }, 1000)
       } catch (err) {
         console.log(err)
-        uni.showToast({
-          title: '保存失败，请检查网络连接',
-          icon: 'none'
-        })
+        uni.showToast({ title: '保存失败，请检查网络连接', icon: 'none' })
       }
     },
     cancel() {
@@ -211,7 +190,7 @@ export default {
 .form-label {
   display: block;
   font-size: 14px;
-  color: #666;
+  color: #606266;
   margin-bottom: 8px;
 }
 
@@ -228,7 +207,22 @@ export default {
 }
 
 .form-input-placeholder {
-  color: #999999;
+  color: #C0C4CC;
+}
+
+.bp-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bp-input {
+  flex: 1;
+}
+
+.bp-separator {
+  font-size: 18px;
+  color: #909399;
 }
 
 .form-textarea {
@@ -246,10 +240,9 @@ export default {
 }
 
 .form-textarea-placeholder {
-  color: #999999;
+  color: #C0C4CC;
 }
 
-/* 操作按钮 */
 .form-actions {
   display: flex;
   gap: 12px;
@@ -278,7 +271,6 @@ export default {
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
-  font-weight: 500;
   text-align: center;
   border: none;
 }

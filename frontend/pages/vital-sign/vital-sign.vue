@@ -5,58 +5,60 @@
       <view class="loading-spinner"></view>
       <text class="loading-text">加载中...</text>
     </view>
-    
+
     <!-- 内容区域 -->
     <view v-else>
       <!-- 添加记录按钮 -->
       <view class="add-button-container">
         <button class="add-button" @click="navigateToAddRecord">+ 添加记录</button>
       </view>
-      
+
       <!-- 生命体征内容 -->
       <view class="vital-sign-content">
         <view class="vital-card">
           <text class="card-title">最近记录</text>
-          
+
           <view v-if="vitalSigns.length > 0" class="vital-list">
-            <view 
-              v-for="(sign, index) in vitalSigns" 
-              :key="sign.id" 
+            <view
+              v-for="(sign, index) in vitalSigns"
+              :key="sign.id"
               class="vital-item animate-fade-in-up"
               :style="{ animationDelay: index * 0.05 + 's' }"
               @click="handleItemClick(sign)"
             >
               <view class="vital-header">
                 <text class="vital-time">{{ formatDate(sign.recordTime) }}</text>
-                <view class="vital-status" :class="isNormal(sign) ? 'status-normal' : 'status-abnormal'">
-                  {{ isNormal(sign) ? '✓ 正常' : '! 异常' }}
-                </view>
               </view>
               <view class="vital-details">
                 <view class="vital-detail-item">
-                  <text class="detail-label">体温</text>
-                  <text class="detail-value" :class="{ abnormal: !isTempNormal(sign.temperature) }">{{ sign.temperature }}℃</text>
+                  <text class="detail-label">今日体重</text>
+                  <text class="detail-value">{{ sign.weight ? sign.weight + 'kg' : '-' }}</text>
                 </view>
                 <view class="vital-detail-item">
-                  <text class="detail-label">血压</text>
-                  <text class="detail-value" :class="{ abnormal: !isPressureNormal(sign.systolicPressure, sign.diastolicPressure) }">{{ sign.systolicPressure }}/{{ sign.diastolicPressure }}mmHg</text>
+                  <text class="detail-label">早上血压</text>
+                  <text class="detail-value">{{ sign.morningSystolicPressure ? sign.morningSystolicPressure + '/' + sign.morningDiastolicPressure + 'mmHg' : '-' }}</text>
+                </view>
+                <view class="vital-detail-item">
+                  <text class="detail-label">晚上血压</text>
+                  <text class="detail-value">{{ sign.eveningSystolicPressure ? sign.eveningSystolicPressure + '/' + sign.eveningDiastolicPressure + 'mmHg' : '-' }}</text>
                 </view>
                 <view class="vital-detail-item">
                   <text class="detail-label">血糖</text>
-                  <text class="detail-value" :class="{ abnormal: !isSugarNormal(sign.bloodSugar) }">{{ sign.bloodSugar }}mmol/L</text>
+                  <text class="detail-value">{{ sign.bloodSugar ? sign.bloodSugar + 'mmol/L' : '-' }}</text>
                 </view>
                 <view class="vital-detail-item">
-                  <text class="detail-label">心率</text>
-                  <text class="detail-value" :class="{ abnormal: !isHeartRateNormal(sign.heartRate) }">{{ sign.heartRate }}bpm</text>
+                  <text class="detail-label">今日饮水量</text>
+                  <text class="detail-value">{{ sign.waterIntake != null ? sign.waterIntake + 'ml' : '-' }}</text>
                 </view>
               </view>
-              <view v-if="sign.notes" class="vital-notes">
-                {{ sign.notes }}
+              <view v-if="sign.dietRecord" class="vital-notes">
+                <text class="notes-label">饮食记录：</text>
+                <text class="notes-content">{{ sign.dietRecord }}</text>
               </view>
               <text class="vital-arrow">›</text>
             </view>
           </view>
-          
+
           <view v-else class="empty-state">
             <image src="/static/icons/png/filled/graphs/chart_bar@2x.png" class="empty-icon" mode="aspectFit" />
             <text class="empty-text">暂无生命体征记录</text>
@@ -111,29 +113,18 @@ export default {
       const date = new Date(dateString)
       return date.toLocaleString()
     },
-    isNormal(sign) {
-      return this.isTempNormal(sign.temperature) && 
-             this.isPressureNormal(sign.systolicPressure, sign.diastolicPressure) && 
-             this.isSugarNormal(sign.bloodSugar) && 
-             this.isHeartRateNormal(sign.heartRate)
-    },
-    isTempNormal(temp) {
-      return temp >= 36.0 && temp <= 37.3
-    },
-    isPressureNormal(systolic, diastolic) {
-      return systolic >= 90 && systolic <= 140 && diastolic >= 60 && diastolic <= 90
-    },
-    isSugarNormal(sugar) {
-      return sugar >= 3.9 && sugar <= 6.1
-    },
-    isHeartRateNormal(rate) {
-      return rate >= 60 && rate <= 100
-    },
     handleItemClick(sign) {
       uni.vibrateShort({})
+      let content = ''
+      if (sign.weight) content += `今日体重: ${sign.weight}kg\n`
+      if (sign.morningSystolicPressure) content += `早上血压: ${sign.morningSystolicPressure}/${sign.morningDiastolicPressure}mmHg\n`
+      if (sign.eveningSystolicPressure) content += `晚上血压: ${sign.eveningSystolicPressure}/${sign.eveningDiastolicPressure}mmHg\n`
+      if (sign.bloodSugar) content += `血糖: ${sign.bloodSugar}mmol/L\n`
+      if (sign.waterIntake != null) content += `今日饮水量: ${sign.waterIntake}ml\n`
+      if (sign.dietRecord) content += `饮食记录: ${sign.dietRecord}`
       uni.showModal({
         title: '记录详情',
-        content: `体温: ${sign.temperature}℃\n血压: ${sign.systolicPressure}/${sign.diastolicPressure}mmHg\n血糖: ${sign.bloodSugar}mmol/L\n心率: ${sign.heartRate}bpm${sign.notes ? '\n备注: ' + sign.notes : ''}`,
+        content: content || '无详细数据',
         showCancel: false,
         confirmText: '知道了'
       })
@@ -155,7 +146,6 @@ export default {
   background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
 }
 
-/* 加载状态样式 */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -184,7 +174,6 @@ export default {
   to { transform: rotate(360deg); }
 }
 
-/* 添加记录按钮 */
 .add-button-container {
   position: fixed;
   bottom: 20px;
@@ -211,7 +200,6 @@ export default {
   transform: scale(0.95);
 }
 
-/* 生命体征内容 */
 .vital-sign-content {
   padding: 16px;
   padding-bottom: 100px;
@@ -230,8 +218,8 @@ export default {
 .card-title {
   display: block;
   font-size: 16px;
-  font-weight: 600;
-  color: #333;
+  font-weight: 500;
+  color: #1A2B44;
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(25, 162, 128, 0.08);
@@ -241,84 +229,6 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.vital-item {
-  padding: 16px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(25, 162, 128, 0.08);
-}
-
-.vital-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.vital-time {
-  font-size: 12px;
-  color: #666;
-}
-
-.vital-status {
-  font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background-color: rgba(245, 108, 108, 0.15);
-  color: #F56C6C;
-}
-
-.vital-status.normal {
-  background-color: rgba(0, 157, 133, 0.15);
-  color: #009D85;
-}
-
-.vital-details {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.vital-detail-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.detail-label {
-  font-size: 14px;
-  color: #666;
-}
-
-.detail-value {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-}
-
-.vital-notes {
-  font-size: 12px;
-  color: #666;
-  padding-top: 8px;
-  border-top: 1px dashed rgba(25, 162, 128, 0.08);
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.3s ease-out both;
 }
 
 .vital-item {
@@ -336,25 +246,56 @@ export default {
   box-shadow: 0 2px 8px rgba(25, 162, 128, 0.12);
 }
 
-.vital-status {
+.vital-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.vital-time {
   font-size: 12px;
-  padding: 2px 8px;
-  border-radius: 10px;
+  color: #909399;
 }
 
-.status-normal {
-  background-color: rgba(0, 157, 133, 0.15);
-  color: #009D85;
+.vital-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
-.status-abnormal {
-  background-color: rgba(245, 108, 108, 0.15);
-  color: #F56C6C;
+.vital-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.detail-value.abnormal {
-  color: #F56C6C;
-  font-weight: 600;
+.detail-label {
+  font-size: 14px;
+  color: #909399;
+}
+
+.detail-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A2B44;
+}
+
+.vital-notes {
+  font-size: 12px;
+  color: #909399;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(25, 162, 128, 0.08);
+}
+
+.notes-label {
+  font-weight: 500;
+  color: #606266;
+}
+
+.notes-content {
+  color: #909399;
 }
 
 .vital-arrow {
@@ -364,6 +305,21 @@ export default {
   transform: translateY(-50%);
   font-size: 20px;
   color: #C0C4CC;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease-out both;
 }
 
 .empty-state {
@@ -383,13 +339,13 @@ export default {
 .empty-text {
   display: block;
   font-size: 16px;
-  color: #333;
+  color: #1A2B44;
   margin-bottom: 8px;
 }
 
 .empty-subtext {
   display: block;
   font-size: 14px;
-  color: #999;
+  color: #909399;
 }
 </style>

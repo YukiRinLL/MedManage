@@ -15,29 +15,41 @@ public class VitalSign {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", columnDefinition = "VARCHAR(36)")
     private String id;
-    
+
     @Column(name = "user_id", columnDefinition = "VARCHAR(36)")
     private String userId;
-    
-    private Double temperature;
-    private Integer systolicPressure;
-    private Integer diastolicPressure;
-    private Integer bloodSugar;
-    private Integer heartRate;
-    private String notes;
-    
+
     private Double weight;
-    private String bodyFeeling;
-    private String symptoms;
-    
+
+    @Column(name = "morning_systolic_pressure")
+    private Integer morningSystolicPressure;
+
+    @Column(name = "morning_diastolic_pressure")
+    private Integer morningDiastolicPressure;
+
+    @Column(name = "evening_systolic_pressure")
+    private Integer eveningSystolicPressure;
+
+    @Column(name = "evening_diastolic_pressure")
+    private Integer eveningDiastolicPressure;
+
+    @Column(name = "blood_sugar")
+    private Double bloodSugar;
+
+    @Column(name = "water_intake")
+    private Integer waterIntake;
+
+    @Column(name = "diet_record", columnDefinition = "TEXT")
+    private String dietRecord;
+
     @Column(name = "record_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date recordTime;
-    
+
     @Column(name = "created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();

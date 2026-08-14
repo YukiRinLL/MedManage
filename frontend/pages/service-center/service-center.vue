@@ -13,49 +13,106 @@
       </view>
     </view>
 
-    <!-- Fixed Green Tray -->
-    <view class="service-tray animate-fade-in" :style="{ animationDelay: '0.1s' }">
-      <view class="menu-grid">
-        <!-- <view 
-          class="menu-item animate-fade-in-up" 
-          :style="{ animationDelay: '0.1s' }"
-          @click="handleItemClick('/pages/insurance/insurance', '参保信息')"
-        >
-          <view class="menu-icon-wrapper bg-orange">
-            <image src="/static/icons/png/filled/objects/credit_card@2x.png" class="menu-icon-img" mode="aspectFit" />
-          </view>
-          <view class="menu-item-content">
-            <text class="menu-text">参保信息</text>
-            <text class="menu-hint">查询医保参保状态</text>
-          </view>
-          <text class="menu-arrow">›</text>
-        </view> -->
-
-        <view
-          class="menu-item animate-fade-in-up"
-          :style="{ animationDelay: '0.15s' }"
-          @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
-        >
-          <view class="menu-item-content">
-            <text class="menu-text">透析排班</text>
-            <text class="menu-hint">查看透析安排时间</text>
-          </view>
-          <view class="menu-icon-wrapper bg-cyan">
-            <image src="/static/icons/png/filled/objects/calendar@2x.png" class="menu-icon-img" mode="aspectFit" />
-          </view>
+    <!-- Fixed Buttons (homepage style) -->
+    <view class="service-buttons animate-fade-in" :style="{ animationDelay: '0.1s' }">
+      <view
+        class="feature-card feature-card-teal animate-fade-in-up"
+        :style="{ animationDelay: '0.15s' }"
+        @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
+      >
+        <view class="feature-info">
+          <text class="feature-title">透析排班</text>
+          <text class="feature-desc">查看透析安排时间</text>
         </view>
+        <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon" mode="aspectFit" />
+      </view>
 
-        <view
-          class="menu-item animate-fade-in-up"
-          :style="{ animationDelay: '0.2s' }"
-          @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
-        >
-          <view class="menu-item-content">
-            <text class="menu-text">科普宣教</text>
-            <text class="menu-hint">健康知识学习</text>
+      <view
+        class="feature-card feature-card-blue animate-fade-in-up"
+        :style="{ animationDelay: '0.2s' }"
+        @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
+      >
+        <view class="feature-info">
+          <text class="feature-title">科普宣教</text>
+          <text class="feature-desc">健康知识学习</text>
+        </view>
+        <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- Fixed Staff Section -->
+    <view class="staff-card-section" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.25s;">
+      <!-- 绿色头部 -->
+      <view class="staff-green-header">
+        <svg class="staff-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="staffGreenGrad" x1="1.5" y1="1" x2="0.5" y2="0">
+              <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
+              <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
+              <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <path d="
+            M 0 18
+            Q 0 0, 18 0
+            L 153 0
+            Q 162 0, 168 5
+            Q 175 14, 183 22
+            Q 188 28, 196 29
+            L 324 29
+            Q 342 29, 342 47
+            L 342 77
+            Q 342 85, 334 85
+            L 8 85
+            Q 0 85, 0 77
+            Z" fill="url(#staffGreenGrad)"/>
+        </svg>
+        <text class="staff-header-title">您的专属医护</text>
+      </view>
+      <!-- 磨砂半透明托盘 -->
+      <view class="staff-frosted-tray">
+        <view class="staff-list">
+          <view
+            class="staff-item animate-pop-in"
+            v-if="nurse && staffLoaded"
+            :style="{ animationDelay: '0.05s' }"
+          >
+            <view class="staff-avatar">
+              <image src="/static/icons/png/filled/people/nurse@2x.png" class="avatar-icon" mode="aspectFit" />
+            </view>
+            <view class="staff-info">
+              <text class="staff-name">{{ nurse.name }}</text>
+              <text class="staff-position">责任护士</text>
+              <text class="staff-department">{{ nurse.department }}</text>
+            </view>
+            <view class="staff-action" @click="callStaff(nurse.phone)">
+              <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
+              <text class="action-text">联系</text>
+            </view>
           </view>
-          <view class="menu-icon-wrapper bg-green">
-            <image src="/static/icons/png/filled/objects/book@2x.png" class="menu-icon-img" mode="aspectFit" />
+
+          <view
+            class="staff-item animate-pop-in"
+            v-if="doctor && staffLoaded"
+            :style="{ animationDelay: '0.15s' }"
+          >
+            <view class="staff-avatar">
+              <image src="/static/icons/png/filled/people/doctor.png" class="avatar-icon" mode="aspectFit" />
+            </view>
+            <view class="staff-info">
+              <text class="staff-name">{{ doctor.name }}</text>
+              <text class="staff-position">主治医生</text>
+              <text class="staff-department">{{ doctor.department }}</text>
+            </view>
+            <view class="staff-action" @click="callStaff(doctor.phone)">
+              <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
+              <text class="action-text">联系</text>
+            </view>
+          </view>
+
+          <view class="staff-item empty-staff" v-if="staffLoaded && !nurse && !doctor">
+            <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
+            <text class="empty-text">暂无专属医护人员</text>
           </view>
         </view>
       </view>
@@ -63,89 +120,7 @@
 
     <!-- Scrollable Content -->
     <view class="content-area">
-      <!-- 您的专属医护: frosted → green header → frosted tray -->
-      <view class="staff-card-section" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.25s;">
-        <!-- 磨砂半透明背板 -->
-        <!-- <view class="staff-backplate"></view> -->
-        <!-- 绿色头部 -->
-        <view class="staff-green-header">
-          <svg class="staff-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="staffGreenGrad" x1="1.5" y1="1" x2="0.5" y2="0">
-                <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
-                <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
-                <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
-              </linearGradient>
-            </defs>
-            <path d="
-              M 0 18
-              Q 0 0, 18 0
-              L 153 0
-              Q 162 0, 168 5
-              Q 175 14, 183 22
-              Q 188 28, 196 29
-              L 324 29
-              Q 342 29, 342 47
-              L 342 77
-              Q 342 85, 334 85
-              L 8 85
-              Q 0 85, 0 77
-              Z" fill="url(#staffGreenGrad)"/>
-          </svg>
-          <text class="staff-header-title">您的专属医护</text>
-          <!-- <text class="staff-header-subtitle">专属医疗团队</text> -->
-        </view>
-        <!-- 磨砂半透明托盘 -->
-        <view class="staff-frosted-tray">
-          <view class="staff-list">
-            <view
-              class="staff-item animate-pop-in"
-              v-if="nurse && staffLoaded"
-              :style="{ animationDelay: '0.05s' }"
-            >
-              <view class="staff-avatar">
-                <image src="/static/icons/png/filled/people/nurse@2x.png" class="avatar-icon" mode="aspectFit" />
-              </view>
-              <view class="staff-info">
-                <text class="staff-name">{{ nurse.name }}</text>
-                <text class="staff-position">责任护士</text>
-                <text class="staff-department">{{ nurse.department }}</text>
-              </view>
-              <view class="staff-action" @click="callStaff(nurse.phone)">
-                <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
-                <text class="action-text">联系</text>
-              </view>
-            </view>
-
-            <view
-              class="staff-item animate-pop-in"
-              v-if="doctor && staffLoaded"
-              :style="{ animationDelay: '0.15s' }"
-            >
-              <view class="staff-avatar">
-                <image src="/static/icons/png/filled/people/doctor.png" class="avatar-icon" mode="aspectFit" />
-              </view>
-              <view class="staff-info">
-                <text class="staff-name">{{ doctor.name }}</text>
-                <text class="staff-position">主治医生</text>
-                <text class="staff-department">{{ doctor.department }}</text>
-              </view>
-              <view class="staff-action" @click="callStaff(doctor.phone)">
-                <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
-                <text class="action-text">联系</text>
-              </view>
-            </view>
-
-            <view class="staff-item empty-staff" v-if="staffLoaded && !nurse && !doctor">
-              <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
-              <text class="empty-text">暂无专属医护人员</text>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <!-- 机构信息: full width + animation -->
+      <!-- 机构信息: full width + animation -->
     <view class="org-section animate-fade-in-up" :style="{ animationDelay: '0.3s' }">
       <view class="org-top-gradient"></view>
         <view class="org-header">
@@ -194,6 +169,7 @@
           </view>
         </view>
       </view>
+    </view>
 
     <!-- Hospital Detail Modal -->
     <view class="detail-modal" v-if="showDetail" @click="showDetail = false">
@@ -408,8 +384,8 @@ export default {
 
 .header-title {
   font-size: 17px;
-  font-weight: 700;
-  color: #000000;
+  font-weight: 500;
+  color: #0A2540;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -484,47 +460,96 @@ export default {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.service-tray {
+.service-buttons {
   position: sticky;
   top: calc(var(--status-bar-height, 20px) + 56px);
   z-index: 2;
+  display: flex;
+  gap: 12px;
   margin: 0 16px;
-  padding: 8px 10px 10px;
-  background: linear-gradient(330deg, rgba(119, 234, 206, 0.95) 0%, rgba(119, 234, 206, 1) 35%, rgba(25, 162, 128, 1) 100%);
-  border-radius: 18px;
+  padding: 8px 0;
 }
 
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.menu-item {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  padding: 12px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+.feature-card {
+  flex: 1;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
+  border: none;
+  opacity: 1;
   position: relative;
-  overflow: hidden;
-  min-height: 72px;
+  min-height: 80px;
+}
+
+.feature-card-teal {
+  background: linear-gradient(0deg, rgba(245, 255, 251, 1) 0%, rgba(255, 255, 255, 1) 50%);
+}
+
+.feature-card-blue {
+  background: linear-gradient(0deg, rgba(246, 250, 255, 1) 0%, rgba(255, 255, 255, 1) 50%);
+}
+
+.feature-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.feature-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A2B44;
+  display: block;
+  white-space: nowrap;
+}
+
+.feature-desc {
+  font-size: 12px;
+  color: #7A8BA4;
+  display: block;
+  white-space: nowrap;
+}
+
+.feature-icon {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+}
+
+.feature-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .content-area {
   position: relative;
-  margin-top: 24px;
+  margin-top: 0;
   z-index: 3;
-  padding: 0 16px 20px;
+  padding: calc(var(--status-bar-height, 20px) + 56px + 100px + 180px + 8px) 16px 20px;
 }
 
-/* === 您的专属医护: frosted → green → frosted === */
+/* === 您的专属医护: fixed固定不动 === */
 .staff-card-section {
-  position: relative;
-  margin-bottom: 16px;
+  position: fixed;
+  top: calc(var(--status-bar-height, 20px) + 56px + 100px);
+  left: 16px;
+  right: 16px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+.staff-card-section.frost-visible {
+  opacity: 1;
 }
 
 .staff-backplate {
@@ -611,10 +636,10 @@ export default {
 
 /* === 机构信息: full width === */
 .org-section {
-  margin: 0 16px;
+  margin: 0 -16px;
   background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
   border-radius: 14px;
-  padding: 16px;
+  padding: 12px 16px;
   box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
   border: 1px solid rgba(255, 255, 255, 1);
   position: relative;
@@ -627,7 +652,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 40px;
   background: linear-gradient(180deg, rgba(224, 232, 248, 0.6) 0%, rgba(232, 236, 247, 0.3) 40%, rgba(255, 255, 255, 0) 100%);
   pointer-events: none;
   z-index: 0;
@@ -637,7 +662,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   position: relative;
   z-index: 1;
 }
@@ -645,35 +670,35 @@ export default {
 .org-title-wrap {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .org-header-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
 .org-header-title {
-  font-size: 16px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 500;
   color: #1A2B44;
 }
 
 .org-more-wrap {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
 }
 
 .org-more-text {
-  font-size: 13px;
+  font-size: 12px;
   color: #3497E3;
 }
 
 .org-arrow {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-top: 1.5px solid #3497E3;
   border-right: 1.5px solid #3497E3;
   transform: rotate(45deg);
@@ -683,11 +708,11 @@ export default {
 .org-content-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 14px 12px;
+  gap: 4px;
+  padding: 10px 12px;
   background: #FFFFFF;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
   border: 1px solid rgba(255, 255, 255, 1);
   position: relative;
@@ -696,10 +721,10 @@ export default {
 
 .org-contact-card {
   display: flex;
-  padding: 14px 12px;
+  padding: 8px 12px;
   background: #FFFFFF;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  margin-bottom: 6px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
   border: 1px solid rgba(255, 255, 255, 1);
   position: relative;
@@ -839,15 +864,15 @@ export default {
 /* === Org content card inner styles === */
 .org-intro-title {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: #1A2B44;
 }
 
 .org-intro-content {
-  font-size: 13px;
+  font-size: 12px;
   color: #4A5568;
-  line-height: 1.5;
+  line-height: 1.4;
   display: block;
 }
 
@@ -857,9 +882,9 @@ export default {
 }
 
 .org-contact-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
   filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
@@ -869,14 +894,14 @@ export default {
 
 .org-contact-title {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   color: #909399;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .org-contact-value {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #1A2B44;
 }
@@ -919,7 +944,7 @@ export default {
 
 .detail-modal-title {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 500;
   color: #1A2B44;
 }
 

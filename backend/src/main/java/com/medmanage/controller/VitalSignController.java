@@ -19,7 +19,7 @@ public class VitalSignController {
     @Autowired
     private JwtUtil jwtUtil;
     
-    @PostMapping("/save")
+    @PostMapping("/add")
     public Map<String, Object> saveVitalSign(@RequestHeader("Authorization") String token, @RequestBody VitalSign vitalSign) {
         Map<String, Object> result = new HashMap<>();
         try {
