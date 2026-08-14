@@ -765,9 +765,9 @@ export default {
 
 .greeting-main {
   font-family: 'Alimama ShuHeiTi', sans-serif;
-  font-size: clamp(28px, 5.5vw, 24px);
+  font-size: clamp(20px, 7vw, 32px);
   font-weight: 500;
-  line-height: 38px;
+  line-height: 1.2;
   letter-spacing: 0.06em;
   white-space: nowrap;
   background: linear-gradient(90deg, #19a280 0%, #00a17d 100%);
@@ -780,9 +780,9 @@ export default {
 
 .greeting-days {
   font-family: 'Alimama ShuHeiTi', sans-serif;
-  font-size: clamp(28px, 5.5vw, 24px);
+  font-size: clamp(20px, 7vw, 32px);
   font-weight: 500;
-  line-height: 38px;
+  line-height: 1.2;
   letter-spacing: 0.06em;
   white-space: nowrap;
   background: linear-gradient(90deg, #a2bc1b 0%, #bfda41 52%);
@@ -968,8 +968,8 @@ export default {
   background: #FFFFFF;
   border-radius: 10px;
   padding: 10px 12px;
-  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.12), 0 1px 4px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.25);
   flex: 1 1 0;
   min-height: 0;
   overflow: hidden;
@@ -1025,7 +1025,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(100, 120, 160, 0.3);
+  box-shadow: 0 4px 16px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
 }
 
 /* 三个重叠光圈 */
@@ -1337,22 +1338,30 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  max-width: 50%;
+  min-width: 0;
 }
 
 .notification-time-wrap {
   display: flex;
   align-items: center;
   gap: 4px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .notification-time-icon {
   width: 14px;
   height: 14px;
+  flex-shrink: 0;
 }
 
 .notification-time {
   font-size: 12px;
   color: #97A2B5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notification-view {

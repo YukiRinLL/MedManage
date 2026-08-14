@@ -474,17 +474,17 @@ export default {
 .feature-card {
   flex: 1 1 140px;
   min-width: 0;
+  min-height: 110px;
   border-radius: clamp(10px, 3.5vw, 14px);
-  padding: clamp(10px, 3.5vw, 16px);
+  padding: clamp(14px, 4vw, 18px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
   box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
   border: 1px solid rgba(100, 120, 160, 0.1);
   opacity: 1;
   position: relative;
-  min-height: clamp(64px, 18vw, 80px);
 }
 
 .feature-card-teal {
@@ -641,8 +641,8 @@ export default {
   -webkit-backdrop-filter: blur(6px);
   border-radius: 10px;
   padding: 10px 12px;
-  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.12), 0 1px 4px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.25);
 }
 
 /* === 机构信息: full width === */
@@ -1044,9 +1044,9 @@ export default {
     padding: 4px 0;
   }
   .feature-card {
-    min-height: 60px;
-    padding: 10px;
-    gap: 4px;
+    min-height: 90px;
+    padding: 12px;
+    gap: 6px;
   }
   .staff-item {
     padding: 8px 10px !important;

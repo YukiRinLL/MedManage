@@ -444,16 +444,17 @@ export default {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 1);
-  padding: 12px 12px 16px;
+  border: 1px solid rgba(100, 120, 160, 0.25);
+  padding: 8px 12px 10px;
   box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.12), 0 1px 4px rgba(13, 66, 49, 0.08);
 }
 
 .advice-text {
   font-size: clamp(11px, 3vw, 13px);
-  font-weight: 300;
+  font-weight: 330;
   color: #555666;
-  line-height: 20px;
+  line-height: 16px;
 }
 
 /* Feature Cards Row */
