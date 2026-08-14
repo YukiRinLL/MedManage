@@ -28,32 +28,30 @@
             >
               <view class="vital-header">
                 <text class="vital-time">{{ formatDate(sign.recordTime) }}</text>
+                <view class="vital-status" :class="isNormal(sign) ? 'status-normal' : 'status-abnormal'">
+                  {{ isNormal(sign) ? '✓ 正常' : '! 异常' }}
+                </view>
               </view>
               <view class="vital-details">
                 <view class="vital-detail-item">
-                  <text class="detail-label">今日体重</text>
-                  <text class="detail-value">{{ sign.weight ? sign.weight + 'kg' : '-' }}</text>
+                  <text class="detail-label">体温</text>
+                  <text class="detail-value" :class="{ abnormal: !isTempNormal(sign.temperature) }">{{ sign.temperature }}℃</text>
                 </view>
                 <view class="vital-detail-item">
-                  <text class="detail-label">早上血压</text>
-                  <text class="detail-value">{{ sign.morningSystolicPressure ? sign.morningSystolicPressure + '/' + sign.morningDiastolicPressure + 'mmHg' : '-' }}</text>
-                </view>
-                <view class="vital-detail-item">
-                  <text class="detail-label">晚上血压</text>
-                  <text class="detail-value">{{ sign.eveningSystolicPressure ? sign.eveningSystolicPressure + '/' + sign.eveningDiastolicPressure + 'mmHg' : '-' }}</text>
+                  <text class="detail-label">血压</text>
+                  <text class="detail-value" :class="{ abnormal: !isPressureNormal(sign.systolicPressure, sign.diastolicPressure) }">{{ sign.systolicPressure }}/{{ sign.diastolicPressure }}mmHg</text>
                 </view>
                 <view class="vital-detail-item">
                   <text class="detail-label">血糖</text>
-                  <text class="detail-value">{{ sign.bloodSugar ? sign.bloodSugar + 'mmol/L' : '-' }}</text>
+                  <text class="detail-value" :class="{ abnormal: !isSugarNormal(sign.bloodSugar) }">{{ sign.bloodSugar }}mmol/L</text>
                 </view>
                 <view class="vital-detail-item">
-                  <text class="detail-label">今日饮水量</text>
-                  <text class="detail-value">{{ sign.waterIntake != null ? sign.waterIntake + 'ml' : '-' }}</text>
+                  <text class="detail-label">心率</text>
+                  <text class="detail-value" :class="{ abnormal: !isHeartRateNormal(sign.heartRate) }">{{ sign.heartRate }}bpm</text>
                 </view>
               </view>
-              <view v-if="sign.dietRecord" class="vital-notes">
-                <text class="notes-label">饮食记录：</text>
-                <text class="notes-content">{{ sign.dietRecord }}</text>
+              <view v-if="sign.notes" class="vital-notes">
+                {{ sign.notes }}
               </view>
               <text class="vital-arrow">›</text>
             </view>
@@ -113,18 +111,29 @@ export default {
       const date = new Date(dateString)
       return date.toLocaleString()
     },
+    isNormal(sign) {
+      return this.isTempNormal(sign.temperature) &&
+             this.isPressureNormal(sign.systolicPressure, sign.diastolicPressure) &&
+             this.isSugarNormal(sign.bloodSugar) &&
+             this.isHeartRateNormal(sign.heartRate)
+    },
+    isTempNormal(temp) {
+      return temp >= 36.0 && temp <= 37.3
+    },
+    isPressureNormal(systolic, diastolic) {
+      return systolic >= 90 && systolic <= 140 && diastolic >= 60 && diastolic <= 90
+    },
+    isSugarNormal(sugar) {
+      return sugar >= 3.9 && sugar <= 6.1
+    },
+    isHeartRateNormal(rate) {
+      return rate >= 60 && rate <= 100
+    },
     handleItemClick(sign) {
       uni.vibrateShort({})
-      let content = ''
-      if (sign.weight) content += `今日体重: ${sign.weight}kg\n`
-      if (sign.morningSystolicPressure) content += `早上血压: ${sign.morningSystolicPressure}/${sign.morningDiastolicPressure}mmHg\n`
-      if (sign.eveningSystolicPressure) content += `晚上血压: ${sign.eveningSystolicPressure}/${sign.eveningDiastolicPressure}mmHg\n`
-      if (sign.bloodSugar) content += `血糖: ${sign.bloodSugar}mmol/L\n`
-      if (sign.waterIntake != null) content += `今日饮水量: ${sign.waterIntake}ml\n`
-      if (sign.dietRecord) content += `饮食记录: ${sign.dietRecord}`
       uni.showModal({
         title: '记录详情',
-        content: content || '无详细数据',
+        content: `体温: ${sign.temperature}℃\n血压: ${sign.systolicPressure}/${sign.diastolicPressure}mmHg\n血糖: ${sign.bloodSugar}mmol/L\n心率: ${sign.heartRate}bpm${sign.notes ? '\n备注: ' + sign.notes : ''}`,
         showCancel: false,
         confirmText: '知道了'
       })
@@ -143,16 +152,17 @@ export default {
 .vital-sign-container {
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background-color: #f5f5f5;
 }
 
+/* 加载状态样式 */
 .loading-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background-color: #f5f5f5;
 }
 
 .loading-spinner {
@@ -174,6 +184,7 @@ export default {
   to { transform: rotate(360deg); }
 }
 
+/* 添加记录按钮 */
 .add-button-container {
   position: fixed;
   bottom: 20px;
@@ -200,29 +211,27 @@ export default {
   transform: scale(0.95);
 }
 
+/* 生命体征内容 */
 .vital-sign-content {
   padding: 16px;
   padding-bottom: 100px;
 }
 
 .vital-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
+  background-color: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
   display: block;
   font-size: 16px;
-  font-weight: 500;
-  color: #1A2B44;
+  font-weight: 600;
+  color: #333;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .vital-list {
@@ -234,16 +243,8 @@ export default {
 .vital-item {
   padding: 16px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(25, 162, 128, 0.08);
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.vital-item:active {
-  background-color: #FFFFFF;
-  transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(25, 162, 128, 0.12);
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
 }
 
 .vital-header {
@@ -255,14 +256,27 @@ export default {
 
 .vital-time {
   font-size: 12px;
-  color: #909399;
+  color: #666;
+}
+
+.vital-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background-color: rgba(245, 108, 108, 0.15);
+  color: #F56C6C;
+}
+
+.vital-status.normal {
+  background-color: rgba(0, 157, 133, 0.15);
+  color: #009D85;
 }
 
 .vital-details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .vital-detail-item {
@@ -273,38 +287,20 @@ export default {
 
 .detail-label {
   font-size: 14px;
-  color: #909399;
+  color: #666;
 }
 
 .detail-value {
   font-size: 14px;
   font-weight: 500;
-  color: #1A2B44;
+  color: #333;
 }
 
 .vital-notes {
   font-size: 12px;
-  color: #909399;
+  color: #666;
   padding-top: 8px;
-  border-top: 1px dashed rgba(25, 162, 128, 0.08);
-}
-
-.notes-label {
-  font-weight: 500;
-  color: #606266;
-}
-
-.notes-content {
-  color: #909399;
-}
-
-.vital-arrow {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #C0C4CC;
+  border-top: 1px dashed #f0f0f0;
 }
 
 @keyframes fadeInUp {
@@ -320,6 +316,51 @@ export default {
 
 .animate-fade-in-up {
   animation: fadeInUp 0.3s ease-out both;
+}
+
+.vital-item {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.vital-item:active {
+  background-color: #FFFFFF;
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.vital-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.status-normal {
+  background-color: rgba(0, 157, 133, 0.15);
+  color: #009D85;
+}
+
+.status-abnormal {
+  background-color: rgba(245, 108, 108, 0.15);
+  color: #F56C6C;
+}
+
+.detail-value.abnormal {
+  color: #F56C6C;
+  font-weight: 600;
+}
+
+.vital-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #C0C4CC;
 }
 
 .empty-state {
@@ -339,13 +380,13 @@ export default {
 .empty-text {
   display: block;
   font-size: 16px;
-  color: #1A2B44;
+  color: #333;
   margin-bottom: 8px;
 }
 
 .empty-subtext {
   display: block;
   font-size: 14px;
-  color: #909399;
+  color: #999;
 }
 </style>

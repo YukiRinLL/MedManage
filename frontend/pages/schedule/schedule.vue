@@ -500,7 +500,7 @@ export default {
 <style scoped>
 .schedule-container {
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background-color: #F5F7FA;
   padding-bottom: 40px;
 }
 
@@ -509,21 +509,15 @@ export default {
   font-weight: bold;
   text-align: center;
   padding: 15px 0;
-  background: rgba(255, 255, 255, 0.24);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
-  color: #1A2B44;
+  background-color: #FFFFFF;
+  color: #303133;
 }
 
 .filter-bar {
   display: flex;
   justify-content: space-between;
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
+  background-color: #FFFFFF;
   margin-bottom: 12px;
   gap: 12px;
 }
@@ -532,9 +526,8 @@ export default {
   display: flex;
   align-items: center;
   padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
+  background-color: #F5F7FA;
+  border-radius: 8px;
   font-size: 14px;
   color: #606266;
   flex: 1;
@@ -551,14 +544,11 @@ export default {
 }
 
 .schedule-item {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
-  border-radius: 14px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .schedule-header {
@@ -566,7 +556,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
+  border-bottom: 1px solid #EBEEF5;
   margin-bottom: 10px;
 }
 
@@ -621,7 +611,7 @@ export default {
   align-items: center;
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid rgba(25, 162, 128, 0.08);
+  border-top: 1px solid #EBEEF5;
 }
 
 .rate-hint {
@@ -661,11 +651,7 @@ export default {
 }
 
 .rating-content {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: 0 8px 32px rgba(25, 162, 128, 0.15);
+  background-color: #FFFFFF;
   border-radius: 16px;
   width: 100%;
   max-width: 340px;
@@ -679,7 +665,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
+  border-bottom: 1px solid #EBEEF5;
 }
 
 .rating-title {
@@ -753,8 +739,7 @@ export default {
   width: 100%;
   height: 80px;
   padding: 10px;
-  border: 1px solid rgba(25, 162, 128, 0.15);
-  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #EBEEF5;
   border-radius: 8px;
   font-size: 14px;
   margin-top: 8px;
@@ -765,13 +750,13 @@ export default {
   display: flex;
   gap: 10px;
   padding: 16px;
-  border-top: 1px solid rgba(25, 162, 128, 0.08);
+  border-top: 1px solid #EBEEF5;
 }
 
 .btn-cancel {
   flex: 1;
   padding: 10px;
-  background: rgba(245, 247, 250, 0.8);
+  background-color: #F5F7FA;
   border: none;
   border-radius: 8px;
   font-size: 14px;

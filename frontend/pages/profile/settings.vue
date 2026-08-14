@@ -181,10 +181,7 @@ export default {
 
 .section-header {
   padding: 30px 20px 20px;
-  background: rgba(255, 255, 255, 0.24);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.58);
+  background-color: #009D85;
   color: #FFFFFF;
 }
 

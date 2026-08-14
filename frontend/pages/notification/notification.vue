@@ -105,7 +105,7 @@ export default {
 .notification-container {
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background-color: #f5f5f5;
 }
 
 .loading-container {
@@ -114,7 +114,7 @@ export default {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background-color: #f5f5f5;
 }
 
 .loading-spinner {
@@ -142,13 +142,10 @@ export default {
 }
 
 .notification-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-title {
@@ -158,7 +155,7 @@ export default {
   color: #333;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(25, 162, 128, 0.08);
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .notification-list {
@@ -171,27 +168,23 @@ export default {
   display: flex;
   align-items: flex-start;
   padding: 16px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 16px rgba(25, 162, 128, 0.08);
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
 }
 
 .notification-item.unread {
-  background: rgba(0, 157, 133, 0.08);
-  border: 1px solid rgba(0, 157, 133, 0.3);
+  background-color: rgba(0, 157, 133, 0.08);
+  border-color: #009D85;
 }
 
 .notification-icon {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   margin-right: 12px;
   flex-shrink: 0;
-  background-color: rgba(0, 157, 133, 0.1);
-  border: 2px solid rgba(0, 157, 133, 0.3);
-  border-radius: 50%;
+  background-color: #F0F0F0;
+  border-radius: 8px;
   position: relative;
 }
 
@@ -200,23 +193,24 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 2px;
-  height: 9px;
-  background-color: #009D85;
-  border-radius: 1px;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, -60%);
+  width: 12px;
+  height: 12px;
+  border: 2px solid #909399;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
 }
 
 .notification-icon::before {
   content: '';
   position: absolute;
-  top: 50%;
+  bottom: calc(50% - 10px);
   left: 50%;
+  transform: translateX(-50%);
   width: 6px;
-  height: 2px;
-  background-color: #009D85;
-  border-radius: 1px;
-  transform: translate(0%, -50%);
+  height: 3px;
+  background-color: #909399;
+  border-radius: 0 0 3px 3px;
 }
 
 .notification-icon.type-medication {
@@ -296,7 +290,7 @@ export default {
   width: 80px;
   height: 80px;
   margin: 0 auto 20px;
-  background-color: rgba(0, 157, 133, 0.08);
+  background-color: #F0F0F0;
   border-radius: 16px;
   position: relative;
 }
@@ -309,7 +303,7 @@ export default {
   transform: translate(-50%, -60%);
   width: 24px;
   height: 24px;
-  border: 3px solid rgba(0, 157, 133, 0.4);
+  border: 3px solid #C0C4CC;
   border-bottom: none;
   border-radius: 12px 12px 0 0;
 }
@@ -322,7 +316,7 @@ export default {
   transform: translateX(-50%);
   width: 12px;
   height: 6px;
-  background-color: rgba(0, 157, 133, 0.4);
+  background-color: #C0C4CC;
   border-radius: 0 0 6px 6px;
 }
 
