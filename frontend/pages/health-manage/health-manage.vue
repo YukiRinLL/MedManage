@@ -267,6 +267,7 @@ export default {
 }
 
 .health-manage-container {
+  --s: calc(100vw / 375);
   padding: 0;
   min-height: 100vh;
   background: #FFFFFF;
@@ -439,9 +440,9 @@ export default {
   margin-top: -50px;
   z-index: 2;
   width: 100%;
-  background: rgba(255, 255, 255, 0.64);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 1);
   padding: 12px 12px 16px;
@@ -449,8 +450,9 @@ export default {
 }
 
 .advice-text {
-  font-size: 14px;
-  color: #333333;
+  font-size: clamp(11px, 3vw, 13px);
+  font-weight: 300;
+  color: #555666;
   line-height: 20px;
 }
 
@@ -459,7 +461,8 @@ export default {
   position: relative;
   z-index: 1;
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: clamp(8px, 3vw, 12px);
   margin: 16px 16px 0;
 }
 
@@ -472,15 +475,15 @@ export default {
   flex-direction: column;
   gap: 6px;
   min-height: 110px;
-  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
 }
 
 .feature-blue {
-  background: linear-gradient(180deg, #F6FAFF 0%, #FFFFFF 50%);
+  background: linear-gradient(180deg, #E8F4FD 0%, #FFFFFF 60%);
 }
 
 .feature-green {
-  background: linear-gradient(180deg, #F5FFFB 0%, #FFFFFF 50%);
+  background: linear-gradient(180deg, #E8F8F0 0%, #FFFFFF 60%);
 }
 
 .feature-icon-wrap {
@@ -571,8 +574,8 @@ export default {
   background: #FFFFFF;
   border-radius: 14px;
   padding: 16px 14px;
-  box-shadow: 0 2px 12px rgba(13, 66, 49, 0.05);
-  border: 1px solid rgba(13, 66, 49, 0.05);
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -587,7 +590,7 @@ export default {
 }
 
 .menu-title {
-  font-size: 15px;
+  font-size: clamp(13px, 3.5vw, 15px);
   font-weight: 500;
   color: #1A2B44;
 }
@@ -620,5 +623,17 @@ export default {
 
 .bottom-space {
   height: 100px;
+}
+
+@media (max-height: 700px) {
+  .advice-section { margin-top: 12px; }
+  .feature-row { margin-top: 10px; }
+  .menu-grid { margin-top: 10px; gap: 8px; }
+  .menu-item { min-height: 90px; padding: 10px; }
+}
+
+@media (max-width: 360px) {
+  .feature-card { min-height: 90px; }
+  .menu-grid { gap: 8px; }
 }
 </style>

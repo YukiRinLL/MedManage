@@ -13,160 +13,125 @@
       </view>
     </view>
 
-    <!-- Fixed Buttons (homepage style) -->
-    <view class="service-buttons animate-fade-in" :style="{ animationDelay: '0.1s' }">
-      <view
-        class="feature-card feature-card-teal animate-fade-in-up"
-        :style="{ animationDelay: '0.15s' }"
-        @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
-      >
-        <view class="feature-info">
-          <text class="feature-title">透析排班</text>
-          <text class="feature-desc">查看透析安排时间</text>
+    <!-- Main Content - fixed below header, no scroll -->
+    <view class="main-content" :class="{ 'frost-visible': pageVisible }">
+      <!-- Staff Section (top, styled like home tips-card) -->
+      <view class="staff-card-section" style="transition-delay: 0.2s;">
+        <!-- 磨砂半透明背板：覆盖标题与区域 -->
+        <view class="staff-header-backplate"></view>
+        <!-- 绿色头部 -->
+        <view class="staff-green-header">
+          <svg class="staff-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="staffGreenGrad" x1="1.5" y1="1" x2="0.5" y2="0">
+                <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
+                <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
+              </linearGradient>
+            </defs>
+            <path d="
+              M 0 18
+              Q 0 0, 18 0
+              L 153 0
+              Q 162 0, 168 5
+              Q 175 14, 183 22
+              Q 188 28, 196 29
+              L 324 29
+              Q 342 29, 342 47
+              L 342 77
+              Q 342 85, 334 85
+              L 8 85
+              Q 0 85, 0 77
+              Z" fill="url(#staffGreenGrad)"/>
+          </svg>
+          <text class="staff-header-title">您的专属医护</text>
+          <!-- <text class="staff-header-subtitle">一对一专属照护</text> -->
         </view>
-        <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon" mode="aspectFit" />
-      </view>
+        <!-- 磨砂半透明托盘：放在绿色下方，部分重叠 -->
+        <view class="staff-frosted-tray">
+          <view class="staff-list">
+            <view
+              class="staff-item animate-pop-in"
+              v-if="nurse && staffLoaded"
+              :style="{ animationDelay: '0.05s' }"
+            >
+              <view class="staff-avatar">
+                <image src="/static/icons/png/filled/people/nurse@2x.png" class="avatar-icon" mode="aspectFit" />
+              </view>
+              <view class="staff-info">
+                <text class="staff-name">{{ nurse.name }}</text>
+                <text class="staff-position">责任护士</text>
+                <text class="staff-department">{{ nurse.department }}</text>
+              </view>
+              <view class="staff-action" @click="callStaff(nurse.phone)">
+                <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
+                <text class="action-text">联系</text>
+              </view>
+            </view>
 
-      <view
-        class="feature-card feature-card-blue animate-fade-in-up"
-        :style="{ animationDelay: '0.2s' }"
-        @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
-      >
-        <view class="feature-info">
-          <text class="feature-title">科普宣教</text>
-          <text class="feature-desc">健康知识学习</text>
-        </view>
-        <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon" mode="aspectFit" />
-      </view>
-    </view>
+            <view
+              class="staff-item animate-pop-in"
+              v-if="doctor && staffLoaded"
+              :style="{ animationDelay: '0.15s' }"
+            >
+              <view class="staff-avatar">
+                <image src="/static/icons/png/filled/people/doctor.png" class="avatar-icon" mode="aspectFit" />
+              </view>
+              <view class="staff-info">
+                <text class="staff-name">{{ doctor.name }}</text>
+                <text class="staff-position">主治医生</text>
+                <text class="staff-department">{{ doctor.department }}</text>
+              </view>
+              <view class="staff-action" @click="callStaff(doctor.phone)">
+                <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
+                <text class="action-text">联系</text>
+              </view>
+            </view>
 
-    <!-- Fixed Staff Section -->
-    <view class="staff-card-section" :class="{ 'frost-visible': pageVisible }" style="transition-delay: 0.25s;">
-      <!-- 绿色头部 -->
-      <view class="staff-green-header">
-        <svg class="staff-header-svg" viewBox="0 0 342 85" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="staffGreenGrad" x1="1.5" y1="1" x2="0.5" y2="0">
-              <stop offset="0%" stop-color="#77EACE" stop-opacity="0"/>
-              <stop offset="35%" stop-color="#77EACE" stop-opacity="1"/>
-              <stop offset="100%" stop-color="#19A280" stop-opacity="1"/>
-            </linearGradient>
-          </defs>
-          <path d="
-            M 0 18
-            Q 0 0, 18 0
-            L 153 0
-            Q 162 0, 168 5
-            Q 175 14, 183 22
-            Q 188 28, 196 29
-            L 324 29
-            Q 342 29, 342 47
-            L 342 77
-            Q 342 85, 334 85
-            L 8 85
-            Q 0 85, 0 77
-            Z" fill="url(#staffGreenGrad)"/>
-        </svg>
-        <text class="staff-header-title">您的专属医护</text>
-      </view>
-      <!-- 磨砂半透明托盘 -->
-      <view class="staff-frosted-tray">
-        <view class="staff-list">
-          <view
-            class="staff-item animate-pop-in"
-            v-if="nurse && staffLoaded"
-            :style="{ animationDelay: '0.05s' }"
-          >
-            <view class="staff-avatar">
-              <image src="/static/icons/png/filled/people/nurse@2x.png" class="avatar-icon" mode="aspectFit" />
+            <view class="staff-item empty-staff" v-if="staffLoaded && !nurse && !doctor">
+              <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
+              <text class="empty-text">暂无专属医护人员</text>
             </view>
-            <view class="staff-info">
-              <text class="staff-name">{{ nurse.name }}</text>
-              <text class="staff-position">责任护士</text>
-              <text class="staff-department">{{ nurse.department }}</text>
-            </view>
-            <view class="staff-action" @click="callStaff(nurse.phone)">
-              <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
-              <text class="action-text">联系</text>
-            </view>
-          </view>
-
-          <view
-            class="staff-item animate-pop-in"
-            v-if="doctor && staffLoaded"
-            :style="{ animationDelay: '0.15s' }"
-          >
-            <view class="staff-avatar">
-              <image src="/static/icons/png/filled/people/doctor.png" class="avatar-icon" mode="aspectFit" />
-            </view>
-            <view class="staff-info">
-              <text class="staff-name">{{ doctor.name }}</text>
-              <text class="staff-position">主治医生</text>
-              <text class="staff-department">{{ doctor.department }}</text>
-            </view>
-            <view class="staff-action" @click="callStaff(doctor.phone)">
-              <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
-              <text class="action-text">联系</text>
-            </view>
-          </view>
-
-          <view class="staff-item empty-staff" v-if="staffLoaded && !nurse && !doctor">
-            <image src="/static/icons/png/filled/people/people@2x.png" class="empty-icon" mode="aspectFit" />
-            <text class="empty-text">暂无专属医护人员</text>
           </view>
         </view>
       </view>
-    </view>
 
-    <!-- Scrollable Content -->
-    <view class="content-area">
-      <!-- 机构信息: full width + animation -->
-    <view class="org-section animate-fade-in-up" :style="{ animationDelay: '0.3s' }">
-      <view class="org-top-gradient"></view>
-        <view class="org-header">
-          <view class="org-title-wrap">
-            <image src="/static/icons/png/filled/places/home@2x.png" class="org-header-icon" mode="aspectFit" />
-            <text class="org-header-title">机构信息</text>
+      <!-- Buttons Section (below staff, homepage style) -->
+      <view class="service-buttons animate-fade-in" :style="{ animationDelay: '0.3s' }">
+        <view
+          class="feature-card feature-card-teal animate-fade-in-up"
+          :style="{ animationDelay: '0.35s' }"
+          @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
+        >
+          <view class="feature-info">
+            <text class="feature-title">透析排班</text>
+            <text class="feature-desc">查看透析安排时间</text>
           </view>
-          <view class="org-more-wrap" @click="showHospitalDetail">
-            <text class="org-more-text">了解更多</text>
-            <view class="org-arrow"></view>
-          </view>
+          <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon" mode="aspectFit" />
         </view>
 
-        <view class="org-content-card">
-          <text class="org-intro-title">医院简介</text>
-          <text class="org-intro-content">重庆圣通尚诺医疗管理有限公司成立于2018年，专注于透析患者的综合管理服务。我们拥有专业的医疗团队和先进的透析设备，致力于为患者提供高质量的医疗服务和全方位的健康管理支持。</text>
-        </view>
-
-        <view class="org-contact-card">
-          <view class="org-contact-item">
-            <image src="/static/icons/png/filled/objects/phone@2x.png" class="org-contact-icon" mode="aspectFit" />
-            <view class="org-contact-info">
-              <text class="org-contact-title">服务热线</text>
-              <text class="org-contact-value">400-888-8888</text>
-            </view>
+        <view
+          class="feature-card feature-card-blue animate-fade-in-up"
+          :style="{ animationDelay: '0.4s' }"
+          @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
+        >
+          <view class="feature-info">
+            <text class="feature-title">科普宣教</text>
+            <text class="feature-desc">健康知识学习</text>
           </view>
+          <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon" mode="aspectFit" />
         </view>
+      </view>
 
-        <view class="org-contact-card">
-          <view class="org-contact-item">
-            <image src="/static/icons/png/filled/objects/calendar@2x.png" class="org-contact-icon" mode="aspectFit" />
-            <view class="org-contact-info">
-              <text class="org-contact-title">服务时间</text>
-              <text class="org-contact-value">周一至周日 8:00-20:00</text>
-            </view>
+      <!-- Content Area (org info entry) -->
+      <view class="content-area">
+        <!-- 机构信息: 入口卡片，点击跳转新页面 -->
+        <view class="org-entry-card animate-fade-in-up" :style="{ animationDelay: '0.5s' }" @click="handleItemClick('/pages/org-info/org-info', '机构信息')">
+          <view class="org-entry-left">
+            <image src="/static/icons/png/filled/places/home@2x.png" class="org-entry-icon" mode="aspectFit" />
+            <text class="org-entry-title">机构信息</text>
           </view>
-        </view>
-
-        <view class="org-contact-card">
-          <view class="org-contact-item">
-            <image src="/static/icons/png/filled/symbols/geo_location@2x.png" class="org-contact-icon" mode="aspectFit" />
-            <view class="org-contact-info">
-              <text class="org-contact-title">机构地址</text>
-              <text class="org-contact-value">北京市朝阳区健康路88号</text>
-            </view>
-          </view>
+          <view class="org-entry-arrow"></view>
         </view>
       </view>
     </view>
@@ -327,6 +292,7 @@ export default {
   padding: 0;
   min-height: 100vh;
   background: #FFFFFF;
+  --s: calc(100vw / 375);
 }
 
 /* Top Background */
@@ -340,11 +306,11 @@ export default {
   z-index: 0;
 }
 
-/* Sticky Top Section */
+/* Header - sticky top */
 .sticky-top {
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 5;
   background: transparent;
   opacity: 0;
   transition: opacity 0.4s ease-out;
@@ -354,12 +320,21 @@ export default {
   opacity: 1;
 }
 
-.staff-card-section {
+/* Main Content - fixed below header, no scroll (ref: interaction.vue) */
+.main-content {
+  position: fixed;
+  top: calc(var(--status-bar-height, 20px) + 56px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 12px 0 20px;
+  overflow: hidden;
   opacity: 0;
   transition: opacity 0.5s ease-out;
 }
 
-.staff-card-section.frost-visible {
+.main-content.frost-visible {
   opacity: 1;
 }
 
@@ -460,37 +435,64 @@ export default {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.service-buttons {
-  position: sticky;
-  top: calc(var(--status-bar-height, 20px) + 56px);
+.service-divider {
+  position: relative;
   z-index: 2;
   display: flex;
-  gap: 12px;
-  margin: 0 16px;
-  padding: 8px 0;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 0 clamp(10px, 4vw, 16px);
+  padding: 8px 0 0;
+  flex-shrink: 0;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(25, 162, 128, 0.2);
+}
+
+.divider-text {
+  font-size: 12px;
+  color: #19A280;
+  font-weight: 500;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.service-buttons {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 3vw, 12px);
+  margin: 0 clamp(10px, 4vw, 16px);
+  padding: 0 0 8px;
 }
 
 .feature-card {
-  flex: 1;
-  border-radius: 14px;
-  padding: 16px;
+  flex: 1 1 140px;
+  min-width: 0;
+  border-radius: clamp(10px, 3.5vw, 14px);
+  padding: clamp(10px, 3.5vw, 16px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
-  border: none;
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   opacity: 1;
   position: relative;
-  min-height: 80px;
+  min-height: clamp(64px, 18vw, 80px);
 }
 
 .feature-card-teal {
-  background: linear-gradient(0deg, rgba(245, 255, 251, 1) 0%, rgba(255, 255, 255, 1) 50%);
+  background: linear-gradient(0deg, #E8F8F0 0%, #FFFFFF 55%);
 }
 
 .feature-card-blue {
-  background: linear-gradient(0deg, rgba(246, 250, 255, 1) 0%, rgba(255, 255, 255, 1) 50%);
+  background: linear-gradient(0deg, #E8F4FD 0%, #FFFFFF 55%);
 }
 
 .feature-info {
@@ -502,27 +504,33 @@ export default {
 }
 
 .feature-title {
-  font-size: 14px;
+  font-size: clamp(12px, 3.5vw, 14px);
   font-weight: 500;
   color: #1A2B44;
   display: block;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .feature-desc {
-  font-size: 12px;
+  font-size: clamp(10px, 3vw, 12px);
   color: #7A8BA4;
   display: block;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .feature-icon {
-  width: 30px;
-  height: 30px;
+  width: clamp(24px, 7vw, 30px);
+  height: clamp(24px, 7vw, 30px);
   flex-shrink: 0;
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: clamp(8px, 3vw, 12px);
+  bottom: clamp(8px, 3vw, 12px);
 }
 
 .feature-card:active {
@@ -532,27 +540,19 @@ export default {
 
 .content-area {
   position: relative;
-  margin-top: 0;
   z-index: 3;
-  padding: calc(var(--status-bar-height, 20px) + 56px + 100px + 180px + 8px) 16px 20px;
+  padding: 16px clamp(10px, 4vw, 16px) 0;
 }
 
-/* === 您的专属医护: fixed固定不动 === */
+/* === 您的专属医护 === */
 .staff-card-section {
-  position: fixed;
-  top: calc(var(--status-bar-height, 20px) + 56px + 100px);
-  left: 16px;
-  right: 16px;
+  position: relative;
   z-index: 2;
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
+  margin: 0 clamp(10px, 4vw, 16px) 16px;
 }
 
-.staff-card-section.frost-visible {
-  opacity: 1;
-}
-
-.staff-backplate {
+/* 磨砂半透明背板：参考首页 tips-header-backplate */
+.staff-header-backplate {
   position: absolute;
   left: 0;
   right: 0;
@@ -562,8 +562,10 @@ export default {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 18px;
-  border: 0.5px solid #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.06) inset;
   z-index: 0;
+  border: 0.5px solid #FFFFFF;
 }
 
 .staff-green-header {
@@ -598,10 +600,15 @@ export default {
   position: absolute;
   right: 20px;
   top: 10px;
+  width: 96px;
+  height: 12px;
   font-size: 12px;
   font-weight: 400;
+  line-height: 12px;
+  letter-spacing: normal;
   color: #145248;
   z-index: 4;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -614,6 +621,8 @@ export default {
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 18px 12px 16px;
+  margin-left: 0;
+  margin-right: 0;
   border: 1px solid rgba(255, 255, 255, 0.58);
   box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
 }
@@ -627,11 +636,13 @@ export default {
 .staff-item {
   display: flex;
   align-items: center;
-  background: #FFFFFF;
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 /* === 机构信息: full width === */
@@ -641,7 +652,7 @@ export default {
   border-radius: 14px;
   padding: 12px 16px;
   box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   position: relative;
   z-index: 2;
   overflow: hidden;
@@ -705,6 +716,52 @@ export default {
   flex-shrink: 0;
 }
 
+/* === 机构信息入口卡片 === */
+.org-entry-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.org-entry-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 6px 24px rgba(100, 120, 160, 0.2);
+}
+
+.org-entry-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.org-entry-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
+}
+
+.org-entry-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1A2B44;
+}
+
+.org-entry-arrow {
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid #C0C4CC;
+  border-right: 1.5px solid #C0C4CC;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
 .org-content-card {
   display: flex;
   flex-direction: column;
@@ -714,7 +771,7 @@ export default {
   border-radius: 10px;
   margin-bottom: 6px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   position: relative;
   z-index: 1;
 }
@@ -726,7 +783,7 @@ export default {
   border-radius: 10px;
   margin-bottom: 6px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   position: relative;
   z-index: 1;
 }
@@ -804,7 +861,7 @@ export default {
 
 .staff-name {
   display: block;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: #1A2B44;
   margin-bottom: 2px;
@@ -812,13 +869,13 @@ export default {
 
 .staff-position {
   display: block;
-  font-size: 13px;
+  font-size: 11px;
   color: #009D85;
   margin-bottom: 1px;
 }
 
 .staff-department {
-  font-size: 12px;
+  font-size: 10px;
   color: #909399;
 }
 
@@ -980,4 +1037,21 @@ export default {
   font-weight: 600;
   border-radius: 24px;
 }
+
+/* === 小屏幕适配 === */
+@media (max-height: 700px) {
+  .service-buttons {
+    padding: 4px 0;
+  }
+  .feature-card {
+    min-height: 60px;
+    padding: 10px;
+    gap: 4px;
+  }
+  .staff-item {
+    padding: 8px 10px !important;
+  }
+}
+
+/* 小屏幕仅用 --s 等比缩放，不改变排版结构 */
 </style>

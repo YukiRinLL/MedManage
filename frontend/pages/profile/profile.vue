@@ -169,6 +169,7 @@ export default {
 }
 
 .profile-container {
+  --s: calc(100vw / 375);
   padding: 0;
   min-height: 100vh;
   background-color: #f5f5f5;
@@ -257,12 +258,13 @@ export default {
 .menu-card {
   background-color: #FFFFFF;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
   margin-bottom: 16px;
 }
 
 .menu-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding: 16px 20px;
   border-bottom: 1px solid #f0f0f0;
@@ -278,8 +280,8 @@ export default {
 }
 
 .menu-icon-img {
-  width: 20px;
-  height: 20px;
+  width: clamp(18px, 5.5vw, 22px);
+  height: clamp(18px, 5.5vw, 22px);
   margin-right: 12px;
 }
 
@@ -326,4 +328,12 @@ export default {
   font-size: 12px;
   color: #999;
 }
+
+@media (max-height: 700px) {
+  .user-card-section { margin-bottom: 10px; }
+  .section-card { margin-bottom: 10px; }
+  .menu-item-row { padding: 8px; }
+}
+
+/* 小屏幕仅用 --s 等比缩放，不改变排版结构 */
 </style>

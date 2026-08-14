@@ -54,43 +54,49 @@
         </view>
       </view>
 
-      <!-- Section 2: Messages & Feedback -->
-      <view class="content-section" :style="{ animationDelay: '0.2s' }">
-        <view class="section-green-header animate-fade-in">
-          <view class="section-title-row-section">
-            <!-- <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="section-icon" mode="aspectFit" /> -->
-            <text class="section-title-text">消息与反馈</text>
+      <!-- Section 2: Messages & Feedback (notification-style) -->
+      <view class="msg-section animate-fade-in-up" :style="{ animationDelay: '0.2s' }">
+        <view class="msg-top-gradient"></view>
+        <view class="msg-header">
+          <view class="msg-title-wrap">
+            <text class="msg-title">消息与反馈</text>
+          </view>
+          <view class="msg-more-wrap" @click="handleItemClick('/pages/notification/notification', '通知中心')">
+            <text class="msg-more">查看全部</text>
+            <view class="msg-arrow"></view>
           </view>
         </view>
-        <view class="section-frosted-tray">
-          <view class="menu-list">
-            <view
-              class="menu-item-row animate-fade-in-up"
-              @click="handleItemClick('/pages/notification/notification', '通知中心')"
-            >
-              <view class="menu-icon-wrap bg-cyan">
-                <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="menu-icon-img" mode="aspectFit" />
-                <view class="red-dot" v-if="unreadCount > 0"></view>
+        <view class="msg-list">
+          <view
+            class="msg-card"
+            @click="handleItemClick('/pages/notification/notification', '通知中心')"
+          >
+            <view class="msg-dot" :class="{ 'msg-dot-unread': unreadCount > 0 }"></view>
+            <view class="msg-body">
+              <text class="msg-text">通知中心</text>
+              <view class="msg-meta">
+                <view class="msg-time-wrap">
+                  <image src="/static/design/home/Frame-4.svg" class="msg-time-icon" mode="aspectFit" />
+                  <text class="msg-time">查看系统通知消息</text>
+                </view>
+                <text class="msg-unread" v-if="unreadCount > 0">{{ unreadCount }}条未读</text>
               </view>
-              <view class="menu-item-main">
-                <text class="menu-title">通知中心</text>
-                <text class="menu-desc">查看系统通知消息</text>
-              </view>
-              <text class="menu-arrow">›</text>
             </view>
+          </view>
 
-            <view
-              class="menu-item-row animate-fade-in-up"
-              @click="showFeedbackModal"
-            >
-              <view class="menu-icon-wrap bg-green">
-                <image src="/static/icons/png/filled/symbols/question_circle@2x.png" class="menu-icon-img" mode="aspectFit" />
+          <view
+            class="msg-card"
+            @click="showFeedbackModal"
+          >
+            <view class="msg-dot"></view>
+            <view class="msg-body">
+              <text class="msg-text">问题反馈</text>
+              <view class="msg-meta">
+                <view class="msg-time-wrap">
+                  <image src="/static/design/home/Frame-4.svg" class="msg-time-icon" mode="aspectFit" />
+                  <text class="msg-time">反馈意见，帮助我们改进服务</text>
+                </view>
               </view>
-              <view class="menu-item-main">
-                <text class="menu-title">问题反馈</text>
-                <text class="menu-desc">反馈意见，帮助我们改进服务</text>
-              </view>
-              <text class="menu-arrow">›</text>
             </view>
           </view>
         </view>
@@ -161,6 +167,7 @@ export default {
 
 <style scoped>
 .interaction-container {
+  --s: calc(100vw / 375);
   padding: 0;
   min-height: 100vh;
   background: #FFFFFF;
@@ -266,7 +273,7 @@ export default {
 }
 
 .section-title-text {
-  font-size: 16px;
+  font-size: clamp(14px, 4vw, 16px);
   font-weight: 700;
   color: #FFFFFF;
 }
@@ -315,7 +322,7 @@ export default {
 
 .menu-list.menu-list-row {
   flex-direction: row;
-  gap: 10px;
+  gap: clamp(8px, 3vw, 10px);
   align-items: stretch;
 }
 
@@ -328,7 +335,7 @@ export default {
   text-align: center;
   padding: 14px 8px;
   margin-bottom: 0;
-  min-height: 100px;
+  min-height: clamp(80px, 22vw, 100px);
 }
 
 .menu-card .menu-icon-wrap {
@@ -344,8 +351,8 @@ export default {
   background: #FFFFFF;
   border-radius: 10px;
   margin-bottom: 6px;
-  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.08);
-  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
 }
 
 .menu-card.menu-item-row {
@@ -371,8 +378,8 @@ export default {
 }
 
 .menu-icon-wrap {
-  width: 40px;
-  height: 40px;
+  width: clamp(32px, 9vw, 40px);
+  height: clamp(32px, 9vw, 40px);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -383,8 +390,8 @@ export default {
 }
 
 .menu-icon-img {
-  width: 22px;
-  height: 22px;
+  width: clamp(18px, 5.5vw, 22px);
+  height: clamp(18px, 5.5vw, 22px);
   filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
 }
 
@@ -418,7 +425,7 @@ export default {
 
 .menu-title {
   display: block;
-  font-size: 15px;
+  font-size: clamp(13px, 3.5vw, 15px);
   font-weight: 600;
   color: #1A2B44;
   margin-bottom: 2px;
@@ -426,7 +433,7 @@ export default {
 
 .menu-desc {
   display: block;
-  font-size: 12px;
+  font-size: clamp(10px, 3vw, 12px);
   color: #909399;
 }
 
@@ -444,4 +451,169 @@ export default {
   border-radius: 50%;
   background: #F56C6C;
 }
+
+/* Messages & Feedback Section - notification-style (参考首页通知消息设计) */
+.msg-section {
+  position: relative;
+  margin-bottom: 16px;
+  background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+  overflow: hidden;
+}
+
+/* 顶部淡蓝色渐变 */
+.msg-top-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(180deg, rgba(224, 232, 248, 0.6) 0%, rgba(232, 236, 247, 0.3) 40%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.msg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.msg-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.msg-title {
+  font-size: clamp(14px, 4vw, 16px);
+  font-weight: 500;
+  color: #1A2B44;
+}
+
+.msg-more-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.msg-more {
+  font-size: 13px;
+  color: #3497E3;
+}
+
+.msg-arrow {
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #3497E3;
+  border-right: 1.5px solid #3497E3;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.msg-list {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.msg-card {
+  display: flex;
+  gap: 8px;
+  padding: 14px 12px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+}
+
+.msg-card:last-child {
+  margin-bottom: 0;
+}
+
+.msg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #19A280;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.msg-dot-unread {
+  background: #F56C6C;
+}
+
+.msg-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.msg-text {
+  font-size: clamp(13px, 3.5vw, 14px);
+  color: #1A2B44;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.msg-time-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.msg-time-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.msg-time {
+  font-size: 12px;
+  color: #97A2B5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-unread {
+  font-size: 12px;
+  color: #F56C6C;
+  flex-shrink: 0;
+}
+
+@media (max-height: 700px) {
+  .content-section { margin-bottom: 10px; }
+  .section-green-header { padding: 10px 16px 30px; }
+  .section-frosted-tray { padding: 8px 10px; }
+  .menu-item-row { padding: 8px; }
+  .msg-section { padding: 12px; }
+  .msg-card { padding: 10px 12px; margin-bottom: 8px; }
+  .msg-header { margin-bottom: 8px; }
+}
+
+/* 小屏幕仅用 --s 等比缩放，不改变排版结构 */
 </style>

@@ -637,6 +637,7 @@ export default {
 }
 
 .home-container {
+  --s: calc(100vw / 375);
   padding: 0;
   min-height: 100vh;
   background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
@@ -702,7 +703,7 @@ export default {
 }
 
 .header-title {
-  font-size: 17px;
+  font-size: clamp(17px, 4vw, 17px);
   font-weight: 500;
   color: #0A2540;
   position: absolute;
@@ -764,8 +765,8 @@ export default {
 
 .greeting-main {
   font-family: 'Alimama ShuHeiTi', sans-serif;
-  font-size: 32px;
-  font-weight: bold;
+  font-size: clamp(28px, 5.5vw, 24px);
+  font-weight: 500;
   line-height: 38px;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -779,8 +780,8 @@ export default {
 
 .greeting-days {
   font-family: 'Alimama ShuHeiTi', sans-serif;
-  font-size: 32px;
-  font-weight: bold;
+  font-size: clamp(28px, 5.5vw, 24px);
+  font-weight: 500;
   line-height: 38px;
   letter-spacing: 0.06em;
   white-space: nowrap;
@@ -964,9 +965,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: #FFFFFF;
   border-radius: 10px;
   padding: 10px 12px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
@@ -1144,22 +1143,31 @@ export default {
 /* Feature Cards */
 .feature-row {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: clamp(8px, 3vw, 12px);
   margin: 0 16px 16px;
+  padding: 12px;
   position: relative;
   z-index: 2;
+  background: rgba(179, 212, 255, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .feature-card {
   flex: 1;
+  min-width: 0;
+  overflow: hidden;
   border-radius: 14px;
   padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  box-shadow: 0 4px 16px rgba(173, 180, 212, 0.15);
-  border: none;
+  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   opacity: 1;
   position: relative;
   min-height: 80px;
@@ -1182,7 +1190,7 @@ export default {
 }
 
 .feature-title {
-  font-size: 14px;
+  font-size: clamp(12px, 3.5vw, 14px);
   font-weight: 500;
   color: #1A2B44;
   display: block;
@@ -1190,7 +1198,7 @@ export default {
 }
 
 .feature-desc {
-  font-size: 12px;
+  font-size: clamp(10px, 3vw, 12px);
   color: #7A8BA4;
   display: block;
   white-space: nowrap;
@@ -1212,7 +1220,7 @@ export default {
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
   position: relative;
   z-index: 2;
   overflow: hidden;
@@ -1289,7 +1297,7 @@ export default {
   border-radius: 12px;
   margin-bottom: 10px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(100, 120, 160, 0.1);
 }
 
 .notification-card:last-child {
@@ -1308,24 +1316,27 @@ export default {
 .notification-body {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
 }
 
 .notification-text {
-  font-size: 14px;
+  font-size: clamp(12px, 3.5vw, 14px);
   color: #4A5568;
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .notification-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .notification-time-wrap {
@@ -1347,6 +1358,7 @@ export default {
 .notification-view {
   font-size: 12px;
   color: #2D9CDB;
+  display: none;
 }
 
 .notification-empty {
@@ -1362,4 +1374,13 @@ export default {
 .bottom-space {
   height: 100px;
 }
+
+/* 小屏幕（短高度）适配：缩减各区块 margin-top、padding */
+/* 小屏幕适配：仅调整内边距，不动相对位置和排版结构，依靠 App.vue 的 --s 等比缩放 */
+@media (max-height: 700px) {
+  .greeting-section {
+    padding: 4px 26px 0px;
+  }
+}
+
 </style>

@@ -29,6 +29,30 @@ export default {
   --border-base: #DCDFE6;
   --background-base: #F5F7FA;
   --white: #FFFFFF;
+  /* 全局设计稿等比缩放因子（以 iPhone SE 375px 为基准） */
+  --s: calc(100vw / 375);
+  /* 字体尺寸（scaled） */
+  --fs-xs:  calc(10px * var(--s));
+  --fs-sm:  calc(12px * var(--s));
+  --fs-md:  calc(14px * var(--s));
+  --fs-lg:  calc(16px * var(--s));
+  --fs-xl:  calc(17px * var(--s));
+  --fs-2xl: calc(20px * var(--s));
+  /* 间距（scaled） */
+  --sp-1:  calc(4px * var(--s));
+  --sp-2:  calc(8px * var(--s));
+  --sp-3:  calc(12px * var(--s));
+  --sp-4:  calc(16px * var(--s));
+  --sp-5:  calc(20px * var(--s));
+  /* 圆角（scaled） */
+  --r-sm: calc(6px * var(--s));
+  --r-md: calc(10px * var(--s));
+  --r-lg: calc(14px * var(--s));
+  --r-xl: calc(16px * var(--s));
+  /* 图标（scaled） */
+  --ic-sm: calc(20px * var(--s));
+  --ic-md: calc(28px * var(--s));
+  --ic-lg: calc(40px * var(--s));
 }
 
 * {
