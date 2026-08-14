@@ -1299,6 +1299,8 @@ export default {
   margin-bottom: 10px;
   box-shadow: 0 2px 10px rgba(13, 66, 49, 0.05);
   border: 1px solid rgba(100, 120, 160, 0.1);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .notification-card:last-child {
@@ -1316,17 +1318,19 @@ export default {
 
 .notification-body {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  overflow: hidden;
 }
 
 .notification-text {
   font-size: clamp(12px, 3.5vw, 14px);
   color: #4A5568;
   line-height: 1.5;
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1337,8 +1341,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-shrink: 0;
-  max-width: 50%;
+  flex: 0 0 auto;
   min-width: 0;
 }
 
