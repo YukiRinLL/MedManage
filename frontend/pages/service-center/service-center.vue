@@ -123,15 +123,36 @@
         </view>
       </view>
 
-      <!-- Content Area (org info entry) -->
+      <!-- Content Area (org info entry fixed, centers scroll) -->
       <view class="content-area">
-        <!-- 机构信息: 入口卡片，点击跳转新页面 -->
+        <!-- 机构信息: 入口卡片固定不滚动 -->
         <view class="org-entry-card animate-fade-in-up" :style="{ animationDelay: '0.5s' }" @click="handleItemClick('/pages/org-info/org-info', '机构信息')">
           <view class="org-entry-left">
             <image src="/static/icons/png/filled/places/home@2x.png" class="org-entry-icon" mode="aspectFit" />
             <text class="org-entry-title">机构信息</text>
           </view>
           <view class="org-entry-arrow"></view>
+        </view>
+
+        <!-- 透析中心：可滚动区域 -->
+        <view class="center-scroll">
+          <view class="center-section animate-fade-in-up" :style="{ animationDelay: '0.6s' }">
+            <view class="center-section-header">
+              <view class="csh-bar"></view>
+              <text class="csh-title">透析中心</text>
+              <text class="csh-subtitle">点击电话可直接拨打</text>
+            </view>
+            <view class="center-list">
+              <view class="center-card" v-for="(center, idx) in dialysisCenters" :key="idx">
+                <view class="cc-name">{{ center.name }}</view>
+                <view class="cc-addr">{{ center.address }}</view>
+                <view class="cc-phone" @click="callStaff(center.phone)">
+                  <text class="cc-phone-num">{{ center.phone }}</text>
+                  <text class="cc-phone-contact">{{ center.contact }}</text>
+                </view>
+              </view>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -177,7 +198,13 @@ export default {
         name: '罗珊珊',
         phone: '13364021033',
         department: '肾内科'
-      }
+      },
+      dialysisCenters: [
+        { name: '渝中圣通尚诺血液透析中心', address: '重庆市七星岗华一坡33号宽仁康复医院10楼', phone: '13594606634', contact: '陈先生' },
+        { name: '江津圣通尚诺血液透析中心', address: '重庆市江津区宝鼎路21号惠康中医院8楼、9楼', phone: '13110124711', contact: '刘女士' },
+        { name: '梁平圣通尚诺血液透析中心', address: '重庆市梁平区梁平南站上广场永鑫超市旁', phone: '18723571799', contact: '张先生' },
+        { name: '长寿圣通尚诺血液透析中心', address: '重庆市长寿区幸福大道1号附4号1-80(长寿北站站前广场公交车站旁)', phone: '13628293430', contact: '王先生' }
+      ]
     }
   },
   onLoad() {
@@ -320,7 +347,7 @@ export default {
   opacity: 1;
 }
 
-/* Main Content - fixed below header, no scroll (ref: interaction.vue) */
+/* Main Content - fixed below header, flex column so content-area can scroll */
 .main-content {
   position: fixed;
   top: calc(var(--status-bar-height, 20px) + 56px);
@@ -329,6 +356,8 @@ export default {
   bottom: 0;
   z-index: 2;
   padding: 12px 0 20px;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   opacity: 0;
   transition: opacity 0.5s ease-out;
@@ -469,6 +498,7 @@ export default {
   gap: clamp(8px, 3vw, 12px);
   margin: 0 clamp(10px, 4vw, 16px);
   padding: 0 0 8px;
+  flex-shrink: 0;
 }
 
 .feature-card {
@@ -541,7 +571,33 @@ export default {
 .content-area {
   position: relative;
   z-index: 3;
-  padding: 16px clamp(10px, 4vw, 16px) 0;
+  padding: 16px 0 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.center-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px clamp(10px, 4vw, 16px) 70px;
+  background: rgba(180, 190, 200, 0.06);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 3px rgba(120, 130, 150, 0.08);
+  margin: 4px clamp(10px, 4vw, 16px) 0;
+}
+
+.center-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.center-scroll::-webkit-scrollbar-thumb {
+  background: rgba(25, 162, 128, 0.2);
+  border-radius: 2px;
 }
 
 /* === 您的专属医护 === */
@@ -549,6 +605,7 @@ export default {
   position: relative;
   z-index: 2;
   margin: 0 clamp(10px, 4vw, 16px) 16px;
+  flex-shrink: 0;
 }
 
 /* 磨砂半透明背板：参考首页 tips-header-backplate */
@@ -728,6 +785,8 @@ export default {
   border: 1px solid rgba(100, 120, 160, 0.1);
   position: relative;
   z-index: 2;
+  margin: 0 clamp(10px, 4vw, 16px);
+  flex-shrink: 0;
 }
 
 .org-entry-card:active {
@@ -760,6 +819,88 @@ export default {
   border-right: 1.5px solid #C0C4CC;
   transform: rotate(45deg);
   flex-shrink: 0;
+}
+
+/* === 透析中心完整信息 === */
+.center-section {
+  margin-top: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.center-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.csh-bar {
+  width: 3px;
+  height: 12px;
+  background: linear-gradient(180deg, #19A280 0%, #00a17d 100%);
+  border-radius: 2px;
+}
+
+.csh-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.csh-subtitle {
+  font-size: 10px;
+  color: #C0C4CC;
+  margin-left: auto;
+}
+
+.center-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.center-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+}
+
+.cc-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a3c34;
+  margin-bottom: 2px;
+}
+
+.cc-addr {
+  font-size: 10px;
+  color: #606266;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.cc-phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cc-phone-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: #19A280;
+}
+
+.cc-phone-contact {
+  font-size: 10px;
+  color: #909399;
+}
+
+.cc-phone:active {
+  opacity: 0.6;
 }
 
 .org-content-card {

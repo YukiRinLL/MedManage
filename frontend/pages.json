@@ -238,6 +238,15 @@
         "navigationBarBackgroundColor": "#009D85",
         "navigationBarTextStyle": "white"
       }
+    },
+    {
+      "path": "pages/org-info/org-info",
+      "style": {
+        "navigationBarTitleText": "机构信息",
+        "navigationBarBackgroundColor": "#009D85",
+        "navigationBarTextStyle": "white",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "globalStyle": {
