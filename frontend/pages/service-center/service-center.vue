@@ -80,7 +80,6 @@
               <view class="staff-info">
                 <text class="staff-name">{{ doctor.name }}</text>
                 <text class="staff-position">主治医生</text>
-                <text class="staff-department">{{ doctor.department }}</text>
               </view>
               <view class="staff-action" @click="callStaff(doctor.phone)">
                 <image src="/static/icons/png/filled/objects/phone@2x.png" class="action-icon" mode="aspectFit" />
@@ -123,20 +122,24 @@
         </view>
       </view>
 
-      <!-- Content Area (org info entry fixed, centers scroll) -->
+      <!-- Content Area (机构信息 + 联系方式 整体可滑动) -->
       <view class="content-area">
-        <!-- 机构信息: 入口卡片固定不滚动 -->
-        <view class="org-entry-card animate-fade-in-up" :style="{ animationDelay: '0.5s' }" @click="handleItemClick('/pages/org-info/org-info', '机构信息')">
-          <view class="org-entry-left">
-            <image src="/static/icons/png/filled/places/home@2x.png" class="org-entry-icon" mode="aspectFit" />
-            <text class="org-entry-title">机构信息</text>
+        <view class="scroll-region animate-fade-in-up" :style="{ animationDelay: '0.5s' }">
+          <!-- 机构信息：品牌介绍 -->
+          <view class="org-section-block">
+            <view class="center-section-header">
+              <view class="csh-bar"></view>
+              <text class="csh-title">机构信息</text>
+            </view>
+            <view class="org-brand-card">
+              <text class="brand-para">致力于建设高品质血液透析大型连锁机构，目前已开设渝中、长寿、江津、梁平等四家中心，服务团队逾百人，拥有平均从业经验超10年的专家团队。</text>
+              <text class="brand-para">采用德国铹铒水机、德国贝朗透析机等进口血液透析高端设备，目前市场最高端、透析效果最好、最稳定设备。</text>
+              <text class="brand-para">公司以一流的治疗环境、一流的设备、一流的医护团队、一流的质量管理体系、一流的服务等，立志成为西南头部高端透析连锁机构。</text>
+            </view>
           </view>
-          <view class="org-entry-arrow"></view>
-        </view>
 
-        <!-- 透析中心：可滚动区域 -->
-        <view class="center-scroll">
-          <view class="center-section animate-fade-in-up" :style="{ animationDelay: '0.6s' }">
+          <!-- 联系方式：透析中心 -->
+          <view class="center-section">
             <view class="center-section-header">
               <view class="csh-bar"></view>
               <text class="csh-title">透析中心</text>
@@ -355,7 +358,7 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 2;
-  padding: 12px 0 20px;
+  padding: 8px 0 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -571,7 +574,7 @@ export default {
 .content-area {
   position: relative;
   z-index: 3;
-  padding: 16px 0 0;
+  padding: 10px 0 0;
   flex: 1;
   min-height: 0;
   display: flex;
@@ -579,23 +582,23 @@ export default {
   overflow: hidden;
 }
 
-.center-scroll {
+.scroll-region {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 10px clamp(10px, 4vw, 16px) 70px;
+  padding: 8px clamp(10px, 4vw, 16px) 70px;
   background: rgba(180, 190, 200, 0.06);
   border-radius: 12px;
   box-shadow: inset 0 1px 3px rgba(120, 130, 150, 0.08);
-  margin: 4px clamp(10px, 4vw, 16px) 0;
+  margin: 2px clamp(10px, 4vw, 16px) 0;
 }
 
-.center-scroll::-webkit-scrollbar {
+.scroll-region::-webkit-scrollbar {
   width: 3px;
 }
 
-.center-scroll::-webkit-scrollbar-thumb {
+.scroll-region::-webkit-scrollbar-thumb {
   background: rgba(25, 162, 128, 0.2);
   border-radius: 2px;
 }
@@ -627,7 +630,7 @@ export default {
 
 .staff-green-header {
   position: relative;
-  height: 88px;
+  height: 78px;
   overflow: visible;
   z-index: 1;
 }
@@ -671,13 +674,13 @@ export default {
 
 .staff-frosted-tray {
   position: relative;
-  margin-top: -40px;
+  margin-top: -34px;
   z-index: 3;
   background: rgba(255, 255, 255, 0.24);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
-  padding: 18px 12px 16px;
+  padding: 12px 12px 12px;
   margin-left: 0;
   margin-right: 0;
   border: 1px solid rgba(255, 255, 255, 0.58);
@@ -687,7 +690,7 @@ export default {
 .staff-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .staff-item {
@@ -697,7 +700,7 @@ export default {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 8px 12px;
   box-shadow: 0 4px 16px rgba(13, 66, 49, 0.12), 0 1px 4px rgba(13, 66, 49, 0.08);
   border: 1px solid rgba(100, 120, 160, 0.25);
 }
@@ -773,55 +776,32 @@ export default {
   flex-shrink: 0;
 }
 
-/* === 机构信息入口卡片 === */
-.org-entry-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #FFFFFF;
-  border-radius: 14px;
-  padding: 14px 16px;
-  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
-  border: 1px solid rgba(100, 120, 160, 0.1);
+/* === 机构信息（品牌介绍） === */
+.org-section-block {
+  margin-top: 10px;
   position: relative;
   z-index: 2;
-  margin: 0 clamp(10px, 4vw, 16px);
-  flex-shrink: 0;
 }
 
-.org-entry-card:active {
-  transform: scale(0.98);
-  box-shadow: 0 6px 24px rgba(100, 120, 160, 0.2);
-}
-
-.org-entry-left {
+.org-brand-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 12px 14px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.1);
 }
 
-.org-entry-icon {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
+.brand-para {
+  font-size: 14px;
+  color: #4A5568;
+  line-height: 1.5;
+  text-indent: 2em;
 }
 
-.org-entry-title {
-  font-size: 15px;
-  font-weight: 500;
-  color: #1A2B44;
-}
-
-.org-entry-arrow {
-  width: 7px;
-  height: 7px;
-  border-top: 1.5px solid #C0C4CC;
-  border-right: 1.5px solid #C0C4CC;
-  transform: rotate(45deg);
-  flex-shrink: 0;
-}
-
-/* === 透析中心完整信息 === */
+/* === 联系方式：透析中心 === */
 .center-section {
   margin-top: 12px;
   position: relative;
@@ -1002,22 +982,20 @@ export default {
 
 .staff-name {
   display: block;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
   color: #1A2B44;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .staff-position {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
   color: #009D85;
-  margin-bottom: 1px;
 }
 
 .staff-department {
-  font-size: 10px;
-  color: #909399;
+  display: none;
 }
 
 .staff-action {
