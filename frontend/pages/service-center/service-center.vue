@@ -387,7 +387,7 @@ export default {
 }
 
 .header-title {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 500;
   color: #0A2540;
   position: absolute;
@@ -405,7 +405,7 @@ export default {
 }
 
 .greeting-main {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: #909399;
 }
@@ -534,7 +534,7 @@ export default {
 }
 
 .feature-title {
-  font-size: clamp(12px, 3.5vw, 14px);
+  font-size: clamp(14px, 4vw, 16px);
   font-weight: 500;
   color: #1A2B44;
   display: block;
@@ -646,7 +646,7 @@ export default {
   position: absolute;
   left: 20px;
   top: 10px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #FFFFFF;
   z-index: 4;
@@ -659,9 +659,9 @@ export default {
   top: 10px;
   width: 96px;
   height: 12px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 12px;
+  line-height: 13px;
   letter-spacing: normal;
   color: #145248;
   z-index: 4;
@@ -843,7 +843,7 @@ export default {
 }
 
 .csh-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #303133;
 }
@@ -869,14 +869,14 @@ export default {
 }
 
 .cc-name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   color: #1a3c34;
   margin-bottom: 2px;
 }
 
 .cc-addr {
-  font-size: 10px;
+  font-size: 12px;
   color: #606266;
   line-height: 1.4;
   margin-bottom: 4px;
@@ -895,7 +895,7 @@ export default {
 }
 
 .cc-phone-contact {
-  font-size: 10px;
+  font-size: 12px;
   color: #909399;
 }
 

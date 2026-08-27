@@ -298,7 +298,7 @@
 
     <!-- Quick Feature Cards -->
     <view class="feature-row">
-      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.3s' }" @click="handleNavClick('/pages/schedule/schedule', '透析排班')">
+      <view class="feature-card animate-fade-in-up" :style="{ animationDelay: '0.3s' }" @click="handleItemClick('/pages/schedule/schedule')">
         <view class="feature-info">
           <text class="feature-title">透析排班查询</text>
           <text class="feature-desc">一键查透析排班</text>
@@ -703,7 +703,7 @@ export default {
 }
 
 .header-title {
-  font-size: clamp(17px, 4vw, 17px);
+  font-size: clamp(18px, 4.5vw, 19px);
   font-weight: 500;
   color: #0A2540;
   position: absolute;
@@ -904,7 +904,7 @@ export default {
   position: absolute;
   left: 20px;
   top: 10px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #FFFFFF;
   z-index: 4;
@@ -920,9 +920,9 @@ export default {
   width: 96px;
   height: 12px;
   font-family: MiSans, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 12px;
+  line-height: 13px;
   letter-spacing: normal;
   color: #145248;
   z-index: 4;
@@ -999,7 +999,7 @@ export default {
 }
 
 .tip-label {
-  font-size: 13px;
+  font-size: 15px;
   color: #333333;
   font-weight: 500;
   line-height: 1.3;
@@ -1191,7 +1191,7 @@ export default {
 }
 
 .feature-title {
-  font-size: clamp(12px, 3.5vw, 14px);
+  font-size: clamp(14px, 4vw, 16px);
   font-weight: 500;
   color: #1A2B44;
   display: block;
@@ -1199,7 +1199,7 @@ export default {
 }
 
 .feature-desc {
-  font-size: clamp(10px, 3vw, 12px);
+  font-size: clamp(11px, 3.5vw, 13px);
   color: #7A8BA4;
   display: block;
   white-space: nowrap;
@@ -1327,7 +1327,7 @@ export default {
 }
 
 .notification-text {
-  font-size: clamp(12px, 3.5vw, 14px);
+  font-size: clamp(14px, 4vw, 15px);
   color: #4A5568;
   line-height: 1.5;
   flex: 1 1 auto;
@@ -1360,7 +1360,7 @@ export default {
 }
 
 .notification-time {
-  font-size: 12px;
+  font-size: 13px;
   color: #97A2B5;
   white-space: nowrap;
   overflow: hidden;

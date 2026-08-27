@@ -315,7 +315,7 @@ export default {
 }
 
 .header-title {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 500;
   color: #0A2540;
   position: absolute;
@@ -355,7 +355,7 @@ export default {
 }
 
 .greeting-line {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   color: #1A2B44;
   white-space: nowrap;
@@ -415,7 +415,7 @@ export default {
   position: absolute;
   left: 20px;
   top: 10px;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: #FFFFFF;
   z-index: 4;
@@ -451,7 +451,7 @@ export default {
 }
 
 .advice-text {
-  font-size: clamp(11px, 3vw, 13px);
+  font-size: clamp(13px, 3.5vw, 15px);
   font-weight: 330;
   color: #555666;
   line-height: 16px;
@@ -507,21 +507,21 @@ export default {
   right: 0;
   background: linear-gradient(90deg, #19A280 0%, #2DAE85 50%, #3FCBA5 100%);
   color: #FFFFFF;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 0 8px 0 6px;
 }
 
 .feature-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #333333;
   margin-top: 4px;
 }
 
 .feature-desc {
-  font-size: 12px;
+  font-size: 14px;
   color: #7A91A3;
   line-height: 18px;
 }
@@ -557,7 +557,7 @@ export default {
 }
 
 .menu-section-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
   color: #1A2B44;
 }
@@ -591,13 +591,13 @@ export default {
 }
 
 .menu-title {
-  font-size: clamp(13px, 3.5vw, 15px);
+  font-size: clamp(15px, 4vw, 17px);
   font-weight: 500;
   color: #1A2B44;
 }
 
 .menu-desc {
-  font-size: 12px;
+  font-size: 14px;
   color: #7A8BA4;
 }
 
@@ -608,7 +608,7 @@ export default {
 }
 
 .menu-view-btn {
-  font-size: 12px;
+  font-size: 14px;
   color: #2DAE85;
   font-weight: 600;
   background: rgba(45, 174, 133, 0.08);

@@ -273,7 +273,7 @@ export default {
 }
 
 .section-title-text {
-  font-size: clamp(14px, 4vw, 16px);
+  font-size: clamp(16px, 4.5vw, 18px);
   font-weight: 700;
   color: #FFFFFF;
 }
@@ -433,7 +433,7 @@ export default {
 
 .menu-desc {
   display: block;
-  font-size: clamp(10px, 3vw, 12px);
+  font-size: clamp(12px, 3.5vw, 14px);
   color: #909399;
 }
 
@@ -504,7 +504,7 @@ export default {
 }
 
 .msg-more {
-  font-size: 13px;
+  font-size: 14px;
   color: #3497E3;
 }
 
