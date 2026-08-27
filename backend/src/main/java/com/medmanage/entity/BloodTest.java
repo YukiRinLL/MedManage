@@ -71,6 +71,12 @@ public class BloodTest {
     @Column(name = "parathyroid_hormone")
     private Double parathyroidHormone;
 
+    @Column(name = "kt_v")
+    private Double ktV;
+
+    @Column(name = "idwg")
+    private Double idwg;
+
     @Column(name = "notes", length = 500)
     private String notes;
 

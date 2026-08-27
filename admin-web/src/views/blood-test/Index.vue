@@ -77,6 +77,8 @@
         <el-table-column prop="phosphorus" label="磷(mmol/L)" width="100" />
         <el-table-column prop="albumin" label="白蛋白(g/L)" width="120" />
         <el-table-column prop="parathyroidHormone" label="甲状旁腺激素(pg/mL)" width="180" />
+        <el-table-column prop="ktV" label="Kt/V(透析充分性)" width="160" />
+        <el-table-column prop="idwg" label="IDWG(%)" width="100" />
         <el-table-column prop="notes" label="备注" min-width="150" show-overflow-tooltip />
         <el-table-column label="操作" width="150" fixed="right">
           <template #default="{ row }">
@@ -202,6 +204,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="Kt/V(透析充分性)">
+              <el-input-number v-model="formData.ktV" :precision="2" :min="0" :step="0.1" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="IDWG(%)">
+              <el-input-number v-model="formData.idwg" :precision="1" :min="0" :step="0.1" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="备注">
           <el-input v-model="formData.notes" type="textarea" :rows="3" />
         </el-form-item>
@@ -251,6 +265,8 @@ const formData = reactive({
   hdlCholesterol: '',
   ldlCholesterol: '',
   parathyroidHormone: '',
+  ktV: '',
+  idwg: '',
   notes: ''
 })
 
@@ -339,6 +355,8 @@ const handleAdd = () => {
     hdlCholesterol: '',
     ldlCholesterol: '',
     parathyroidHormone: '',
+    ktV: '',
+    idwg: '',
     notes: ''
   })
   showAddDialog.value = true

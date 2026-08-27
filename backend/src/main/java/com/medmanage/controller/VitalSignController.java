@@ -50,4 +50,23 @@ public class VitalSignController {
         }
         return result;
     }
+
+    @GetMapping("/latest/{userId}")
+    public Map<String, Object> getLatestVitalSign(@PathVariable String userId) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<VitalSign> vitalSigns = vitalSignService.findByUserId(userId);
+            if (vitalSigns != null && !vitalSigns.isEmpty()) {
+                result.put("code", 200);
+                result.put("data", vitalSigns.get(0));
+            } else {
+                result.put("code", 200);
+                result.put("data", null);
+            }
+        } catch (Exception e) {
+            result.put("code", 400);
+            result.put("message", e.getMessage());
+        }
+        return result;
+    }
 }
