@@ -8,7 +8,7 @@
       <view class="status-bar">
         <view class="status-content">
           <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
-          <text class="header-title">互动中心</text>
+          <text class="header-title">资讯宣教</text>
         </view>
       </view>
     </view>
@@ -20,21 +20,34 @@
         <view class="section-green-header animate-fade-in">
           <view class="section-title-row-section">
             <!-- <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="section-icon" mode="aspectFit" /> -->
-            <text class="section-title-text">活动与资讯</text>
+            <text class="section-title-text">资讯宣教</text>
           </view>
         </view>
         <view class="section-frosted-tray">
           <view class="menu-list menu-list-row">
             <view
               class="menu-item-row menu-card animate-fade-in-up"
-              @click="handleItemClick('/pages/activities/list', '活动中心')"
+              @click="handleItemClick('/pages/health-education/health-education', '健康知识库')"
             >
               <view class="menu-icon-wrap bg-teal">
+                <image src="/static/icons/png/filled/objects/book@2x.png" class="menu-icon-img" mode="aspectFit" />
+              </view>
+              <view class="menu-item-main">
+                <text class="menu-title">健康知识库</text>
+                <text class="menu-desc">知识科普</text>
+              </view>
+            </view>
+
+            <view
+              class="menu-item-row menu-card animate-fade-in-up"
+              @click="handleItemClick('/pages/activities/list', '活动专区')"
+            >
+              <view class="menu-icon-wrap bg-cyan">
                 <image src="/static/icons/png/filled/objects/award_trophy@2x.png" class="menu-icon-img" mode="aspectFit" />
               </view>
               <view class="menu-item-main">
-                <text class="menu-title">活动中心</text>
-                <text class="menu-desc">参与健康互动</text>
+                <text class="menu-title">活动专区</text>
+                <text class="menu-desc">活动通知</text>
               </view>
             </view>
 
@@ -47,58 +60,60 @@
               </view>
               <view class="menu-item-main">
                 <text class="menu-title">新闻资讯</text>
-                <text class="menu-desc">了解医疗动态</text>
+                <text class="menu-desc">动态新闻</text>
               </view>
             </view>
           </view>
         </view>
       </view>
 
-      <!-- Section 2: Messages & Feedback (notification-style) -->
+      <!-- 消息通知（首页通知风格，显示具体内容） -->
       <view class="msg-section animate-fade-in-up" :style="{ animationDelay: '0.2s' }">
         <view class="msg-top-gradient"></view>
         <view class="msg-header">
           <view class="msg-title-wrap">
-            <text class="msg-title">消息与反馈</text>
+            <text class="msg-title">消息通知</text>
+            <text class="msg-unread" v-if="unreadCount > 0">{{ unreadCount }}条未读</text>
           </view>
           <view class="msg-more-wrap" @click="handleItemClick('/pages/notification/notification', '通知中心')">
             <text class="msg-more">查看全部</text>
             <view class="msg-arrow"></view>
           </view>
         </view>
-        <view class="msg-list">
+        <view class="msg-list" v-if="notificationList.length > 0">
           <view
             class="msg-card"
+            v-for="(item, index) in notificationList"
+            :key="index"
             @click="handleItemClick('/pages/notification/notification', '通知中心')"
           >
-            <view class="msg-dot" :class="{ 'msg-dot-unread': unreadCount > 0 }"></view>
+            <view class="msg-dot" :class="{ 'msg-dot-unread': !item.isRead }"></view>
             <view class="msg-body">
-              <text class="msg-text">通知中心</text>
+              <text class="msg-text">{{ item.content }}</text>
               <view class="msg-meta">
                 <view class="msg-time-wrap">
                   <image src="/static/design/home/Frame-4.svg" class="msg-time-icon" mode="aspectFit" />
-                  <text class="msg-time">查看系统通知消息</text>
+                  <text class="msg-time">{{ item.time }}</text>
                 </view>
-                <text class="msg-unread" v-if="unreadCount > 0">{{ unreadCount }}条未读</text>
               </view>
             </view>
           </view>
+        </view>
+        <view class="msg-empty" v-else>
+          <text class="msg-empty-text">暂无通知消息</text>
+        </view>
+      </view>
 
-          <view
-            class="msg-card"
-            @click="showFeedbackModal"
-          >
-            <view class="msg-dot"></view>
-            <view class="msg-body">
-              <text class="msg-text">问题反馈</text>
-              <view class="msg-meta">
-                <view class="msg-time-wrap">
-                  <image src="/static/design/home/Frame-4.svg" class="msg-time-icon" mode="aspectFit" />
-                  <text class="msg-time">反馈意见，帮助我们改进服务</text>
-                </view>
-              </view>
-            </view>
-          </view>
+      <!-- 机构信息：品牌介绍 -->
+      <view class="org-section-block animate-fade-in-up" :style="{ animationDelay: '0.3s' }">
+        <view class="center-section-header">
+          <view class="csh-bar"></view>
+          <text class="csh-title">机构信息</text>
+        </view>
+        <view class="org-brand-card">
+          <text class="brand-para">致力于建设高品质血液透析大型连锁机构，目前已开设渝中、长寿、江津、梁平等四家中心，服务团队逾百人，拥有平均从业经验超10年的专家团队。</text>
+          <text class="brand-para">采用德国铹铒水机、德国贝朗透析机等进口血液透析高端设备，目前市场最高端、透析效果最好、最稳定设备。</text>
+          <text class="brand-para">公司以一流的治疗环境、一流的设备、一流的医护团队、一流的质量管理体系、一流的服务等，立志成为西南头部高端透析连锁机构。</text>
         </view>
       </view>
     </view>
@@ -113,14 +128,17 @@ export default {
     return {
       isNavigating: false,
       pageVisible: false,
-      unreadCount: 0
+      unreadCount: 0,
+      notificationList: []
     }
   },
   onLoad() {
     this.fetchUnreadCount()
+    this.fetchNotifications()
   },
   onShow() {
     this.pageVisible = true
+    this.fetchNotifications()
   },
   onHide() {
     this.pageVisible = false
@@ -136,6 +154,46 @@ export default {
       } catch (err) {
         console.log('获取未读通知失败:', err)
       }
+    },
+    async fetchNotifications() {
+      try {
+        const user = uni.getStorageSync('user')
+        let userId = ''
+        if (user) {
+          try {
+            const parsed = typeof user === 'string' ? JSON.parse(user) : user
+            userId = parsed.id
+          } catch (e) {}
+        }
+        if (!userId) return
+        const res = await get(`/notification/list/${userId}?page=1&size=3`)
+        if (res.code === 200) {
+          let notifications = []
+          const data = res.data
+          if (Array.isArray(data)) {
+            notifications = data
+          } else if (data.list && data.list.length > 0) {
+            notifications = data.list
+          }
+          this.notificationList = notifications.slice(0, 3).map(item => ({
+            content: item.content,
+            time: this.formatDate(item.createdAt),
+            id: item.id,
+            isRead: item.isRead
+          }))
+        }
+      } catch (err) {
+        console.log('获取通知失败:', err)
+      }
+    },
+    formatDate(dateString) {
+      if (!dateString) return ''
+      const date = new Date(dateString)
+      const now = new Date()
+      const m = date.getMonth() + 1
+      const d = date.getDate()
+      if (m === now.getMonth() + 1 && d === now.getDate()) return '今天'
+      return `${m}-${String(d).padStart(2, '0')}`
     },
     handleItemClick(url, title) {
       if (this.isNavigating) return
@@ -218,7 +276,7 @@ export default {
 }
 
 .header-title {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 500;
   color: #0A2540;
   position: absolute;
@@ -236,10 +294,12 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 2;
-  padding: 12px 16px 20px;
+  padding: 12px 16px 60px;
   opacity: 0;
   transition: opacity 0.5s ease-out;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content.frost-visible {
@@ -249,7 +309,71 @@ export default {
 /* Content Section - green header + frosted tray */
 .content-section {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+/* 活动专区 横条按钮 */
+.activity-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 16px rgba(100, 120, 160, 0.12), 0 1px 4px rgba(100, 120, 160, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+  flex-shrink: 0;
+}
+
+.activity-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activity-bar-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(25, 162, 128, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-bar-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
+}
+
+.activity-bar-text-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.activity-bar-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1A2B44;
+}
+
+.activity-bar-desc {
+  font-size: 12px;
+  color: #909399;
+}
+
+.activity-bar-arrow {
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #C0C4CC;
+  border-right: 1.5px solid #C0C4CC;
+  transform: rotate(45deg);
+  flex-shrink: 0;
 }
 
 .content-section:last-child {
@@ -324,6 +448,12 @@ export default {
   flex-direction: row;
   gap: clamp(8px, 3vw, 10px);
   align-items: stretch;
+}
+
+.menu-list.menu-grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .menu-card {
@@ -433,7 +563,7 @@ export default {
 
 .menu-desc {
   display: block;
-  font-size: clamp(12px, 3.5vw, 14px);
+  font-size: clamp(12px, 3.5vw, 6px);
   color: #909399;
 }
 
@@ -455,13 +585,14 @@ export default {
 /* Messages & Feedback Section - notification-style (参考首页通知消息设计) */
 .msg-section {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 4px 20px rgba(100, 120, 160, 0.15), 0 1px 4px rgba(100, 120, 160, 0.08);
   border: 1px solid rgba(100, 120, 160, 0.1);
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* 顶部淡蓝色渐变 */
@@ -555,9 +686,11 @@ export default {
 .msg-body {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
   min-width: 0;
+  overflow: hidden;
 }
 
 .msg-text {
@@ -565,6 +698,8 @@ export default {
   color: #1A2B44;
   font-weight: 500;
   line-height: 1.4;
+  flex: 1 1 auto;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -572,9 +707,10 @@ export default {
 
 .msg-meta {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .msg-time-wrap {
@@ -605,6 +741,16 @@ export default {
   flex-shrink: 0;
 }
 
+.msg-empty {
+  padding: 16px 0;
+  text-align: center;
+}
+
+.msg-empty-text {
+  font-size: 13px;
+  color: #97A2B5;
+}
+
 @media (max-height: 700px) {
   .content-section { margin-bottom: 10px; }
   .section-green-header { padding: 10px 16px 30px; }
@@ -616,4 +762,74 @@ export default {
 }
 
 /* 小屏幕仅用 --s 等比缩放，不改变排版结构 */
+
+/* === 机构信息（品牌介绍）独立滑动窗口 === */
+.org-section-block {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(180, 190, 200, 0.06);
+  box-shadow: inset 0 1px 3px rgba(120, 130, 150, 0.08);
+  border-radius: 12px;
+  padding: 8px 0 0;
+  margin: 0;
+}
+
+.org-brand-card {
+  background: #FFFFFF;
+  margin: 0 8px 8px;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.org-brand-card::-webkit-scrollbar {
+  width: 3px;
+}
+
+.org-brand-card::-webkit-scrollbar-thumb {
+  background: rgba(25, 162, 128, 0.2);
+  border-radius: 2px;
+}
+
+.brand-para {
+  font-size: 14px;
+  color: #4A5568;
+  line-height: 1.5;
+  text-indent: 2em;
+}
+
+.center-section-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.csh-bar {
+  width: 3px;
+  height: 12px;
+  background: linear-gradient(180deg, #19A280 0%, #00a17d 100%);
+  border-radius: 2px;
+}
+
+.csh-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+}
 </style>

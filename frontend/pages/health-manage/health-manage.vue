@@ -9,7 +9,7 @@
       <view class="status-bar">
         <view class="status-content">
           <image src="/static/design/home/图层 0 4.png" class="logo-layer-img" mode="aspectFit" />
-          <text class="header-title">健康管理</text>
+          <text class="header-title">质量管控</text>
         </view>
       </view>
 
@@ -88,8 +88,8 @@
           <image src="/static/design/health/Vector-3.svg" class="feature-icon" mode="aspectFit" />
         </view>
         <view class="priority-badge">重要</view>
-        <text class="feature-title">指标提升方案</text>
-        <text class="feature-desc">个性化干预方案针对性改善健康指标</text>
+        <text class="feature-title">质量提升方案</text>
+        <text class="feature-desc">化验结果展示与个性化提升方案</text>
       </view>
 
       <view class="feature-card feature-green animate-fade-in-up" :style="{ animationDelay: '0.4s' }" @click="handleItemClick('/pages/diagnosis/diagnosis')">
@@ -97,8 +97,8 @@
           <image src="/static/design/health/Vector-2.svg" class="feature-icon" mode="aspectFit" />
         </view>
         <view class="priority-badge">重要</view>
-        <text class="feature-title">透析评估</text>
-        <text class="feature-desc">反馈当天透析情况，评估治疗效果</text>
+        <text class="feature-title">透析后评估</text>
+        <text class="feature-desc">透析后身体状态与治疗效果评估</text>
       </view>
     </view>
 
@@ -111,21 +111,21 @@
       </view> -->
       <!-- Menu Grid 2x2 -->
       <view class="menu-grid">
-        <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
+        <view class="menu-item" @click="handleItemClick('/pages/core-indicator/core-indicator')">
           <view class="menu-info">
-            <text class="menu-title">健康档案</text>
-            <text class="menu-desc">查看个人健康信息</text>
+            <text class="menu-title">全周期质量档案</text>
+            <text class="menu-desc">化验指标趋势与质量报告</text>
           </view>
           <view class="menu-bottom">
             <view class="menu-view-btn">查看</view>
-            <image src="/static/design/home/Group 1000007254.svg" class="menu-icon" mode="aspectFit" />
+            <image src="/static/design/health/核心指标.svg" class="menu-icon" mode="aspectFit" />
           </view>
         </view>
 
         <view class="menu-item" @click="handleItemClick('/pages/vital-sign/vital-sign')">
           <view class="menu-info">
-            <text class="menu-title">居家生命体征记录</text>
-            <text class="menu-desc">记录日常体征指数</text>
+            <text class="menu-title">居家自我管控</text>
+            <text class="menu-desc">体重血压饮食饮水记录</text>
           </view>
           <view class="menu-bottom">
             <view class="menu-view-btn">查看</view>
@@ -135,8 +135,8 @@
 
         <view class="menu-item" @click="handleItemClick('/pages/medication/medication')">
           <view class="menu-info">
-            <text class="menu-title">用药记录</text>
-            <text class="menu-desc">管理每日用药提醒</text>
+            <text class="menu-title">用药管理</text>
+            <text class="menu-desc">用药清单与服药提醒</text>
           </view>
           <view class="menu-bottom">
             <view class="menu-view-btn">查看</view>
@@ -144,14 +144,14 @@
           </view>
         </view>
 
-        <view class="menu-item" @click="handleItemClick('/pages/core-indicator/core-indicator')">
+        <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
           <view class="menu-info">
-            <text class="menu-title">核心指标</text>
-            <text class="menu-desc">查血指标趋势追踪</text>
+            <text class="menu-title">基本档案</text>
+            <text class="menu-desc">查看基本信息</text>
           </view>
           <view class="menu-bottom">
             <view class="menu-view-btn">查看</view>
-            <image src="/static/design/health/核心指标.svg" class="menu-icon" mode="aspectFit" />
+            <image src="/static/design/home/Group 1000007254.svg" class="menu-icon" mode="aspectFit" />
           </view>
         </view>
       </view>

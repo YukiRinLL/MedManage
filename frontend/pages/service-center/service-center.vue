@@ -103,8 +103,8 @@
           @click="handleItemClick('/pages/schedule/schedule', '透析排班')"
         >
           <view class="feature-info">
-            <text class="feature-title">透析排班</text>
-            <text class="feature-desc">查看透析安排时间</text>
+            <text class="feature-title">透析排班查询</text>
+            <text class="feature-desc">透析班次与出勤记录</text>
           </view>
           <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon" mode="aspectFit" />
         </view>
@@ -112,32 +112,28 @@
         <view
           class="feature-card feature-card-blue animate-fade-in-up"
           :style="{ animationDelay: '0.4s' }"
-          @click="handleItemClick('/pages/health-education/health-education', '科普宣教')"
+          @click="showComingSoon('医疗专项申请')"
         >
           <view class="feature-info">
-            <text class="feature-title">科普宣教</text>
-            <text class="feature-desc">健康知识学习</text>
+            <text class="feature-title">医疗专项申请</text>
+            <text class="feature-desc">个人专项服务申请</text>
           </view>
           <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon" mode="aspectFit" />
         </view>
       </view>
 
+      <!-- 满意度评价与投诉建议 横条按钮 -->
+      <view class="feedback-bar animate-fade-in-up" :style="{ animationDelay: '0.45s' }" @click="showFeedbackSheet">
+        <view class="feedback-bar-left">
+          <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="feedback-bar-icon" mode="aspectFit" />
+          <text class="feedback-bar-text">满意度评价与投诉建议</text>
+        </view>
+        <view class="feedback-bar-arrow"></view>
+      </view>
+
       <!-- Content Area (机构信息 + 联系方式 整体可滑动) -->
       <view class="content-area">
         <view class="scroll-region animate-fade-in-up" :style="{ animationDelay: '0.5s' }">
-          <!-- 机构信息：品牌介绍 -->
-          <view class="org-section-block">
-            <view class="center-section-header">
-              <view class="csh-bar"></view>
-              <text class="csh-title">机构信息</text>
-            </view>
-            <view class="org-brand-card">
-              <text class="brand-para">致力于建设高品质血液透析大型连锁机构，目前已开设渝中、长寿、江津、梁平等四家中心，服务团队逾百人，拥有平均从业经验超10年的专家团队。</text>
-              <text class="brand-para">采用德国铹铒水机、德国贝朗透析机等进口血液透析高端设备，目前市场最高端、透析效果最好、最稳定设备。</text>
-              <text class="brand-para">公司以一流的治疗环境、一流的设备、一流的医护团队、一流的质量管理体系、一流的服务等，立志成为西南头部高端透析连锁机构。</text>
-            </view>
-          </view>
-
           <!-- 联系方式：透析中心 -->
           <view class="center-section">
             <view class="center-section-header">
@@ -312,6 +308,26 @@ export default {
     },
     showHospitalDetail() {
       this.showDetail = true
+    },
+    showComingSoon(name) {
+      uni.showToast({
+        title: name + '功能开发中',
+        icon: 'none'
+      })
+    },
+    showFeedbackSheet() {
+      uni.showActionSheet({
+        itemList: ['透析服务满意度评价', '投诉意见提交', '处理进度查看'],
+        success: (res) => {
+          if (res.tapIndex === 1) {
+            this.handleItemClick('/pages/feedback/feedback', '投诉意见提交')
+          } else {
+            const map = ['透析服务满意度评价', '处理进度查看']
+            const idx = res.tapIndex === 0 ? 0 : 1
+            this.showComingSoon(map[idx])
+          }
+        }
+      })
     }
   }
 }
@@ -501,6 +517,49 @@ export default {
   gap: clamp(8px, 3vw, 12px);
   margin: 0 clamp(10px, 4vw, 16px);
   padding: 0 0 8px;
+  flex-shrink: 0;
+}
+
+/* 满意度评价与投诉建议 横条按钮 */
+.feedback-bar {
+  position: relative;
+  z-index: 2;
+  margin: 0 clamp(10px, 4vw, 16px) 6px;
+  padding: 12px 14px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(100, 120, 160, 0.12);
+  border: 1px solid rgba(100, 120, 160, 0.1);
+  flex-shrink: 0;
+}
+
+.feedback-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feedback-bar-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.feedback-bar-text {
+  font-size: 13px;
+  color: #1A2B44;
+  font-weight: 500;
+}
+
+.feedback-bar-arrow {
+  width: 6px;
+  height: 6px;
+  border-top: 1.5px solid #C0C4CC;
+  border-right: 1.5px solid #C0C4CC;
+  transform: rotate(45deg);
   flex-shrink: 0;
 }
 
@@ -803,7 +862,6 @@ export default {
 
 /* === 联系方式：透析中心 === */
 .center-section {
-  margin-top: 12px;
   position: relative;
   z-index: 2;
 }

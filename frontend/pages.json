@@ -260,7 +260,7 @@
       },
       {
         "pagePath": "pages/health-manage/health-manage",
-        "text": "健康管理",
+        "text": "质量管控",
         "iconPath": "static/design/health/健康管理(未选中).svg",
         "selectedIconPath": "static/design/home/Frame.svg"
       },
@@ -272,7 +272,7 @@
       },
       {
         "pagePath": "pages/interaction/interaction",
-        "text": "互动中心",
+        "text": "资讯宣教",
         "iconPath": "static/design/home/我的-2.svg",
         "selectedIconPath": "static/design/home/我的-2.svg"
       },
