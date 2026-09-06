@@ -97,6 +97,7 @@
 
       <!-- Buttons Section (below staff, homepage style) -->
       <view class="service-buttons animate-fade-in" :style="{ animationDelay: '0.3s' }">
+        <view class="sb-top-gradient"></view>
         <view
           class="feature-card feature-card-teal animate-fade-in-up"
           :style="{ animationDelay: '0.35s' }"
@@ -106,7 +107,7 @@
             <text class="feature-title">透析排班查询</text>
             <text class="feature-desc">透析班次与出勤记录</text>
           </view>
-          <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon" mode="aspectFit" />
+          <image src="/static/icons/png/filled/objects/calendar@2x.png" class="feature-icon feature-icon-teal" mode="aspectFit" />
         </view>
 
         <view
@@ -115,43 +116,34 @@
           @click="showComingSoon('医疗专项申请')"
         >
           <view class="feature-info">
-            <text class="feature-title">医疗专项申请</text>
+            <text class="feature-title">医疗服务申请</text>
             <text class="feature-desc">个人专项服务申请</text>
           </view>
-          <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon" mode="aspectFit" />
+          <image src="/static/icons/png/filled/symbols/rx@2x.png" class="feature-icon feature-icon-blue" mode="aspectFit" />
         </view>
-      </view>
 
-      <!-- 满意度评价与投诉建议 横条按钮 -->
-      <view class="feedback-bar animate-fade-in-up" :style="{ animationDelay: '0.45s' }" @click="showFeedbackSheet">
-        <view class="feedback-bar-left">
-          <image src="/static/icons/png/filled/objects/megaphone@2x.png" class="feedback-bar-icon" mode="aspectFit" />
-          <text class="feedback-bar-text">满意度评价与投诉建议</text>
-        </view>
-        <view class="feedback-bar-arrow"></view>
-      </view>
-
-      <!-- Content Area (机构信息 + 联系方式 整体可滑动) -->
-      <view class="content-area">
-        <view class="scroll-region animate-fade-in-up" :style="{ animationDelay: '0.5s' }">
-          <!-- 联系方式：透析中心 -->
-          <view class="center-section">
-            <view class="center-section-header">
-              <view class="csh-bar"></view>
-              <text class="csh-title">透析中心</text>
-              <text class="csh-subtitle">点击电话可直接拨打</text>
-            </view>
-            <view class="center-list">
-              <view class="center-card" v-for="(center, idx) in dialysisCenters" :key="idx">
-                <view class="cc-name">{{ center.name }}</view>
-                <view class="cc-addr">{{ center.address }}</view>
-                <view class="cc-phone" @click="callStaff(center.phone)">
-                  <text class="cc-phone-num">{{ center.phone }}</text>
-                  <text class="cc-phone-contact">{{ center.contact }}</text>
-                </view>
-              </view>
-            </view>
+        <view
+          class="feature-card feature-card-purple animate-fade-in-up"
+          :style="{ animationDelay: '0.45s' }"
+          @click="handleItemClick('/pages/health-education/health-education', '健康知识库')"
+        >
+          <view class="feature-info">
+            <text class="feature-title">健康知识库</text>
+            <text class="feature-desc">饮食控水用药等健康科普</text>
           </view>
+          <image src="/static/icons/png/filled/objects/book@2x.png" class="feature-icon feature-icon-purple" mode="aspectFit" />
+        </view>
+
+        <view
+          class="feature-card feature-card-orange animate-fade-in-up"
+          :style="{ animationDelay: '0.5s' }"
+          @click="showFeedbackSheet"
+        >
+          <view class="feature-info">
+            <text class="feature-title feature-title-long">评价与投诉</text>
+            <text class="feature-desc">满意度评价与投诉建议</text>
+          </view>
+          <image src="/static/icons/png/filled/symbols/forum.png" class="feature-icon feature-icon-orange" mode="aspectFit" />
         </view>
       </view>
     </view>
@@ -197,13 +189,7 @@ export default {
         name: '罗珊珊',
         phone: '13364021033',
         department: '肾内科'
-      },
-      dialysisCenters: [
-        { name: '渝中圣通尚诺血液透析中心', address: '重庆市七星岗华一坡33号宽仁康复医院10楼', phone: '13594606634', contact: '陈先生' },
-        { name: '江津圣通尚诺血液透析中心', address: '重庆市江津区宝鼎路21号惠康中医院8楼、9楼', phone: '13110124711', contact: '刘女士' },
-        { name: '梁平圣通尚诺血液透析中心', address: '重庆市梁平区梁平南站上广场永鑫超市旁', phone: '18723571799', contact: '张先生' },
-        { name: '长寿圣通尚诺血液透析中心', address: '重庆市长寿区幸福大道1号附4号1-80(长寿北站站前广场公交车站旁)', phone: '13628293430', contact: '王先生' }
-      ]
+      }
     }
   },
   onLoad() {
@@ -512,67 +498,48 @@ export default {
 .service-buttons {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 170px));
+  justify-content: center;
   gap: clamp(8px, 3vw, 12px);
-  margin: 0 clamp(10px, 4vw, 16px);
-  padding: 0 0 8px;
+  margin: 0;
+  padding: clamp(12px, 4vw, 16px);
   flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-/* 满意度评价与投诉建议 横条按钮 */
-.feedback-bar {
-  position: relative;
-  z-index: 2;
-  margin: 0 clamp(10px, 4vw, 16px) 6px;
-  padding: 12px 14px;
-  background: #FFFFFF;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 10px rgba(100, 120, 160, 0.12);
-  border: 1px solid rgba(100, 120, 160, 0.1);
-  flex-shrink: 0;
+/* 顶部淡蓝色渐变装饰（与质量管控菜单区一致） */
+.sb-top-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(180deg, rgba(224, 232, 248, 0.6) 0%, rgba(232, 236, 247, 0.3) 40%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.feedback-bar-left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.feedback-bar-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-}
-
-.feedback-bar-text {
-  font-size: 13px;
-  color: #1A2B44;
-  font-weight: 500;
-}
-
-.feedback-bar-arrow {
-  width: 6px;
-  height: 6px;
-  border-top: 1.5px solid #C0C4CC;
-  border-right: 1.5px solid #C0C4CC;
-  transform: rotate(45deg);
-  flex-shrink: 0;
+/* 满意度评价与投诉建议 标题允许换行 */
+.feature-title-long {
+  white-space: normal;
+  line-height: 1.3;
 }
 
 .feature-card {
-  flex: 1 1 140px;
   min-width: 0;
-  min-height: 110px;
+  min-height: clamp(72px, 20vw, 84px);
   border-radius: clamp(10px, 3.5vw, 14px);
-  padding: clamp(14px, 4vw, 18px);
+  padding: clamp(10px, 3vw, 14px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
   box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
   border: 1px solid rgba(100, 120, 160, 0.1);
   opacity: 1;
@@ -585,6 +552,14 @@ export default {
 
 .feature-card-blue {
   background: linear-gradient(0deg, #E8F4FD 0%, #FFFFFF 55%);
+}
+
+.feature-card-purple {
+  background: linear-gradient(0deg, #F1E8FD 0%, #FFFFFF 55%);
+}
+
+.feature-card-orange {
+  background: linear-gradient(0deg, #FDF1E5 0%, #FFFFFF 55%);
 }
 
 .feature-info {
@@ -625,41 +600,26 @@ export default {
   bottom: clamp(8px, 3vw, 12px);
 }
 
+/* 图标着色：与卡片渐变色呼应 */
+.feature-icon-teal {
+  filter: brightness(0) saturate(100%) invert(36%) sepia(85%) saturate(538%) hue-rotate(126deg) brightness(92%) contrast(91%);
+}
+
+.feature-icon-blue {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(85%) saturate(1200%) hue-rotate(197deg) brightness(96%) contrast(91%);
+}
+
+.feature-icon-purple {
+  filter: brightness(0) saturate(100%) invert(44%) sepia(70%) saturate(1500%) hue-rotate(233deg) brightness(97%) contrast(92%);
+}
+
+.feature-icon-orange {
+  filter: brightness(0) saturate(100%) invert(66%) sepia(55%) saturate(700%) hue-rotate(347deg) brightness(96%) contrast(90%);
+}
+
 .feature-card:active {
   transform: scale(0.98);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
-
-.content-area {
-  position: relative;
-  z-index: 3;
-  padding: 10px 0 0;
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.scroll-region {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 8px clamp(10px, 4vw, 16px) 70px;
-  background: rgba(180, 190, 200, 0.06);
-  border-radius: 12px;
-  box-shadow: inset 0 1px 3px rgba(120, 130, 150, 0.08);
-  margin: 2px clamp(10px, 4vw, 16px) 0;
-}
-
-.scroll-region::-webkit-scrollbar {
-  width: 3px;
-}
-
-.scroll-region::-webkit-scrollbar-thumb {
-  background: rgba(25, 162, 128, 0.2);
-  border-radius: 2px;
 }
 
 /* === 您的专属医护 === */
@@ -860,87 +820,7 @@ export default {
   text-indent: 2em;
 }
 
-/* === 联系方式：透析中心 === */
-.center-section {
-  position: relative;
-  z-index: 2;
-}
-
-.center-section-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.csh-bar {
-  width: 3px;
-  height: 12px;
-  background: linear-gradient(180deg, #19A280 0%, #00a17d 100%);
-  border-radius: 2px;
-}
-
-.csh-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #303133;
-}
-
-.csh-subtitle {
-  font-size: 10px;
-  color: #C0C4CC;
-  margin-left: auto;
-}
-
-.center-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.center-card {
-  background: #FFFFFF;
-  border-radius: 10px;
-  padding: 8px 12px;
-  box-shadow: 0 2px 10px rgba(13, 66, 49, 0.06);
-  border: 1px solid rgba(100, 120, 160, 0.1);
-}
-
-.cc-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a3c34;
-  margin-bottom: 2px;
-}
-
-.cc-addr {
-  font-size: 12px;
-  color: #606266;
-  line-height: 1.4;
-  margin-bottom: 4px;
-}
-
-.cc-phone {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.cc-phone-num {
-  font-size: 11px;
-  font-weight: 600;
-  color: #19A280;
-}
-
-.cc-phone-contact {
-  font-size: 12px;
-  color: #909399;
-}
-
-.cc-phone:active {
-  opacity: 0.6;
-}
-
+/* === 联系方式：透析中心（已移至品牌资讯页） === */
 .org-content-card {
   display: flex;
   flex-direction: column;

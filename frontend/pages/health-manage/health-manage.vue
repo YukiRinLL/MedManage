@@ -146,8 +146,8 @@
 
         <view class="menu-item" @click="handleItemClick('/pages/health-record/health-record')">
           <view class="menu-info">
-            <text class="menu-title">基本档案</text>
-            <text class="menu-desc">查看基本信息</text>
+            <text class="menu-title">个人病例信息</text>
+            <text class="menu-desc">查看个人基本信息</text>
           </view>
           <view class="menu-bottom">
             <view class="menu-view-btn">查看</view>
