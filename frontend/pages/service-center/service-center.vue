@@ -533,7 +533,7 @@ export default {
 
 .feature-card {
   min-width: 0;
-  min-height: clamp(72px, 20vw, 84px);
+  min-height: clamp(88px, 24vw, 100px);
   border-radius: clamp(10px, 3.5vw, 14px);
   padding: clamp(10px, 3vw, 14px);
   display: flex;
