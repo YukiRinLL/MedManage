@@ -4,12 +4,12 @@
   "description": "医院患者管理系统 - uni-app版本",
   "main": "main.js",
   "scripts": {
-    "dev:mp-weixin": "uni -p mp-weixin",
-    "build:mp-weixin": "uni build -p mp-weixin",
-    "dev:h5": "uni -p h5",
-    "build:h5": "uni build -p h5",
-    "dev:app": "uni -p app",
-    "build:app": "uni build -p app"
+    "dev:mp-weixin": "node scripts/uni-root.cjs -p mp-weixin",
+    "build:mp-weixin": "node scripts/uni-root.cjs build -p mp-weixin",
+    "dev:h5": "node scripts/uni-root.cjs -p h5",
+    "build:h5": "node scripts/uni-root.cjs build -p h5",
+    "dev:app": "node scripts/uni-root.cjs -p app",
+    "build:app": "node scripts/uni-root.cjs build -p app"
   },
   "dependencies": {
     "@dcloudio/uni-app": "^3.0.0-alpha-4020420240930001",

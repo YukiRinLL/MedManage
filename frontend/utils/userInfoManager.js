@@ -3,6 +3,25 @@
 // 存储用户信息
 const USER_INFO_KEY = 'userInfo'
 
+export function getToken() {
+  return uni.getStorageSync('token') || ''
+}
+
+export function getCurrentUserId() {
+  return uni.getStorageSync('userId') || getUserInfo()?.id || null
+}
+
+export function isLoggedIn() {
+  return Boolean(getToken())
+}
+
+export function clearSession() {
+  uni.removeStorageSync('token')
+  uni.removeStorageSync('user')
+  uni.removeStorageSync('userId')
+  clearUserInfo()
+}
+
 // 获取用户信息
 export function getUserInfo() {
   try {
@@ -18,6 +37,8 @@ export function getUserInfo() {
 export function setUserInfo(userInfo) {
   try {
     uni.setStorageSync(USER_INFO_KEY, JSON.stringify(userInfo))
+    uni.setStorageSync('user', JSON.stringify(userInfo))
+    if (userInfo?.id) uni.setStorageSync('userId', userInfo.id)
   } catch (e) {
     console.error('保存用户信息失败:', e)
   }
@@ -42,8 +63,8 @@ export async function fetchUserInfo() {
       return null
     }
     const res = await get('/user/info')
-    if (res.code === 200 && res.data && res.data.data) {
-      const userInfo = res.data.data
+    if (res.code === 200 && res.data) {
+      const userInfo = res.data.data || res.data
       setUserInfo(userInfo)
       return userInfo
     }

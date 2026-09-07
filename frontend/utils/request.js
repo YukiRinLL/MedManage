@@ -1,38 +1,46 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api').replace(/\/$/, '')
+const REQUEST_TIMEOUT = 15000
+
+function getToken() {
+  return uni.getStorageSync('token') || ''
+}
+
+function handleUnauthorized() {
+  uni.removeStorageSync('token')
+  uni.removeStorageSync('user')
+  uni.removeStorageSync('userInfo')
+  uni.removeStorageSync('userId')
+}
 
 function request(url, method = 'GET', data = {}) {
   return new Promise((resolve, reject) => {
     uni.request({
-      url: BASE_URL + url,
-      method: method,
-      data: data,
+      url: `${BASE_URL}${url.startsWith('/') ? url : `/${url}`}`,
+      method,
+      data,
+      timeout: REQUEST_TIMEOUT,
       header: {
         'Content-Type': 'application/json',
-        'Authorization': uni.getStorageSync('token') ? 'Bearer ' + uni.getStorageSync('token') : ''
+        ...(getToken() ? { Authorization: `Bearer ${getToken()}` } : {})
       },
       success: (res) => {
-        if (res.statusCode === 200) {
-          // 检查响应体中的code字段
-          if (res.data && res.data.code === 200) {
-            resolve(res.data)
+        const body = res.data || {}
+        if (res.statusCode === 401 || res.statusCode === 403) {
+          handleUnauthorized()
+          uni.navigateTo({ url: '/pages/login/login' })
+        }
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          if (body.code === undefined || body.code === 200) {
+            resolve(body)
           } else {
-            reject({
-              code: res.data?.code || 400,
-              message: res.data?.message || '请求失败'
-            })
+            reject({ code: body.code, message: body.message || '请求失败', response: res })
           }
         } else {
-          reject({
-            code: res.statusCode,
-            message: res.data?.message || '请求失败'
-          })
+          reject({ code: res.statusCode, message: body.message || '请求失败', response: res })
         }
       },
       fail: (err) => {
-        reject({
-          code: -1,
-          message: '网络连接失败'
-        })
+        reject({ code: -1, message: err.errMsg || '网络连接失败', cause: err })
       }
     })
   })
@@ -79,6 +87,7 @@ export function getImageUrl(relativePath) {
   if (relativePath.startsWith('http')) {
     return relativePath
   }
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api'
-  return `${BASE_URL}${relativePath}`
+  return `${BASE_URL}${relativePath.startsWith('/') ? relativePath : `/${relativePath}`}`
 }
+
+export { getToken, handleUnauthorized }
