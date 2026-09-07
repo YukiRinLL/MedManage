@@ -85,6 +85,7 @@
 
 <script>
 import { get } from '../../utils/request.js'
+import { isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -100,8 +101,7 @@ export default {
     async getVitalSigns() {
       this.isLoading = true
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })

@@ -145,6 +145,7 @@
 
 <script>
 import { get } from '../../utils/request.js'
+import { getCurrentUserId } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -170,7 +171,8 @@ export default {
     async fetchData() {
       this.isLoading = true
       try {
-        const userId = uni.getStorageSync('userId')
+        const userId = getCurrentUserId()
+        if (!userId) return
 
         const [planRes, testRes, vitalRes] = await Promise.all([
           get(`/improvement-plan/current/${userId}`),

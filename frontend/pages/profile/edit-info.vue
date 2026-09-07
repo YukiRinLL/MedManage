@@ -121,7 +121,7 @@
 
 <script>
 import { put } from '../../utils/request.js'
-import { getUserInfo, fetchUserInfo, setUserInfo } from '../../utils/userInfoManager.js'
+import { getUserInfo, fetchUserInfo, setUserInfo, isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -160,8 +160,7 @@ export default {
   methods: {
     async getUserInfo() {
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })
@@ -190,7 +189,6 @@ export default {
     },
     async saveChanges() {
       try {
-        const token = uni.getStorageSync('token')
         const res = await put('/user/update', this.editForm)
         if (res.code === 200) {
           uni.showToast({
@@ -198,8 +196,8 @@ export default {
             icon: 'success'
           })
           // 更新本地存储的用户信息
-          if (res.data && res.data.data) {
-            setUserInfo(res.data.data)
+          if (res.data) {
+            setUserInfo(res.data.data || res.data)
           }
           setTimeout(() => {
             uni.navigateBack()

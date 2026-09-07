@@ -32,6 +32,7 @@
 
 <script>
 import { getDiagnosesByUserId } from '../../api/diagnosis'
+import { getCurrentUserId } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -47,7 +48,7 @@ export default {
     async fetchDiagnoses() {
       this.isLoading = true
       try {
-        const userId = uni.getStorageSync('userId')
+        const userId = getCurrentUserId()
         if (!userId) {
           uni.showToast({
             title: '用户未登录',

@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import { getUserInfo, fetchUserInfo } from '../../utils/userInfoManager.js'
+import { getUserInfo, fetchUserInfo, isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -125,8 +125,7 @@ export default {
   methods: {
     async getUserInfo() {
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })

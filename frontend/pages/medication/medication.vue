@@ -65,6 +65,7 @@
 
 <script>
 import { get, put } from '../../utils/request.js'
+import { isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -80,8 +81,7 @@ export default {
     async getMedications() {
       this.isLoading = true
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })
@@ -105,7 +105,6 @@ export default {
       uni.vibrateShort({})
       med.taken = !med.taken
       try {
-        const token = uni.getStorageSync('token')
         await put(`/medication/update/taken/${med.id}?taken=${med.taken}`)
         uni.showToast({
           title: med.taken ? '已标记为服用' : '已标记为未服用',

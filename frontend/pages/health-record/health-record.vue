@@ -120,6 +120,7 @@
 
 <script>
 import { get, put } from '../../utils/request.js'
+import { isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -184,8 +185,7 @@ export default {
     async getHealthRecord() {
       this.isLoading = true
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })
@@ -223,8 +223,7 @@ export default {
     },
     async saveHealthRecord() {
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })

@@ -71,6 +71,7 @@
 
 <script>
 import { put } from '../../utils/request.js'
+import { isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -88,8 +89,7 @@ export default {
     async completeInfo() {
       this.loading = true
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })

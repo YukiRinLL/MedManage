@@ -39,6 +39,7 @@
 
 <script>
 import { get, put } from '../../utils/request.js'
+import { getCurrentUserId, isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -54,14 +55,14 @@ export default {
     async getNotifications() {
       this.isLoading = true
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({
             url: '/pages/login/login'
           })
           return
         }
-        const userId = uni.getStorageSync('userId')
+        const userId = getCurrentUserId()
+        if (!userId) return
         const res = await get(`/notification/list/${userId}`)
         if (res.code === 200) {
           this.notifications = res.data
@@ -78,7 +79,6 @@ export default {
     },
     async markAsRead(id) {
       try {
-        const token = uni.getStorageSync('token')
         await put(`/notification/read/${id}`)
         const notification = this.notifications.find(n => n.id === id)
         if (notification) {

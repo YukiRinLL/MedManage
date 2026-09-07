@@ -162,6 +162,8 @@
 </template>
 
 <script>
+import { getCurrentUserId } from '../../utils/userInfoManager.js'
+
 export default {
   data() {
     return {
@@ -205,6 +207,7 @@ export default {
           console.log('解析用户信息失败', e)
         }
       }
+      if (!this.userName && getCurrentUserId()) this.userName = '用户'
     },
     handleItemClick(url) {
       if (this.isNavigating) return

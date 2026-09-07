@@ -170,6 +170,7 @@
 
 <script>
 import { get } from '../../utils/request.js'
+import { getCurrentUserId } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -205,11 +206,11 @@ export default {
     async fetchMedicalStaff() {
       try {
         const user = uni.getStorageSync('user')
-        let userId = ''
+        let userId = getCurrentUserId()
         if (user) {
           try {
             const parsed = typeof user === 'string' ? JSON.parse(user) : user
-            userId = parsed.id
+            userId = parsed.id || userId
           } catch (e) {}
         }
         

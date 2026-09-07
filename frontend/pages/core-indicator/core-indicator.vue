@@ -131,6 +131,7 @@
 
 <script>
 import { get } from '../../utils/request.js'
+import { getCurrentUserId } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -181,7 +182,8 @@ export default {
     methods: {
       async fetchLatestTest() {
         try {
-          const userId = uni.getStorageSync('userId')
+          const userId = getCurrentUserId()
+          if (!userId) return
           const res = await get(`/blood-test/latest/${userId}`)
           if (res.code === 200) {
             this.latestTest = res.data
@@ -192,7 +194,8 @@ export default {
       },
       async fetchTestList() {
         try {
-          const userId = uni.getStorageSync('userId')
+          const userId = getCurrentUserId()
+          if (!userId) return
           const res = await get(`/blood-test/list/${userId}`)
           if (res.code === 200) {
             this.testList = res.data
@@ -203,7 +206,8 @@ export default {
       },
       async fetchRecentData() {
         try {
-          const userId = uni.getStorageSync('userId')
+          const userId = getCurrentUserId()
+          if (!userId) return
           const res = await get(`/blood-test/recent/${userId}`)
           if (res.code === 200) {
             this.testList = res.data

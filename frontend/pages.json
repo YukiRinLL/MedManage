@@ -255,32 +255,32 @@
       {
         "pagePath": "pages/home/home",
         "text": "首页",
-        "iconPath": "static/design/health/Frame-3.svg",
-        "selectedIconPath": "static/design/home/首页(选中).svg"
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
       },
       {
         "pagePath": "pages/health-manage/health-manage",
         "text": "质量管控",
-        "iconPath": "static/design/health/健康管理(未选中).svg",
-        "selectedIconPath": "static/design/home/Frame.svg"
+        "iconPath": "static/tabbar/health.png",
+        "selectedIconPath": "static/tabbar/health-active.png"
       },
       {
         "pagePath": "pages/service-center/service-center",
         "text": "服务中心",
-        "iconPath": "static/design/health/Frame-4.svg",
-        "selectedIconPath": "static/design/health/Frame-4.svg"
+        "iconPath": "static/tabbar/service.png",
+        "selectedIconPath": "static/tabbar/service-active.png"
       },
       {
         "pagePath": "pages/interaction/interaction",
         "text": "品牌资讯",
-        "iconPath": "static/design/home/我的-2.svg",
-        "selectedIconPath": "static/design/home/我的-2.svg"
+        "iconPath": "static/tabbar/interaction.png",
+        "selectedIconPath": "static/tabbar/interaction-active.png"
       },
       {
         "pagePath": "pages/profile/profile",
         "text": "我的",
-        "iconPath": "static/design/home/我的.svg",
-        "selectedIconPath": "static/design/home/我的.svg"
+        "iconPath": "static/tabbar/profile.png",
+        "selectedIconPath": "static/tabbar/profile-active.png"
       }
     ]
   },

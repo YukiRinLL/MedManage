@@ -147,6 +147,7 @@
 
 <script>
 import { post } from '../../utils/request.js'
+import { isLoggedIn } from '../../utils/userInfoManager.js'
 
 export default {
   data() {
@@ -169,8 +170,7 @@ export default {
   methods: {
     async saveRecord() {
       try {
-        const token = uni.getStorageSync('token')
-        if (!token) {
+        if (!isLoggedIn()) {
           uni.navigateTo({ url: '/pages/login/login' })
           return
         }

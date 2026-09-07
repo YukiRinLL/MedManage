@@ -71,14 +71,11 @@ const loadNews = async (isRefresh = false) => {
 
     const res = await getPublishedNews(page.value, size.value)
 
-    console.log('API Response:', res)
     if (res.code === 200) {
       const newData = (res.data.list || []).map(item => ({
         ...item,
         coverImage: getImageUrl(item.coverImage)
       }))
-      console.log('News data:', newData, 'Total:', res.data.total)
-
       if (isRefresh) {
         newsList.value = newData
       } else {
@@ -118,8 +115,9 @@ onPullDownRefresh(() => {
 
 onReachBottom(() => {
   if (hasMore.value && !loading.value) {
-    page.value++
-    loadNews()
+    loadNews().then(() => {
+      if (hasMore.value) page.value++
+    })
   }
 })
 
