@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface VitalSignRepository extends JpaRepository<VitalSign, String> {
     List<VitalSign> findByUserIdOrderByRecordTimeDesc(String userId);
+
+    List<VitalSign> findAllByOrderByRecordTimeDesc();
 }

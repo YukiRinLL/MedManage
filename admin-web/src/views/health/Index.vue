@@ -95,8 +95,8 @@
         <el-descriptions-item label="创建时间">{{ formatDate(currentRow.createdAt) }}</el-descriptions-item>
         <el-descriptions-item label="既往病史" :span="2">{{ currentRow.pastMedicalHistory || '-' }}</el-descriptions-item>
         <el-descriptions-item label="过敏史" :span="2">{{ currentRow.allergicHistory || '-' }}</el-descriptions-item>
-        <el-descriptions-item label="家族病史" :span="2">{{ currentRow.familyHistory || '-' }}</el-descriptions-item>
-        <el-descriptions-item label="备注" :span="2">{{ currentRow.notes || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="家族病史" :span="2">{{ currentRow.familyMedicalHistory || '-' }}</el-descriptions-item>
+        <el-descriptions-item label="备注" :span="2">{{ currentRow.otherInfo || '-' }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
 
@@ -132,10 +132,10 @@
           <el-input v-model="editForm.allergicHistory" type="textarea" :rows="3" />
         </el-form-item>
         <el-form-item label="家族病史">
-          <el-input v-model="editForm.familyHistory" type="textarea" :rows="3" />
+          <el-input v-model="editForm.familyMedicalHistory" type="textarea" :rows="3" />
         </el-form-item>
         <el-form-item label="备注">
-          <el-input v-model="editForm.notes" type="textarea" :rows="3" />
+          <el-input v-model="editForm.otherInfo" type="textarea" :rows="3" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -177,8 +177,8 @@ const editForm = reactive({
   bloodType: '',
   pastMedicalHistory: '',
   allergicHistory: '',
-  familyHistory: '',
-  notes: ''
+  familyMedicalHistory: '',
+  otherInfo: ''
 })
 
 const fetchHealthRecords = async () => {
@@ -236,8 +236,8 @@ const handleAdd = () => {
     bloodType: '',
     pastMedicalHistory: '',
     allergicHistory: '',
-    familyHistory: '',
-    notes: ''
+    familyMedicalHistory: '',
+    otherInfo: ''
   })
   editDialogVisible.value = true
 }

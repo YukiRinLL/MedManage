@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ImprovementPlanService {
@@ -54,6 +56,25 @@ public class ImprovementPlanService {
 
     public void delete(String id) {
         improvementPlanRepository.deleteById(id);
+    }
+
+    public Map<String, Object> listForAdmin(String userId, String status, int page, int size) {
+        List<ImprovementPlan> plans = improvementPlanRepository.findAll();
+        plans.sort((left, right) -> {
+            if (left.getCreatedAt() == null) return 1;
+            if (right.getCreatedAt() == null) return -1;
+            return right.getCreatedAt().compareTo(left.getCreatedAt());
+        });
+        plans.removeIf(plan -> userId != null && !userId.trim().isEmpty() && !userId.equals(plan.getUserId()));
+        plans.removeIf(plan -> status != null && !status.trim().isEmpty() && !status.equals(plan.getStatus()));
+        int safePage = Math.max(page, 1);
+        int safeSize = Math.max(size, 1);
+        int from = Math.min((safePage - 1) * safeSize, plans.size());
+        int to = Math.min(from + safeSize, plans.size());
+        Map<String, Object> result = new HashMap<>();
+        result.put("list", plans.subList(from, to));
+        result.put("total", plans.size());
+        return result;
     }
 
     public ImprovementPlan complete(String id) {

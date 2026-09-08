@@ -116,6 +116,7 @@ public class AdminController {
             
             dashboard.put("totalAdmins", allAdmins.size());
             dashboard.put("totalNormalAdmins", admins.size());
+            dashboard.put("totalNormalUsers", userRepository.count());
             dashboard.put("totalSuperAdmins", superAdmins.size());
             
             dashboard.put("totalUsers", userRepository.count());
@@ -125,7 +126,11 @@ public class AdminController {
             dashboard.put("totalHealthEducation", healthEducationRepository.count());
             dashboard.put("totalActivities", activityRepository.count());
             
-            return ResponseEntity.ok(dashboard);
+            Map<String, Object> response = new HashMap<>();
+            response.put("code", 200);
+            response.put("message", "获取成功");
+            response.put("data", dashboard);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
             Map<String, Object> errorResponse = new HashMap<>();

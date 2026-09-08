@@ -3,6 +3,8 @@ package com.medmanage.controller;
 import com.medmanage.entity.ImprovementPlan;
 import com.medmanage.service.ImprovementPlanService;
 import com.medmanage.util.ResponseUtil;
+import com.medmanage.util.JwtUtil;
+import com.medmanage.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,12 @@ public class ImprovementPlanController {
 
     @Autowired
     private ImprovementPlanService improvementPlanService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @GetMapping("/current/{userId}")
     public ResponseEntity<Map<String, Object>> getCurrent(@PathVariable String userId) {
@@ -60,5 +68,57 @@ public class ImprovementPlanController {
     public ResponseEntity<Map<String, Object>> delete(@PathVariable String id) {
         improvementPlanService.delete(id);
         return ResponseUtil.success("删除成功");
+    }
+
+    @GetMapping("/admin/list")
+    public ResponseEntity<Map<String, Object>> listForAdmin(
+            @RequestHeader("Authorization") String token,
+            @RequestParam(required = false) String userId,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        if (!isAdmin(token)) return ResponseUtil.forbidden("无管理员权限");
+        return ResponseUtil.success(improvementPlanService.listForAdmin(userId, status, page, size));
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<Map<String, Object>> createForAdmin(
+            @RequestHeader("Authorization") String token, @RequestBody ImprovementPlan plan) {
+        if (!isAdmin(token)) return ResponseUtil.forbidden("无管理员权限");
+        return ResponseUtil.success(improvementPlanService.create(plan));
+    }
+
+    @PutMapping("/admin/{id}")
+    public ResponseEntity<Map<String, Object>> updateForAdmin(
+            @RequestHeader("Authorization") String token,
+            @PathVariable String id,
+            @RequestBody ImprovementPlan plan) {
+        if (!isAdmin(token)) return ResponseUtil.forbidden("无管理员权限");
+        return ResponseUtil.success(improvementPlanService.update(id, plan));
+    }
+
+    @PutMapping("/admin/{id}/complete")
+    public ResponseEntity<Map<String, Object>> completeForAdmin(
+            @RequestHeader("Authorization") String token, @PathVariable String id) {
+        if (!isAdmin(token)) return ResponseUtil.forbidden("无管理员权限");
+        return ResponseUtil.success(improvementPlanService.complete(id));
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Map<String, Object>> deleteForAdmin(
+            @RequestHeader("Authorization") String token, @PathVariable String id) {
+        if (!isAdmin(token)) return ResponseUtil.forbidden("无管理员权限");
+        improvementPlanService.delete(id);
+        return ResponseUtil.success("删除成功");
+    }
+
+    private boolean isAdmin(String token) {
+        try {
+            String adminId = jwtUtil.getUserIdFromToken(token);
+            Object stored = redisUtil.get("admin:" + adminId + ":token");
+            return stored != null && token.replace("Bearer ", "").equals(stored.toString());
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

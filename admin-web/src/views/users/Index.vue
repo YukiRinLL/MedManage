@@ -53,7 +53,6 @@
         <el-table-column label="操作" fixed="right" width="200">
           <template #default="{ row }">
             <el-button link type="primary" @click="handleView(row)">查看</el-button>
-            <el-button v-if="isSuperAdmin" link type="warning" @click="handleEditRole(row)">修改角色</el-button>
             <el-button v-if="isSuperAdmin" link type="danger" @click="handleDelete(row)">删除</el-button>
           </template>
         </el-table-column>
@@ -212,14 +211,12 @@ const fetchUsers = async () => {
     const params = {
       page: pagination.page,
       size: pagination.size,
-      ...searchForm
+      phone: searchForm.phone,
+      name: searchForm.name
     }
-    if (searchForm.role === -1) {
-      delete params.role
-    }
-    const res = await request.get('/admin/list', { params })
-    tableData.value = res.data || []
-    pagination.total = res.data?.length || 0
+    const res = await request.get('/user/list', { params })
+    tableData.value = res.data?.list || res.data?.content || []
+    pagination.total = res.data?.total || res.data?.totalElements || tableData.value.length
   } catch (error) {
     console.error('获取用户列表失败:', error)
   } finally {
@@ -244,28 +241,6 @@ const handleView = (row) => {
   router.push(`/users/${row.id}`)
 }
 
-const handleEditRole = (row) => {
-  roleForm.userId = row.id
-  roleForm.userName = row.name
-  roleForm.currentRole = row.role
-  roleForm.newRole = row.role
-  roleDialogVisible.value = true
-}
-
-const handleUpdateRole = async () => {
-  try {
-    await request.put(`/admin/update-role/${roleForm.userId}`, {
-      isAdmin: roleForm.newRole >= 1,
-      isSuperAdmin: roleForm.newRole === 2
-    })
-    ElMessage.success('角色修改成功')
-    roleDialogVisible.value = false
-    fetchUsers()
-  } catch (error) {
-    console.error('修改角色失败:', error)
-  }
-}
-
 const handleDelete = async (row) => {
   try {
     await ElMessageBox.confirm(`确定要删除用户 ${row.name} 吗？`, '提示', {
@@ -273,7 +248,7 @@ const handleDelete = async (row) => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    await request.delete(`/admin/users/${row.id}`)
+    await request.delete(`/user/${row.id}`)
     ElMessage.success('删除成功')
     fetchUsers()
   } catch (error) {
@@ -305,9 +280,9 @@ const handleCreateUser = async () => {
           name: createForm.name,
           gender: createForm.gender,
           age: parseInt(createForm.age),
-          role: createForm.role
+          patientType: 0
         }
-        await request.post('/admin/create-user', data)
+        await request.post('/user/register', data)
         ElMessage.success('创建成功')
         createDialogVisible.value = false
         fetchUsers()

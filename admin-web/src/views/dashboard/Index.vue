@@ -176,8 +176,8 @@ const fetchDashboardData = async () => {
 
 const fetchRecentUsers = async () => {
   try {
-    const res = await request.get('/admin/admins')
-    recentUsers.value = res.data?.slice(0, 5) || []
+    const res = await request.get('/user/list', { params: { page: 1, size: 5 } })
+    recentUsers.value = res.data?.list || res.data?.content || []
   } catch (error) {
     console.error('获取最近用户失败:', error)
   }
