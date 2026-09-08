@@ -68,18 +68,16 @@
       </el-header>
 
       <el-main class="main">
-        <div v-if="contentVisible" :key="contentKey" class="content-view">
-          <router-view v-slot="{ Component }">
-            <component :is="Component" :key="contentKey" />
-          </router-view>
-        </div>
+        <router-view v-slot="{ Component }">
+          <component :is="Component" :key="route.fullPath" />
+        </router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useUserStore } from '@/store/user'
@@ -89,18 +87,9 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const isCollapse = ref(false)
-const contentKey = ref(0)
-const contentVisible = ref(true)
 
 const activeMenu = computed(() => route.path)
 const currentRoute = computed(() => route.meta?.title || '')
-
-watch(() => route.fullPath, async () => {
-  contentVisible.value = false
-  await nextTick()
-  contentKey.value += 1
-  contentVisible.value = true
-})
 const userName = computed(() => userStore.userInfo?.name || '管理员')
 const userAvatar = computed(() => {
   const role = userStore.userInfo?.role
