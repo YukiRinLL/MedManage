@@ -68,9 +68,7 @@
       </el-header>
 
       <el-main class="main">
-        <router-view v-slot="{ Component }">
-          <component :is="Component" :key="route.fullPath" />
-        </router-view>
+        <router-view />
       </el-main>
     </el-container>
   </el-container>
