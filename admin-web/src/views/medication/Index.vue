@@ -255,9 +255,7 @@ const handleView = (row) => {
 
 const handleUpdateTaken = async (row) => {
   try {
-    await request.put(`/medication/update-taken/${row.id}`, {
-      taken: !row.taken
-    })
+    await request.put(`/medication/update/taken/${row.id}?taken=${!row.taken}`)
     ElMessage.success('更新成功')
     fetchMedications()
   } catch (error) {

@@ -230,8 +230,7 @@ const searchUsers = async (query, callback) => {
       params: {
         page: 1,
         size: 10,
-        name: query,
-        phone: query
+        name: query
       }
     })
     
@@ -312,6 +311,7 @@ const handleCreate = async () => {
     if (valid) {
       try {
         const data = {
+          userId: createForm.userId,
           phone: createForm.userPhone,
           type: createForm.type,
           title: createForm.title,
