@@ -139,6 +139,7 @@ const menuRoutes = computed(() => {
         route.path === '/diagnosis' || route.path === '/insurance' || 
         route.path === '/schedule' || route.path === '/education' ||
         route.path === '/blood-test' || route.path === '/medical-staff' ||
+        route.path === '/vital-sign' || route.path === '/improvement-plan' ||
         route.path === '/system') {
       return true
     }

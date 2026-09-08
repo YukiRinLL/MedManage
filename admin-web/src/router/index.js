@@ -43,7 +43,7 @@ const routes = [
             path: '/users/:id',
             name: 'UserDetail',
             component: () => import('@/views/users/Detail.vue'),
-            meta: { title: '用户详情', hidden: true, roles: [2] }
+            meta: { title: '患者详情', hidden: true, roles: [1, 2] }
           }
         ]
       },
@@ -112,6 +112,18 @@ const routes = [
         name: 'BloodTest',
         component: () => import('@/views/blood-test/Index.vue'),
         meta: { title: '核心指标管理', icon: 'DataLine', roles: [1, 2] }
+      },
+      {
+        path: '/vital-sign',
+        name: 'VitalSign',
+        component: () => import('@/views/vital-sign/Index.vue'),
+        meta: { title: '生命体征管理', icon: 'TrendCharts', roles: [1, 2] }
+      },
+      {
+        path: '/improvement-plan',
+        name: 'ImprovementPlan',
+        component: () => import('@/views/improvement-plan/Index.vue'),
+        meta: { title: '改善方案管理', icon: 'List', roles: [1, 2] }
       },
       {
         path: '/medical-staff',
