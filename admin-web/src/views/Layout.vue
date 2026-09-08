@@ -10,7 +10,6 @@
       <el-menu
         :collapse="isCollapse"
         :default-active="activeMenu"
-        @select="handleMenuSelect"
         background-color="#FFFFFF"
         text-color="#606266"
         active-text-color="#009D85"
@@ -25,12 +24,13 @@
               v-for="child in route.children"
               :key="child.path"
               :index="child.path"
+              @click="handleMenuSelect(child.path)"
             >
               <el-icon><component :is="child.meta.icon" /></el-icon>
               <template #title>{{ child.meta.title }}</template>
             </el-menu-item>
           </el-sub-menu>
-          <el-menu-item v-else :index="route.path">
+          <el-menu-item v-else :index="route.path" @click="handleMenuSelect(route.path)">
             <el-icon><component :is="route.meta.icon" /></el-icon>
             <template #title>{{ route.meta.title }}</template>
           </el-menu-item>
