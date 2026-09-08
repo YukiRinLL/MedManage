@@ -335,7 +335,7 @@ export default {
   left: 0;
   width: 100%;
   height: 45vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #a9eee5 0%, #f9fffd 42%, #FFFFFF 100%);
   z-index: 0;
 }
 
@@ -508,8 +508,8 @@ export default {
   flex-shrink: 0;
   background: linear-gradient(180deg, rgba(232, 236, 247, 1) 0%, rgba(250, 251, 253, 1) 12%, rgba(255, 255, 255, 1) 25%);
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 1);
-  box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   overflow: hidden;
   box-sizing: border-box;
 }
@@ -541,26 +541,26 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
+  box-shadow: 0 4px 16px rgba(56, 88, 112, 0.12), 0 1px 3px rgba(56, 88, 112, 0.06);
   border: 1px solid rgba(100, 120, 160, 0.1);
   opacity: 1;
   position: relative;
 }
 
 .feature-card-teal {
-  background: linear-gradient(0deg, #E8F8F0 0%, #FFFFFF 55%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 34%), linear-gradient(0deg, #E8F8F0 0%, #FFFFFF 55%);
 }
 
 .feature-card-blue {
-  background: linear-gradient(0deg, #E8F4FD 0%, #FFFFFF 55%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 34%), linear-gradient(0deg, #E8F4FD 0%, #FFFFFF 55%);
 }
 
 .feature-card-purple {
-  background: linear-gradient(0deg, #F1E8FD 0%, #FFFFFF 55%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 34%), linear-gradient(0deg, #F1E8FD 0%, #FFFFFF 55%);
 }
 
 .feature-card-orange {
-  background: linear-gradient(0deg, #FDF1E5 0%, #FFFFFF 55%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0) 34%), linear-gradient(0deg, #FDF1E5 0%, #FFFFFF 55%);
 }
 
 .feature-info {
@@ -696,15 +696,15 @@ export default {
   position: relative;
   margin-top: -34px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.64);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 12px 12px 12px;
   margin-left: 0;
   margin-right: 0;
-  border: 1px solid rgba(255, 255, 255, 0.58);
-  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .staff-list {

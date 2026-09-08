@@ -35,25 +35,20 @@
                 <stop offset="80%" stop-color="#5DD9F4" stop-opacity="0"/>
                 <stop offset="100%" stop-color="#5DD9F4" stop-opacity="0"/>
               </linearGradient>
-              <!-- 辉光滤镜：不同强度用于三层淡出 -->
-              <filter id="gBackCore" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="gBackMid" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="gBackOut" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="3.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="wBackCore" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.0" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="wBackMid" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-              <filter id="wBackOut" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="2.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
+              <linearGradient id="ring1GlowBack" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#B8FFE9" stop-opacity="0"/>
+                <stop offset="34%" stop-color="#B8FFE9" stop-opacity="0.22"/>
+                <stop offset="50%" stop-color="#F4FFFC" stop-opacity="1"/>
+                <stop offset="66%" stop-color="#B8FFE9" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#B8FFE9" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="ring2GlowBack" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="34%" stop-color="#FFFFFF" stop-opacity="0.24"/>
+                <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1"/>
+                <stop offset="66%" stop-color="#FFFFFF" stop-opacity="0.24"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+              </linearGradient>
               <!-- 白色环：后半部分裁剪上半 -->
               <clipPath id="backClipWhite"><rect x="0" y="0" width="160" height="80"/></clipPath>
               <!-- 蓝色环：后半部分裁剪下半 -->
@@ -62,57 +57,16 @@
             <!-- ========== 环1（白色）底环 ========== -->
             <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
               stroke="url(#ring1GradBack)" stroke-width="3"
-              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"/>
-            <!-- ========== 环1 高亮（绿色三层淡出） ========== -->
-            <!-- 外层淡出（最长，最淡，强辉光） -->
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3"
-              stroke-dasharray="30 290" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
-              filter="url(#gBackOut)" opacity="0.3">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
-            </ellipse>
-            <!-- 中层淡出 -->
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3"
-              stroke-dasharray="22 298" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
-              filter="url(#gBackMid)" opacity="0.6">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
-            </ellipse>
-            <!-- 核心亮段（最短，最实） -->
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3" stroke-linecap="round"
-              stroke-dasharray="14 306" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)"
-              filter="url(#gBackCore)" opacity="1">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+              transform="rotate(32.26 80 80)" clip-path="url(#backClipWhite)" opacity="0.72">
+              <animate attributeName="opacity" values="0.46;1;0.46" dur="5.2s" begin="-1.2s" repeatCount="indefinite"/>
+              <animate attributeName="stroke-width" values="2.4;3.8;2.4" dur="5.2s" begin="-1.2s" repeatCount="indefinite"/>
             </ellipse>
             <!-- ========== 环2（蓝色）底环 ========== -->
             <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
               stroke="url(#ring2GradBack)" stroke-width="3"
-              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"/>
-            <!-- ========== 环2 高亮（白色三层淡出） ========== -->
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3"
-              stroke-dasharray="28 283" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
-              filter="url(#wBackOut)" opacity="0.25">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3"
-              stroke-dasharray="20 291" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
-              filter="url(#wBackMid)" opacity="0.55">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
-              stroke-dasharray="12 299" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)"
-              filter="url(#wBackCore)" opacity="1">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+              transform="rotate(-17.36 80 80)" clip-path="url(#backClipBlue)" opacity="0.68">
+              <animate attributeName="opacity" values="0.42;0.98;0.42" dur="6.6s" begin="-3.1s" repeatCount="indefinite"/>
+              <animate attributeName="stroke-width" values="2.3;3.7;2.3" dur="6.6s" begin="-3.1s" repeatCount="indefinite"/>
             </ellipse>
           </svg>
         </view>
@@ -135,6 +89,20 @@
                 <stop offset="3%" stop-color="#5DD9F4" stop-opacity="1"/>
                 <stop offset="80%" stop-color="#5DD9F4" stop-opacity="0"/>
                 <stop offset="100%" stop-color="#5DD9F4" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="ring1GlowFront" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#B8FFE9" stop-opacity="0"/>
+                <stop offset="34%" stop-color="#B8FFE9" stop-opacity="0.22"/>
+                <stop offset="50%" stop-color="#F4FFFC" stop-opacity="1"/>
+                <stop offset="66%" stop-color="#B8FFE9" stop-opacity="0.22"/>
+                <stop offset="100%" stop-color="#B8FFE9" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="ring2GlowFront" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+                <stop offset="34%" stop-color="#FFFFFF" stop-opacity="0.24"/>
+                <stop offset="50%" stop-color="#FFFFFF" stop-opacity="1"/>
+                <stop offset="66%" stop-color="#FFFFFF" stop-opacity="0.24"/>
+                <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
               </linearGradient>
               <!-- 绿色高亮三层辉光 -->
               <filter id="gFrontCore" x="-50%" y="-50%" width="200%" height="200%">
@@ -162,54 +130,16 @@
             <!-- ========== 环1（白色）底环前半 ========== -->
             <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
               stroke="url(#ring1GradFront)" stroke-width="3"
-              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"/>
-            <!-- ========== 环1 高亮（绿色三层淡出） ========== -->
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3"
-              stroke-dasharray="35 285" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
-              filter="url(#gFrontOut)" opacity="0.35">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3"
-              stroke-dasharray="26 294" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
-              filter="url(#gFrontMid)" opacity="0.65">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="65.105" ry="30.465" fill="none"
-              stroke="#9FF9E0" stroke-width="3" stroke-linecap="round"
-              stroke-dasharray="16 304" stroke-dashoffset="0"
-              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)"
-              filter="url(#gFrontCore)" opacity="1">
-              <animate attributeName="stroke-dashoffset" from="0" to="-320" dur="4.5s" repeatCount="indefinite"/>
+              transform="rotate(32.26 80 80)" clip-path="url(#frontClipWhite)" opacity="0.8">
+              <animate attributeName="opacity" values="0.54;1;0.54" dur="5.2s" begin="-1.2s" repeatCount="indefinite"/>
+              <animate attributeName="stroke-width" values="2.5;4;2.5" dur="5.2s" begin="-1.2s" repeatCount="indefinite"/>
             </ellipse>
             <!-- ========== 环2（蓝色）底环前半 ========== -->
             <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
               stroke="url(#ring2GradFront)" stroke-width="3"
-              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"/>
-            <!-- ========== 环2 高亮（白色三层淡出） ========== -->
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3"
-              stroke-dasharray="32 279" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
-              filter="url(#wFrontOut)" opacity="0.3">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3"
-              stroke-dasharray="24 287" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
-              filter="url(#wFrontMid)" opacity="0.6">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="80" cy="80" rx="63.055" ry="30.465" fill="none"
-              stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"
-              stroke-dasharray="14 297" stroke-dashoffset="0"
-              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)"
-              filter="url(#wFrontCore)" opacity="1">
-              <animate attributeName="stroke-dashoffset" from="0" to="-311" dur="4.5s" begin="0.8s" repeatCount="indefinite"/>
+              transform="rotate(-17.36 80 80)" clip-path="url(#frontClipBlue)" opacity="0.76">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="6.6s" begin="-3.1s" repeatCount="indefinite"/>
+              <animate attributeName="stroke-width" values="2.4;3.9;2.4" dur="6.6s" begin="-3.1s" repeatCount="indefinite"/>
             </ellipse>
           </svg>
         </view>
@@ -282,7 +212,6 @@
                 <view class="chart-circle circle-light"></view>
                 <view class="chart-circle circle-purple"></view>
               </view>
-              <image src="/static/design/home/Vector.svg" class="chart-ring-icon" mode="aspectFit" />
               <view class="chart-text-area">
                 <text class="chart-title">待提升指标</text>
                 <text class="chart-link">查看详情</text>
@@ -641,7 +570,7 @@ export default {
   --s: calc(100vw / 375);
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 40%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #a9eee5 0%, #f9fffd 38%, #FFFFFF 100%);
   position: relative;
   overflow: visible;
 }
@@ -727,12 +656,13 @@ export default {
 .header-btn {
   width: 36px;
   height: 36px;
-  border: 1.5px solid #0A2540;
+  border: 1.5px solid rgba(10, 37, 64, 0.28);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: 0 2px 8px rgba(20, 80, 90, 0.08);
 }
 
 .btn-dots {
@@ -937,15 +867,15 @@ export default {
   position: relative;
   margin-top: -40px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.64);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 18px 12px 16px;
   margin-left: 0;
   margin-right: 0;
-  border: 1px solid rgba(255, 255, 255, 0.58);
-  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 
@@ -969,8 +899,8 @@ export default {
   background: #FFFFFF;
   border-radius: 10px;
   padding: 10px 12px;
-  box-shadow: 0 4px 16px rgba(13, 66, 49, 0.12), 0 1px 4px rgba(13, 66, 49, 0.08);
-  border: 1px solid rgba(100, 120, 160, 0.25);
+  box-shadow: 0 4px 14px rgba(56, 88, 112, 0.1), 0 1px 3px rgba(56, 88, 112, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.16);
   flex: 1 1 0;
   min-height: 0;
   overflow: hidden;
@@ -1096,6 +1026,8 @@ export default {
   margin-top: -40px;
   margin-left: -40px;
   z-index: 2;
+  opacity: 0.82;
+  filter: brightness(0) saturate(100%) invert(34%) sepia(39%) saturate(1000%) hue-rotate(127deg) brightness(82%) contrast(92%) drop-shadow(0 0 3px rgba(25, 162, 128, 0.28));
 }
 
 .chart-text-area {
@@ -1168,11 +1100,17 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
-  border: 1px solid rgba(100, 120, 160, 0.1);
+  box-shadow: 0 4px 16px rgba(56, 88, 112, 0.12), 0 1px 3px rgba(56, 88, 112, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.08);
   opacity: 1;
   position: relative;
   min-height: 80px;
+}
+
+.feature-card:active,
+.notification-item:active {
+  transform: scale(0.985);
+  opacity: 0.92;
 }
 
 .feature-card:first-child {
@@ -1188,7 +1126,9 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: 100%;
+  width: calc(100% - 34px);
+  padding-right: 4px;
+  box-sizing: border-box;
 }
 
 .feature-title {
@@ -1207,8 +1147,8 @@ export default {
 }
 
 .feature-icon {
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
   position: absolute;
   right: 12px;

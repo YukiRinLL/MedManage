@@ -283,8 +283,8 @@ export default {
   top: 0;
   left: 0;
   width: 100%;
-  height: 40vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  height: 45vh;
+  background: linear-gradient(180deg, #a9eee5 0%, #f9fffd 42%, #FFFFFF 100%);
   z-index: 0;
 }
 
@@ -376,14 +376,14 @@ export default {
 /* 磨砂半透明托盘：放在绿色下方，部分重叠在绿色底部渐变淡出区域 */
 .tips-frosted-tray {
   position: relative;
-  background: rgba(255, 255, 255, 0);
+  background: rgba(255, 255, 255, 0.64);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   margin-left: 0;
   margin-right: 0;
-  border: 1px solid rgba(255, 255, 255, 0.58);
-  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 /* Green Trapezoid Banner */
@@ -443,7 +443,7 @@ export default {
   margin-top: -50px;
   z-index: 2;
   width: 100%;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -472,22 +472,31 @@ export default {
 
 .feature-card {
   flex: 1;
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 12px;
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 6px;
   min-height: 110px;
-  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
+  box-shadow: 0 4px 16px rgba(56, 88, 112, 0.12), 0 1px 3px rgba(56, 88, 112, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.14);
 }
 
 .feature-blue {
-  background: linear-gradient(180deg, #E8F4FD 0%, #FFFFFF 60%);
+  background: linear-gradient(180deg, #eef8ff 0%, #FFFFFF 72%);
+  border-color: rgba(92, 164, 214, 0.24);
 }
 
 .feature-green {
-  background: linear-gradient(180deg, #E8F8F0 0%, #FFFFFF 60%);
+  background: linear-gradient(180deg, #eefaf4 0%, #FFFFFF 72%);
+  border-color: rgba(45, 174, 133, 0.24);
+}
+
+.feature-card:active,
+.menu-item:active {
+  transform: scale(0.985);
+  opacity: 0.92;
 }
 
 .feature-icon-wrap {
@@ -538,7 +547,7 @@ export default {
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 4px 20px rgba(13, 66, 49, 0.08);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   overflow: hidden;
 }
 

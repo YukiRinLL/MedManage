@@ -204,11 +204,12 @@ export default {
 
 /* 用户信息卡片 */
 .user-info-card {
-  background-color: #009D85;
+  background: linear-gradient(135deg, #19A280 0%, #009D85 54%, #087E78 100%);
   padding: calc(var(--status-bar-height, 20px) + 30px) 20px 30px;
   display: flex;
   align-items: center;
   color: #FFFFFF;
+  box-shadow: 0 8px 22px rgba(0, 125, 107, 0.18);
 }
 
 .user-avatar {
@@ -273,6 +274,10 @@ export default {
   border-bottom: none;
 }
 
+.menu-item:active {
+  background: #F2FBF8;
+}
+
 .menu-icon {
   font-size: 20px;
   margin-right: 12px;
@@ -303,14 +308,15 @@ export default {
 
 .btn-logout {
   background-color: #FFFFFF;
-  color: #F56C6C;
-  border: 1px solid #F56C6C;
+  color: #D85B5B;
+  border: 1px solid rgba(216, 91, 91, 0.55);
   border-radius: 8px;
   padding: 14px;
   font-size: 16px;
   font-weight: 500;
   text-align: center;
   width: 100%;
+  background: rgba(255, 255, 255, 0.86);
 }
 
 .btn-logout:active {

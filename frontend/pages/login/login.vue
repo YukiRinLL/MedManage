@@ -132,7 +132,7 @@ export default {
 .logo-icon {
   width: 180px;
   height: 180px;
-  background-color: #FFFFFF;
+  background: linear-gradient(180deg, rgba(240, 255, 250, 0.9) 0%, #FFFFFF 22%);
   border-radius: 40px;
   margin-bottom: 28px;
   padding: 30px;
@@ -175,7 +175,8 @@ export default {
   background-color: #FFFFFF;
   border-radius: 16px;
   padding: 35px 25px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(25, 162, 128, 0.1);
+  box-shadow: 0 10px 30px rgba(30, 100, 90, 0.1), 0 2px 8px rgba(80, 110, 130, 0.06);
 }
 
 .form-item {
@@ -205,6 +206,7 @@ export default {
 .form-input:focus {
   background-color: #FFFFFF;
   border-color: #009D85;
+  box-shadow: 0 0 0 3px rgba(0, 157, 133, 0.1);
 }
 
 .form-input-placeholder {
@@ -212,7 +214,7 @@ export default {
 }
 
 .btn-primary {
-  background-color: #009D85;
+  background: linear-gradient(135deg, #19A280 0%, #009D85 100%);
   color: #FFFFFF;
   border-radius: 8px;
   padding: 14px;
@@ -223,6 +225,7 @@ export default {
   margin-bottom: 20px;
   border: none;
   width: 100%;
+  box-shadow: 0 6px 14px rgba(0, 157, 133, 0.2);
 }
 
 .btn-primary:active {

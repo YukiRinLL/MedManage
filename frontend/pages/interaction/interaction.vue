@@ -174,7 +174,7 @@ export default {
   left: 0;
   width: 100%;
   height: 45vh;
-  background: linear-gradient(180deg, #b3fff4 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #a9eee5 0%, #f9fffd 38%, #FFFFFF 100%);
   z-index: 0;
 }
 
@@ -258,8 +258,9 @@ export default {
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 10px;
-  box-shadow: 0 4px 16px rgba(100, 120, 160, 0.12), 0 1px 4px rgba(100, 120, 160, 0.06);
-  border: 1px solid rgba(100, 120, 160, 0.1);
+  box-shadow: 0 4px 16px rgba(56, 88, 112, 0.12), 0 1px 3px rgba(56, 88, 112, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.08);
+  border-left: 3px solid rgba(25, 162, 128, 0.34);
   flex-shrink: 0;
 }
 
@@ -343,13 +344,19 @@ export default {
   position: relative;
   margin-top: -26px;
   z-index: 3;
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.64);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 12px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.58);
-  box-shadow: 0 6px 24px rgba(25, 162, 128, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 20px rgba(25, 162, 128, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.activity-bar:active,
+.menu-item-row:active {
+  transform: scale(0.985);
+  opacity: 0.92;
 }
 
 /* Animation */
@@ -417,8 +424,8 @@ export default {
   background: #FFFFFF;
   border-radius: 10px;
   margin-bottom: 6px;
-  box-shadow: 0 4px 20px rgba(100, 120, 160, 0.18), 0 1px 4px rgba(100, 120, 160, 0.1);
-  border: 1px solid rgba(100, 120, 160, 0.1);
+  box-shadow: 0 4px 16px rgba(56, 88, 112, 0.12), 0 1px 3px rgba(56, 88, 112, 0.06);
+  border: 1px solid rgba(100, 120, 160, 0.08);
 }
 
 .menu-card.menu-item-row {
