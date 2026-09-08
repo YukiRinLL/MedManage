@@ -20,4 +20,23 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+.dashboard,
+.patients-container,
+.health,
+.medication,
+.notification,
+.activities,
+.news,
+.diagnosis,
+.insurance,
+.schedule,
+.education,
+.blood-test-container,
+.medical-staff,
+.page-container,
+.users,
+.feedback {
+  padding: 16px !important;
+}
 </style>

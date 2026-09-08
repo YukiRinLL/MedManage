@@ -8,9 +8,9 @@
         <span v-else class="logo-text-small">尚诺</span>
       </div>
       <el-menu
-        :default-active="activeMenu"
         :collapse="isCollapse"
-        router
+        :default-active="activeMenu"
+        @select="handleMenuSelect"
         background-color="#FFFFFF"
         text-color="#606266"
         active-text-color="#009D85"
@@ -68,7 +68,7 @@
       </el-header>
 
       <el-main class="main">
-        <router-view />
+         <router-view :key="route.fullPath" />
       </el-main>
     </el-container>
   </el-container>
@@ -159,6 +159,12 @@ const menuRoutes = computed(() => {
 
 const toggleCollapse = () => {
   isCollapse.value = !isCollapse.value
+}
+
+const handleMenuSelect = (path) => {
+  if (path && path !== route.path) {
+    router.push(path)
+  }
 }
 
 const handleCommand = async (command) => {
@@ -286,7 +292,17 @@ const handleLogoError = (e) => {
 
 .main {
   background-color: #f0f2f5;
-  padding: 20px;
+  padding: 0;
   overflow-y: auto;
+}
+
+.main :deep(.page-header .page-title),
+.main :deep(.page-header h2),
+.main :deep(.page-header > h2) {
+  display: none;
+}
+
+.main :deep(.page-header) {
+  margin-bottom: 12px;
 }
 </style>
