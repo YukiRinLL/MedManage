@@ -75,7 +75,7 @@ const routes = [
         path: '/activities',
         name: 'Activities',
         component: () => import('@/views/activities/Index.vue'),
-        meta: { title: '活动管理', icon: 'Calendar', roles: [1, 2] }
+        meta: { title: '活动管理', icon: 'Medal', roles: [1, 2] }
       },
       {
         path: '/news',
@@ -87,7 +87,7 @@ const routes = [
         path: '/diagnosis',
         name: 'Diagnosis',
         component: () => import('@/views/diagnosis/Index.vue'),
-        meta: { title: '诊断信息管理', icon: 'Notebook', roles: [1, 2] }
+        meta: { title: '诊断信息管理', icon: 'Memo', roles: [1, 2] }
       },
       {
         path: '/insurance',
@@ -105,13 +105,13 @@ const routes = [
         path: '/education',
         name: 'Education',
         component: () => import('@/views/education/Index.vue'),
-        meta: { title: '科普宣教管理', icon: 'Notebook', roles: [1, 2] }
+        meta: { title: '科普宣教管理', icon: 'Reading', roles: [1, 2] }
       },
       {
         path: '/blood-test',
         name: 'BloodTest',
         component: () => import('@/views/blood-test/Index.vue'),
-        meta: { title: '核心指标管理', icon: 'DataLine', roles: [1, 2] }
+        meta: { title: '核心指标管理', icon: 'Histogram', roles: [1, 2] }
       },
       {
         path: '/vital-sign',
@@ -123,13 +123,13 @@ const routes = [
         path: '/improvement-plan',
         name: 'ImprovementPlan',
         component: () => import('@/views/improvement-plan/Index.vue'),
-        meta: { title: '改善方案管理', icon: 'List', roles: [1, 2] }
+        meta: { title: '改善方案管理', icon: 'Finished', roles: [1, 2] }
       },
       {
         path: '/medical-staff',
         name: 'MedicalStaff',
         component: () => import('@/views/medical-staff/Index.vue'),
-        meta: { title: '医护人员管理', icon: 'UserFilled', roles: [1, 2] }
+        meta: { title: '医护人员管理', icon: 'Avatar', roles: [1, 2] }
       },
       {
         path: '/feedback',
