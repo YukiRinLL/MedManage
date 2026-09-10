@@ -161,9 +161,10 @@ const toggleCollapse = () => {
   isCollapse.value = !isCollapse.value
 }
 
-const handleMenuSelect = (path) => {
+const handleMenuSelect = async (path) => {
   if (path && path !== route.path) {
-    router.push(path)
+    await router.push(path)
+    window.location.reload()
   }
 }
 
