@@ -34,11 +34,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import request from '@/utils/request'
 
-const router = useRouter()
 const route = useRoute()
 
 const healthRecord = ref({})
@@ -52,9 +51,7 @@ const fetchHealthRecord = async () => {
   }
 }
 
-const goBack = () => {
-  router.back()
-}
+const goBack = () => window.location.assign('/health')
 
 onMounted(() => {
   fetchHealthRecord()

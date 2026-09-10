@@ -132,12 +132,10 @@
 
 <script setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
 import { useUserStore } from '@/store/user'
 
-const router = useRouter()
 const userStore = useUserStore()
 const isSuperAdmin = computed(() => userStore.isSuperAdmin)
 
@@ -238,7 +236,7 @@ const handleReset = () => {
 }
 
 const handleView = (row) => {
-  router.push(`/users/${row.id}`)
+  window.location.assign(`/users/${row.id}`)
 }
 
 const handleDelete = async (row) => {

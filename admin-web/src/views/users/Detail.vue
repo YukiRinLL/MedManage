@@ -136,11 +136,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import request from '@/utils/request'
 
-const router = useRouter()
 const route = useRoute()
 const patient = ref({})
 const patientLoading = ref(false)
@@ -159,7 +158,7 @@ const loaded = new Set()
 const asList = (data) => data?.list || data?.content || (Array.isArray(data) ? data : [])
 const genderText = (gender) => gender === 0 ? '女' : gender === 1 ? '男' : '-'
 const pressure = (systolic, diastolic) => systolic || diastolic ? `${systolic || '-'}/${diastolic || '-'}` : '-'
-const goBack = () => router.push('/patients')
+const goBack = () => window.location.assign('/patients')
 
 const loaders = {
   health: async () => {

@@ -46,7 +46,7 @@
             <Expand v-else />
           </el-icon>
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item @click="navigate('/patients')">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-if="currentRoute">{{ currentRoute }}</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -161,10 +161,13 @@ const toggleCollapse = () => {
   isCollapse.value = !isCollapse.value
 }
 
-const handleMenuSelect = async (path) => {
+const navigate = (path) => {
+  if (path && path !== route.path) window.location.assign(path)
+}
+
+const handleMenuSelect = (path) => {
   if (path && path !== route.path) {
-    await router.push(path)
-    window.location.reload()
+    navigate(path)
   }
 }
 
@@ -178,7 +181,7 @@ const handleCommand = async (command) => {
       })
       userStore.logout()
       ElMessage.success('退出成功')
-      router.push('/login')
+      window.location.assign('/login')
     } catch {
     }
   } else if (command === 'profile') {

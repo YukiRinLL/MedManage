@@ -48,12 +48,10 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import request from '@/utils/request'
 import { useUserStore } from '@/store/user'
 
-const router = useRouter()
 const userStore = useUserStore()
 
 const loginFormRef = ref(null)
@@ -88,7 +86,7 @@ const handleLogin = async () => {
         userStore.setIsAdmin(res.isAdmin)
         userStore.setIsSuperAdmin(res.isSuperAdmin)
         ElMessage.success('登录成功')
-        router.push('/')
+        window.location.assign('/patients')
       } catch (error) {
         console.error('登录失败:', error)
       } finally {

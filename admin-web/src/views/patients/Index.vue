@@ -279,7 +279,6 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
 
@@ -296,7 +295,6 @@ const tagInput = ref('')
 const currentTags = ref([])
 const editDialogVisible = ref(false)
 const editForm = ref(null)
-const router = useRouter()
 
 const hasTags = computed(() => {
   return currentTags.value.length > 0
@@ -379,7 +377,7 @@ const handleReset = () => {
 }
 
 const handleView = (row) => {
-  router.push(`/users/${row.id}`)
+  window.location.assign(`/users/${row.id}`)
 }
 
 const handleEditTags = async (row) => {
