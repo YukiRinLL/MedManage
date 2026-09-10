@@ -63,7 +63,7 @@ const routes = [
         path: '/medication',
         name: 'Medication',
         component: () => import('@/views/medication/Index.vue'),
-        meta: { title: '用药记录', icon: 'Pill', roles: [1, 2] }
+        meta: { title: '用药记录', icon: 'FirstAidKit', roles: [1, 2] }
       },
       {
         path: '/notification',
