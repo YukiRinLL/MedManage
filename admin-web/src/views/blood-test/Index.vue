@@ -16,7 +16,8 @@
             placeholder="请选择患者"
             clearable
             filterable
-            style="width: 220px"
+             style="width: 220px"
+             @change="handlePatientChange"
           >
             <el-option
               v-for="patient in patientOptions"
@@ -57,7 +58,8 @@
     </el-card>
 
     <el-card class="table-card">
-      <el-table :data="tableData" v-loading="loading" border stripe>
+       <el-empty v-if="!searchForm.userId" description="请选择患者查看核心指标" />
+       <el-table v-else :data="tableData" v-loading="loading" border stripe>
         <el-table-column label="患者姓名" width="120" fixed>
           <template #default="{ row }">
             {{ getPatientName(row.userId) }}
@@ -279,6 +281,7 @@ const pagination = reactive({
 })
 
 const fetchData = async () => {
+  if (!searchForm.userId) return
   loading.value = true
   try {
     const params = new URLSearchParams()
@@ -314,6 +317,13 @@ const handleSearch = () => {
   fetchData()
 }
 
+const handlePatientChange = () => {
+  pagination.page = 1
+  tableData.value = []
+  pagination.total = 0
+  fetchData()
+}
+
 const resetSearch = () => {
   searchForm.userId = ''
   searchForm.testType = ''
@@ -334,10 +344,14 @@ const handleCurrentChange = (page) => {
 }
 
 const handleAdd = () => {
+  if (!searchForm.userId) {
+    ElMessage.warning('请先选择患者')
+    return
+  }
   dialogTitle.value = '添加检查记录'
   Object.assign(formData, {
     id: '',
-    userId: '',
+    userId: searchForm.userId,
     testDate: '',
     testType: '',
     hemoglobin: '',
@@ -428,7 +442,6 @@ const getPatientName = (userId) => {
 
 onMounted(() => {
   fetchPatientList()
-  fetchData()
 })
 </script>
 

@@ -19,6 +19,7 @@
             clearable
             filterable
             style="width: 220px"
+            @change="handlePatientChange"
           >
             <el-option
               v-for="patient in patientOptions"
@@ -54,7 +55,8 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="tableData" stripe v-loading="loading" border>
+      <el-empty v-if="!searchForm.userId" description="请选择患者查看用药记录" />
+      <el-table v-else :data="tableData" stripe v-loading="loading" border>
         <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column label="患者姓名" width="120" fixed>
           <template #default="{ row }">
@@ -240,12 +242,18 @@ const handleSearch = () => {
   fetchMedications()
 }
 
+const handlePatientChange = () => {
+  pagination.page = 1
+  fetchMedications()
+}
+
 const handleReset = () => {
   searchForm.userId = ''
   searchForm.medicationName = ''
   searchForm.taken = null
   pagination.page = 1
-  fetchMedications()
+  tableData.value = []
+  pagination.total = 0
 }
 
 const handleView = (row) => {
@@ -265,8 +273,12 @@ const handleUpdateTaken = async (row) => {
 }
 
 const handleAdd = () => {
+  if (!searchForm.userId) {
+    ElMessage.warning('请先选择患者')
+    return
+  }
   Object.assign(addForm, {
-    userId: '',
+    userId: searchForm.userId,
     medicationName: '',
     dosage: '',
     frequency: '',
@@ -345,7 +357,6 @@ const getPatientName = (userId) => {
 
 onMounted(() => {
   fetchPatientList()
-  fetchMedications()
 })
 </script>
 

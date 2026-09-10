@@ -19,6 +19,7 @@
             clearable
             filterable
             style="width: 220px"
+            @change="handlePatientChange"
           >
             <el-option
               v-for="patient in patientOptions"
@@ -48,7 +49,8 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="tableData" stripe v-loading="loading" border>
+      <el-empty v-if="!searchForm.userId" description="请选择患者查看健康档案" />
+      <el-table v-else :data="tableData" stripe v-loading="loading" border>
         <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column label="患者姓名" width="120" fixed>
           <template #default="{ row }">
@@ -216,6 +218,11 @@ const handleSearch = () => {
   fetchHealthRecords()
 }
 
+const handlePatientChange = () => {
+  pagination.page = 1
+  fetchHealthRecords()
+}
+
 const handleReset = () => {
   searchForm.userId = ''
   searchForm.bloodType = ''
@@ -229,10 +236,14 @@ const handleView = (row) => {
 }
 
 const handleAdd = () => {
+  if (!searchForm.userId) {
+    ElMessage.warning('请先选择患者')
+    return
+  }
   isEdit.value = false
   Object.assign(editForm, {
     id: '',
-    userId: '',
+    userId: searchForm.userId,
     bloodType: '',
     pastMedicalHistory: '',
     allergicHistory: '',
@@ -318,7 +329,6 @@ const getPatientName = (userId) => {
 
 onMounted(() => {
   fetchPatientList()
-  fetchHealthRecords()
 })
 </script>
 

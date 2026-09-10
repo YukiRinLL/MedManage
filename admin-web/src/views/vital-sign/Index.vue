@@ -8,7 +8,7 @@
     <el-card class="search-card">
       <el-form :inline="true" :model="searchForm">
         <el-form-item label="患者">
-          <el-select v-model="searchForm.userId" placeholder="请选择患者" clearable filterable style="width: 240px">
+         <el-select v-model="searchForm.userId" placeholder="请选择患者" clearable filterable style="width: 240px" @change="handlePatientChange">
             <el-option v-for="patient in patientOptions" :key="patient.id" :label="patient.name + ' (' + patient.phone + ')'" :value="patient.id" />
           </el-select>
         </el-form-item>
@@ -17,7 +17,8 @@
     </el-card>
 
     <el-card>
-      <el-table :data="tableData" v-loading="loading" border stripe>
+       <el-empty v-if="!searchForm.userId" description="请选择患者查看生命体征" />
+       <el-table v-else :data="tableData" v-loading="loading" border stripe>
         <el-table-column label="患者" width="120" fixed><template #default="{ row }">{{ getPatientName(row.userId) }}</template></el-table-column>
         <el-table-column prop="recordTime" label="记录时间" width="165"><template #default="{ row }">{{ formatDateTime(row.recordTime) }}</template></el-table-column>
         <el-table-column prop="temperature" label="体温(°C)" width="105" />
@@ -62,19 +63,20 @@ const emptyForm = () => ({ id: '', userId: '', temperature: null, weight: null, 
 const formData = reactive(emptyForm())
 
 const unwrapList = (data) => data?.content || data?.list || (Array.isArray(data) ? data : [])
-const fetchData = async () => { loading.value = true; try { const res = await request.get('/vital-sign/admin/list', { params: { page: pagination.page, size: pagination.size, ...(searchForm.userId ? { userId: searchForm.userId } : {}) } }); if (res.code === 200) { tableData.value = unwrapList(res.data); pagination.total = res.data?.totalElements || res.data?.total || tableData.value.length } } catch { ElMessage.error('获取生命体征失败') } finally { loading.value = false } }
+const fetchData = async () => { if (!searchForm.userId) return; loading.value = true; try { const res = await request.get('/vital-sign/admin/list', { params: { page: pagination.page, size: pagination.size, userId: searchForm.userId } }); if (res.code === 200) { tableData.value = unwrapList(res.data); pagination.total = res.data?.totalElements || res.data?.total || tableData.value.length } } catch { ElMessage.error('获取生命体征失败') } finally { loading.value = false } }
 const fetchPatients = async () => { try { const res = await request.get('/user/list', { params: { page: 1, size: 100 } }); if (res.code === 200) patientOptions.value = unwrapList(res.data) } catch { ElMessage.error('获取患者列表失败') } }
 const handleSearch = () => { pagination.page = 1; fetchData() }
+const handlePatientChange = () => { pagination.page = 1; tableData.value = []; pagination.total = 0; fetchData() }
 const resetSearch = () => { searchForm.userId = ''; handleSearch() }
 const handleSizeChange = (size) => { pagination.size = size; pagination.page = 1; fetchData() }
-const handleAdd = () => { Object.assign(formData, emptyForm()); dialogTitle.value = '添加生命体征记录'; dialogVisible.value = true }
+const handleAdd = () => { if (!searchForm.userId) return ElMessage.warning('请先选择患者'); Object.assign(formData, emptyForm(), { userId: searchForm.userId }); dialogTitle.value = '添加生命体征记录'; dialogVisible.value = true }
 const editRow = (row) => { Object.assign(formData, emptyForm(), row); dialogTitle.value = '编辑生命体征记录'; dialogVisible.value = true }
 const handleSave = async () => { if (!formData.userId || !formData.recordTime) return ElMessage.warning('请选择患者并填写记录时间'); try { const res = formData.id ? await request.put(`/vital-sign/admin/${formData.id}`, formData) : await request.post('/vital-sign/admin', formData); if (res.code === 200) { ElMessage.success('保存成功'); dialogVisible.value = false; fetchData() } } catch { ElMessage.error('保存失败') } }
 const deleteRow = async (row) => { try { await ElMessageBox.confirm('确定要删除这条生命体征记录吗？', '提示', { type: 'warning' }); const res = await request.delete(`/vital-sign/admin/${row.id}`); if (res.code === 200) { ElMessage.success('删除成功'); fetchData() } } catch (error) { if (error !== 'cancel') ElMessage.error('删除失败') } }
 const getPatientName = (id) => patientOptions.value.find(p => p.id === id)?.name || id || '-'
 const pressure = (s, d) => s || d ? `${s || '-'}/${d || '-'}` : '-'
 const formatDateTime = (value) => value ? new Date(value).toLocaleString('zh-CN', { hour12: false }) : '-'
-onMounted(() => { fetchPatients(); fetchData() })
+onMounted(() => { fetchPatients() })
 </script>
 
 <style scoped>
