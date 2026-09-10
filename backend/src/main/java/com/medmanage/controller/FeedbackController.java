@@ -48,10 +48,13 @@ public class FeedbackController {
     @GetMapping("/list")
     public Map<String, Object> listFeedbacks(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String userId,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String status) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Page<Feedback> feedbackPage = feedbackService.listFeedbacks(page, size);
+            Page<Feedback> feedbackPage = feedbackService.listFeedbacks(page, size, userId, type, status);
             Map<String, Object> data = new HashMap<>();
             data.put("content", feedbackPage.getContent());
             data.put("totalElements", feedbackPage.getTotalElements());

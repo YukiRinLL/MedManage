@@ -41,10 +41,20 @@ public class NotificationService {
     
     public Map<String, Object> listNotifications(int page, int size, String name, Integer type, Boolean read) {
         Map<String, Object> result = new HashMap<>();
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Notification> notificationPage = notificationRepository.findAll(pageable);
-        result.put("list", notificationPage.getContent());
-        result.put("total", notificationPage.getTotalElements());
+        List<Notification> notifications = notificationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        notifications.removeIf(notification -> type != null && !String.valueOf(type).equals(notification.getType()));
+        notifications.removeIf(notification -> read != null && !read.equals(notification.getIsRead()));
+        if (name != null && !name.trim().isEmpty()) {
+            List<String> userIds = userRepository.findByNameContaining(name.trim()).stream()
+                    .map(User::getId).collect(java.util.stream.Collectors.toList());
+            notifications.removeIf(notification -> !userIds.contains(notification.getUserId()));
+        }
+        int safePage = Math.max(page, 1);
+        int safeSize = Math.max(size, 1);
+        int from = Math.min((safePage - 1) * safeSize, notifications.size());
+        int to = Math.min(from + safeSize, notifications.size());
+        result.put("list", notifications.subList(from, to));
+        result.put("total", notifications.size());
         return result;
     }
     

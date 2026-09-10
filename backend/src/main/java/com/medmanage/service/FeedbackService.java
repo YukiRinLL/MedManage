@@ -35,8 +35,14 @@ public class FeedbackService {
         return feedbackRepository.save(feedback);
     }
     
-    public Page<Feedback> listFeedbacks(int page, int size) {
+    public Page<Feedback> listFeedbacks(int page, int size, String userId, String type, String status) {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        if (userId != null && !userId.trim().isEmpty() && type != null && !type.trim().isEmpty()
+                && status != null && !status.trim().isEmpty()) {
+            return feedbackRepository.findByUserIdAndTypeAndStatus(userId, type, status, pageable);
+        }
+        if (userId != null && !userId.trim().isEmpty()) return feedbackRepository.findByUserId(userId, pageable);
+        if (status != null && !status.trim().isEmpty()) return feedbackRepository.findByStatus(status, pageable);
         return feedbackRepository.findAll(pageable);
     }
     

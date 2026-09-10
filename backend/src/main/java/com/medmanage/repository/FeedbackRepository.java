@@ -16,6 +16,8 @@ public interface FeedbackRepository extends JpaRepository<Feedback, String> {
     Page<Feedback> findByUserId(String userId, Pageable pageable);
     
     Page<Feedback> findByStatus(String status, Pageable pageable);
+
+    Page<Feedback> findByUserIdAndTypeAndStatus(String userId, String type, String status, Pageable pageable);
     
     List<Feedback> findByUserIdOrderByCreatedAtDesc(String userId);
 }

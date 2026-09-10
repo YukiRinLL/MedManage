@@ -84,10 +84,16 @@ public class ActivityService {
     
     public Map<String, Object> listActivities(int page, int size, Integer status, String title) {
         Map<String, Object> result = new HashMap<>();
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<Activity> activityPage = activityRepository.findAll(pageable);
-        result.put("list", activityPage.getContent());
-        result.put("total", activityPage.getTotalElements());
+        List<Activity> activities = activityRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        activities.removeIf(activity -> status != null && !status.equals(activity.getStatus()));
+        activities.removeIf(activity -> title != null && !title.trim().isEmpty()
+                && (activity.getTitle() == null || !activity.getTitle().contains(title.trim())));
+        int safePage = Math.max(page, 1);
+        int safeSize = Math.max(size, 1);
+        int from = Math.min((safePage - 1) * safeSize, activities.size());
+        int to = Math.min(from + safeSize, activities.size());
+        result.put("list", activities.subList(from, to));
+        result.put("total", activities.size());
         return result;
     }
     

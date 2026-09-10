@@ -55,9 +55,13 @@ public class InsuranceInfoController {
     }
     
     @GetMapping("/list")
-    public Object list() {
+    public Object list(
+            @RequestParam(required = false) String patientId,
+            @RequestParam(required = false) String dialysisNumber,
+            @RequestParam(required = false) String insuredAreaName,
+            @RequestParam(required = false) Integer insuranceStatus) {
         try {
-            List<InsuranceInfo> insuranceInfos = insuranceInfoService.findAll();
+            List<InsuranceInfo> insuranceInfos = insuranceInfoService.findAll(patientId, dialysisNumber, insuredAreaName, insuranceStatus);
             return ResponseUtil.success(insuranceInfos);
         } catch (Exception e) {
             return ResponseUtil.error(400, "获取参保信息列表失败: " + e.getMessage());
