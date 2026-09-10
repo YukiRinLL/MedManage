@@ -294,18 +294,15 @@ const fetchData = async () => {
     if (searchForm.testType) params.append('testType', searchForm.testType)
     if (searchForm.testDate) params.append('testDate', searchForm.testDate)
 
-    const res = await request.get(`/blood-test/list?${params.toString()}`)
+    const res = await request.get(`/blood-test/list/${searchForm.userId}`)
     if (res.code === 200) {
-      if (res.data && res.data.content) {
-        tableData.value = res.data.content
-        pagination.total = res.data.totalElements || 0
-      } else if (Array.isArray(res.data)) {
-        tableData.value = res.data
-        pagination.total = res.data.length
-      } else {
-        tableData.value = res.data || []
-        pagination.total = tableData.value.length
-      }
+      const records = Array.isArray(res.data) ? res.data : []
+      tableData.value = records.filter(record => {
+        const matchesType = !searchForm.testType || record.testType === searchForm.testType
+        const matchesDate = !searchForm.testDate || String(record.testDate || '').startsWith(searchForm.testDate)
+        return matchesType && matchesDate
+      })
+      pagination.total = tableData.value.length
     }
   } catch (err) {
     console.error('获取数据失败:', err)
