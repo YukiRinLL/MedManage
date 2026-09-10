@@ -28,10 +28,12 @@ public class MedicationRecordService {
         return medicationRecordRepository.findByUserIdOrderByMedicationTimeDesc(userId);
     }
     
-    public Map<String, Object> listMedicationRecords(int page, int size, String name, String medicationName, Boolean taken) {
+    public Map<String, Object> listMedicationRecords(int page, int size, String userId, String name, String medicationName, Boolean taken) {
         Map<String, Object> result = new HashMap<>();
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "medicationTime"));
-        Page<MedicationRecord> recordPage = medicationRecordRepository.findAll(pageable);
+        Page<MedicationRecord> recordPage = userId == null || userId.trim().isEmpty()
+                ? medicationRecordRepository.findAll(pageable)
+                : medicationRecordRepository.findByUserId(userId, pageable);
         result.put("list", recordPage.getContent());
         result.put("total", recordPage.getTotalElements());
         return result;

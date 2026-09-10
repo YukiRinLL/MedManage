@@ -222,7 +222,7 @@ const fetchMedications = async () => {
     const res = await request.get(`/medication/list?${params.toString()}`)
     if (res.code === 200) {
       if (res.data?.list) {
-        tableData.value = res.data.list.filter(record => record.userId === searchForm.userId)
+        tableData.value = res.data.list
         pagination.total = res.data.total || tableData.value.length
       } else if (res.data && res.data.content) {
         tableData.value = res.data.content

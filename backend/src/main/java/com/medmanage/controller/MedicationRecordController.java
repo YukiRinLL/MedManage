@@ -41,12 +41,13 @@ public class MedicationRecordController {
             @RequestHeader("Authorization") String token,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String userId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String medicationName,
             @RequestParam(required = false) Boolean taken) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Map<String, Object> data = medicationRecordService.listMedicationRecords(page, size, name, medicationName, taken);
+            Map<String, Object> data = medicationRecordService.listMedicationRecords(page, size, userId, name, medicationName, taken);
             result.put("code", 200);
             result.put("data", data);
         } catch (Exception e) {
