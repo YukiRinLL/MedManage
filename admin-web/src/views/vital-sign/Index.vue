@@ -1,5 +1,6 @@
 <template>
   <div class="page-container">
+    <PatientSelector v-model="selectedPatient" @selected="handlePatientSelected" />
     <div class="page-header">
       <h2 class="page-title">生命体征管理</h2>
       <el-button type="primary" @click="handleAdd"><el-icon><Plus /></el-icon>添加记录</el-button>
@@ -54,9 +55,11 @@ import { ref, reactive, onMounted } from 'vue'
 import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
+import PatientSelector from '@/components/PatientSelector.vue'
 
 const loading = ref(false), dialogVisible = ref(false), dialogTitle = ref('添加生命体征记录')
 const patientOptions = ref([]), tableData = ref([])
+const selectedPatient = ref(null)
 const searchForm = reactive({ userId: '' })
 const pagination = reactive({ page: 1, size: 10, total: 0 })
 const emptyForm = () => ({ id: '', userId: '', temperature: null, weight: null, morningSystolicPressure: null, morningDiastolicPressure: null, eveningSystolicPressure: null, eveningDiastolicPressure: null, bloodSugar: null, heartRate: null, waterIntake: null, dietRecord: '', notes: '', recordTime: '' })
@@ -67,6 +70,7 @@ const fetchData = async () => { if (!searchForm.userId) return; loading.value = 
 const fetchPatients = async () => { try { const res = await request.get('/user/list', { params: { page: 1, size: 100 } }); if (res.code === 200) patientOptions.value = unwrapList(res.data) } catch { ElMessage.error('获取患者列表失败') } }
 const handleSearch = () => { pagination.page = 1; fetchData() }
 const handlePatientChange = () => { pagination.page = 1; tableData.value = []; pagination.total = 0; fetchData() }
+const handlePatientSelected = (patient) => { searchForm.userId = patient.id; handlePatientChange() }
 const resetSearch = () => { searchForm.userId = ''; handleSearch() }
 const handleSizeChange = (size) => { pagination.size = size; pagination.page = 1; fetchData() }
 const handleAdd = () => { if (!searchForm.userId) return ElMessage.warning('请先选择患者'); Object.assign(formData, emptyForm(), { userId: searchForm.userId }); dialogTitle.value = '添加生命体征记录'; dialogVisible.value = true }

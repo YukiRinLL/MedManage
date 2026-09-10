@@ -1,5 +1,6 @@
 <template>
   <div class="blood-test-container">
+    <PatientSelector v-model="selectedPatient" @selected="handlePatientSelected" />
     <div class="page-header">
       <h2 class="page-title">核心指标管理</h2>
       <el-button type="primary" @click="handleAdd">
@@ -235,6 +236,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
+import PatientSelector from '@/components/PatientSelector.vue'
 
 const loading = ref(false)
 const showAddDialog = ref(false)
@@ -273,6 +275,7 @@ const formData = reactive({
 })
 
 const tableData = ref([])
+const selectedPatient = ref(null)
 
 const pagination = reactive({
   page: 1,
@@ -322,6 +325,11 @@ const handlePatientChange = () => {
   tableData.value = []
   pagination.total = 0
   fetchData()
+}
+
+const handlePatientSelected = (patient) => {
+  searchForm.userId = patient.id
+  handlePatientChange()
 }
 
 const resetSearch = () => {

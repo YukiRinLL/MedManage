@@ -1,5 +1,6 @@
 <template>
   <div class="medication">
+    <PatientSelector v-model="selectedPatient" @selected="handlePatientSelected" />
     <el-card>
       <template #header>
         <div class="card-header">
@@ -11,7 +12,7 @@
         </div>
       </template>
 
-      <el-form :inline="true" :model="searchForm" class="search-form">
+      <el-form v-if="selectedPatient" :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="患者">
           <el-select
             v-model="searchForm.userId"
@@ -174,6 +175,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { Plus, Search, Refresh } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
+import PatientSelector from '@/components/PatientSelector.vue'
 
 const loading = ref(false)
 const tableData = ref([])
@@ -181,6 +183,7 @@ const patientOptions = ref([])
 const viewDialogVisible = ref(false)
 const addDialogVisible = ref(false)
 const currentRow = ref(null)
+const selectedPatient = ref(null)
 
 const searchForm = reactive({
   userId: '',
@@ -245,6 +248,11 @@ const handleSearch = () => {
 const handlePatientChange = () => {
   pagination.page = 1
   fetchMedications()
+}
+
+const handlePatientSelected = (patient) => {
+  searchForm.userId = patient.id
+  handlePatientChange()
 }
 
 const handleReset = () => {
