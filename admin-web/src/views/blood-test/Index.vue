@@ -11,23 +11,6 @@
 
     <el-card class="search-card">
       <el-form :inline="true" :model="searchForm" class="search-form">
-        <el-form-item label="患者">
-          <el-select
-            v-model="searchForm.userId"
-            placeholder="请选择患者"
-            clearable
-            filterable
-             style="width: 220px"
-             @change="handlePatientChange"
-          >
-            <el-option
-              v-for="patient in patientOptions"
-              :key="patient.id"
-              :label="patient.name + ' (' + patient.phone + ')'"
-              :value="patient.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item label="检查类型">
           <el-input
             v-model="searchForm.testType"

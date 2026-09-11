@@ -12,12 +12,6 @@ export const useUserStore = defineStore('user', () => {
     userInfo.value = JSON.parse(localStorage.getItem('admin_user') || 'null')
     isAdmin.value = localStorage.getItem('admin_isAdmin') === 'true'
     isSuperAdmin.value = localStorage.getItem('admin_isSuperAdmin') === 'true'
-    console.log('UserStore - 初始化状态:', {
-      token: token.value,
-      userInfo: userInfo.value,
-      isAdmin: isAdmin.value,
-      isSuperAdmin: isSuperAdmin.value
-    })
   } catch (error) {
     console.error('读取localStorage失败:', error)
   }

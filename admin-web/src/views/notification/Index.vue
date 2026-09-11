@@ -39,8 +39,6 @@
       </el-form>
 
       <el-table v-if="selectedPatient" :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="userName" label="用户姓名" width="120" />
-        <el-table-column prop="userPhone" label="手机号" width="130" />
         <el-table-column prop="type" label="类型" width="100">
           <template #default="{ row }">
             <el-tag :type="getTypeType(row.type)">

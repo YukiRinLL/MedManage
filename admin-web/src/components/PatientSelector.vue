@@ -88,6 +88,9 @@ const selectPatient = (patient) => {
 
 const resetSelection = () => {
   selectedPatient.value = null
+  searchForm.name = ''
+  searchForm.phone = ''
+  searchForm.idCard = ''
   patients.value = []
   searched.value = false
   emit('update:modelValue', null)

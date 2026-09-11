@@ -13,23 +13,6 @@
       </template>
 
       <el-form v-if="selectedPatient" :inline="true" :model="searchForm" class="search-form">
-        <el-form-item label="患者">
-          <el-select
-            v-model="searchForm.userId"
-            placeholder="请选择患者"
-            clearable
-            filterable
-            style="width: 220px"
-            @change="handlePatientChange"
-          >
-            <el-option
-              v-for="patient in patientOptions"
-              :key="patient.id"
-              :label="patient.name + ' (' + patient.phone + ')'"
-              :value="patient.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item label="血型">
           <el-select v-model="searchForm.bloodType" placeholder="请选择血型" clearable style="width: 120px">
             <el-option label="A型" value="A" />

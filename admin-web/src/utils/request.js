@@ -12,14 +12,6 @@ const request = axios.create({
 
 request.interceptors.request.use(
   config => {
-    console.log('请求配置:', {
-      url: config.url,
-      method: config.method,
-      baseURL: config.baseURL,
-      fullURL: `${config.baseURL}${config.url}`,
-      data: config.data,
-      headers: config.headers
-    })
     const token = localStorage.getItem('admin_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -34,20 +26,11 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   response => {
-    console.log('响应数据:', {
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
-      data: response.data,
-      dataType: typeof response.data,
-      dataString: JSON.stringify(response.data, null, 2)
-    })
     const res = response.data
     if (res.code !== 200) {
       console.error('响应码不是200:', res.code, res.message)
       // 检查是否是401错误
       if (res.code === 401) {
-        console.log('401错误，跳转到登录页')
         // 清除本地存储并更新状态
         const userStore = useUserStore()
         userStore.logout()
@@ -58,16 +41,11 @@ request.interceptors.response.use(
       ElMessage.error(res.message || '请求失败')
       return Promise.reject(new Error(res.message || '请求失败'))
     }
-    console.log('响应成功，返回数据:', res)
     return res
   },
   error => {
     console.error('响应错误:', error)
-    console.error('错误响应:', error.response)
-    console.error('错误响应数据:', error.response?.data)
-    console.error('错误响应数据字符串:', JSON.stringify(error.response?.data, null, 2))
     if (error.response?.status === 401) {
-      console.log('401错误，跳转到登录页')
       // 清除本地存储并更新状态
       const userStore = useUserStore()
       userStore.logout()
