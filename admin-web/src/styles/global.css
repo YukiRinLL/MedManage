@@ -30,6 +30,11 @@
   --el-color-primary-light-8: #B3E1DB;
   --el-color-primary-light-9: #CCEBE7;
   --el-color-primary-dark-2: #007D6B;
+
+  /* 管理端紧凑布局基准，与侧边栏菜单保持一致 */
+  --admin-page-gap: 12px;
+  --admin-card-padding: 14px;
+  --admin-control-height: 32px;
 }
 
 * {
@@ -145,4 +150,108 @@ html, body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-dark);
+}
+
+/* 管理端主内容区密度规范 */
+.main > * {
+  min-width: 0;
+}
+
+.main .el-card {
+  --el-card-padding: var(--admin-card-padding);
+  border-radius: 6px;
+}
+
+.main .el-card__header {
+  min-height: 44px;
+  padding: 10px var(--admin-card-padding);
+}
+
+.main .el-card__body {
+  padding: var(--admin-card-padding);
+}
+
+.main .el-form--inline .el-form-item {
+  margin-right: 12px;
+  margin-bottom: 10px;
+}
+
+.main .el-form-item__label {
+  padding-right: 7px;
+}
+
+.main .el-input__wrapper,
+.main .el-select__wrapper,
+.main .el-input-number,
+.main .el-date-editor.el-input,
+.main .el-date-editor.el-input__wrapper {
+  min-height: var(--admin-control-height);
+}
+
+.main .el-button {
+  min-height: var(--admin-control-height);
+  padding: 7px 12px;
+}
+
+.main .el-button.is-link {
+  min-height: 24px;
+  padding: 3px 6px;
+}
+
+.main .el-table th.el-table__cell,
+.main .el-table td.el-table__cell {
+  padding: 7px 0;
+}
+
+.main .el-table .cell {
+  line-height: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 表格优先保持单行，避免长文本把整张表撑高 */
+.main .el-table .el-table__header-wrapper th,
+.main .el-table .el-table__fixed-header-wrapper th {
+  white-space: nowrap;
+}
+
+.main .el-table .el-tag {
+  vertical-align: middle;
+}
+
+.main .el-pagination {
+  margin-top: var(--admin-page-gap) !important;
+  min-height: 28px;
+}
+
+.main .search-form,
+.main .page-header,
+.main .search-card,
+.main .patient-selector {
+  margin-bottom: var(--admin-page-gap);
+}
+
+.main .el-dialog__header {
+  padding: 16px 18px 10px;
+}
+
+.main .el-dialog__body {
+  padding: 10px 18px 16px;
+}
+
+.main .el-dialog__footer {
+  padding: 10px 18px 14px;
+}
+
+@media (max-width: 768px) {
+  .main .el-card__body,
+  .main .el-card__header {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .main .el-form--inline .el-form-item {
+    margin-right: 8px;
+  }
 }

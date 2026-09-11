@@ -442,7 +442,7 @@ const fetchPatientList = async () => {
 const getPatientName = (userId) => {
   if (!userId) return '-'
   const patient = patientOptions.value.find(p => p.id === userId)
-  return patient ? patient.name : userId
+  return patient ? patient.name : '未知患者'
 }
 
 onMounted(() => {

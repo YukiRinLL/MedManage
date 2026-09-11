@@ -39,9 +39,12 @@ public class NotificationService {
         return notificationRepository.countByUserIdAndIsReadFalse(userId);
     }
     
-    public Map<String, Object> listNotifications(int page, int size, String name, Integer type, Boolean read) {
+    public Map<String, Object> listNotifications(int page, int size, String userId, String name, Integer type, Boolean read) {
         Map<String, Object> result = new HashMap<>();
         List<Notification> notifications = notificationRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        if (userId != null && !userId.trim().isEmpty()) {
+            notifications.removeIf(notification -> !userId.equals(notification.getUserId()));
+        }
         notifications.removeIf(notification -> type != null && !String.valueOf(type).equals(notification.getType()));
         notifications.removeIf(notification -> read != null && !read.equals(notification.getIsRead()));
         if (name != null && !name.trim().isEmpty()) {

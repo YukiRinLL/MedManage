@@ -1,8 +1,11 @@
 <template>
-  <el-card class="patient-selector">
+  <el-card class="patient-selector" shadow="never">
     <template #header>
       <div class="selector-header">
-        <span>{{ selectedPatient ? '当前患者' : '先选择患者' }}</span>
+        <div>
+          <span class="selector-kicker">患者上下文</span>
+          <strong>{{ selectedPatient ? '当前患者' : '先选择患者' }}</strong>
+        </div>
         <el-button v-if="selectedPatient" type="primary" link @click="resetSelection">重新搜索患者</el-button>
       </div>
     </template>
@@ -16,6 +19,7 @@
     </div>
 
     <template v-else>
+      <p class="selector-description">先定位患者，再查看该患者的相关记录。</p>
       <el-form :inline="true" :model="searchForm" @submit.prevent>
         <el-form-item label="姓名">
           <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable />
@@ -32,7 +36,7 @@
         </el-form-item>
       </el-form>
 
-      <el-table v-if="patients.length" :data="patients" v-loading="loading" border stripe>
+      <el-table v-if="patients.length" class="patient-results" :data="patients" v-loading="loading" border stripe>
         <el-table-column prop="name" label="姓名" width="120" />
         <el-table-column prop="phone" label="手机号" width="150" />
         <el-table-column prop="txNumber" label="透析号" width="150" />
@@ -101,7 +105,12 @@ const resetSearch = () => {
 <style scoped>
 .patient-selector { margin-bottom: 16px; }
 .selector-header { display: flex; justify-content: space-between; align-items: center; }
+.selector-header > div { display: flex; flex-direction: column; gap: 4px; }
+.selector-kicker { color: #98a2b3; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.selector-header strong { color: #1d2939; font-size: 16px; }
+.selector-description { color: #667085; font-size: 13px; margin-bottom: 14px; }
 .selected-patient { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; color: #606266; }
 .selected-patient strong { color: #303133; font-size: 16px; }
 .selector-hint { color: #909399; padding: 8px 0; }
+.patient-results { margin-top: 6px; }
 </style>

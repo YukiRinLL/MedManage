@@ -24,12 +24,13 @@ public class NotificationController {
             @RequestHeader("Authorization") String token,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String userId,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer type,
             @RequestParam(required = false) Boolean read) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Map<String, Object> data = notificationService.listNotifications(page, size, name, type, read);
+            Map<String, Object> data = notificationService.listNotifications(page, size, userId, name, type, read);
             result.put("code", 200);
             result.put("message", "获取成功");
             result.put("data", data);

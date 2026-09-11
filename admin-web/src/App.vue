@@ -37,6 +37,6 @@ body {
 .page-container,
 .users,
 .feedback {
-  padding: 16px !important;
+  padding: 12px !important;
 }
 </style>

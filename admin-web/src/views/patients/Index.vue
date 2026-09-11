@@ -44,9 +44,15 @@
         border
         style="width: 100%"
       >
-        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
-        <el-table-column prop="phone" label="手机号" width="120" />
-        <el-table-column prop="name" label="姓名" width="100" />
+        <el-table-column prop="name" label="患者" width="150" fixed>
+          <template #default="{ row }">
+            <div class="patient-cell">
+              <strong>{{ row.name }}</strong>
+              <span>{{ row.txNumber || '暂无透析号' }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="联系方式" width="145" />
         <el-table-column prop="gender" label="性别" width="80">
           <template #default="{ row }">
             {{ row.gender === 0 ? '女' : '男' }}
@@ -97,7 +103,6 @@
     >
       <el-descriptions v-if="currentPatient" :column="2" border>
         <!-- 基本信息 -->
-        <el-descriptions-item label="患者ID">{{ currentPatient.id }}</el-descriptions-item>
         <el-descriptions-item label="透析号">{{ currentPatient.txNumber || '-' }}</el-descriptions-item>
         <el-descriptions-item label="姓名">{{ currentPatient.name }}</el-descriptions-item>
         <el-descriptions-item label="性别">{{ currentPatient.gender === 0 ? '女' : '男' }}</el-descriptions-item>
@@ -183,9 +188,6 @@
       :close-on-click-modal="false"
     >
       <el-form v-if="editForm" :model="editForm" label-width="120px">
-        <el-form-item label="患者ID">
-          <el-input v-model="editForm.id" disabled />
-        </el-form-item>
         <el-form-item label="透析号">
           <el-input v-model="editForm.txNumber" disabled />
         </el-form-item>
@@ -540,6 +542,23 @@ onMounted(() => {
 <style scoped>
 .patients-container {
   padding: 20px;
+}
+
+.patient-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.patient-cell strong {
+  color: #1d2939;
+  font-weight: 600;
+}
+
+.patient-cell span {
+  color: #98a2b3;
+  font-size: 12px;
 }
 
 .card-header {

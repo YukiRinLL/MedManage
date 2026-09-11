@@ -52,7 +52,6 @@
 
       <el-empty v-if="!searchForm.userId" description="请选择患者查看健康档案" />
       <el-table v-else :data="tableData" stripe v-loading="loading" border>
-        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column label="患者姓名" width="120" fixed>
           <template #default="{ row }">
             {{ getPatientName(row.userId) }}
@@ -335,7 +334,7 @@ const fetchPatientList = async () => {
 const getPatientName = (userId) => {
   if (!userId) return '-'
   const patient = patientOptions.value.find(p => p.id === userId)
-  return patient ? patient.name : userId
+  return patient ? patient.name : '未知患者'
 }
 
 onMounted(() => {

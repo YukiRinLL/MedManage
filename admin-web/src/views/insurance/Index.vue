@@ -69,7 +69,6 @@
       </el-form>
 
       <el-table :data="insuranceInfos" v-loading="loading" border stripe>
-        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
         <el-table-column label="患者姓名" width="120" fixed>
           <template #default="{ row }">
             {{ getPatientName(row.patientId) }}
@@ -120,7 +119,6 @@
 
     <el-dialog v-model="detailDialogVisible" title="参保信息详情" width="800px" :close-on-click-modal="false">
       <el-descriptions v-if="currentInsuranceInfo" :column="2" border>
-        <el-descriptions-item label="参保信息ID">{{ currentInsuranceInfo.id }}</el-descriptions-item>
         <el-descriptions-item label="患者姓名">{{ getPatientName(currentInsuranceInfo.patientId) }}</el-descriptions-item>
         <el-descriptions-item label="透析号">{{ currentInsuranceInfo.dialysisNumber || '-' }}</el-descriptions-item>
         <el-descriptions-item label="参保地区代码">{{ currentInsuranceInfo.insuredAreaCode || '-' }}</el-descriptions-item>
@@ -433,7 +431,7 @@ const fetchPatientList = async () => {
 const getPatientName = (patientId) => {
   if (!patientId) return '-'
   const patient = patientOptions.value.find(p => p.id === patientId)
-  return patient ? patient.name : patientId
+  return patient ? patient.name : '未知患者'
 }
 
 onMounted(() => {

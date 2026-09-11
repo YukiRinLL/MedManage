@@ -1,5 +1,41 @@
 <template>
   <div class="dashboard">
+    <section class="welcome-panel">
+      <div>
+        <span class="eyebrow">今日工作台</span>
+        <h1>管理概览</h1>
+        <p>从患者资料开始，快速查看健康记录与运营状态。</p>
+      </div>
+      <el-button type="primary" size="large" @click="navigate('/patients')">
+        <el-icon><UserFilled /></el-icon>
+        管理患者
+      </el-button>
+    </section>
+
+    <section class="quick-actions">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">快捷入口</span>
+          <h2>常用工作</h2>
+        </div>
+        <span class="section-note">减少重复查找，直接进入高频模块</span>
+      </div>
+      <div class="action-grid">
+        <button class="action-card" type="button" @click="navigate('/health')">
+          <el-icon><Document /></el-icon><span><strong>健康档案</strong><small>查看患者健康记录</small></span>
+        </button>
+        <button class="action-card" type="button" @click="navigate('/vital-sign')">
+          <el-icon><TrendCharts /></el-icon><span><strong>生命体征</strong><small>追踪近期指标变化</small></span>
+        </button>
+        <button class="action-card" type="button" @click="navigate('/medication')">
+          <el-icon><FirstAidKit /></el-icon><span><strong>用药记录</strong><small>核对患者用药情况</small></span>
+        </button>
+        <button class="action-card" type="button" @click="navigate('/schedule')">
+          <el-icon><Calendar /></el-icon><span><strong>透析排班</strong><small>安排与查看治疗计划</small></span>
+        </button>
+      </div>
+    </section>
+
     <el-row :gutter="20">
       <el-col :span="6">
         <el-card class="stat-card">
@@ -155,6 +191,10 @@ const dashboardData = ref({})
 const recentUsers = ref([])
 const activities = ref([])
 
+const navigate = (path) => {
+  if (path) window.location.assign(path)
+}
+
 const getRoleType = (role) => {
   const types = { 0: 'info', 1: 'warning', 2: 'danger' }
   return types[role] || 'info'
@@ -212,6 +252,83 @@ onMounted(() => {
 .dashboard {
   padding: 20px;
 }
+
+.welcome-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  border: 1px solid #dcefe9;
+  border-radius: 16px;
+  background: linear-gradient(115deg, #f2fbf8 0%, #ffffff 70%);
+}
+
+.eyebrow {
+  display: block;
+  color: #009d85;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.welcome-panel h1,
+.section-heading h2 {
+  margin: 6px 0;
+  color: #1d2939;
+  font-weight: 650;
+}
+
+.welcome-panel h1 { font-size: 28px; }
+.welcome-panel p { color: #667085; font-size: 14px; }
+
+.quick-actions {
+  margin-bottom: 24px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.section-heading h2 { font-size: 19px; }
+.section-note { color: #98a2b3; font-size: 13px; }
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 16px;
+  border: 1px solid #eaecf0;
+  border-radius: 12px;
+  background: #fff;
+  color: #009d85;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.action-card:hover {
+  border-color: #8ad7c8;
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.08);
+  transform: translateY(-2px);
+}
+
+.action-card > .el-icon { flex: 0 0 auto; font-size: 22px; }
+.action-card span { display: flex; flex-direction: column; gap: 4px; }
+.action-card strong { color: #344054; font-size: 14px; }
+.action-card small { color: #98a2b3; font-size: 12px; }
 
 .stat-card {
   transition: all 0.3s;
@@ -293,5 +410,16 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+@media (max-width: 900px) {
+  .action-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 600px) {
+  .dashboard { padding: 12px; }
+  .welcome-panel { align-items: flex-start; flex-direction: column; padding: 22px; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .action-grid { grid-template-columns: 1fr; }
 }
 </style>

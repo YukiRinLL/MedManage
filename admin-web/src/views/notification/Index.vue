@@ -1,20 +1,22 @@
 <template>
   <div class="notification">
+    <PatientSelector v-model="selectedPatient" @selected="handlePatientSelected" />
+
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>通知管理</span>
-          <el-button type="primary" @click="showCreateDialog">
+          <div class="card-title">
+            <span>通知管理</span>
+            <small v-if="selectedPatient">正在查看 {{ selectedPatient.name }} 的通知</small>
+          </div>
+          <el-button v-if="selectedPatient" type="primary" @click="showCreateDialog">
             <el-icon><Plus /></el-icon>
             创建通知
           </el-button>
         </div>
       </template>
 
-      <el-form :inline="true" :model="searchForm" class="search-form">
-        <el-form-item label="用户姓名">
-          <el-input v-model="searchForm.name" placeholder="请输入姓名" clearable />
-        </el-form-item>
+      <el-form v-if="selectedPatient" :inline="true" :model="searchForm" class="search-form">
         <el-form-item label="通知类型">
           <el-select v-model="searchForm.type" placeholder="请选择类型" clearable>
             <el-option label="就诊提醒" :value="1" />
@@ -36,8 +38,7 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="tableData" stripe v-loading="loading">
-        <el-table-column prop="id" label="ID" width="80" show-overflow-tooltip />
+      <el-table v-if="selectedPatient" :data="tableData" stripe v-loading="loading">
         <el-table-column prop="userName" label="用户姓名" width="120" />
         <el-table-column prop="userPhone" label="手机号" width="130" />
         <el-table-column prop="type" label="类型" width="100">
@@ -65,7 +66,9 @@
         </el-table-column>
       </el-table>
 
-      <el-pagination
+      <el-empty v-else description="请先选择患者查看通知" />
+
+      <el-pagination v-if="selectedPatient"
         :current-page.sync="pagination.page"
         :page-size.sync="pagination.size"
         :total="pagination.total"
@@ -85,6 +88,7 @@
             :fetch-suggestions="searchUsers"
             placeholder="请输入姓名或手机号搜索用户"
             :trigger-on-focus="false"
+            :disabled="!!selectedPatient"
             @select="handleUserSelect"
           >
             <template #prefix>
@@ -156,19 +160,20 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Search, Close, Plus } from '@element-plus/icons-vue'
 import request from '@/utils/request'
+import PatientSelector from '@/components/PatientSelector.vue'
 
 const loading = ref(false)
 const tableData = ref([])
 const createDialogVisible = ref(false)
 const viewDialogVisible = ref(false)
 const createFormRef = ref(null)
+const selectedPatient = ref(null)
 
 const searchForm = reactive({
-  name: '',
   type: null,
   read: null
 })
@@ -268,6 +273,7 @@ const fetchNotifications = async () => {
     const params = {
       page: pagination.page,
       size: pagination.size,
+      userId: selectedPatient.value?.id,
       ...searchForm
     }
     const res = await request.get('/notification/list', { params })
@@ -285,8 +291,13 @@ const handleSearch = () => {
   fetchNotifications()
 }
 
+const handlePatientSelected = () => {
+  tableData.value = []
+  pagination.page = 1
+  fetchNotifications()
+}
+
 const handleReset = () => {
-  searchForm.name = ''
   searchForm.type = null
   searchForm.read = null
   pagination.page = 1
@@ -297,6 +308,11 @@ const showCreateDialog = () => {
   createForm.userId = null
   createForm.userName = ''
   createForm.userPhone = ''
+  if (selectedPatient.value) {
+    createForm.userId = selectedPatient.value.id
+    createForm.userName = selectedPatient.value.name
+    createForm.userPhone = selectedPatient.value.phone || ''
+  }
   createForm.type = null
   createForm.title = ''
   createForm.content = ''
@@ -351,9 +367,6 @@ const handleDelete = async (row) => {
   }
 }
 
-onMounted(() => {
-  fetchNotifications()
-})
 </script>
 
 <style scoped>
@@ -365,6 +378,18 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.card-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.card-title small {
+  color: #98a2b3;
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .search-form {

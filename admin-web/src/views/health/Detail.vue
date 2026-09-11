@@ -7,7 +7,6 @@
         <span>用户信息</span>
       </template>
       <el-descriptions :column="2" border>
-        <el-descriptions-item label="用户ID">{{ healthRecord.userId }}</el-descriptions-item>
         <el-descriptions-item label="用户姓名">{{ healthRecord.userName }}</el-descriptions-item>
         <el-descriptions-item label="手机号">{{ healthRecord.userPhone }}</el-descriptions-item>
         <el-descriptions-item label="性别">{{ healthRecord.userGender === 1 ? '男' : '女' }}</el-descriptions-item>

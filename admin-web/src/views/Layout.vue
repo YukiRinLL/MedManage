@@ -4,38 +4,49 @@
       <div class="logo">
         <img src="/logo.png" alt="Logo" class="sidebar-logo" @error="handleLogoError" v-if="!isCollapse" />
         <img src="/logo.png" alt="Logo" class="sidebar-logo-small" @error="handleLogoError" v-else />
-        <span v-if="!isCollapse" class="logo-text">圣通尚诺医疗™</span>
+        <div v-if="!isCollapse" class="logo-copy">
+          <span class="logo-text">圣通尚诺医疗™</span>
+        </div>
         <span v-else class="logo-text-small">尚诺</span>
       </div>
-      <el-menu
-        :collapse="isCollapse"
-        :default-active="activeMenu"
-        background-color="#FFFFFF"
-        text-color="#606266"
-        active-text-color="#009D85"
-      >
-        <template v-for="route in menuRoutes" :key="route.path">
-          <el-sub-menu v-if="route.children && route.children.length > 0" :index="route.path">
+      <div class="menu-scroll">
+        <el-menu
+          :collapse="isCollapse"
+          :default-active="activeMenu"
+          :default-openeds="defaultOpeneds"
+          background-color="#FFFFFF"
+          text-color="#606266"
+          active-text-color="#009D85"
+        >
+          <el-sub-menu v-for="section in menuSections" :key="section.key" :index="section.key">
             <template #title>
-              <el-icon><component :is="route.meta.icon" /></el-icon>
-              <span>{{ route.meta.title }}</span>
+              <el-icon><component :is="section.icon" /></el-icon>
+              <span>{{ section.title }}</span>
             </template>
-            <el-menu-item
-              v-for="child in route.children"
-              :key="child.path"
-              :index="child.path"
-              @click="handleMenuSelect(child.path)"
-            >
-              <el-icon><component :is="child.meta.icon" /></el-icon>
-              <template #title>{{ child.meta.title }}</template>
-            </el-menu-item>
+            <template v-for="item in section.items" :key="item.path">
+              <el-sub-menu v-if="item.children?.length" :index="item.path">
+                <template #title>
+                  <el-icon><component :is="item.meta.icon" /></el-icon>
+                  <span>{{ item.meta.title }}</span>
+                </template>
+                <el-menu-item
+                  v-for="child in item.children"
+                  :key="child.path"
+                  :index="child.path"
+                  @click="handleMenuSelect(child.path)"
+                >
+                  <el-icon><component :is="child.meta.icon" /></el-icon>
+                  <template #title>{{ child.meta.title }}</template>
+                </el-menu-item>
+              </el-sub-menu>
+              <el-menu-item v-else :index="item.path" @click="handleMenuSelect(item.path)">
+                <el-icon><component :is="item.meta.icon" /></el-icon>
+                <template #title>{{ item.meta.title }}</template>
+              </el-menu-item>
+            </template>
           </el-sub-menu>
-          <el-menu-item v-else :index="route.path" @click="handleMenuSelect(route.path)">
-            <el-icon><component :is="route.meta.icon" /></el-icon>
-            <template #title>{{ route.meta.title }}</template>
-          </el-menu-item>
-        </template>
-      </el-menu>
+        </el-menu>
+      </div>
     </el-aside>
 
     <el-container>
@@ -88,6 +99,10 @@ const isCollapse = ref(false)
 
 const activeMenu = computed(() => route.path)
 const currentRoute = computed(() => route.meta?.title || '')
+const defaultOpeneds = computed(() => menuSections.value.flatMap(section => [
+  section.key,
+  ...section.items.filter(item => item.children?.length).map(item => item.path)
+]))
 const userName = computed(() => userStore.userInfo?.name || '管理员')
 const userAvatar = computed(() => {
   const role = userStore.userInfo?.role
@@ -99,9 +114,6 @@ const userAvatar = computed(() => {
 const menuRoutes = computed(() => {
   const routes = router.getRoutes()
   const userRole = userStore.userInfo?.role
-  
-  console.log('Layout - 用户角色:', userRole)
-  console.log('Layout - 所有路由:', routes.map(r => ({ path: r.path, meta: r.meta })))
   
   const buildMenu = (routeList) => {
     const menu = []
@@ -130,31 +142,29 @@ const menuRoutes = computed(() => {
   }
   
   const allRoutes = buildMenu(routes)
-  console.log('Layout - 构建后的菜单:', allRoutes)
-  
-  const filteredRoutes = allRoutes.filter(route => {
-    if (route.path === '/patients' || route.path === '/health' || 
-        route.path === '/medication' || route.path === '/notification' || 
-        route.path === '/activities' || route.path === '/news' || 
-        route.path === '/diagnosis' || route.path === '/insurance' || 
-        route.path === '/schedule' || route.path === '/education' ||
-        route.path === '/blood-test' || route.path === '/medical-staff' ||
-        route.path === '/vital-sign' || route.path === '/improvement-plan' ||
-        route.path === '/system') {
-      return true
-    }
-    return false
-  })
-  
-  // 排序菜单，将/system路由移到最后面
-  const sortedRoutes = filteredRoutes.sort((a, b) => {
-    if (a.path === '/system') return 1
-    if (b.path === '/system') return -1
-    return 0
-  })
-  
-  console.log('Layout - 排序后的菜单:', sortedRoutes)
-  return sortedRoutes
+  const visiblePaths = new Set([
+    '/patients', '/health', '/medication', '/notification', '/activities', '/news',
+    '/diagnosis', '/insurance', '/schedule', '/education', '/blood-test',
+    '/medical-staff', '/vital-sign', '/improvement-plan', '/feedback', '/system'
+  ])
+  return allRoutes.filter(item => visiblePaths.has(item.path))
+})
+
+const menuSections = computed(() => {
+  const sections = [
+    { key: 'patient-work', title: '患者工作', icon: 'UserFilled', paths: ['/patients', '/health', '/vital-sign', '/blood-test', '/improvement-plan', '/medication', '/diagnosis', '/insurance', '/schedule'] },
+    { key: 'content-operation', title: '内容运营', icon: 'Collection', paths: ['/notification', '/activities', '/news', '/education', '/feedback'] },
+    { key: 'organization', title: '组织管理', icon: 'Avatar', paths: ['/medical-staff'] },
+    { key: 'system-maintenance', title: '系统维护', icon: 'Setting', paths: ['/system'] }
+  ]
+  return sections
+    .map(section => ({
+      ...section,
+      items: menuRoutes.value
+        .filter(item => section.paths.includes(item.path))
+        .flatMap(item => item.path === '/system' ? item.children || [] : [item])
+    }))
+    .filter(section => section.items.length)
 })
 
 const toggleCollapse = () => {
@@ -205,10 +215,12 @@ const handleLogoError = (e) => {
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   border-right: 1px solid #EBEEF5;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
-  height: 60px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -216,36 +228,104 @@ const handleLogoError = (e) => {
   font-size: 16px;
   font-weight: 600;
   border-bottom: 1px solid #EBEEF5;
-  gap: 8px;
-  padding: 0 10px;
+  gap: 7px;
+  padding: 0 6px;
   background-color: #FFFFFF;
 }
 
 .sidebar-logo {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 6px;
   object-fit: contain;
 }
 
 .sidebar-logo-small {
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
   border-radius: 4px;
   object-fit: contain;
 }
 
 .logo-text {
   white-space: nowrap;
+  font-size: 14px;
+}
+
+.logo-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .logo-text-small {
-  font-size: 12px;
   white-space: nowrap;
 }
 
 .el-menu {
   border-right: none;
+}
+
+.menu-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #d0d5dd transparent;
+}
+
+.menu-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.menu-scroll::-webkit-scrollbar-thumb {
+  background: #d0d5dd;
+  border-radius: 10px;
+}
+
+.menu-scroll :deep(.el-menu) {
+  border-right: none;
+}
+
+.menu-scroll :deep(.el-sub-menu__title),
+.menu-scroll :deep(.el-menu-item) {
+  height: 38px;
+  line-height: 38px;
+  font-size: 13px;
+}
+
+.menu-scroll :deep(.el-sub-menu .el-menu-item) {
+  min-width: 0;
+  padding-left: 30px !important;
+}
+
+.menu-scroll :deep(.el-sub-menu .el-sub-menu__title) {
+  padding-left: 20px !important;
+}
+
+.menu-scroll :deep(> .el-menu > .el-sub-menu > .el-sub-menu__title) {
+  height: 34px;
+  line-height: 34px;
+  color: #98a2b3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.menu-scroll :deep(.el-menu:not(.el-menu--collapse) > .el-sub-menu > .el-sub-menu__title .el-icon) {
+  display: none;
+}
+
+.menu-scroll :deep(.el-menu:not(.el-menu--collapse) > .el-sub-menu > .el-sub-menu__title) {
+  padding-left: 20px !important;
+}
+
+.menu-scroll :deep(.el-sub-menu__icon-arrow) {
+  color: #98a2b3;
+  font-size: 13px;
+  transition: transform 0.2s ease;
 }
 
 .header {
